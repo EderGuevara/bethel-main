@@ -9,39 +9,19 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ── RESET & BASE ─────────────────────────────────────────────────────── */
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:'Inter',sans-serif;background:#FAFAF8;color:#1A1A1A;line-height:1.6;overflow-x:hidden}
 img{max-width:100%;display:block}
 a{text-decoration:none;color:inherit}
-
-/* ── TOKENS ───────────────────────────────────────────────────────────── */
-:root{
-  --navy:#0F172A;
-  --gold:#C9A227;
-  --gold-light:#DDB84A;
-  --gold-dark:#8B6914;
-  --cream:#F5F0E8;
-  --white:#FAFAF8;
-  --text:#1A1A1A;
-  --muted:#6B7280;
-  --border:#E8DFC8;
-}
-
-/* ── UTILITIES ────────────────────────────────────────────────────────── */
+:root{--navy:#0F172A;--gold:#C9A227;--gold-light:#DDB84A;--gold-dark:#8B6914;--cream:#F5F0E8;--white:#FAFAF8;--text:#1A1A1A;--muted:#6B7280;--border:#E8DFC8}
 .container{max-width:1160px;margin:0 auto;padding:0 2rem}
 .section{padding:100px 0}
 .section-cream{background:var(--cream)}
 .section-navy{background:var(--navy)}
-.gold-text{
-  background:linear-gradient(135deg,var(--gold-light),var(--gold-dark));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text
-}
+.gold-text{background:linear-gradient(135deg,var(--gold-light),var(--gold-dark));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
 .reveal.visible{opacity:1;transform:none}
-
-/* ── BUTTONS ──────────────────────────────────────────────────────────── */
 .btn{display:inline-flex;align-items:center;gap:8px;font-family:'Inter',sans-serif;font-weight:600;border-radius:50px;padding:14px 32px;font-size:.92rem;cursor:pointer;transition:all .25s;border:none;letter-spacing:.02em}
 .btn-gold{background:linear-gradient(135deg,var(--gold-light),var(--gold-dark));color:#fff;box-shadow:0 4px 20px rgba(183,146,74,.35)}
 .btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(183,146,74,.5)}
@@ -51,11 +31,9 @@ a{text-decoration:none;color:inherit}
 .btn-navy:hover{background:#1e293b;transform:translateY(-2px)}
 .btn-ghost{background:transparent;color:var(--gold);border:2px solid var(--gold)}
 .btn-ghost:hover{background:var(--gold);color:#fff}
-
-/* ── NAVIGATION ───────────────────────────────────────────────────────── */
 .nav{position:fixed;top:0;left:0;right:0;z-index:1000;transition:all .3s}
 .nav.scrolled{background:rgba(15,23,42,.97);backdrop-filter:blur(12px);box-shadow:0 1px 30px rgba(0,0,0,.3)}
-.nav-inner{max-width:1160px;margin:0 auto;padding:0 2rem;height:72px;display:flex;align-items:center;justify-content:space-between;gap:2rem}
+.nav-inner{max-width:1160px;margin:0 auto;padding:0 2rem;height:72px;display:flex;align-items:center;justify-content:space-between;gap:1.5rem}
 .nav-logo img{height:44px;width:auto;object-fit:contain}
 .nav-logo-placeholder{height:44px;display:flex;align-items:center;gap:10px;color:var(--gold);font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;letter-spacing:.02em}
 .nav-links{display:flex;align-items:center;gap:2rem}
@@ -63,15 +41,16 @@ a{text-decoration:none;color:inherit}
 .nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;right:0;height:1px;background:var(--gold);transform:scaleX(0);transition:transform .2s;transform-origin:left}
 .nav-links a:hover{color:#fff}
 .nav-links a:hover::after{transform:scaleX(1)}
+.nav-right{display:flex;align-items:center;gap:10px}
 .nav-portal{background:linear-gradient(135deg,var(--gold-light),var(--gold-dark));color:#fff;font-size:.82rem;font-weight:700;padding:9px 22px;border-radius:50px;letter-spacing:.03em;transition:all .2s;white-space:nowrap}
 .nav-portal:hover{box-shadow:0 4px 20px rgba(183,146,74,.5);transform:translateY(-1px)}
+.lang-switch{background:none;border:1.5px solid rgba(255,255,255,.3);color:rgba(255,255,255,.7);border-radius:50px;padding:7px 16px;font-size:.78rem;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;transition:all .2s;letter-spacing:.06em;white-space:nowrap}
+.lang-switch:hover{border-color:var(--gold);color:var(--gold)}
 .nav-toggle{display:none;background:none;border:none;color:#fff;font-size:1.4rem;cursor:pointer;padding:4px}
 .nav-mobile{display:none;position:fixed;inset:0;background:var(--navy);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:2rem}
 .nav-mobile.open{display:flex}
 .nav-mobile a{color:#fff;font-size:1.3rem;font-weight:500}
 .nav-mobile-close{position:absolute;top:1.5rem;right:2rem;background:none;border:none;color:#fff;font-size:1.6rem;cursor:pointer}
-
-/* ── HERO ─────────────────────────────────────────────────────────────── */
 .hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .hero-bg{position:absolute;inset:0;background:var(--navy);background-image:url('assets/hero.jpg');background-size:cover;background-position:center}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,.92) 0%,rgba(15,23,42,.75) 60%,rgba(139,105,20,.3) 100%)}
@@ -85,16 +64,12 @@ a{text-decoration:none;color:inherit}
 .hero-scroll span{color:rgba(255,255,255,.4);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase}
 .scroll-line{width:1px;height:50px;background:linear-gradient(to bottom,rgba(201,162,39,.6),transparent);animation:scrollPulse 2s ease-in-out infinite}
 @keyframes scrollPulse{0%,100%{opacity:.4}50%{opacity:1}}
-
-/* ── STATS BAR ────────────────────────────────────────────────────────── */
 .stats-bar{background:#fff;border-bottom:1px solid var(--border);padding:0}
 .stats-bar .container{display:grid;grid-template-columns:repeat(4,1fr)}
 .stat-item{padding:2.5rem 2rem;text-align:center;border-right:1px solid var(--border)}
 .stat-item:last-child{border-right:none}
 .stat-n{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;background:linear-gradient(135deg,var(--gold-light),var(--gold-dark));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
 .stat-l{font-size:.75rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-top:.5rem}
-
-/* ── SECTION HEADERS ──────────────────────────────────────────────────── */
 .section-tag{font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem}
 .section-tag.light{color:rgba(201,162,39,.7)}
 .section-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);font-weight:700;line-height:1.2;margin-bottom:1.2rem;color:var(--navy)}
@@ -102,8 +77,6 @@ a{text-decoration:none;color:inherit}
 .section-sub{font-size:1rem;color:var(--muted);max-width:580px;line-height:1.8}
 .section-sub.light{color:rgba(255,255,255,.65)}
 .gold-line{width:60px;height:3px;background:linear-gradient(to right,var(--gold-light),var(--gold-dark));border-radius:2px;margin:1.5rem 0}
-
-/* ── ABOUT ────────────────────────────────────────────────────────────── */
 .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
 .about-img{position:relative;border-radius:20px;overflow:hidden}
 .about-img-inner{aspect-ratio:4/5;background:linear-gradient(135deg,var(--navy) 0%,#1e3a5f 50%,var(--gold-dark) 100%);border-radius:20px;display:flex;align-items:center;justify-content:center}
@@ -117,8 +90,6 @@ a{text-decoration:none;color:inherit}
 .value-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:.4rem}
 .value-text{font-size:.88rem;color:#374151;line-height:1.5}
 .value-text strong{display:block;color:var(--navy);font-weight:600;margin-bottom:2px}
-
-/* ── SERVICES ─────────────────────────────────────────────────────────── */
 .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:3.5rem}
 .service-card{background:#fff;border:1px solid var(--border);border-radius:20px;padding:2.5rem 2rem;transition:all .3s;position:relative;overflow:hidden}
 .service-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(to right,var(--gold-light),var(--gold-dark));transform:scaleX(0);transition:transform .3s;transform-origin:left}
@@ -127,8 +98,6 @@ a{text-decoration:none;color:inherit}
 .service-icon{width:52px;height:52px;background:linear-gradient(135deg,rgba(221,184,74,.15),rgba(139,105,20,.15));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1.5rem}
 .service-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:600;color:var(--navy);margin-bottom:.75rem}
 .service-desc{font-size:.88rem;color:var(--muted);line-height:1.7}
-
-/* ── TRAINING ─────────────────────────────────────────────────────────── */
 .training-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
 .training-visual{border-radius:20px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.15);position:relative}
 .training-screen{background:var(--navy);border-radius:20px;aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;padding:2rem}
@@ -142,8 +111,6 @@ a{text-decoration:none;color:inherit}
 .feature-list li{display:flex;gap:.75rem;align-items:flex-start;padding:.6rem 0;border-bottom:1px solid var(--border);font-size:.9rem;color:#374151}
 .feature-list li:last-child{border-bottom:none}
 .feature-check{color:var(--gold);font-weight:700;flex-shrink:0;margin-top:1px}
-
-/* ── JOIN ─────────────────────────────────────────────────────────────── */
 .join-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
 .benefits-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0}
 .benefit-item{background:rgba(255,255,255,.06);border:1px solid rgba(201,162,39,.2);border-radius:16px;padding:1.5rem;transition:all .3s}
@@ -161,8 +128,6 @@ a{text-decoration:none;color:inherit}
 .form-field input:focus,.form-field select:focus{border-color:rgba(201,162,39,.6);background:rgba(255,255,255,.1)}
 .form-field select option{background:var(--navy);color:#fff}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-
-/* ── CONTACT ──────────────────────────────────────────────────────────── */
 .contact-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:80px;align-items:start;margin-top:3.5rem}
 .contact-info-item{display:flex;gap:1rem;align-items:flex-start;margin-bottom:2rem}
 .contact-icon{width:46px;height:46px;background:linear-gradient(135deg,rgba(221,184,74,.15),rgba(139,105,20,.15));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
@@ -177,11 +142,8 @@ a{text-decoration:none;color:inherit}
 .cf-field input:focus,.cf-field textarea:focus,.cf-field select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,162,39,.12)}
 .cf-field textarea{resize:vertical;min-height:120px}
 .cf-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-
-/* ── FOOTER ───────────────────────────────────────────────────────────── */
 footer{background:var(--navy);padding:60px 0 30px}
 .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;padding-bottom:3rem;border-bottom:1px solid rgba(255,255,255,.08)}
-.footer-brand{}
 .footer-logo{height:44px;width:auto;margin-bottom:1.25rem}
 .footer-logo-placeholder{color:var(--gold);font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:1.25rem}
 .footer-tagline{font-size:.85rem;color:rgba(255,255,255,.45);line-height:1.7;max-width:280px}
@@ -193,38 +155,14 @@ footer{background:var(--navy);padding:60px 0 30px}
 .footer-legal{display:flex;gap:1.5rem}
 .footer-legal a{font-size:.78rem;color:rgba(255,255,255,.3);transition:color .2s}
 .footer-legal a:hover{color:rgba(255,255,255,.6)}
-
-/* ── TOAST ────────────────────────────────────────────────────────────── */
 .toast{position:fixed;bottom:2rem;right:2rem;background:var(--navy);color:#fff;padding:.85rem 1.5rem;border-radius:12px;font-size:.85rem;font-weight:600;z-index:9999;opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none;box-shadow:0 8px 30px rgba(0,0,0,.3);border-left:3px solid var(--gold)}
 .toast.show{opacity:1;transform:none}
-
-/* ── RESPONSIVE ───────────────────────────────────────────────────────── */
-@media(max-width:900px){
-  .about-grid,.training-grid,.join-inner,.contact-grid{grid-template-columns:1fr;gap:3rem}
-  .services-grid{grid-template-columns:1fr 1fr}
-  .about-img-badge{right:0;bottom:-10px}
-  .footer-top{grid-template-columns:1fr 1fr}
-  .join-form{margin-top:0}
-}
-@media(max-width:700px){
-  .nav-links,.nav-portal{display:none}
-  .nav-toggle{display:block}
-  .stats-bar .container{grid-template-columns:1fr 1fr}
-  .stat-item{border-right:none;border-bottom:1px solid var(--border);padding:1.75rem 1rem}
-  .stat-item:nth-child(odd){border-right:1px solid var(--border)}
-  .services-grid{grid-template-columns:1fr}
-  .benefits-grid{grid-template-columns:1fr}
-  .form-row,.cf-row{grid-template-columns:1fr}
-  .footer-top{grid-template-columns:1fr}
-  .section{padding:70px 0}
-  .about-values{grid-template-columns:1fr}
-  .hero-btns{flex-direction:column;align-items:center}
-}
+@media(max-width:900px){.about-grid,.training-grid,.join-inner,.contact-grid{grid-template-columns:1fr;gap:3rem}.services-grid{grid-template-columns:1fr 1fr}.about-img-badge{right:0;bottom:-10px}.footer-top{grid-template-columns:1fr 1fr}.join-form{margin-top:0}}
+@media(max-width:700px){.nav-links,.nav-right{display:none}.nav-toggle{display:block}.stats-bar .container{grid-template-columns:1fr 1fr}.stat-item{border-right:none;border-bottom:1px solid var(--border);padding:1.75rem 1rem}.stat-item:nth-child(odd){border-right:1px solid var(--border)}.services-grid{grid-template-columns:1fr}.benefits-grid{grid-template-columns:1fr}.form-row,.cf-row{grid-template-columns:1fr}.footer-top{grid-template-columns:1fr}.section{padding:70px 0}.about-values{grid-template-columns:1fr}.hero-btns{flex-direction:column;align-items:center}}
 </style>
 </head>
 <body>
 
-<!-- ── NAVIGATION ─────────────────────────────────────────────────────── -->
 <nav class="nav" id="nav">
   <div class="nav-inner">
     <a href="#home" class="nav-logo">
@@ -232,189 +170,144 @@ footer{background:var(--navy);padding:60px 0 30px}
       <div class="nav-logo-placeholder" style="display:none">Bethel Financial Group</div>
     </a>
     <div class="nav-links">
-      <a href="#about">About</a>
-      <a href="#services">Services</a>
-      <a href="#training">Training</a>
-      <a href="#join">Join Us</a>
-      <a href="#contact">Contact</a>
+      <a href="#about" data-t="nav_about">About</a>
+      <a href="#services" data-t="nav_services">Services</a>
+      <a href="#training" data-t="nav_training">Training</a>
+      <a href="#join" data-t="nav_join">Join Us</a>
+      <a href="#contact" data-t="nav_contact">Contact</a>
     </div>
-    <a href="https://liep-platform.vercel.app" class="nav-portal" target="_blank">Agent Portal →</a>
+    <div class="nav-right">
+      <button class="lang-switch" id="langSwitch" onclick="togglePageLang()">ES</button>
+      <a href="https://liep-platform.vercel.app" class="nav-portal" target="_blank" data-t="nav_portal">Agent Portal →</a>
+    </div>
     <button class="nav-toggle" id="navToggle" aria-label="Menu">&#9776;</button>
   </div>
 </nav>
 
-<!-- Mobile menu -->
 <div class="nav-mobile" id="navMobile">
+  <button class="lang-switch" style="position:absolute;top:1.5rem;left:2rem" onclick="togglePageLang();closeMobileNav()" id="langSwitchMobile">ES</button>
   <button class="nav-mobile-close" id="navClose">&#10005;</button>
-  <a href="#about" onclick="closeMobileNav()">About</a>
-  <a href="#services" onclick="closeMobileNav()">Services</a>
-  <a href="#training" onclick="closeMobileNav()">Training</a>
-  <a href="#join" onclick="closeMobileNav()">Join Us</a>
-  <a href="#contact" onclick="closeMobileNav()">Contact</a>
-  <a href="https://liep-platform.vercel.app" class="btn btn-gold" target="_blank">Agent Portal →</a>
+  <a href="#about" data-t="nav_about" onclick="closeMobileNav()">About</a>
+  <a href="#services" data-t="nav_services" onclick="closeMobileNav()">Services</a>
+  <a href="#training" data-t="nav_training" onclick="closeMobileNav()">Training</a>
+  <a href="#join" data-t="nav_join" onclick="closeMobileNav()">Join Us</a>
+  <a href="#contact" data-t="nav_contact" onclick="closeMobileNav()">Contact</a>
+  <a href="https://liep-platform.vercel.app" class="btn btn-gold" target="_blank" data-t="nav_portal">Agent Portal →</a>
 </div>
 
-<!-- ── HERO ───────────────────────────────────────────────────────────── -->
 <section class="hero" id="home">
   <div class="hero-bg"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <div class="hero-eyebrow">Bethel Financial Group</div>
-    <h1 class="hero-title">Building Futures<br><em>Through Insurance</em></h1>
-    <p class="hero-sub">Empowering agents and protecting families across the nation. Join a team built on integrity, growth, and excellence.</p>
+    <div class="hero-eyebrow" data-t="hero_eyebrow">Bethel Financial Group</div>
+    <h1 class="hero-title" id="heroTitle">Building Futures<br><em>Through Insurance</em></h1>
+    <p class="hero-sub" data-t="hero_sub">Empowering agents and protecting families across the nation. Join a team built on integrity, growth, and excellence.</p>
     <div class="hero-btns">
-      <a href="#join" class="btn btn-gold">Join Our Team</a>
-      <a href="#about" class="btn btn-outline">Learn More</a>
+      <a href="#join" class="btn btn-gold" data-t="hero_btn1">Join Our Team</a>
+      <a href="#about" class="btn btn-outline" data-t="hero_btn2">Learn More</a>
     </div>
   </div>
   <div class="hero-scroll">
     <div class="scroll-line"></div>
-    <span>Scroll</span>
+    <span data-t="scroll">Scroll</span>
   </div>
 </section>
 
-<!-- ── STATS BAR ──────────────────────────────────────────────────────── -->
 <div class="stats-bar">
   <div class="container">
-    <div class="stat-item reveal">
-      <div class="stat-n">500+</div>
-      <div class="stat-l">Families Protected</div>
-    </div>
-    <div class="stat-item reveal">
-      <div class="stat-n">50+</div>
-      <div class="stat-l">Licensed Agents</div>
-    </div>
-    <div class="stat-item reveal">
-      <div class="stat-n">5</div>
-      <div class="stat-l">States</div>
-    </div>
-    <div class="stat-item reveal">
-      <div class="stat-n">98%</div>
-      <div class="stat-l">Client Satisfaction</div>
-    </div>
+    <div class="stat-item reveal"><div class="stat-n">500+</div><div class="stat-l" data-t="stat1_l">Families Protected</div></div>
+    <div class="stat-item reveal"><div class="stat-n">50+</div><div class="stat-l" data-t="stat2_l">Licensed Agents</div></div>
+    <div class="stat-item reveal"><div class="stat-n">5</div><div class="stat-l" data-t="stat3_l">States</div></div>
+    <div class="stat-item reveal"><div class="stat-n">98%</div><div class="stat-l" data-t="stat4_l">Client Satisfaction</div></div>
   </div>
 </div>
 
-<!-- ── ABOUT ──────────────────────────────────────────────────────────── -->
 <section class="section" id="about">
   <div class="container">
     <div class="about-grid">
       <div class="about-img reveal">
         <div class="about-img-inner">
           <img src="assets/about.jpg" alt="Bethel Financial Group Team" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-          <div class="img-placeholder" style="display:none">
-            <div style="font-size:3rem;margin-bottom:1rem">&#127963;</div>
-            <div>Team Photo</div>
-            <div style="margin-top:.5rem;font-size:.72rem">Replace with assets/about.jpg</div>
-          </div>
+          <div class="img-placeholder" style="display:none"><div style="font-size:3rem;margin-bottom:1rem">&#127963;</div><div>Team Photo</div></div>
         </div>
-        <div class="about-img-badge">
-          <div class="badge-num">10+</div>
-          <div class="badge-lbl">Years<br>of Trust</div>
-        </div>
+        <div class="about-img-badge"><div class="badge-num">10+</div><div class="badge-lbl" data-t="badge_years">Years<br>of Trust</div></div>
       </div>
       <div class="reveal">
-        <div class="section-tag">Who We Are</div>
-        <h2 class="section-title">More Than an Agency —<br>A <em class="gold-text">Movement</em></h2>
+        <div class="section-tag" data-t="about_tag">Who We Are</div>
+        <h2 class="section-title" id="aboutTitle">More Than an Agency —<br>A <em class="gold-text">Movement</em></h2>
         <div class="gold-line"></div>
-        <p class="section-sub">Bethel Financial Group is a life insurance agency committed to protecting families and building the next generation of financial professionals. We believe in developing people, not just policies.</p>
-        <p style="font-size:.92rem;color:var(--muted);margin-top:1rem;line-height:1.8">Based across MA, NY, FL, NJ, and MD, our team of licensed agents delivers personalized financial protection solutions while building meaningful careers in the insurance industry.</p>
+        <p class="section-sub" data-t="about_p1">Bethel Financial Group is a life insurance agency committed to protecting families and building the next generation of financial professionals. We believe in developing people, not just policies.</p>
+        <p style="font-size:.92rem;color:var(--muted);margin-top:1rem;line-height:1.8" data-t="about_p2">Based across MA, NY, FL, NJ, and MD, our team of licensed agents delivers personalized financial protection solutions while building meaningful careers in the insurance industry.</p>
         <div class="about-values">
-          <div class="value-item"><div class="value-dot"></div><div class="value-text"><strong>Integrity First</strong>We do right by our clients and agents, always.</div></div>
-          <div class="value-item"><div class="value-dot"></div><div class="value-text"><strong>Agent Development</strong>We invest in your growth and licensing journey.</div></div>
-          <div class="value-item"><div class="value-dot"></div><div class="value-text"><strong>Family Protection</strong>Every policy we write protects a real family.</div></div>
-          <div class="value-item"><div class="value-dot"></div><div class="value-text"><strong>Team Culture</strong>We grow together — no agent left behind.</div></div>
+          <div class="value-item"><div class="value-dot"></div><div class="value-text"><strong data-t="val1_t">Integrity First</strong><span data-t="val1_d">We do right by our clients and agents, always.</span></div></div>
+          <div class="value-item"><div class="value-dot"></div><div class="value-text"><strong data-t="val2_t">Agent Development</strong><span data-t="val2_d">We invest in your growth and licensing journey.</span></div></div>
+          <div class="value-item"><div class="value-dot"></div><div class="value-text"><strong data-t="val3_t">Family Protection</strong><span data-t="val3_d">Every policy we write protects a real family.</span></div></div>
+          <div class="value-item"><div class="value-dot"></div><div class="value-text"><strong data-t="val4_t">Team Culture</strong><span data-t="val4_d">We grow together — no agent left behind.</span></div></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── SERVICES ───────────────────────────────────────────────────────── -->
 <section class="section section-cream" id="services">
   <div class="container">
     <div class="reveal" style="max-width:600px">
-      <div class="section-tag">What We Offer</div>
-      <h2 class="section-title">Services Built Around <em class="gold-text">Your Needs</em></h2>
+      <div class="section-tag" data-t="svc_tag">What We Offer</div>
+      <h2 class="section-title" id="svcTitle">Services Built Around <em class="gold-text">Your Needs</em></h2>
       <div class="gold-line"></div>
-      <p class="section-sub">From protecting your family to building your career, Bethel Financial Group provides the products and support you need at every stage.</p>
+      <p class="section-sub" data-t="svc_sub">From protecting your family to building your career, Bethel Financial Group provides the products and support you need at every stage.</p>
     </div>
     <div class="services-grid">
-      <div class="service-card reveal">
-        <div class="service-icon">&#127968;</div>
-        <div class="service-title">Life Insurance</div>
-        <p class="service-desc">Term, whole life, universal life, and more. We help families find the right coverage to protect what matters most — at every stage of life.</p>
-      </div>
-      <div class="service-card reveal">
-        <div class="service-icon">&#128200;</div>
-        <div class="service-title">Financial Planning</div>
-        <p class="service-desc">Retirement planning, annuities, and wealth protection strategies tailored to your goals. Build a financial future that lasts generations.</p>
-      </div>
-      <div class="service-card reveal">
-        <div class="service-icon">&#127891;</div>
-        <div class="service-title">Agent Training</div>
-        <p class="service-desc">Full support from pre-licensing through your first sale. Our training program gives new agents the tools, knowledge, and confidence to succeed.</p>
-      </div>
-      <div class="service-card reveal">
-        <div class="service-icon">&#128101;</div>
-        <div class="service-title">Team Building</div>
-        <p class="service-desc">Build and lead your own team of agents. Our team lead program gives you the structure, tools, and support to grow your own book of business.</p>
-      </div>
-      <div class="service-card reveal">
-        <div class="service-icon">&#128204;</div>
-        <div class="service-title">Business Insurance</div>
-        <p class="service-desc">Key person insurance, buy-sell agreements, and business continuation planning. Protect your business with the same care you protect your family.</p>
-      </div>
-      <div class="service-card reveal">
-        <div class="service-icon">&#129309;</div>
-        <div class="service-title">Client Support</div>
-        <p class="service-desc">We don't disappear after the sale. Ongoing policy reviews, beneficiary updates, and dedicated agent support ensure your coverage always fits your life.</p>
-      </div>
+      <div class="service-card reveal"><div class="service-icon">&#127968;</div><div class="service-title" data-t="svc1_t">Life Insurance</div><p class="service-desc" data-t="svc1_d">Term, whole life, universal life, and more. We help families find the right coverage to protect what matters most — at every stage of life.</p></div>
+      <div class="service-card reveal"><div class="service-icon">&#128200;</div><div class="service-title" data-t="svc2_t">Financial Planning</div><p class="service-desc" data-t="svc2_d">Retirement planning, annuities, and wealth protection strategies tailored to your goals. Build a financial future that lasts generations.</p></div>
+      <div class="service-card reveal"><div class="service-icon">&#127891;</div><div class="service-title" data-t="svc3_t">Agent Training</div><p class="service-desc" data-t="svc3_d">Full support from pre-licensing through your first sale. Our training program gives new agents the tools, knowledge, and confidence to succeed.</p></div>
+      <div class="service-card reveal"><div class="service-icon">&#128101;</div><div class="service-title" data-t="svc4_t">Team Building</div><p class="service-desc" data-t="svc4_d">Build and lead your own team of agents. Our team lead program gives you the structure, tools, and support to grow your own book of business.</p></div>
+      <div class="service-card reveal"><div class="service-icon">&#128204;</div><div class="service-title" data-t="svc5_t">Business Insurance</div><p class="service-desc" data-t="svc5_d">Key person insurance, buy-sell agreements, and business continuation planning. Protect your business with the same care you protect your family.</p></div>
+      <div class="service-card reveal"><div class="service-icon">&#129309;</div><div class="service-title" data-t="svc6_t">Client Support</div><p class="service-desc" data-t="svc6_d">We don't disappear after the sale. Ongoing policy reviews, beneficiary updates, and dedicated agent support ensure your coverage always fits your life.</p></div>
     </div>
   </div>
 </section>
 
-<!-- ── TRAINING PORTAL ─────────────────────────────────────────────────── -->
 <section class="section" id="training">
   <div class="container">
     <div class="training-grid">
       <div class="reveal">
-        <div class="section-tag">Agent Training Platform</div>
-        <h2 class="section-title">Study Smarter.<br><em class="gold-text">Get Licensed Faster.</em></h2>
+        <div class="section-tag" data-t="tr_tag">Agent Training Platform</div>
+        <h2 class="section-title" id="trTitle">Study Smarter.<br><em class="gold-text">Get Licensed Faster.</em></h2>
         <div class="gold-line"></div>
-        <p class="section-sub">Our exclusive online exam prep platform gives Bethel agents everything they need to pass the life insurance licensing exam — in English or Spanish.</p>
+        <p class="section-sub" data-t="tr_sub">Our exclusive online exam prep platform gives Bethel agents everything they need to pass the life insurance licensing exam — in English or Spanish.</p>
         <ul class="feature-list">
-          <li><span class="feature-check">✦</span>12 comprehensive chapters covering all exam topics</li>
-          <li><span class="feature-check">✦</span>AI-powered practice questions tailored to your state</li>
-          <li><span class="feature-check">✦</span>Spaced repetition to lock in what you've learned</li>
-          <li><span class="feature-check">✦</span>2 full final exams before you sit for Prometric</li>
-          <li><span class="feature-check">✦</span>Bilingual — full English and Spanish support</li>
-          <li><span class="feature-check">✦</span>Instructor messaging and progress tracking</li>
+          <li><span class="feature-check">✦</span><span data-t="tr_f1">12 comprehensive chapters covering all exam topics</span></li>
+          <li><span class="feature-check">✦</span><span data-t="tr_f2">AI-powered practice questions tailored to your state</span></li>
+          <li><span class="feature-check">✦</span><span data-t="tr_f3">Spaced repetition to lock in what you've learned</span></li>
+          <li><span class="feature-check">✦</span><span data-t="tr_f4">2 full final exams before you sit for Prometric</span></li>
+          <li><span class="feature-check">✦</span><span data-t="tr_f5">Bilingual — full English and Spanish support</span></li>
+          <li><span class="feature-check">✦</span><span data-t="tr_f6">Instructor messaging and progress tracking</span></li>
         </ul>
-        <a href="https://liep-platform.vercel.app" class="btn btn-gold" target="_blank">Enter Agent Portal →</a>
+        <a href="https://liep-platform.vercel.app" class="btn btn-gold" target="_blank" data-t="tr_btn">Enter Agent Portal →</a>
       </div>
       <div class="training-visual reveal">
         <div class="training-screen">
-          <div class="training-pill">Agent Progress Dashboard</div>
+          <div class="training-pill" data-t="tr_dash">Agent Progress Dashboard</div>
           <div class="training-screen-inner">
             <div style="display:flex;justify-content:space-between;margin-bottom:.75rem">
-              <div style="font-size:.75rem;color:rgba(255,255,255,.5)">Exam Readiness</div>
+              <div style="font-size:.75rem;color:rgba(255,255,255,.5)" data-t="tr_readiness">Exam Readiness</div>
               <div style="font-size:.85rem;font-weight:700;color:var(--gold)">78%</div>
             </div>
             <div class="training-bar"><div class="training-bar-fill" style="width:78%"></div></div>
             <div style="margin-top:1.25rem;display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
-              <div style="font-size:.7rem;color:rgba(255,255,255,.4)">Ch 1 — Passed ✓</div>
-              <div style="font-size:.7rem;color:rgba(255,255,255,.4)">Ch 2 — Passed ✓</div>
-              <div style="font-size:.7rem;color:rgba(255,255,255,.4)">Ch 3 — Passed ✓</div>
-              <div style="font-size:.7rem;color:rgba(255,255,255,.4)">Ch 4 — Passed ✓</div>
-              <div style="font-size:.7rem;color:var(--gold)">Ch 5 — In Progress</div>
-              <div style="font-size:.7rem;color:rgba(255,255,255,.2)">Ch 6 — Locked</div>
+              <div style="font-size:.7rem;color:rgba(255,255,255,.4)" data-t="tr_ch1">Ch 1 — Passed ✓</div>
+              <div style="font-size:.7rem;color:rgba(255,255,255,.4)" data-t="tr_ch2">Ch 2 — Passed ✓</div>
+              <div style="font-size:.7rem;color:rgba(255,255,255,.4)" data-t="tr_ch3">Ch 3 — Passed ✓</div>
+              <div style="font-size:.7rem;color:rgba(255,255,255,.4)" data-t="tr_ch4">Ch 4 — Passed ✓</div>
+              <div style="font-size:.7rem;color:var(--gold)" data-t="tr_ch5">Ch 5 — In Progress</div>
+              <div style="font-size:.7rem;color:rgba(255,255,255,.2)" data-t="tr_ch6">Ch 6 — Locked</div>
             </div>
           </div>
           <div class="training-screen-inner" style="margin-top:0">
-            <div style="font-size:.72rem;color:rgba(255,255,255,.4);margin-bottom:.4rem">Class Average</div>
+            <div style="font-size:.72rem;color:rgba(255,255,255,.4);margin-bottom:.4rem" data-t="tr_classavg">Class Average</div>
             <div class="training-bar"><div class="training-bar-fill" style="width:62%"></div></div>
-            <div style="font-size:.7rem;color:var(--gold);margin-top:.3rem">62% · 8 agents active</div>
+            <div style="font-size:.7rem;color:var(--gold);margin-top:.3rem" data-t="tr_active">62% · 8 agents active</div>
           </div>
         </div>
         <div class="training-badge"><span>🎓</span></div>
@@ -423,194 +316,123 @@ footer{background:var(--navy);padding:60px 0 30px}
   </div>
 </section>
 
-<!-- ── JOIN THE TEAM ───────────────────────────────────────────────────── -->
 <section class="section section-navy" id="join">
   <div class="container">
     <div class="join-inner">
       <div class="reveal">
-        <div class="section-tag light">Join the Team</div>
-        <h2 class="section-title light">Build a Career<br><em style="background:linear-gradient(135deg,var(--gold-light),var(--gold-dark));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Worth Talking About</em></h2>
+        <div class="section-tag light" data-t="join_tag">Join the Team</div>
+        <h2 class="section-title light" id="joinTitle">Build a Career<br><em style="background:linear-gradient(135deg,var(--gold-light),var(--gold-dark));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Worth Talking About</em></h2>
         <div class="gold-line"></div>
-        <p class="section-sub light">We're always looking for motivated individuals who want to make a difference — in their clients' lives and their own. No experience required. Just drive.</p>
+        <p class="section-sub light" data-t="join_sub">We're always looking for motivated individuals who want to make a difference — in their clients' lives and their own. No experience required. Just drive.</p>
         <div class="benefits-grid">
-          <div class="benefit-item">
-            <div class="benefit-icon">&#128181;</div>
-            <div class="benefit-title">Uncapped Earnings</div>
-            <div class="benefit-desc">Your income is limited only by your ambition. Top agents earn six figures.</div>
-          </div>
-          <div class="benefit-item">
-            <div class="benefit-icon">&#127891;</div>
-            <div class="benefit-title">Full Training</div>
-            <div class="benefit-desc">We guide you from zero to licensed with our exclusive prep platform.</div>
-          </div>
-          <div class="benefit-item">
-            <div class="benefit-icon">&#128101;</div>
-            <div class="benefit-title">Team Support</div>
-            <div class="benefit-desc">Join a collaborative team that wants to see you win every single day.</div>
-          </div>
-          <div class="benefit-item">
-            <div class="benefit-icon">&#127759;</div>
-            <div class="benefit-title">Remote Flexibility</div>
-            <div class="benefit-desc">Work from anywhere. We operate across multiple states with full flexibility.</div>
-          </div>
+          <div class="benefit-item"><div class="benefit-icon">&#128181;</div><div class="benefit-title" data-t="ben1_t">Uncapped Earnings</div><div class="benefit-desc" data-t="ben1_d">Your income is limited only by your ambition. Top agents earn six figures.</div></div>
+          <div class="benefit-item"><div class="benefit-icon">&#127891;</div><div class="benefit-title" data-t="ben2_t">Full Training</div><div class="benefit-desc" data-t="ben2_d">We guide you from zero to licensed with our exclusive prep platform.</div></div>
+          <div class="benefit-item"><div class="benefit-icon">&#128101;</div><div class="benefit-title" data-t="ben3_t">Team Support</div><div class="benefit-desc" data-t="ben3_d">Join a collaborative team that wants to see you win every single day.</div></div>
+          <div class="benefit-item"><div class="benefit-icon">&#127759;</div><div class="benefit-title" data-t="ben4_t">Remote Flexibility</div><div class="benefit-desc" data-t="ben4_d">Work from anywhere. We operate across multiple states with full flexibility.</div></div>
         </div>
       </div>
       <div class="join-form reveal">
-        <h3>Start Your Journey</h3>
-        <p>Fill out the form and a team leader will reach out within 24 hours.</p>
+        <h3 data-t="jf_title">Start Your Journey</h3>
+        <p data-t="jf_sub">Fill out the form and a team leader will reach out within 24 hours.</p>
         <div class="form-row">
-          <div class="form-field"><label>First Name</label><input type="text" placeholder="First name"></div>
-          <div class="form-field"><label>Last Name</label><input type="text" placeholder="Last name"></div>
+          <div class="form-field"><label data-t="jf_fn">First Name</label><input type="text" data-t-ph="jf_fn_ph"></div>
+          <div class="form-field"><label data-t="jf_ln">Last Name</label><input type="text" data-t-ph="jf_ln_ph"></div>
         </div>
-        <div class="form-field"><label>Email</label><input type="email" placeholder="your@email.com"></div>
-        <div class="form-field"><label>Phone</label><input type="tel" placeholder="(555) 000-0000"></div>
-        <div class="form-field"><label>State</label>
+        <div class="form-field"><label data-t="jf_email">Email</label><input type="email" placeholder="your@email.com"></div>
+        <div class="form-field"><label data-t="jf_phone">Phone</label><input type="tel" placeholder="(555) 000-0000"></div>
+        <div class="form-field"><label data-t="jf_state">State</label>
           <select>
-            <option value="">Select your state</option>
+            <option value="" data-t="jf_state_ph">Select your state</option>
             <option>Massachusetts</option><option>New York</option><option>Florida</option>
             <option>New Jersey</option><option>Maryland</option><option>California</option>
-            <option>Other</option>
+            <option data-t="jf_other">Other</option>
           </select>
         </div>
-        <div class="form-field"><label>Are you currently licensed?</label>
+        <div class="form-field"><label data-t="jf_licensed">Are you currently licensed?</label>
           <select>
-            <option value="">Select one</option>
-            <option>Yes, I have a life insurance license</option>
-            <option>No, I need to get licensed</option>
-            <option>License in progress</option>
+            <option value="" data-t="jf_sel">Select one</option>
+            <option data-t="jf_yes_lic">Yes, I have a life insurance license</option>
+            <option data-t="jf_no_lic">No, I need to get licensed</option>
+            <option data-t="jf_in_prog">License in progress</option>
           </select>
         </div>
-        <button class="btn btn-gold" style="width:100%;justify-content:center;margin-top:.5rem" onclick="submitJoin(this)">Submit Application</button>
+        <button class="btn btn-gold" style="width:100%;justify-content:center;margin-top:.5rem" onclick="submitJoin(this)" data-t="jf_btn">Submit Application</button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── CONTACT ─────────────────────────────────────────────────────────── -->
 <section class="section" id="contact">
   <div class="container">
     <div class="reveal" style="max-width:560px">
-      <div class="section-tag">Get in Touch</div>
-      <h2 class="section-title">We'd Love to <em class="gold-text">Hear From You</em></h2>
+      <div class="section-tag" data-t="ct_tag">Get in Touch</div>
+      <h2 class="section-title" id="ctTitle">We'd Love to <em class="gold-text">Hear From You</em></h2>
       <div class="gold-line"></div>
-      <p class="section-sub">Whether you have questions about our services, want to join the team, or just want to learn more — we're here.</p>
+      <p class="section-sub" data-t="ct_sub">Whether you have questions about our services, want to join the team, or just want to learn more — we're here.</p>
     </div>
     <div class="contact-grid">
       <div class="reveal">
-        <div class="contact-info-item">
-          <div class="contact-icon">&#128205;</div>
-          <div>
-            <div class="contact-label">Office</div>
-            <div class="contact-value">Serving MA · NY · FL · NJ · MD</div>
-          </div>
-        </div>
-        <div class="contact-info-item">
-          <div class="contact-icon">&#128231;</div>
-          <div>
-            <div class="contact-label">Email</div>
-            <div class="contact-value">office@bethelfinancialgroup.com</div>
-          </div>
-        </div>
-        <div class="contact-info-item">
-          <div class="contact-icon">&#128274;</div>
-          <div>
-            <div class="contact-label">Agent Portal</div>
-            <div class="contact-value"><a href="https://liep-platform.vercel.app" style="color:var(--gold)" target="_blank">liep-platform.vercel.app →</a></div>
-          </div>
-        </div>
-        <div class="contact-info-item">
-          <div class="contact-icon">&#9201;</div>
-          <div>
-            <div class="contact-label">Response Time</div>
-            <div class="contact-value">Within 24 business hours</div>
-          </div>
-        </div>
+        <div class="contact-info-item"><div class="contact-icon">&#128205;</div><div><div class="contact-label" data-t="ct_office_l">Office</div><div class="contact-value">Serving MA · NY · FL · NJ · MD</div></div></div>
+        <div class="contact-info-item"><div class="contact-icon">&#128231;</div><div><div class="contact-label" data-t="ct_email_l">Email</div><div class="contact-value">office@bethelfinancialgroup.com</div></div></div>
+        <div class="contact-info-item"><div class="contact-icon">&#128274;</div><div><div class="contact-label" data-t="ct_portal_l">Agent Portal</div><div class="contact-value"><a href="https://liep-platform.vercel.app" style="color:var(--gold)" target="_blank">liep-platform.vercel.app →</a></div></div></div>
+        <div class="contact-info-item"><div class="contact-icon">&#9201;</div><div><div class="contact-label" data-t="ct_resp_l">Response Time</div><div class="contact-value" data-t="ct_resp_v">Within 24 business hours</div></div></div>
       </div>
       <div class="contact-form-wrap reveal">
-        <h3>Send a Message</h3>
-        <p>We'll get back to you as soon as possible.</p>
+        <h3 data-t="cf_title">Send a Message</h3>
+        <p data-t="cf_sub">We'll get back to you as soon as possible.</p>
         <div class="cf-row">
-          <div class="cf-field"><label>First Name</label><input type="text" placeholder="First name"></div>
-          <div class="cf-field"><label>Last Name</label><input type="text" placeholder="Last name"></div>
+          <div class="cf-field"><label data-t="cf_fn">First Name</label><input type="text" data-t-ph="cf_fn_ph"></div>
+          <div class="cf-field"><label data-t="cf_ln">Last Name</label><input type="text" data-t-ph="cf_ln_ph"></div>
         </div>
-        <div class="cf-field"><label>Email</label><input type="email" placeholder="your@email.com"></div>
-        <div class="cf-field"><label>Subject</label>
+        <div class="cf-field"><label data-t="cf_email">Email</label><input type="email" placeholder="your@email.com"></div>
+        <div class="cf-field"><label data-t="cf_subject">Subject</label>
           <select>
-            <option value="">Select a topic</option>
-            <option>General inquiry</option>
-            <option>Join the team</option>
-            <option>Life insurance quote</option>
-            <option>Agent training</option>
-            <option>Other</option>
+            <option value="" data-t="cf_sel">Select a topic</option>
+            <option data-t="cf_gen">General inquiry</option>
+            <option data-t="cf_join">Join the team</option>
+            <option data-t="cf_quote">Life insurance quote</option>
+            <option data-t="cf_training">Agent training</option>
+            <option data-t="cf_other">Other</option>
           </select>
         </div>
-        <div class="cf-field"><label>Message</label><textarea placeholder="How can we help you?"></textarea></div>
-        <button class="btn btn-gold" style="width:100%;justify-content:center" onclick="submitContact(this)">Send Message</button>
+        <div class="cf-field"><label data-t="cf_msg">Message</label><textarea data-t-ph="cf_msg_ph"></textarea></div>
+        <button class="btn btn-gold" style="width:100%;justify-content:center" onclick="submitContact(this)" data-t="cf_btn">Send Message</button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── FOOTER ──────────────────────────────────────────────────────────── -->
 <footer>
   <div class="container">
     <div class="footer-top">
       <div class="footer-brand">
         <img src="assets/Logo.JPG" alt="Bethel Financial Group" class="footer-logo" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
         <div class="footer-logo-placeholder" style="display:none">Bethel Financial Group</div>
-        <p class="footer-tagline">Building futures through insurance. Empowering agents and protecting families across the nation.</p>
+        <p class="footer-tagline" data-t="ft_tagline">Building futures through insurance. Empowering agents and protecting families across the nation.</p>
       </div>
-      <div class="footer-col">
-        <h4>Company</h4>
-        <a href="#about">About Us</a>
-        <a href="#services">Services</a>
-        <a href="#join">Careers</a>
-        <a href="#contact">Contact</a>
-      </div>
-      <div class="footer-col">
-        <h4>Agents</h4>
-        <a href="https://liep-platform.vercel.app" target="_blank">Agent Portal</a>
-        <a href="https://liep-platform.vercel.app" target="_blank">Exam Prep</a>
-        <a href="https://liep-platform.vercel.app/team" target="_blank">Team Dashboard</a>
-        <a href="#join">Join the Team</a>
-      </div>
-      <div class="footer-col">
-        <h4>States</h4>
-        <a href="#">Massachusetts</a>
-        <a href="#">New York</a>
-        <a href="#">Florida</a>
-        <a href="#">New Jersey</a>
-        <a href="#">Maryland</a>
-      </div>
+      <div class="footer-col"><h4 data-t="ft_company">Company</h4><a href="#about" data-t="nav_about">About</a><a href="#services" data-t="nav_services">Services</a><a href="#join" data-t="ft_careers">Careers</a><a href="#contact" data-t="nav_contact">Contact</a></div>
+      <div class="footer-col"><h4 data-t="ft_agents">Agents</h4><a href="https://liep-platform.vercel.app" target="_blank" data-t="ft_portal">Agent Portal</a><a href="https://liep-platform.vercel.app" target="_blank" data-t="ft_exam">Exam Prep</a><a href="https://liep-platform.vercel.app/team" target="_blank" data-t="ft_team">Team Dashboard</a><a href="#join" data-t="ft_join">Join the Team</a></div>
+      <div class="footer-col"><h4 data-t="ft_states">States</h4><a href="#">Massachusetts</a><a href="#">New York</a><a href="#">Florida</a><a href="#">New Jersey</a><a href="#">Maryland</a></div>
     </div>
     <div class="footer-bottom">
-      <div class="footer-copy">&copy; 2025 Bethel Financial Group. All rights reserved.</div>
-      <div class="footer-legal">
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Use</a>
-        <a href="#">Licensing</a>
-      </div>
+      <div class="footer-copy" data-t="ft_copy">&copy; 2025 Bethel Financial Group. All rights reserved.</div>
+      <div class="footer-legal"><a href="#" data-t="ft_privacy">Privacy Policy</a><a href="#" data-t="ft_terms">Terms of Use</a><a href="#" data-t="ft_licensing">Licensing</a></div>
     </div>
   </div>
 </footer>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ── NAV SCROLL EFFECT ──────────────────────────────────────────────────
+// ── NAV ────────────────────────────────────────────────────────────────
 window.addEventListener('scroll', function() {
   document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
 });
-
-// ── MOBILE NAV ─────────────────────────────────────────────────────────
 document.getElementById('navToggle').addEventListener('click', function() {
   document.getElementById('navMobile').classList.add('open');
 });
 document.getElementById('navClose').addEventListener('click', closeMobileNav);
-function closeMobileNav() {
-  document.getElementById('navMobile').classList.remove('open');
-}
+function closeMobileNav() { document.getElementById('navMobile').classList.remove('open'); }
 
 // ── SCROLL REVEAL ──────────────────────────────────────────────────────
 var revealObserver = new IntersectionObserver(function(entries) {
@@ -628,25 +450,200 @@ function showToast(msg, ok) {
   setTimeout(function() { t.classList.remove('show'); }, 3500);
 }
 
-// ── FORM SUBMISSIONS (placeholder — connect to backend later) ──────────
+// ── FORMS ──────────────────────────────────────────────────────────────
 function submitJoin(btn) {
-  btn.disabled = true;
-  btn.textContent = 'Submitting…';
+  btn.disabled = true; btn.textContent = pageLang === 'es' ? 'Enviando…' : 'Submitting…';
   setTimeout(function() {
-    showToast('Thanks! We\'ll be in touch within 24 hours.', true);
-    btn.disabled = false;
-    btn.textContent = 'Submit Application';
+    showToast(pageLang === 'es' ? '¡Gracias! Te contactaremos en 24 horas.' : 'Thanks! We\'ll be in touch within 24 hours.', true);
+    btn.disabled = false; btn.textContent = PT[pageLang].jf_btn;
   }, 1000);
 }
 function submitContact(btn) {
-  btn.disabled = true;
-  btn.textContent = 'Sending…';
+  btn.disabled = true; btn.textContent = pageLang === 'es' ? 'Enviando…' : 'Sending…';
   setTimeout(function() {
-    showToast('Message sent! We\'ll reply soon.', true);
-    btn.disabled = false;
-    btn.textContent = 'Send Message';
+    showToast(pageLang === 'es' ? '¡Mensaje enviado! Te responderemos pronto.' : 'Message sent! We\'ll reply soon.', true);
+    btn.disabled = false; btn.textContent = PT[pageLang].cf_btn;
   }, 1000);
 }
+
+// ── TRANSLATIONS ───────────────────────────────────────────────────────
+var pageLang = localStorage.getItem('bethel_lang') || 'en';
+
+var PT = {
+  en: {
+    nav_about:'About', nav_services:'Services', nav_training:'Training', nav_join:'Join Us', nav_contact:'Contact', nav_portal:'Agent Portal →',
+    hero_eyebrow:'Bethel Financial Group',
+    heroTitle:'Building Futures<br><em>Through Insurance</em>',
+    hero_sub:'Empowering agents and protecting families across the nation. Join a team built on integrity, growth, and excellence.',
+    hero_btn1:'Join Our Team', hero_btn2:'Learn More', scroll:'Scroll',
+    stat1_l:'Families Protected', stat2_l:'Licensed Agents', stat3_l:'States', stat4_l:'Client Satisfaction',
+    about_tag:'Who We Are',
+    aboutTitle:'More Than an Agency —<br>A <em class="gold-text">Movement</em>',
+    about_p1:'Bethel Financial Group is a life insurance agency committed to protecting families and building the next generation of financial professionals. We believe in developing people, not just policies.',
+    about_p2:'Based across MA, NY, FL, NJ, and MD, our team of licensed agents delivers personalized financial protection solutions while building meaningful careers in the insurance industry.',
+    badge_years:'Years<br>of Trust',
+    val1_t:'Integrity First', val1_d:'We do right by our clients and agents, always.',
+    val2_t:'Agent Development', val2_d:'We invest in your growth and licensing journey.',
+    val3_t:'Family Protection', val3_d:'Every policy we write protects a real family.',
+    val4_t:'Team Culture', val4_d:'We grow together — no agent left behind.',
+    svc_tag:'What We Offer',
+    svcTitle:'Services Built Around <em class="gold-text">Your Needs</em>',
+    svc_sub:'From protecting your family to building your career, Bethel Financial Group provides the products and support you need at every stage.',
+    svc1_t:'Life Insurance', svc1_d:'Term, whole life, universal life, and more. We help families find the right coverage to protect what matters most — at every stage of life.',
+    svc2_t:'Financial Planning', svc2_d:'Retirement planning, annuities, and wealth protection strategies tailored to your goals. Build a financial future that lasts generations.',
+    svc3_t:'Agent Training', svc3_d:'Full support from pre-licensing through your first sale. Our training program gives new agents the tools, knowledge, and confidence to succeed.',
+    svc4_t:'Team Building', svc4_d:'Build and lead your own team of agents. Our team lead program gives you the structure, tools, and support to grow your own book of business.',
+    svc5_t:'Business Insurance', svc5_d:'Key person insurance, buy-sell agreements, and business continuation planning. Protect your business with the same care you protect your family.',
+    svc6_t:'Client Support', svc6_d:"We don't disappear after the sale. Ongoing policy reviews, beneficiary updates, and dedicated agent support ensure your coverage always fits your life.",
+    tr_tag:'Agent Training Platform',
+    trTitle:'Study Smarter.<br><em class="gold-text">Get Licensed Faster.</em>',
+    tr_sub:'Our exclusive online exam prep platform gives Bethel agents everything they need to pass the life insurance licensing exam — in English or Spanish.',
+    tr_f1:'12 comprehensive chapters covering all exam topics',
+    tr_f2:'AI-powered practice questions tailored to your state',
+    tr_f3:'Spaced repetition to lock in what you\'ve learned',
+    tr_f4:'2 full final exams before you sit for Prometric',
+    tr_f5:'Bilingual — full English and Spanish support',
+    tr_f6:'Instructor messaging and progress tracking',
+    tr_btn:'Enter Agent Portal →',
+    tr_dash:'Agent Progress Dashboard', tr_readiness:'Exam Readiness',
+    tr_ch1:'Ch 1 — Passed ✓', tr_ch2:'Ch 2 — Passed ✓', tr_ch3:'Ch 3 — Passed ✓',
+    tr_ch4:'Ch 4 — Passed ✓', tr_ch5:'Ch 5 — In Progress', tr_ch6:'Ch 6 — Locked',
+    tr_classavg:'Class Average', tr_active:'62% · 8 agents active',
+    join_tag:'Join the Team',
+    joinTitle:'Build a Career<br><em style="background:linear-gradient(135deg,var(--gold-light),var(--gold-dark));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Worth Talking About</em>',
+    join_sub:"We're always looking for motivated individuals who want to make a difference — in their clients' lives and their own. No experience required. Just drive.",
+    ben1_t:'Uncapped Earnings', ben1_d:'Your income is limited only by your ambition. Top agents earn six figures.',
+    ben2_t:'Full Training', ben2_d:'We guide you from zero to licensed with our exclusive prep platform.',
+    ben3_t:'Team Support', ben3_d:'Join a collaborative team that wants to see you win every single day.',
+    ben4_t:'Remote Flexibility', ben4_d:'Work from anywhere. We operate across multiple states with full flexibility.',
+    jf_title:'Start Your Journey', jf_sub:'Fill out the form and a team leader will reach out within 24 hours.',
+    jf_fn:'First Name', jf_fn_ph:'First name', jf_ln:'Last Name', jf_ln_ph:'Last name',
+    jf_email:'Email', jf_phone:'Phone', jf_state:'State', jf_state_ph:'Select your state',
+    jf_licensed:'Are you currently licensed?', jf_sel:'Select one',
+    jf_yes_lic:'Yes, I have a life insurance license', jf_no_lic:'No, I need to get licensed', jf_in_prog:'License in progress',
+    jf_other:'Other', jf_btn:'Submit Application',
+    ct_tag:'Get in Touch',
+    ctTitle:"We'd Love to <em class=\"gold-text\">Hear From You</em>",
+    ct_sub:"Whether you have questions about our services, want to join the team, or just want to learn more — we're here.",
+    ct_office_l:'Office', ct_email_l:'Email', ct_portal_l:'Agent Portal', ct_resp_l:'Response Time', ct_resp_v:'Within 24 business hours',
+    cf_title:'Send a Message', cf_sub:"We'll get back to you as soon as possible.",
+    cf_fn:'First Name', cf_fn_ph:'First name', cf_ln:'Last Name', cf_ln_ph:'Last name',
+    cf_email:'Email', cf_subject:'Subject', cf_sel:'Select a topic',
+    cf_gen:'General inquiry', cf_join:'Join the team', cf_quote:'Life insurance quote', cf_training:'Agent training', cf_other:'Other',
+    cf_msg:'Message', cf_msg_ph:'How can we help you?', cf_btn:'Send Message',
+    ft_tagline:'Building futures through insurance. Empowering agents and protecting families across the nation.',
+    ft_company:'Company', ft_agents:'Agents', ft_states:'States', ft_careers:'Careers',
+    ft_portal:'Agent Portal', ft_exam:'Exam Prep', ft_team:'Team Dashboard', ft_join:'Join the Team',
+    ft_copy:'© 2025 Bethel Financial Group. All rights reserved.',
+    ft_privacy:'Privacy Policy', ft_terms:'Terms of Use', ft_licensing:'Licensing',
+  },
+  es: {
+    nav_about:'Nosotros', nav_services:'Servicios', nav_training:'Capacitación', nav_join:'Únete', nav_contact:'Contacto', nav_portal:'Portal del Agente →',
+    hero_eyebrow:'Bethel Financial Group',
+    heroTitle:'Construyendo Futuros<br><em>a Través del Seguro</em>',
+    hero_sub:'Empoderando agentes y protegiendo familias en todo el país. Únete a un equipo construido sobre integridad, crecimiento y excelencia.',
+    hero_btn1:'Únete al Equipo', hero_btn2:'Conoce Más', scroll:'Scroll',
+    stat1_l:'Familias Protegidas', stat2_l:'Agentes Licenciados', stat3_l:'Estados', stat4_l:'Satisfacción del Cliente',
+    about_tag:'Quiénes Somos',
+    aboutTitle:'Más Que una Agencia —<br>Un <em class="gold-text">Movimiento</em>',
+    about_p1:'Bethel Financial Group es una agencia de seguros de vida comprometida con proteger familias y formar la próxima generación de profesionales financieros. Creemos en desarrollar personas, no solo pólizas.',
+    about_p2:'Con presencia en MA, NY, FL, NJ y MD, nuestro equipo de agentes licenciados ofrece soluciones personalizadas de protección financiera mientras construye carreras significativas en la industria.',
+    badge_years:'Años de<br>Confianza',
+    val1_t:'Integridad Primero', val1_d:'Hacemos lo correcto por nuestros clientes y agentes, siempre.',
+    val2_t:'Desarrollo del Agente', val2_d:'Invertimos en tu crecimiento y proceso de licenciamiento.',
+    val3_t:'Protección Familiar', val3_d:'Cada póliza que escribimos protege a una familia real.',
+    val4_t:'Cultura de Equipo', val4_d:'Crecemos juntos — ningún agente se queda atrás.',
+    svc_tag:'Lo Que Ofrecemos',
+    svcTitle:'Servicios Diseñados para <em class="gold-text">Tus Necesidades</em>',
+    svc_sub:'Desde proteger a tu familia hasta construir tu carrera, Bethel Financial Group te ofrece los productos y el apoyo que necesitas en cada etapa.',
+    svc1_t:'Seguro de Vida', svc1_d:'Vida temporal, vida entera, vida universal y más. Ayudamos a las familias a encontrar la cobertura adecuada para proteger lo que más importa.',
+    svc2_t:'Planificación Financiera', svc2_d:'Planificación para el retiro, anualidades y estrategias de protección patrimonial. Construye un futuro financiero que dure generaciones.',
+    svc3_t:'Capacitación de Agentes', svc3_d:'Apoyo completo desde antes de la licencia hasta tu primera venta. Nuestro programa da a los nuevos agentes las herramientas y la confianza para triunfar.',
+    svc4_t:'Formación de Equipos', svc4_d:'Construye y lidera tu propio equipo de agentes. Nuestro programa de team lead te da la estructura y el apoyo para crecer tu negocio.',
+    svc5_t:'Seguro Empresarial', svc5_d:'Seguro de persona clave, acuerdos de compra-venta y planificación de continuidad empresarial. Protege tu negocio con el mismo cuidado que proteges a tu familia.',
+    svc6_t:'Atención al Cliente', svc6_d:'No desaparecemos después de la venta. Revisiones continuas de pólizas y atención dedicada aseguran que tu cobertura siempre se adapte a tu vida.',
+    tr_tag:'Plataforma de Capacitación',
+    trTitle:'Estudia Más Inteligente.<br><em class="gold-text">Licénciante Más Rápido.</em>',
+    tr_sub:'Nuestra plataforma exclusiva de preparación para exámenes da a los agentes de Bethel todo lo necesario para aprobar el examen de licencia de seguros de vida.',
+    tr_f1:'12 capítulos completos que cubren todos los temas del examen',
+    tr_f2:'Preguntas de práctica con IA adaptadas a tu estado',
+    tr_f3:'Repetición espaciada para reforzar lo aprendido',
+    tr_f4:'2 exámenes finales completos antes de Prometric',
+    tr_f5:'Bilingüe — soporte completo en inglés y español',
+    tr_f6:'Mensajería con el instructor y seguimiento del progreso',
+    tr_btn:'Entrar al Portal del Agente →',
+    tr_dash:'Panel de Progreso del Agente', tr_readiness:'Preparación para el Examen',
+    tr_ch1:'Cap 1 — Aprobado ✓', tr_ch2:'Cap 2 — Aprobado ✓', tr_ch3:'Cap 3 — Aprobado ✓',
+    tr_ch4:'Cap 4 — Aprobado ✓', tr_ch5:'Cap 5 — En Progreso', tr_ch6:'Cap 6 — Bloqueado',
+    tr_classavg:'Promedio de Clase', tr_active:'62% · 8 agentes activos',
+    join_tag:'Únete al Equipo',
+    joinTitle:'Construye una Carrera<br><em style="background:linear-gradient(135deg,var(--gold-light),var(--gold-dark));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Que Vale la Pena</em>',
+    join_sub:'Siempre buscamos personas motivadas que quieran marcar la diferencia — en la vida de sus clientes y en la propia. Sin experiencia requerida. Solo dedicación.',
+    ben1_t:'Ingresos Sin Límite', ben1_d:'Tu ingreso solo está limitado por tu ambición. Los mejores agentes ganan seis cifras.',
+    ben2_t:'Capacitación Completa', ben2_d:'Te guiamos desde cero hasta licenciado con nuestra plataforma exclusiva.',
+    ben3_t:'Apoyo del Equipo', ben3_d:'Únete a un equipo colaborativo que quiere verte triunfar cada día.',
+    ben4_t:'Flexibilidad Remota', ben4_d:'Trabaja desde cualquier lugar. Operamos en múltiples estados con total flexibilidad.',
+    jf_title:'Comienza Tu Camino', jf_sub:'Completa el formulario y un líder del equipo se comunicará contigo en 24 horas.',
+    jf_fn:'Nombre', jf_fn_ph:'Nombre', jf_ln:'Apellido', jf_ln_ph:'Apellido',
+    jf_email:'Correo Electrónico', jf_phone:'Teléfono', jf_state:'Estado', jf_state_ph:'Selecciona tu estado',
+    jf_licensed:'¿Tienes licencia actualmente?', jf_sel:'Selecciona una opción',
+    jf_yes_lic:'Sí, tengo licencia de seguros de vida', jf_no_lic:'No, necesito licenciarme', jf_in_prog:'Licencia en proceso',
+    jf_other:'Otro', jf_btn:'Enviar Solicitud',
+    ct_tag:'Contáctanos',
+    ctTitle:'Nos Encantaría <em class="gold-text">Escucharte</em>',
+    ct_sub:'Ya sea que tengas preguntas sobre nuestros servicios, quieras unirte al equipo o simplemente quieras saber más — estamos aquí.',
+    ct_office_l:'Oficina', ct_email_l:'Correo', ct_portal_l:'Portal del Agente', ct_resp_l:'Tiempo de Respuesta', ct_resp_v:'En 24 horas hábiles',
+    cf_title:'Envía un Mensaje', cf_sub:'Te responderemos lo antes posible.',
+    cf_fn:'Nombre', cf_fn_ph:'Nombre', cf_ln:'Apellido', cf_ln_ph:'Apellido',
+    cf_email:'Correo', cf_subject:'Asunto', cf_sel:'Selecciona un tema',
+    cf_gen:'Consulta general', cf_join:'Unirse al equipo', cf_quote:'Cotización de seguro de vida', cf_training:'Capacitación de agentes', cf_other:'Otro',
+    cf_msg:'Mensaje', cf_msg_ph:'¿En qué podemos ayudarte?', cf_btn:'Enviar Mensaje',
+    ft_tagline:'Construyendo futuros a través del seguro. Empoderando agentes y protegiendo familias en todo el país.',
+    ft_company:'Empresa', ft_agents:'Agentes', ft_states:'Estados', ft_careers:'Carreras',
+    ft_portal:'Portal del Agente', ft_exam:'Prep para Examen', ft_team:'Panel del Team Lead', ft_join:'Únete al Equipo',
+    ft_copy:'© 2025 Bethel Financial Group. Todos los derechos reservados.',
+    ft_privacy:'Política de Privacidad', ft_terms:'Términos de Uso', ft_licensing:'Licenciamiento',
+  }
+};
+
+// IDs that use innerHTML (have <em> or HTML tags)
+var htmlIds = ['heroTitle','aboutTitle','svcTitle','trTitle','joinTitle','ctTitle'];
+
+function setLang(lang) {
+  var t = PT[lang];
+  // data-t elements (textContent)
+  document.querySelectorAll('[data-t]').forEach(function(el) {
+    var key = el.getAttribute('data-t');
+    if (t[key] !== undefined) el.textContent = t[key];
+  });
+  // data-t-ph elements (placeholder)
+  document.querySelectorAll('[data-t-ph]').forEach(function(el) {
+    var key = el.getAttribute('data-t-ph');
+    if (t[key] !== undefined) el.placeholder = t[key];
+  });
+  // innerHTML elements
+  htmlIds.forEach(function(id) {
+    var el = document.getElementById(id);
+    var key = id.charAt(0).toLowerCase() + id.slice(1); // heroTitle → heroTitle
+    if (el && t[key] !== undefined) el.innerHTML = t[key];
+  });
+  // lang toggle button label
+  var sw = document.getElementById('langSwitch');
+  var swm = document.getElementById('langSwitchMobile');
+  if (sw) sw.textContent = lang === 'en' ? 'ES' : 'EN';
+  if (swm) swm.textContent = lang === 'en' ? 'ES' : 'EN';
+  // html lang attribute
+  document.documentElement.lang = lang;
+}
+
+function togglePageLang() {
+  pageLang = pageLang === 'en' ? 'es' : 'en';
+  localStorage.setItem('bethel_lang', pageLang);
+  setLang(pageLang);
+}
+
+// Apply on load
+setLang(pageLang);
 </script>
 </body>
 </html>
