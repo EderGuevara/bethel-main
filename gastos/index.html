@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Bethel Financial Group — Control de Gastos</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --gold:#C9A84C;--gold-dark:#8B6914;--gold-light:#F0D080;
+    --black:#1A1A1A;--gray:#6B6B6B;--light:#F8F6F0;
+    --white:#FFFFFF;--red:#C0392B;--green:#1E6B3C;
+    --border:#E0D8C8;--row-alt:#FAF8F4;
+  }
+  body{font-family:Arial,sans-serif;background:#F0EDE6;display:flex;justify-content:center;padding:2rem 1rem;min-height:100vh}
+  .card{background:var(--white);border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.12);width:100%;max-width:860px}
+  .header{background:var(--black);padding:1rem 1.8rem;display:flex;align-items:center;justify-content:space-between}
+  .logo-area img{height:52px;width:auto}
+  .lang-btn{background:transparent;border:1.5px solid var(--gold);color:var(--gold);padding:6px 16px;border-radius:20px;cursor:pointer;font-size:12px;font-weight:700;letter-spacing:1px;transition:all .2s}
+  .lang-btn:hover{background:var(--gold);color:var(--black)}
+  .subtitle-bar{background:var(--gold);padding:.5rem 1.8rem;color:var(--black);font-size:11px;font-weight:700;letter-spacing:1px}
+  .body{background:var(--light);padding:1.4rem 1.8rem}
+  .income-row{display:flex;align-items:center;gap:10px;background:var(--white);border:2px solid var(--gold);border-radius:8px;padding:.8rem 1.1rem;margin-bottom:1.2rem}
+  .income-row label{font-size:13px;font-weight:700;color:var(--black);white-space:nowrap}
+  .income-row .dollar{font-size:18px;font-weight:700;color:var(--gold-dark)}
+  .income-row input{flex:1;border:none;background:transparent;font-size:18px;font-weight:700;color:var(--gold-dark);text-align:right;outline:none}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  @media(max-width:600px){.cols{grid-template-columns:1fr}}
+  .col-head{padding:.6rem .9rem;font-size:12px;font-weight:700;letter-spacing:.5px;color:var(--white);border-radius:8px 8px 0 0;display:flex;align-items:center;gap:6px}
+  .col-fixed .col-head{background:var(--black)}
+  .col-variable .col-head{background:var(--gold-dark)}
+  .expense-list{background:var(--white);border-radius:0 0 8px 8px;overflow:hidden;border:1px solid var(--border)}
+  .expense-row{display:flex;align-items:center;gap:8px;padding:.45rem .8rem;border-bottom:.5px solid #F0E8D8}
+  .expense-row:last-child{border-bottom:none}
+  .expense-row:nth-child(even){background:var(--row-alt)}
+  .expense-row label{flex:1;font-size:12px;color:var(--black)}
+  .expense-row input[type=number]{width:88px;border:1px solid #DDD;border-radius:4px;padding:3px 7px;font-size:12px;text-align:right;color:var(--black);background:var(--white)}
+  .expense-row input[type=number]:focus{outline:none;border-color:var(--gold)}
+  .add-row{display:flex;gap:6px;padding:.5rem .8rem;background:#FDF9F0;border-top:.5px solid #F0E8D8}
+  .add-row input[type=text]{flex:1;border:1px solid #DDD;border-radius:4px;padding:4px 8px;font-size:12px;color:var(--black)}
+  .add-row button{background:var(--gold);border:none;color:var(--black);padding:4px 12px;border-radius:4px;cursor:pointer;font-size:11px;font-weight:700}
+  .summary{margin-top:1rem;background:var(--white);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+  .sum-row{display:flex;justify-content:space-between;align-items:center;padding:.6rem 1.1rem;border-bottom:.5px solid #F0E8D8;font-size:13px;color:var(--black)}
+  .sum-row.total{background:var(--black);color:var(--white);font-weight:700;font-size:14px}
+  .sum-row.available{background:var(--green);color:var(--white);font-weight:700;font-size:15px}
+  .sum-row.negative{background:var(--red);color:var(--white);font-weight:700;font-size:15px}
+  .pct{font-size:11px;color:var(--gray);margin-left:6px}
+  .sum-row.total .pct,.sum-row.available .pct,.sum-row.negative .pct{color:rgba(255,255,255,.65)}
+  .actions{display:flex;gap:10px;margin-top:1rem}
+  .btn{flex:1;padding:.75rem;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:7px;transition:opacity .2s}
+  .btn:hover{opacity:.85}
+  .btn-gold{background:var(--gold);color:var(--black)}
+  .btn-dark{background:var(--black);color:var(--white)}
+  .email-form{display:none;margin-top:.9rem;background:var(--white);border:1px solid var(--border);border-radius:8px;padding:.9rem 1.1rem}
+  .email-form.show{display:block}
+  .email-form input{width:100%;border:1px solid #DDD;border-radius:4px;padding:7px 10px;font-size:13px;margin-bottom:.5rem;color:var(--black)}
+  .email-form .send-btn{width:100%;background:var(--gold);border:none;color:var(--black);padding:8px;border-radius:4px;cursor:pointer;font-size:13px;font-weight:700}
+  .note{font-size:10px;color:var(--gray);margin-top:.5rem;text-align:center}
+  .footer{background:var(--black);padding:.6rem 1.8rem;text-align:center;font-size:10px;color:#555;letter-spacing:.5px}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <div class="logo-area">
+      <img src="assets/Logo.JPG" alt="Bethel Financial Group" onerror="this.style.display='none'"/>
+    </div>
+    <button class="lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
+  </div>
+  <div class="subtitle-bar" id="subtitleBar">Control de Gastos Personales</div>
+  <div class="body">
+    <div class="income-row">
+      <label id="incomeLabel">Ingreso mensual:</label>
+      <span class="dollar">$</span>
+      <input type="number" id="income" value="" placeholder="0.00" min="0" step="100" oninput="calc()"/>
+    </div>
+    <div class="cols">
+      <div class="col-fixed">
+        <div class="col-head"><span id="fixedTitle">Gastos Fijos</span></div>
+        <div class="expense-list" id="fixedList"></div>
+        <div class="add-row">
+          <input type="text" id="fixedNew" placeholder="Agregar gasto fijo..."/>
+          <button onclick="addRow('fixed')" id="addFixedBtn">+ Agregar</button>
+        </div>
+      </div>
+      <div class="col-variable">
+        <div class="col-head"><span id="varTitle">Gastos Variables</span></div>
+        <div class="expense-list" id="varList"></div>
+        <div class="add-row">
+          <input type="text" id="varNew" placeholder="Agregar gasto variable..."/>
+          <button onclick="addRow('variable')" id="addVarBtn">+ Agregar</button>
+        </div>
+      </div>
+    </div>
+    <div class="summary">
+      <div class="sum-row"><span id="lbl1">Total Gastos Fijos</span><span><span class="sum-val" id="totalFixed">$0.00</span><span class="pct" id="pctFixed"></span></span></div>
+      <div class="sum-row"><span id="lbl2">Total Gastos Variables</span><span><span class="sum-val" id="totalVar">$0.00</span><span class="pct" id="pctVar"></span></span></div>
+      <div class="sum-row total"><span id="lbl3">Total Gastos</span><span><span class="sum-val" id="totalAll">$0.00</span><span class="pct" id="pctTotal"></span></span></div>
+      <div class="sum-row available" id="availRow"><span id="lbl4">Dinero Disponible</span><span class="sum-val" id="available">$0.00</span></div>
+    </div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="downloadPDF()"><span id="pdfBtn">⬇ Descargar PDF</span></button>
+      <button class="btn btn-dark" onclick="toggleEmail()"><span id="emailBtn">✉ Enviar por Email</span></button>
+    </div>
+    <div class="email-form" id="emailForm">
+      <input type="email" id="emailInput" placeholder="correo@ejemplo.com"/>
+      <button class="send-btn" onclick="sendEmail()" id="sendBtn">Enviar Resumen</button>
+      <p class="note" id="emailNote">Se enviará un resumen de tus gastos a este correo.</p>
+    </div>
+  </div>
+  <div class="footer">BETHEL FINANCIAL GROUP &nbsp;|&nbsp; bethelfinancialgroup.com</div>
+</div>
+<script>
+const T={es:{subtitle:'Control de Gastos Personales',incomeLabel:'Ingreso mensual:',fixedTitle:'Gastos Fijos',varTitle:'Gastos Variables',lbl1:'Total Gastos Fijos',lbl2:'Total Gastos Variables',lbl3:'Total Gastos',lbl4:'Dinero Disponible',pdfBtn:'⬇ Descargar PDF',emailBtn:'✉ Enviar por Email',sendBtn:'Enviar Resumen',emailNote:'Se enviará un resumen de tus gastos a este correo.',addFixed:'+ Agregar',addVar:'+ Agregar',placeholderFixed:'Agregar gasto fijo...',placeholderVar:'Agregar gasto variable...',fixedItems:['Renta / Hipoteca','Electricidad','Agua','Gas','Internet','Teléfono celular','Seguro de salud','Seguro de auto','Seguro de vida','Pago de auto','Pago de préstamo','Guardería / Escuela','Ahorro / Inversión'],varItems:['Supermercado / Comida','Restaurantes / Comida fuera','Gasolina / Transporte','Entretenimiento','Ropa / Accesorios','Cuidado personal / Belleza','Médicos / Farmacia','Regalos / Donaciones','Viajes / Vacaciones','Compras en línea','Cafeterías / Snacks','Hogar / Limpieza','Niños / Actividades','Mascotas','Membresía gimnasio','Suscripciones (streaming, etc.)']},en:{subtitle:'Personal Expense Tracker',incomeLabel:'Monthly income:',fixedTitle:'Fixed Expenses',varTitle:'Variable Expenses',lbl1:'Total Fixed Expenses',lbl2:'Total Variable Expenses',lbl3:'Total Expenses',lbl4:'Available Balance',pdfBtn:'⬇ Download PDF',emailBtn:'✉ Send by Email',sendBtn:'Send Summary',emailNote:'A summary of your expenses will be sent to this email.',addFixed:'+ Add',addVar:'+ Add',placeholderFixed:'Add fixed expense...',placeholderVar:'Add variable expense...',fixedItems:['Rent / Mortgage','Electricity','Water','Gas','Internet','Cell phone','Health insurance','Car insurance','Life insurance','Car payment','Loan payment','Daycare / School','Savings / Investment'],varItems:['Groceries / Food','Restaurants / Dining out','Gas / Transportation','Entertainment','Clothing / Accessories','Personal care / Beauty','Medical / Pharmacy','Gifts / Donations','Travel / Vacations','Online shopping','Coffee shops / Snacks','Home / Cleaning','Kids / Activities','Pets','Gym membership','Subscriptions (streaming, etc.)']}};
+let lang='es',fixedData=[],varData=[];
+function initData(){fixedData=T[lang].fixedItems.map(n=>({name:n,val:0}));varData=T[lang].varItems.map(n=>({name:n,val:0}));}
+function fmt(n){const a=Math.abs(n);const s='$'+a.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});return n<0?'-'+s:s;}
+function renderList(data,id,type){const el=document.getElementById(id);el.innerHTML='';data.forEach((item,i)=>{const row=document.createElement('div');row.className='expense-row';row.innerHTML=`<label>${item.name}</label><input type="number" value="${item.val||''}" placeholder="0.00" min="0" step="10" oninput="updateVal('${type}',${i},this.value)"/>`;el.appendChild(row);});}
+function updateVal(type,i,v){(type==='fixed'?fixedData:varData)[i].val=parseFloat(v)||0;calc();}
+function addRow(type){const inp=document.getElementById(type==='fixed'?'fixedNew':'varNew');const name=inp.value.trim();if(!name)return;(type==='fixed'?fixedData:varData).push({name,val:0});inp.value='';renderList(type==='fixed'?fixedData:varData,type==='fixed'?'fixedList':'varList',type);calc();}
+function calc(){const income=parseFloat(document.getElementById('income').value)||0;const tf=fixedData.reduce((a,b)=>a+b.val,0);const tv=varData.reduce((a,b)=>a+b.val,0);const tt=tf+tv;const avail=income-tt;document.getElementById('totalFixed').textContent=fmt(tf);document.getElementById('totalVar').textContent=fmt(tv);document.getElementById('totalAll').textContent=fmt(tt);document.getElementById('available').textContent=fmt(avail);document.getElementById('pctFixed').textContent=income>0?`(${Math.round(tf/income*100)}%)`:'';document.getElementById('pctVar').textContent=income>0?`(${Math.round(tv/income*100)}%)`:'';document.getElementById('pctTotal').textContent=income>0?`(${Math.round(tt/income*100)}%)`:'';const ar=document.getElementById('availRow');ar.className='sum-row '+(avail<0?'negative':'available');}
+function toggleLang(){const fv=fixedData.map(d=>d.val);const vv=varData.map(d=>d.val);lang=lang==='es'?'en':'es';const t=T[lang];document.getElementById('langBtn').textContent=lang==='es'?'EN':'ES';document.getElementById('subtitleBar').textContent=t.subtitle;document.getElementById('incomeLabel').textContent=t.incomeLabel;document.getElementById('fixedTitle').textContent=t.fixedTitle;document.getElementById('varTitle').textContent=t.varTitle;document.getElementById('lbl1').textContent=t.lbl1;document.getElementById('lbl2').textContent=t.lbl2;document.getElementById('lbl3').textContent=t.lbl3;document.getElementById('lbl4').textContent=t.lbl4;document.getElementById('pdfBtn').textContent=t.pdfBtn;document.getElementById('emailBtn').textContent=t.emailBtn;document.getElementById('sendBtn').textContent=t.sendBtn;document.getElementById('emailNote').textContent=t.emailNote;document.getElementById('addFixedBtn').textContent=t.addFixed;document.getElementById('addVarBtn').textContent=t.addVar;document.getElementById('fixedNew').placeholder=t.placeholderFixed;document.getElementById('varNew').placeholder=t.placeholderVar;initData();fixedData.forEach((d,i)=>{if(i<fv.length)d.val=fv[i];});varData.forEach((d,i)=>{if(i<vv.length)d.val=vv[i];});renderList(fixedData,'fixedList','fixed');renderList(varData,'varList','variable');calc();}
+function toggleEmail(){document.getElementById('emailForm').classList.toggle('show');}
+function sendEmail(){const email=document.getElementById('emailInput').value.trim();if(!email)return;const income=parseFloat(document.getElementById('income').value)||0;const tf=fixedData.reduce((a,b)=>a+b.val,0);const tv=varData.reduce((a,b)=>a+b.val,0);const avail=income-tf-tv;let body=`BETHEL FINANCIAL GROUP\n${T[lang].subtitle}\n${'─'.repeat(38)}\n\n${T[lang].incomeLabel} ${fmt(income)}\n\n${T[lang].fixedTitle}:\n`;fixedData.filter(d=>d.val>0).forEach(d=>{body+=`  • ${d.name}: ${fmt(d.val)}\n`;});body+=`${T[lang].lbl1}: ${fmt(tf)}\n\n${T[lang].varTitle}:\n`;varData.filter(d=>d.val>0).forEach(d=>{body+=`  • ${d.name}: ${fmt(d.val)}\n`;});body+=`${T[lang].lbl2}: ${fmt(tv)}\n\n${'─'.repeat(38)}\n${T[lang].lbl3}: ${fmt(tf+tv)}\n${T[lang].lbl4}: ${fmt(avail)}`;window.location.href=`mailto:${email}?subject=${encodeURIComponent('Bethel Financial Group — '+T[lang].subtitle)}&body=${encodeURIComponent(body)}`;}
+function downloadPDF(){if(!window.jspdf){alert('Cargando, intenta de nuevo.');return;}const{jsPDF}=window.jspdf;const doc=new jsPDF();const income=parseFloat(document.getElementById('income').value)||0;const tf=fixedData.reduce((a,b)=>a+b.val,0);const tv=varData.reduce((a,b)=>a+b.val,0);const avail=income-tf-tv;doc.setFillColor(26,26,26);doc.rect(0,0,210,32,'F');doc.setTextColor(201,168,76);doc.setFontSize(22);doc.setFont('helvetica','bold');doc.text('BETHEL FINANCIAL GROUP',105,14,{align:'center'});doc.setFontSize(11);doc.setFont('helvetica','normal');doc.text(T[lang].subtitle,105,24,{align:'center'});doc.setTextColor(26,26,26);let y=42;doc.setFontSize(13);doc.setFont('helvetica','bold');doc.text(T[lang].incomeLabel,14,y);doc.text(fmt(income),196,y,{align:'right'});y+=8;doc.setFillColor(201,168,76);doc.rect(14,y,182,.6,'F');y+=7;doc.setFontSize(12);doc.text(T[lang].fixedTitle,14,y);y+=6;doc.setFont('helvetica','normal');doc.setFontSize(10);fixedData.filter(d=>d.val>0).forEach(d=>{if(y>270){doc.addPage();y=20;}doc.text(d.name,20,y);doc.text(fmt(d.val),196,y,{align:'right'});y+=5.5;});doc.setFont('helvetica','bold');doc.setFontSize(11);doc.text(T[lang].lbl1+':',14,y);doc.text(fmt(tf),196,y,{align:'right'});y+=10;doc.setFillColor(201,168,76);doc.rect(14,y,182,.6,'F');y+=7;doc.setFontSize(12);doc.text(T[lang].varTitle,14,y);y+=6;doc.setFont('helvetica','normal');doc.setFontSize(10);varData.filter(d=>d.val>0).forEach(d=>{if(y>270){doc.addPage();y=20;}doc.text(d.name,20,y);doc.text(fmt(d.val),196,y,{align:'right'});y+=5.5;});doc.setFont('helvetica','bold');doc.setFontSize(11);doc.text(T[lang].lbl2+':',14,y);doc.text(fmt(tv),196,y,{align:'right'});y+=12;doc.setFillColor(26,26,26);doc.rect(14,y,182,11,'F');doc.setTextColor(255,255,255);doc.setFontSize(12);doc.text(T[lang].lbl3+':',18,y+8);doc.text(fmt(tf+tv),192,y+8,{align:'right'});y+=15;if(avail>=0){doc.setFillColor(30,107,60);}else{doc.setFillColor(192,57,43);}doc.rect(14,y,182,13,'F');doc.setFontSize(13);doc.text(T[lang].lbl4+':',18,y+9.5);doc.text(fmt(avail),192,y+9.5,{align:'right'});doc.setTextColor(150,150,150);doc.setFontSize(8);doc.setFont('helvetica','normal');doc.text('Bethel Financial Group — bethelfinancialgroup.com',105,290,{align:'center'});doc.save('Bethel_Control_Gastos.pdf');}
+initData();renderList(fixedData,'fixedList','fixed');renderList(varData,'varList','variable');calc();
+</script>
+</body>
+</html>
