@@ -317,8 +317,8 @@ async function doLogin() {
   btn.disabled = true; btn.textContent = 'Signing in...';
   try {
     var data = await apiCall('POST', '/api/login', { email: email, password: pw });
-    if (data.isAdmin) { err.textContent = 'Use the instructor dashboard for admin access.'; err.style.display = 'block'; return; }
-    if (!data.licensed) { err.textContent = 'Portal access is restricted to licensed agents. Contact your instructor.'; err.style.display = 'block'; return; }
+    if (data.isAdmin) { err.textContent = 'Use the admin dashboard for admin access.'; err.style.display = 'block'; return; }
+    if (!data.licensed) { err.textContent = 'Portal access is restricted to licensed agents. Contact your admin.'; err.style.display = 'block'; return; }
     token = data.token;
     localStorage.setItem('bethel_portal_token', token);
     currentUser = data;
