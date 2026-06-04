@@ -433,7 +433,9 @@ function renderResources(resources, cat) {
       + '<div class="resource-name">' + escHtml(r.name) + '</div>'
       + (r.description ? '<div class="resource-desc">' + escHtml(r.description) + '</div>' : '')
       + '<div class="resource-meta">' + fmtSize(r.size) + (r.uploadedAt ? ' · ' + fmt(r.uploadedAt) : '') + '</div>'
-      + '<a href="' + escHtml(r.url) + '" target="_blank" download class="download-btn">⬇ Download</a>'
+      + (r.url.includes('vercel-storage') || r.url.includes('blob.')
+          ? '<a href="' + escHtml(r.url) + '" target="_blank" download class="download-btn">⬇ Download</a>'
+          : '<a href="' + escHtml(r.url) + '" target="_blank" class="download-btn">↗ Open</a>')
       + '</div>';
   }).join('');
 }
