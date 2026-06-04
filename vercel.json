@@ -1,12 +1,4 @@
 {
-  "version": 2,
-  "builds": [
-    { "src": "**/*", "use": "@vercel/static" }
-  ],
-  "routes": [
-    { "src": "/portal(.*)", "dest": "/portal.html" },
-    { "src": "/gastos", "dest": "/gastos.html" },
-    { "src": "/expenses", "dest": "/gastos.html" },
-    { "src": "/(.*)", "dest": "/$1" }
-  ]
+  "cleanUrls": true,
+  "trailingSlash": false
 }
