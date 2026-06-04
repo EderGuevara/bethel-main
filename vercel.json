@@ -5,6 +5,8 @@
   ],
   "routes": [
     { "src": "/portal(.*)", "dest": "/portal.html" },
+    { "src": "/gastos(.*)", "dest": "/gastos.html" },
+    { "src": "/expenses(.*)", "dest": "/gastos.html" },
     { "src": "/(.*)", "dest": "/$1" }
   ]
 }
