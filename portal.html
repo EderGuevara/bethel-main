@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Agent Portal | Bethel Financial Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'Inter',sans-serif;background:#F4F6F9;color:#111827}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+
+/* AUTH */
+.auth-wrap{position:fixed;inset:0;background:linear-gradient(135deg,#0F172A 0%,#1e293b 60%,#0F172A 100%);display:flex;align-items:center;justify-content:center;padding:1rem;z-index:999}
+.auth-box{background:#fff;border-radius:24px;padding:2.5rem 2rem;width:100%;max-width:400px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.auth-logo{text-align:center;margin-bottom:1.5rem}
+.auth-logo img{height:52px;margin:0 auto}
+.auth-logo-text{font-family:'Playfair Display',serif;font-size:1.1rem;color:#C9A227;font-weight:700}
+.auth-title{font-size:1.25rem;font-weight:800;color:#111827;text-align:center;margin-bottom:.25rem;letter-spacing:-.02em}
+.auth-sub{font-size:.83rem;color:#9CA3AF;text-align:center;margin-bottom:1.75rem}
+.auth-field{margin-bottom:1rem}
+.auth-field label{display:block;font-size:.72rem;font-weight:700;color:#6B7280;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem}
+.auth-field input{width:100%;border:1.5px solid #E5E7EB;border-radius:10px;padding:11px 14px;font-size:.95rem;font-family:'Inter',sans-serif;outline:none;transition:border .2s,box-shadow .2s;color:#111827}
+.auth-field input:focus{border-color:#C9A227;box-shadow:0 0 0 3px rgba(201,162,39,.12)}
+.auth-btn{width:100%;background:linear-gradient(135deg,#DDB84A,#8B6914);color:#fff;border:none;border-radius:10px;padding:13px;font-size:1rem;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(183,146,74,.3)}
+.auth-btn:hover{box-shadow:0 6px 20px rgba(183,146,74,.4);transform:translateY(-1px)}
+.auth-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.auth-err{background:#FEF2F2;border:1px solid #FCA5A5;border-radius:8px;padding:.65rem 1rem;font-size:.83rem;color:#991B1B;margin-bottom:.9rem;display:none}
+
+/* LAYOUT */
+.app{display:none;height:100vh;overflow:hidden;flex-direction:row}
+.app.visible{display:flex}
+
+/* SIDEBAR */
+.sidebar{width:260px;background:#0F172A;display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+.sidebar-logo{padding:1.5rem 1.25rem 1rem;border-bottom:1px solid rgba(255,255,255,.06)}
+.sidebar-logo img{height:40px;width:auto;object-fit:contain}
+.sidebar-logo-text{font-family:'Playfair Display',serif;color:#C9A227;font-size:1rem;font-weight:700}
+.sidebar-user{padding:.9rem 1.25rem;border-bottom:1px solid rgba(255,255,255,.06)}
+.sidebar-user-name{font-size:.88rem;font-weight:600;color:#F1F5F9}
+.sidebar-user-role{font-size:.72rem;color:#64748B;margin-top:2px}
+.nav-section{padding:.75rem 1rem .25rem;font-size:.65rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.1em}
+.nav-item{display:flex;align-items:center;gap:.75rem;padding:.7rem 1.25rem;color:#94A3B8;font-size:.88rem;font-weight:500;cursor:pointer;transition:all .15s;border-left:3px solid transparent}
+.nav-item:hover{color:#F1F5F9;background:rgba(255,255,255,.04)}
+.nav-item.active{color:#C9A227;background:rgba(201,162,39,.08);border-left-color:#C9A227}
+.nav-icon{font-size:1rem;width:20px;text-align:center;flex-shrink:0}
+.sidebar-footer{margin-top:auto;padding:1rem 1.25rem;border-top:1px solid rgba(255,255,255,.06)}
+.sign-out-btn{width:100%;background:none;border:1px solid #334155;color:#64748B;border-radius:8px;padding:8px;cursor:pointer;font-size:.78rem;font-family:'Inter',sans-serif;transition:all .15s;font-weight:500}
+.sign-out-btn:hover{border-color:#C9A227;color:#C9A227}
+
+/* MAIN */
+.main{flex:1;overflow-y:auto;display:flex;flex-direction:column;min-width:0}
+.top-bar{background:#fff;border-bottom:1px solid #E5E7EB;padding:.75rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.top-bar-title{font-size:1.1rem;font-weight:700;color:#111827}
+.top-bar-right{display:flex;align-items:center;gap:12px}
+.content{padding:2rem;flex:1}
+
+/* CARDS */
+.card{background:#fff;border-radius:16px;border:1px solid #E5E7EB;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.card-title{font-size:.95rem;font-weight:700;color:#111827;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+
+/* DASHBOARD */
+.welcome-card{background:linear-gradient(135deg,#0F172A,#1e3a5f);border-radius:16px;padding:1.75rem;margin-bottom:1.5rem;color:#fff}
+.welcome-name{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;margin-bottom:.25rem}
+.welcome-sub{color:rgba(255,255,255,.55);font-size:.88rem}
+.quick-stat{background:rgba(255,255,255,.08);border-radius:12px;padding:1rem 1.25rem}
+.quick-stat-n{font-size:1.8rem;font-weight:800;color:#C9A227;letter-spacing:-.02em;line-height:1}
+.quick-stat-l{font-size:.7rem;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.06em;margin-top:.35rem;font-weight:600}
+.progress-bar-bg{background:rgba(255,255,255,.1);border-radius:100px;height:6px;overflow:hidden;margin:.5rem 0 .2rem}
+.progress-bar-fill{height:100%;background:linear-gradient(to right,#DDB84A,#8B6914);border-radius:100px}
+.quick-link{display:flex;align-items:center;gap:.75rem;padding:.85rem 1rem;border:1.5px solid #E5E7EB;border-radius:12px;cursor:pointer;transition:all .15s;font-size:.88rem;font-weight:500;color:#374151;background:#fff}
+.quick-link:hover{border-color:#C9A227;color:#C9A227;background:#FFFBF0}
+.quick-link-icon{font-size:1.2rem}
+
+/* ANNOUNCEMENTS */
+.announcement-item{padding:1rem;border:1px solid #E5E7EB;border-radius:12px;margin-bottom:.75rem;position:relative}
+.announcement-item.pinned{border-color:#C9A227;background:#FFFBF0}
+.announcement-pin{font-size:.65rem;font-weight:700;color:#A07B18;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.25rem}
+.announcement-title{font-size:.95rem;font-weight:700;color:#111827;margin-bottom:.35rem}
+.announcement-body{font-size:.85rem;color:#6B7280;line-height:1.6}
+.announcement-date{font-size:.72rem;color:#9CA3AF;margin-top:.5rem}
+
+/* RESOURCES */
+.cat-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem}
+.cat-tab{padding:5px 16px;border-radius:20px;border:1.5px solid #E5E7EB;background:#fff;color:#6B7280;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif}
+.cat-tab.active{border-color:#C9A227;background:#FFFBF0;color:#A07B18}
+.resource-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem}
+.resource-card{background:#fff;border:1px solid #E5E7EB;border-radius:14px;padding:1.25rem;transition:all .2s;cursor:pointer}
+.resource-card:hover{border-color:#C9A227;box-shadow:0 4px 20px rgba(0,0,0,.08);transform:translateY(-2px)}
+.resource-icon{font-size:2rem;margin-bottom:.75rem}
+.resource-name{font-size:.9rem;font-weight:700;color:#111827;margin-bottom:.25rem;word-break:break-word}
+.resource-desc{font-size:.78rem;color:#9CA3AF;margin-bottom:.75rem;line-height:1.5}
+.resource-meta{font-size:.7rem;color:#CBD5E1;margin-bottom:.6rem}
+.download-btn{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#DDB84A,#8B6914);color:#fff;border:none;border-radius:8px;padding:7px 14px;font-size:.78rem;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;transition:all .15s;text-decoration:none}
+.download-btn:hover{opacity:.9}
+.empty-state{text-align:center;padding:3rem;color:#9CA3AF}
+.empty-icon{font-size:2.5rem;margin-bottom:.75rem}
+
+/* COURSE SECTION */
+.course-card{background:linear-gradient(135deg,#0F172A,#1e3a5f);border-radius:16px;padding:2rem;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:2rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.course-info h3{font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:.5rem;color:#fff}
+.course-info p{color:rgba(255,255,255,.6);font-size:.88rem;line-height:1.6;max-width:400px}
+.course-btn{background:linear-gradient(135deg,#DDB84A,#8B6914);color:#fff;border:none;border-radius:12px;padding:14px 28px;font-size:.95rem;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;white-space:nowrap;transition:all .2s;text-decoration:none;display:inline-block}
+.course-btn:hover{box-shadow:0 6px 20px rgba(139,105,20,.5);transform:translateY(-1px)}
+
+/* MESSAGES */
+.msg-preview{display:flex;gap:.75rem;align-items:flex-start;padding:.9rem 0;border-bottom:1px solid #F3F4F6}
+.msg-dot{width:8px;height:8px;border-radius:50%;background:#C9A227;flex-shrink:0;margin-top:.3rem}
+.msg-dot.read{background:#E5E7EB}
+.msg-text-wrap .msg-text{font-size:.88rem;color:#374151;line-height:1.5}
+.msg-time{font-size:.72rem;color:#9CA3AF;margin-top:.2rem}
+.open-messages-btn{display:inline-flex;align-items:center;gap:8px;background:#0F172A;color:#C9A227;border:none;border-radius:10px;padding:12px 24px;font-size:.88rem;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;transition:all .15s;margin-top:1rem}
+.open-messages-btn:hover{background:#1e293b}
+
+/* BADGE */
+.badge-gold{background:#FFFBF0;color:#A07B18;border:1px solid #E8D5A3;border-radius:20px;padding:3px 10px;font-size:.72rem;font-weight:700}
+.badge-new{background:#F3F4F6;color:#9CA3AF;border:1px solid #E5E7EB;border-radius:20px;padding:3px 10px;font-size:.72rem;font-weight:700}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;right:2rem;background:#0F172A;color:#F1F5F9;padding:.8rem 1.3rem;border-radius:12px;font-size:.85rem;font-weight:600;z-index:9999;opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none;box-shadow:0 4px 20px rgba(0,0,0,.3);border-left:3px solid #C9A227}
+.toast.show{opacity:1;transform:none}
+
+/* MOBILE */
+.mobile-toggle{display:none;background:none;border:none;color:#111827;font-size:1.4rem;cursor:pointer;padding:4px}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:50}
+@media(max-width:768px){
+  .sidebar{position:fixed;left:-260px;top:0;bottom:0;z-index:100;transition:left .3s}
+  .sidebar.open{left:0}
+  .sidebar-overlay.open{display:block}
+  .mobile-toggle{display:block}
+  .grid-2,.grid-3{grid-template-columns:1fr}
+  .content{padding:1.25rem}
+  .course-card{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<!-- AUTH -->
+<div class="auth-wrap" id="authWrap">
+  <div class="auth-box">
+    <div class="auth-logo">
+      <img src="assets/Logo.JPG" alt="Bethel Financial Group" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <div class="auth-logo-text" style="display:none">Bethel Financial Group</div>
+    </div>
+    <div class="auth-title">Agent Portal</div>
+    <div class="auth-sub">Sign in with your agent credentials</div>
+    <div class="auth-err" id="authErr"></div>
+    <div class="auth-field"><label>Email</label><input type="email" id="loginEmail" autocomplete="email" placeholder="your@email.com"></div>
+    <div class="auth-field"><label>Password</label><input type="password" id="loginPw" autocomplete="current-password" placeholder="Password"></div>
+    <button class="auth-btn" id="loginBtn" onclick="doLogin()">Sign In</button>
+  </div>
+</div>
+
+<!-- APP SHELL -->
+<div class="app" id="appShell">
+
+  <!-- SIDEBAR OVERLAY (mobile) -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <img src="assets/Logo.JPG" alt="Bethel Financial Group" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <div class="sidebar-logo-text" style="display:none">Bethel Financial Group</div>
+    </div>
+    <div class="sidebar-user">
+      <div class="sidebar-user-name" id="sidebarName">Agent</div>
+      <div class="sidebar-user-role">Agent Portal</div>
+    </div>
+    <div class="nav-section">Menu</div>
+    <div class="nav-item active" onclick="showSection('dashboard')" id="nav-dashboard"><span class="nav-icon">🏠</span>Dashboard</div>
+    <div class="nav-item" onclick="showSection('course')" id="nav-course"><span class="nav-icon">📚</span>Course</div>
+    <div class="nav-item" onclick="showSection('resources')" id="nav-resources"><span class="nav-icon">📁</span>Resources</div>
+    <div class="nav-item" onclick="showSection('announcements')" id="nav-announcements"><span class="nav-icon">📢</span>Announcements <span id="announceBadge" style="display:none;margin-left:auto;background:#C9A227;color:#fff;font-size:.6rem;font-weight:700;border-radius:10px;padding:1px 6px">New</span></div>
+    <div class="nav-item" onclick="showSection('messages')" id="nav-messages"><span class="nav-icon">💬</span>Messages <span id="msgBadge" style="display:none;margin-left:auto;background:#EF4444;color:#fff;font-size:.6rem;font-weight:700;border-radius:10px;padding:1px 6px">0</span></div>
+    <div class="sidebar-footer">
+      <button class="sign-out-btn" onclick="doLogout()">Sign Out</button>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="top-bar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="mobile-toggle" onclick="openSidebar()">☰</button>
+        <div class="top-bar-title" id="topBarTitle">Dashboard</div>
+      </div>
+      <div class="top-bar-right">
+        <span style="font-size:.82rem;color:#6B7280" id="topBarName"></span>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- DASHBOARD SECTION -->
+      <div id="sec-dashboard">
+        <div class="welcome-card" id="welcomeCard">
+          <div>
+            <div class="welcome-name" id="welcomeName">Welcome back!</div>
+            <div class="welcome-sub">Here's your portal overview</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-top:1.25rem" id="quickStats"></div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div>
+            <div class="card">
+              <div class="card-title">⚡ Quick Access</div>
+              <div style="display:flex;flex-direction:column;gap:.5rem">
+                <div class="quick-link" onclick="showSection('course')"><span class="quick-link-icon">📚</span>Open Study Course</div>
+                <div class="quick-link" onclick="showSection('resources')"><span class="quick-link-icon">📁</span>Browse Resources</div>
+                <div class="quick-link" onclick="showSection('messages')"><span class="quick-link-icon">💬</span>Messages</div>
+                <div class="quick-link" onclick="showSection('announcements')"><span class="quick-link-icon">📢</span>Announcements</div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="card">
+              <div class="card-title">📢 Latest Announcements</div>
+              <div id="dashAnnouncements"><div class="empty-state" style="padding:1rem"><div>No announcements yet</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COURSE SECTION -->
+      <div id="sec-course" style="display:none">
+        <div class="course-card">
+          <div class="course-info">
+            <h3>Life Insurance Exam Prep</h3>
+            <p>Access your bilingual study platform — 12 chapters, AI-powered questions, final exams, and progress tracking. Everything you need to pass your Prometric exam.</p>
+          </div>
+          <a href="https://liep-platform.vercel.app" target="_blank" class="course-btn">Open Course →</a>
+        </div>
+        <div class="card" id="courseProgress">
+          <div class="card-title">📊 Your Progress</div>
+          <div id="courseProgressContent"><div class="empty-state"><div>Loading...</div></div></div>
+        </div>
+      </div>
+
+      <!-- RESOURCES SECTION -->
+      <div id="sec-resources" style="display:none">
+        <div class="cat-tabs" id="catTabs">
+          <button class="cat-tab active" onclick="filterResources('All')">All</button>
+          <button class="cat-tab" onclick="filterResources('Documents')">📄 Documents</button>
+          <button class="cat-tab" onclick="filterResources('Forms')">📝 Forms</button>
+          <button class="cat-tab" onclick="filterResources('Presentations')">📊 Presentations</button>
+          <button class="cat-tab" onclick="filterResources('Training')">🎓 Training</button>
+          <button class="cat-tab" onclick="filterResources('Other')">📦 Other</button>
+        </div>
+        <div class="resource-grid" id="resourceGrid">
+          <div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">📁</div><div>No resources yet</div></div>
+        </div>
+      </div>
+
+      <!-- ANNOUNCEMENTS SECTION -->
+      <div id="sec-announcements" style="display:none">
+        <div class="card">
+          <div class="card-title">📢 All Announcements</div>
+          <div id="announcementsList"><div class="empty-state"><div class="empty-icon">📢</div><div>No announcements yet</div></div></div>
+        </div>
+      </div>
+
+      <!-- MESSAGES SECTION -->
+      <div id="sec-messages" style="display:none">
+        <div class="card">
+          <div class="card-title">💬 Messages from Instructor</div>
+          <div id="messagesList"></div>
+          <a href="https://liep-platform.vercel.app" target="_blank" class="open-messages-btn">💬 Open Full Messaging in Course →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+var API = 'https://liep-platform.vercel.app';
+var token = localStorage.getItem('bethel_portal_token') || '';
+var currentUser = null;
+var allResources = [];
+var allAnnouncements = [];
+var currentSection = 'dashboard';
+
+// ── UTILS ──────────────────────────────────────────────────────────────────
+function escHtml(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmt(iso) {
+  if (!iso) return '';
+  var d = new Date(iso);
+  return d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+}
+function fmtSize(bytes) {
+  if (!bytes) return '';
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1024*1024) return Math.round(bytes/1024) + ' KB';
+  return (bytes/(1024*1024)).toFixed(1) + ' MB';
+}
+function fileIcon(mimetype) {
+  if (!mimetype) return '📄';
+  if (mimetype.includes('pdf')) return '📕';
+  if (mimetype.includes('word') || mimetype.includes('document')) return '📘';
+  if (mimetype.includes('sheet') || mimetype.includes('excel') || mimetype.includes('csv')) return '📗';
+  if (mimetype.includes('presentation') || mimetype.includes('powerpoint')) return '📊';
+  if (mimetype.includes('image')) return '🖼️';
+  if (mimetype.includes('video')) return '🎬';
+  if (mimetype.includes('zip') || mimetype.includes('compressed')) return '📦';
+  return '📄';
+}
+function toast(msg, ok) {
+  var t = document.getElementById('toast');
+  t.textContent = (ok !== false ? '✓ ' : '⚠ ') + msg;
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 3000);
+}
+
+async function apiCall(method, path, body) {
+  var opts = { method: method, headers: { 'Content-Type': 'application/json' } };
+  if (token) opts.headers['Authorization'] = 'Bearer ' + token;
+  if (body) opts.body = JSON.stringify(body);
+  var r = await fetch(API + path, opts);
+  var data = await r.json();
+  if (!r.ok) throw new Error(data.error || 'Request failed');
+  return data;
+}
+
+// ── AUTH ──────────────────────────────────────────────────────────────────
+async function doLogin() {
+  var email = document.getElementById('loginEmail').value.trim().toLowerCase();
+  var pw    = document.getElementById('loginPw').value;
+  var err   = document.getElementById('authErr');
+  err.style.display = 'none';
+  if (!email || !pw) { err.textContent = 'Please enter your email and password.'; err.style.display = 'block'; return; }
+  var btn = document.getElementById('loginBtn');
+  btn.disabled = true; btn.textContent = 'Signing in...';
+  try {
+    var data = await apiCall('POST', '/api/login', { email: email, password: pw });
+    if (data.isAdmin) { err.textContent = 'Use the instructor dashboard for admin access.'; err.style.display = 'block'; return; }
+    token = data.token;
+    localStorage.setItem('bethel_portal_token', token);
+    currentUser = data;
+    enterPortal(data);
+  } catch(e) {
+    err.textContent = e.message; err.style.display = 'block';
+  } finally { btn.disabled = false; btn.textContent = 'Sign In'; }
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && document.getElementById('authWrap').style.display !== 'none') doLogin();
+});
+
+function doLogout() {
+  token = ''; localStorage.removeItem('bethel_portal_token');
+  currentUser = null;
+  document.getElementById('appShell').classList.remove('visible');
+  document.getElementById('authWrap').style.display = 'flex';
+}
+
+function enterPortal(user) {
+  currentUser = user;
+  document.getElementById('authWrap').style.display = 'none';
+  document.getElementById('appShell').classList.add('visible');
+  document.getElementById('sidebarName').textContent = user.name;
+  document.getElementById('topBarName').textContent = user.name;
+  loadAll();
+}
+
+// ── NAVIGATION ──────────────────────────────────────────────────────────────
+var sectionTitles = { dashboard:'Dashboard', course:'Course', resources:'Resources', announcements:'Announcements', messages:'Messages' };
+
+function showSection(id) {
+  document.querySelectorAll('[id^="sec-"]').forEach(function(el) { el.style.display = 'none'; });
+  document.querySelectorAll('.nav-item').forEach(function(el) { el.classList.remove('active'); });
+  document.getElementById('sec-' + id).style.display = 'block';
+  document.getElementById('nav-' + id).classList.add('active');
+  document.getElementById('topBarTitle').textContent = sectionTitles[id] || id;
+  currentSection = id;
+  closeSidebar();
+  if (id === 'course') renderCourseProgress();
+  if (id === 'messages') loadMessages();
+}
+
+function openSidebar() {
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sidebarOverlay').classList.add('open');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+}
+
+// ── DATA ──────────────────────────────────────────────────────────────────
+async function loadAll() {
+  try {
+    var [me, resources, announcements, msgs] = await Promise.all([
+      apiCall('GET', '/api/me'),
+      apiCall('GET', '/api/portal/resources'),
+      apiCall('GET', '/api/portal/announcements'),
+      apiCall('GET', '/api/messages'),
+    ]);
+    currentUser = Object.assign(currentUser, me);
+    allResources = resources;
+    allAnnouncements = announcements;
+
+    renderDashboard(me, announcements, msgs);
+    renderResources(allResources, 'All');
+    renderAnnouncements(announcements);
+
+    // Unread messages badge
+    var unread = msgs.filter(function(m) { return !m.read; }).length;
+    var badge = document.getElementById('msgBadge');
+    if (unread > 0) { badge.textContent = unread; badge.style.display = 'inline'; }
+    else { badge.style.display = 'none'; }
+  } catch(e) {
+    console.error('Load error:', e.message);
+  }
+}
+
+// ── DASHBOARD ──────────────────────────────────────────────────────────────
+function renderDashboard(me, announcements, msgs) {
+  var prog = me.progress || {};
+  var chPassed = [1,2,3,4,5,6,7,8,9,10,11,12].filter(function(i) { return prog[i] && prog[i].passed; }).length;
+  var readiness = computeReadiness(prog);
+  var pct = Math.round((chPassed / 12) * 100);
+  var rColor = readiness >= 80 ? '#059669' : (readiness >= 60 ? '#C9A227' : '#EF4444');
+  var unread = msgs.filter(function(m) { return !m.read; }).length;
+
+  document.getElementById('welcomeName').textContent = 'Welcome back, ' + (me.name.split(' ')[0]) + '!';
+
+  document.getElementById('quickStats').innerHTML =
+    '<div class="quick-stat"><div class="quick-stat-n">' + chPassed + '/12</div><div class="quick-stat-l">Chapters Passed</div></div>'
+    + '<div class="quick-stat"><div class="quick-stat-n" style="color:' + rColor + '">' + readiness + '%</div><div class="quick-stat-l">Readiness</div></div>'
+    + '<div class="quick-stat"><div class="quick-stat-n">' + unread + '</div><div class="quick-stat-l">Unread Messages</div></div>';
+
+  // Latest 3 announcements
+  var dashAnn = document.getElementById('dashAnnouncements');
+  if (!announcements.length) {
+    dashAnn.innerHTML = '<div style="color:#9CA3AF;font-size:.83rem;padding:.5rem 0">No announcements yet</div>';
+  } else {
+    dashAnn.innerHTML = announcements.slice(0, 3).map(function(a) {
+      return '<div style="padding:.6rem 0;border-bottom:1px solid #F3F4F6">'
+        + (a.pinned ? '<div style="font-size:.65rem;color:#A07B18;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.15rem">📌 Pinned</div>' : '')
+        + '<div style="font-size:.88rem;font-weight:700;color:#111827;margin-bottom:.2rem">' + escHtml(a.title) + '</div>'
+        + '<div style="font-size:.78rem;color:#6B7280">' + fmt(a.postedAt) + '</div>'
+        + '</div>';
+    }).join('') + (announcements.length > 3 ? '<div style="margin-top:.75rem"><button onclick="showSection(\'announcements\')" style="background:none;border:none;color:#C9A227;font-size:.82rem;font-weight:600;cursor:pointer;font-family:inherit">View all →</button></div>' : '');
+  }
+}
+
+function computeReadiness(prog) {
+  var scoreSum = 0, scoreCnt = 0, passedCh = 0;
+  for (var i = 1; i <= 12; i++) {
+    var c = prog[i];
+    if (c && c.bestScore !== undefined) { scoreSum += c.bestScore; scoreCnt++; }
+    if (c && c.passed) passedCh++;
+  }
+  var chScore = scoreCnt > 0 ? scoreSum / scoreCnt : 0;
+  var feScore = 0, feCnt = 0;
+  if (prog.fe1 && prog.fe1.score) { feScore += prog.fe1.score; feCnt++; }
+  if (prog.fe2 && prog.fe2.score) { feScore += prog.fe2.score; feCnt++; }
+  var feAvg = feCnt > 0 ? feScore / feCnt : chScore;
+  var r = feCnt > 0 ? (chScore * 0.6 + feAvg * 0.4) : chScore;
+  r = Math.max(0, r - (12 - passedCh) * 2.5);
+  return Math.round(r);
+}
+
+// ── COURSE ──────────────────────────────────────────────────────────────────
+function renderCourseProgress() {
+  if (!currentUser) return;
+  var prog = currentUser.progress || {};
+  var chPassed = [1,2,3,4,5,6,7,8,9,10,11,12].filter(function(i) { return prog[i] && prog[i].passed; }).length;
+  var readiness = computeReadiness(prog);
+  var pct = Math.round((chPassed / 12) * 100);
+  var rColor = readiness >= 80 ? '#059669' : (readiness >= 60 ? '#C9A227' : '#EF4444');
+
+  var chHtml = [1,2,3,4,5,6,7,8,9,10,11,12].map(function(i) {
+    var c = prog[i];
+    var passed = c && c.passed;
+    var score  = c && c.bestScore !== undefined ? c.bestScore + '%' : '--';
+    var color  = passed ? '#059669' : (c && c.attempts ? '#C9A227' : '#9CA3AF');
+    return '<div style="background:#F8FAFC;border:1px solid #E5E7EB;border-radius:10px;padding:.75rem;font-size:.82rem">'
+      + '<div style="font-weight:600;color:#374151;margin-bottom:.2rem">Ch ' + i + '</div>'
+      + '<div style="font-weight:700;color:' + color + '">' + (passed ? '✓ Passed' : score) + '</div>'
+      + '</div>';
+  }).join('');
+
+  document.getElementById('courseProgressContent').innerHTML =
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem">'
+    + '<div><div style="font-size:.72rem;color:#9CA3AF;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.2rem">Exam Readiness</div>'
+    + '<div style="font-size:2rem;font-weight:800;color:' + rColor + '">' + readiness + '%</div></div>'
+    + '<div style="font-size:.88rem;color:#6B7280">' + chPassed + ' of 12 chapters passed</div></div>'
+    + '<div style="background:#E5E7EB;border-radius:100px;height:8px;margin-bottom:1.25rem;overflow:hidden">'
+    + '<div style="width:' + pct + '%;height:100%;background:linear-gradient(to right,#DDB84A,#8B6914);border-radius:100px"></div></div>'
+    + '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px">' + chHtml + '</div>';
+}
+
+// ── RESOURCES ──────────────────────────────────────────────────────────────
+var currentCat = 'All';
+
+function filterResources(cat) {
+  currentCat = cat;
+  document.querySelectorAll('.cat-tab').forEach(function(el) { el.classList.remove('active'); });
+  event.target.classList.add('active');
+  renderResources(allResources, cat);
+}
+
+function renderResources(resources, cat) {
+  var filtered = cat === 'All' ? resources : resources.filter(function(r) { return r.category === cat; });
+  var grid = document.getElementById('resourceGrid');
+  if (!filtered.length) {
+    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">📁</div><div>No ' + (cat === 'All' ? '' : cat.toLowerCase() + ' ') + 'resources yet</div></div>';
+    return;
+  }
+  grid.innerHTML = filtered.map(function(r) {
+    return '<div class="resource-card">'
+      + '<div class="resource-icon">' + fileIcon(r.mimetype) + '</div>'
+      + '<div class="resource-name">' + escHtml(r.name) + '</div>'
+      + (r.description ? '<div class="resource-desc">' + escHtml(r.description) + '</div>' : '')
+      + '<div class="resource-meta">' + fmtSize(r.size) + (r.uploadedAt ? ' · ' + fmt(r.uploadedAt) : '') + '</div>'
+      + '<a href="' + escHtml(r.url) + '" target="_blank" download class="download-btn">⬇ Download</a>'
+      + '</div>';
+  }).join('');
+}
+
+// ── ANNOUNCEMENTS ──────────────────────────────────────────────────────────
+function renderAnnouncements(announcements) {
+  var el = document.getElementById('announcementsList');
+  if (!announcements.length) {
+    el.innerHTML = '<div class="empty-state"><div class="empty-icon">📢</div><div>No announcements yet</div></div>';
+    return;
+  }
+  el.innerHTML = announcements.map(function(a) {
+    return '<div class="announcement-item' + (a.pinned ? ' pinned' : '') + '">'
+      + (a.pinned ? '<div class="announcement-pin">📌 Pinned</div>' : '')
+      + '<div class="announcement-title">' + escHtml(a.title) + '</div>'
+      + '<div class="announcement-body">' + escHtml(a.body) + '</div>'
+      + '<div class="announcement-date">' + fmt(a.postedAt) + '</div>'
+      + '</div>';
+  }).join('');
+}
+
+// ── MESSAGES ──────────────────────────────────────────────────────────────
+async function loadMessages() {
+  try {
+    var msgs = await apiCall('GET', '/api/messages');
+    await apiCall('POST', '/api/messages/read', {});
+    document.getElementById('msgBadge').style.display = 'none';
+    var el = document.getElementById('messagesList');
+    if (!msgs.length) {
+      el.innerHTML = '<div class="empty-state"><div class="empty-icon">💬</div><div>No messages yet</div></div>';
+      return;
+    }
+    el.innerHTML = msgs.slice(0, 10).map(function(m) {
+      return '<div class="msg-preview">'
+        + '<div class="msg-dot' + (m.read ? ' read' : '') + '"></div>'
+        + '<div class="msg-text-wrap"><div class="msg-text">' + escHtml(m.text) + '</div>'
+        + '<div class="msg-time">' + fmt(m.sentAt) + '</div></div>'
+        + '</div>';
+    }).join('');
+  } catch(e) { console.error('Messages error:', e.message); }
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+(async function() {
+  if (token) {
+    try {
+      var data = await apiCall('GET', '/api/me');
+      if (data.isAdmin) { token = ''; localStorage.removeItem('bethel_portal_token'); }
+      else { currentUser = data; enterPortal(data); return; }
+    } catch(e) { token = ''; localStorage.removeItem('bethel_portal_token'); }
+  }
+  document.getElementById('authWrap').style.display = 'flex';
+})();
+</script>
+</body>
+</html>
