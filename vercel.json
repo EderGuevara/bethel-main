@@ -4,9 +4,8 @@
     { "src": "**/*.html", "use": "@vercel/static" },
     { "src": "assets/**", "use": "@vercel/static" }
   ],
-  "rewrites": [
-    { "source": "/gastos", "destination": "/gastos.html" },
-    { "source": "/expenses", "destination": "/gastos.html" },
-    { "source": "/portal", "destination": "/portal.html" }
+  "routes": [
+    { "src": "/portal(.*)", "dest": "/portal.html" },
+    { "src": "/(.*)", "dest": "/$1" }
   ]
 }
