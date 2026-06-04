@@ -175,10 +175,10 @@ img{max-width:100%;display:block}
     </div>
     <div class="nav-section">Menu</div>
     <div class="nav-item active" onclick="showSection('dashboard')" id="nav-dashboard"><span class="nav-icon">🏠</span>Dashboard</div>
-    <div class="nav-item" onclick="showSection('course')" id="nav-course"><span class="nav-icon">📚</span>Course</div>
     <div class="nav-item" onclick="showSection('resources')" id="nav-resources"><span class="nav-icon">📁</span>Resources</div>
-    <div class="nav-item" onclick="showSection('announcements')" id="nav-announcements"><span class="nav-icon">📢</span>Announcements <span id="announceBadge" style="display:none;margin-left:auto;background:#C9A227;color:#fff;font-size:.6rem;font-weight:700;border-radius:10px;padding:1px 6px">New</span></div>
-    <div class="nav-item" onclick="showSection('messages')" id="nav-messages"><span class="nav-icon">💬</span>Messages <span id="msgBadge" style="display:none;margin-left:auto;background:#EF4444;color:#fff;font-size:.6rem;font-weight:700;border-radius:10px;padding:1px 6px">0</span></div>
+    <div class="nav-item" onclick="showSection('announcements')" id="nav-announcements"><span class="nav-icon">📢</span>Announcements</div>
+    <div class="nav-section">External</div>
+    <div class="nav-item" onclick="window.open('https://exam.bethelfinancialgroup.com','_blank')"><span class="nav-icon">📚</span>Study Course ↗</div>
     <div class="sidebar-footer">
       <button class="sign-out-btn" onclick="doLogout()">Sign Out</button>
     </div>
@@ -203,8 +203,7 @@ img{max-width:100%;display:block}
         <div class="welcome-card" id="welcomeCard">
           <div>
             <div class="welcome-name" id="welcomeName">Welcome back!</div>
-            <div class="welcome-sub">Here's your portal overview</div>
-            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-top:1.25rem" id="quickStats"></div>
+            <div class="welcome-sub" id="welcomeSub">Your agent resource hub</div>
           </div>
         </div>
         <div class="grid-2">
@@ -212,10 +211,9 @@ img{max-width:100%;display:block}
             <div class="card">
               <div class="card-title">⚡ Quick Access</div>
               <div style="display:flex;flex-direction:column;gap:.5rem">
-                <div class="quick-link" onclick="showSection('course')"><span class="quick-link-icon">📚</span>Open Study Course</div>
                 <div class="quick-link" onclick="showSection('resources')"><span class="quick-link-icon">📁</span>Browse Resources</div>
-                <div class="quick-link" onclick="showSection('messages')"><span class="quick-link-icon">💬</span>Messages</div>
                 <div class="quick-link" onclick="showSection('announcements')"><span class="quick-link-icon">📢</span>Announcements</div>
+                <a class="quick-link" href="https://exam.bethelfinancialgroup.com" target="_blank" style="text-decoration:none"><span class="quick-link-icon">📚</span>Open Study Course ↗</a>
               </div>
             </div>
           </div>
@@ -225,21 +223,6 @@ img{max-width:100%;display:block}
               <div id="dashAnnouncements"><div class="empty-state" style="padding:1rem"><div>No announcements yet</div></div></div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <!-- COURSE SECTION -->
-      <div id="sec-course" style="display:none">
-        <div class="course-card">
-          <div class="course-info">
-            <h3>Life Insurance Exam Prep</h3>
-            <p>Access your bilingual study platform — 12 chapters, AI-powered questions, final exams, and progress tracking. Everything you need to pass your Prometric exam.</p>
-          </div>
-          <a href="https://exam.bethelfinancialgroup.com" target="_blank" class="course-btn">Open Course →</a>
-        </div>
-        <div class="card" id="courseProgress">
-          <div class="card-title">📊 Your Progress</div>
-          <div id="courseProgressContent"><div class="empty-state"><div>Loading...</div></div></div>
         </div>
       </div>
 
@@ -266,14 +249,6 @@ img{max-width:100%;display:block}
         </div>
       </div>
 
-      <!-- MESSAGES SECTION -->
-      <div id="sec-messages" style="display:none">
-        <div class="card">
-          <div class="card-title">💬 Messages from Instructor</div>
-          <div id="messagesList"></div>
-          <a href="https://exam.bethelfinancialgroup.com" target="_blank" class="open-messages-btn">💬 Open Full Messaging in Course →</a>
-        </div>
-      </div>
 
     </div>
   </div>
@@ -373,7 +348,7 @@ function enterPortal(user) {
 }
 
 // ── NAVIGATION ──────────────────────────────────────────────────────────────
-var sectionTitles = { dashboard:'Dashboard', course:'Course', resources:'Resources', announcements:'Announcements', messages:'Messages' };
+var sectionTitles = { dashboard:'Dashboard', resources:'Resources', announcements:'Announcements' };
 
 function showSection(id) {
   document.querySelectorAll('[id^="sec-"]').forEach(function(el) { el.style.display = 'none'; });
@@ -383,8 +358,6 @@ function showSection(id) {
   document.getElementById('topBarTitle').textContent = sectionTitles[id] || id;
   currentSection = id;
   closeSidebar();
-  if (id === 'course') renderCourseProgress();
-  if (id === 'messages') loadMessages();
 }
 
 function openSidebar() {
@@ -399,45 +372,26 @@ function closeSidebar() {
 // ── DATA ──────────────────────────────────────────────────────────────────
 async function loadAll() {
   try {
-    var [me, resources, announcements, msgs] = await Promise.all([
+    var [me, resources, announcements] = await Promise.all([
       apiCall('GET', '/api/me'),
       apiCall('GET', '/api/portal/resources'),
       apiCall('GET', '/api/portal/announcements'),
-      apiCall('GET', '/api/messages'),
     ]);
     currentUser = Object.assign(currentUser, me);
     allResources = resources;
     allAnnouncements = announcements;
 
-    renderDashboard(me, announcements, msgs);
+    renderDashboard(me, announcements);
     renderResources(allResources, 'All');
     renderAnnouncements(announcements);
-
-    // Unread messages badge
-    var unread = msgs.filter(function(m) { return !m.read; }).length;
-    var badge = document.getElementById('msgBadge');
-    if (unread > 0) { badge.textContent = unread; badge.style.display = 'inline'; }
-    else { badge.style.display = 'none'; }
   } catch(e) {
     console.error('Load error:', e.message);
   }
 }
 
 // ── DASHBOARD ──────────────────────────────────────────────────────────────
-function renderDashboard(me, announcements, msgs) {
-  var prog = me.progress || {};
-  var chPassed = [1,2,3,4,5,6,7,8,9,10,11,12].filter(function(i) { return prog[i] && prog[i].passed; }).length;
-  var readiness = computeReadiness(prog);
-  var pct = Math.round((chPassed / 12) * 100);
-  var rColor = readiness >= 80 ? '#059669' : (readiness >= 60 ? '#C9A227' : '#EF4444');
-  var unread = msgs.filter(function(m) { return !m.read; }).length;
-
+function renderDashboard(me, announcements) {
   document.getElementById('welcomeName').textContent = 'Welcome back, ' + (me.name.split(' ')[0]) + '!';
-
-  document.getElementById('quickStats').innerHTML =
-    '<div class="quick-stat"><div class="quick-stat-n">' + chPassed + '/12</div><div class="quick-stat-l">Chapters Passed</div></div>'
-    + '<div class="quick-stat"><div class="quick-stat-n" style="color:' + rColor + '">' + readiness + '%</div><div class="quick-stat-l">Readiness</div></div>'
-    + '<div class="quick-stat"><div class="quick-stat-n">' + unread + '</div><div class="quick-stat-l">Unread Messages</div></div>';
 
   // Latest 3 announcements
   var dashAnn = document.getElementById('dashAnnouncements');
@@ -454,52 +408,6 @@ function renderDashboard(me, announcements, msgs) {
   }
 }
 
-function computeReadiness(prog) {
-  var scoreSum = 0, scoreCnt = 0, passedCh = 0;
-  for (var i = 1; i <= 12; i++) {
-    var c = prog[i];
-    if (c && c.bestScore !== undefined) { scoreSum += c.bestScore; scoreCnt++; }
-    if (c && c.passed) passedCh++;
-  }
-  var chScore = scoreCnt > 0 ? scoreSum / scoreCnt : 0;
-  var feScore = 0, feCnt = 0;
-  if (prog.fe1 && prog.fe1.score) { feScore += prog.fe1.score; feCnt++; }
-  if (prog.fe2 && prog.fe2.score) { feScore += prog.fe2.score; feCnt++; }
-  var feAvg = feCnt > 0 ? feScore / feCnt : chScore;
-  var r = feCnt > 0 ? (chScore * 0.6 + feAvg * 0.4) : chScore;
-  r = Math.max(0, r - (12 - passedCh) * 2.5);
-  return Math.round(r);
-}
-
-// ── COURSE ──────────────────────────────────────────────────────────────────
-function renderCourseProgress() {
-  if (!currentUser) return;
-  var prog = currentUser.progress || {};
-  var chPassed = [1,2,3,4,5,6,7,8,9,10,11,12].filter(function(i) { return prog[i] && prog[i].passed; }).length;
-  var readiness = computeReadiness(prog);
-  var pct = Math.round((chPassed / 12) * 100);
-  var rColor = readiness >= 80 ? '#059669' : (readiness >= 60 ? '#C9A227' : '#EF4444');
-
-  var chHtml = [1,2,3,4,5,6,7,8,9,10,11,12].map(function(i) {
-    var c = prog[i];
-    var passed = c && c.passed;
-    var score  = c && c.bestScore !== undefined ? c.bestScore + '%' : '--';
-    var color  = passed ? '#059669' : (c && c.attempts ? '#C9A227' : '#9CA3AF');
-    return '<div style="background:#F8FAFC;border:1px solid #E5E7EB;border-radius:10px;padding:.75rem;font-size:.82rem">'
-      + '<div style="font-weight:600;color:#374151;margin-bottom:.2rem">Ch ' + i + '</div>'
-      + '<div style="font-weight:700;color:' + color + '">' + (passed ? '✓ Passed' : score) + '</div>'
-      + '</div>';
-  }).join('');
-
-  document.getElementById('courseProgressContent').innerHTML =
-    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem">'
-    + '<div><div style="font-size:.72rem;color:#9CA3AF;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.2rem">Exam Readiness</div>'
-    + '<div style="font-size:2rem;font-weight:800;color:' + rColor + '">' + readiness + '%</div></div>'
-    + '<div style="font-size:.88rem;color:#6B7280">' + chPassed + ' of 12 chapters passed</div></div>'
-    + '<div style="background:#E5E7EB;border-radius:100px;height:8px;margin-bottom:1.25rem;overflow:hidden">'
-    + '<div style="width:' + pct + '%;height:100%;background:linear-gradient(to right,#DDB84A,#8B6914);border-radius:100px"></div></div>'
-    + '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px">' + chHtml + '</div>';
-}
 
 // ── RESOURCES ──────────────────────────────────────────────────────────────
 var currentCat = 'All';
@@ -546,26 +454,6 @@ function renderAnnouncements(announcements) {
   }).join('');
 }
 
-// ── MESSAGES ──────────────────────────────────────────────────────────────
-async function loadMessages() {
-  try {
-    var msgs = await apiCall('GET', '/api/messages');
-    await apiCall('POST', '/api/messages/read', {});
-    document.getElementById('msgBadge').style.display = 'none';
-    var el = document.getElementById('messagesList');
-    if (!msgs.length) {
-      el.innerHTML = '<div class="empty-state"><div class="empty-icon">💬</div><div>No messages yet</div></div>';
-      return;
-    }
-    el.innerHTML = msgs.slice(0, 10).map(function(m) {
-      return '<div class="msg-preview">'
-        + '<div class="msg-dot' + (m.read ? ' read' : '') + '"></div>'
-        + '<div class="msg-text-wrap"><div class="msg-text">' + escHtml(m.text) + '</div>'
-        + '<div class="msg-time">' + fmt(m.sentAt) + '</div></div>'
-        + '</div>';
-    }).join('');
-  } catch(e) { console.error('Messages error:', e.message); }
-}
 
 // ── INIT ──────────────────────────────────────────────────────────────────
 (async function() {
