@@ -171,7 +171,10 @@ a{text-decoration:none;color:inherit}
               <option>Documents</option><option>Forms</option><option>Presentations</option><option>Training</option><option>Other</option>
             </select>
           </div>
-          <div style="font-size:.78rem;color:#6B7280;margin-bottom:.5rem">Paste a link from Google Drive, Dropbox, or any cloud storage:</div>
+          <div class="divider"><div class="divider-line"></div><div class="divider-text">Upload File</div><div class="divider-line"></div></div>
+          <div class="field"><input type="file" id="resFile" style="font-size:.82rem;color:#374151"></div>
+          <button class="btn-sm" style="width:100%;justify-content:center;margin-bottom:.75rem" id="uploadBtn" onclick="uploadResource()">⬆ Upload File</button>
+          <div class="divider"><div class="divider-line"></div><div class="divider-text">Or Add Link (for larger files)</div><div class="divider-line"></div></div>
           <div class="field"><input id="resUrl" placeholder="https://..."></div>
           <button class="btn-sm" style="width:100%;justify-content:center" onclick="addResourceLink()">🔗 Add Link</button>
           <div style="font-size:.72rem;font-weight:700;color:#9CA3AF;text-transform:uppercase;letter-spacing:.05em;margin:.75rem 0 .5rem">Files & Links</div>
@@ -202,7 +205,11 @@ async function apiCall(method, path, body) {
   if (token) opts.headers['Authorization'] = 'Bearer ' + token;
   if (body) opts.body = JSON.stringify(body);
   var r = await fetch(API + path, opts);
-  var data = await r.json();
+  var text = await r.text();
+  var data;
+  try { data = JSON.parse(text); } catch(e) {
+    throw new Error(r.status === 413 ? 'File too large — use a smaller file or add a link instead.' : 'Server error (status ' + r.status + '). Try a smaller file or use Add Link.');
+  }
   if (!r.ok) throw new Error(data.error || 'Request failed');
   return data;
 }
