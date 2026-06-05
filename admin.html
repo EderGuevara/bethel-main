@@ -340,6 +340,7 @@ async function uploadResource() {
   var desc     = document.getElementById('resDesc').value.trim();
   var category = document.getElementById('resCat').value;
   if (!file) { toast('Please select a file.', false); return; }
+  if (file.size > 4 * 1024 * 1024) { toast('File too large (max 4MB). Use "Add Link" for larger files — upload to Google Drive or Dropbox and paste the link.', false); return; }
   if (!name) name = file.name;
   var btn = document.getElementById('uploadBtn');
   btn.disabled = true; btn.textContent = 'Uploading...';
