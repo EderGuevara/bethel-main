@@ -379,15 +379,9 @@ async function postAnnouncement() {
   try {
     var payload = { title, body, pinned };
     if (_annImageFile) {
-      toast('Resizing image…', true);
-      var b64 = await resizeImage(_annImageFile, 1000, 0.75);
-      console.log('[ann] imageBase64 length:', b64.length);
-      payload.imageBase64 = b64;
-    } else {
-      console.log('[ann] no image file attached');
+      payload.imageBase64 = await resizeImage(_annImageFile, 1000, 0.75);
     }
-    var result = await apiCall('POST', '/api/portal/announcements', payload);
-    console.log('[ann] server response:', JSON.stringify(result));
+    await apiCall('POST', '/api/portal/announcements', payload);
     document.getElementById('annTitle').value = '';
     document.getElementById('annBody').value  = '';
     document.getElementById('annPinned').checked = false;
