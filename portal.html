@@ -301,8 +301,8 @@ function _nextLogo(img, domain, idx) {
 }
 function nameIcon(r) {
   var n = ((r.name || '') + ' ' + (r.category || '')).toLowerCase();
-  if (/expense|budget|spend/.test(n)) return '🧾';
-  if (/schedule.*test|state test|prometric/.test(n)) return '📝';
+  if (/expense|budget|spend/.test(n)) return '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" style="width:4rem;height:4rem"><rect width="48" height="48" rx="10" fill="#0F172A"/><text x="24" y="31" text-anchor="middle" font-size="28" fill="#DDB84A" font-family="system-ui,-apple-system,sans-serif" font-weight="700">$</text></svg>';
+  if (/schedule.*test|state test|prometric/.test(n)) return '<span style="font-size:3rem">📝</span>';
   return null;
 }
 function logoSize(r) {
@@ -312,10 +312,10 @@ function logoSize(r) {
 }
 function resourceIcon(r) {
   if (r.mimetype) return '<span style="font-size:3rem">' + fileIcon(r.mimetype) + '</span>';
+  var ni = nameIcon(r);
+  if (ni) return ni;
   var sz = logoSize(r);
   if (r.logoUrl) { var d = new URL(r.url.includes('://')?r.url:'https://'+r.url).hostname.replace(/^www\./,''); return '<img src="' + escHtml(r.logoUrl) + '" onerror="this.onerror=null;_nextLogo(this,\'' + d + '\',-1)" style="width:' + sz + ';height:' + sz + ';object-fit:contain;border-radius:8px">'; }
-  var ni = nameIcon(r);
-  if (ni) return '<span style="font-size:3rem">' + ni + '</span>';
   try {
     var href = r.url.includes('://') ? r.url : 'https://' + r.url;
     var domain = new URL(href).hostname.replace(/^www\./, '');
