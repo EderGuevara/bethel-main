@@ -301,20 +301,21 @@ function _nextLogo(img, domain, idx) {
 }
 function nameIcon(r) {
   var n = ((r.name || '') + ' ' + (r.category || '')).toLowerCase();
-  if (/expense|budget|spend/.test(n)) return '💸';
+  if (/expense|budget|spend/.test(n)) return '🧾';
   return null;
 }
 function resourceIcon(r) {
   if (r.mimetype) return '<span style="font-size:3rem">' + fileIcon(r.mimetype) + '</span>';
-  if (r.logoUrl) { var d = new URL(r.url.includes('://')?r.url:'https://'+r.url).hostname.replace(/^www\./,''); return '<img src="' + escHtml(r.logoUrl) + '" onerror="this.onerror=null;_nextLogo(this,\'' + d + '\',-1)" style="width:4rem;height:4rem;object-fit:contain;border-radius:8px">'; }
+  if (r.logoUrl) { var d = new URL(r.url.includes('://')?r.url:'https://'+r.url).hostname.replace(/^www\./,''); return '<img src="' + escHtml(r.logoUrl) + '" onerror="this.onerror=null;_nextLogo(this,\'' + d + '\',-1)" style="width:6rem;height:6rem;object-fit:contain;border-radius:8px">'; }
   var ni = nameIcon(r);
   if (ni) return '<span style="font-size:3rem">' + ni + '</span>';
   try {
     var href = r.url.includes('://') ? r.url : 'https://' + r.url;
     var domain = new URL(href).hostname.replace(/^www\./, '');
+    var xtra = /prometric/.test(domain) ? 'filter:invert(1);' : '';
     return '<img src="https://' + domain + '/apple-touch-icon.png"'
       + " onerror=\"_nextLogo(this,'" + domain + "',0)\""
-      + ' style="width:3rem;height:3rem;object-fit:contain;border-radius:8px">';
+      + ' style="width:6rem;height:6rem;object-fit:contain;border-radius:8px;' + xtra + '">';
   } catch(e) { return '<span style="font-size:3rem">🔗</span>'; }
 }
 function toast(msg, ok) {
