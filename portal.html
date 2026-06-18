@@ -302,6 +302,7 @@ function _nextLogo(img, domain, idx) {
 function nameIcon(r) {
   var n = ((r.name || '') + ' ' + (r.category || '')).toLowerCase();
   if (/expense|budget|spend/.test(n)) return '🧾';
+  if (/schedule.*test|state test|prometric/.test(n)) return '📝';
   return null;
 }
 function resourceIcon(r) {
@@ -312,10 +313,9 @@ function resourceIcon(r) {
   try {
     var href = r.url.includes('://') ? r.url : 'https://' + r.url;
     var domain = new URL(href).hostname.replace(/^www\./, '');
-    var xtra = /prometric/.test(domain) ? 'filter:invert(1);' : '';
     return '<img src="https://' + domain + '/apple-touch-icon.png"'
       + " onerror=\"_nextLogo(this,'" + domain + "',0)\""
-      + ' style="width:6rem;height:6rem;object-fit:contain;border-radius:8px;' + xtra + '">';
+      + ' style="width:6rem;height:6rem;object-fit:contain;border-radius:8px;mix-blend-mode:multiply">';
   } catch(e) { return '<span style="font-size:3rem">🔗</span>'; }
 }
 function toast(msg, ok) {
