@@ -289,15 +289,23 @@ function fileIcon(mimetype) {
   if (mimetype.includes('zip') || mimetype.includes('compressed')) return '📦';
   return '📄';
 }
+function _nextLogo(img, domain, idx) {
+  var srcs = [
+    'https://logo.clearbit.com/' + domain,
+    'https://icons.duckduckgo.com/ip3/' + domain + '.ico',
+    'https://www.google.com/s2/favicons?domain=' + domain + '&sz=64'
+  ];
+  idx++;
+  if (idx < srcs.length) { img.onerror = function() { _nextLogo(img, domain, idx); }; img.src = srcs[idx]; }
+  else { img.onerror = null; img.style.display = 'none'; }
+}
 function resourceIcon(r) {
   if (r.mimetype) return '<span style="font-size:2rem">' + fileIcon(r.mimetype) + '</span>';
   try {
-    var hostname = new URL(r.url).hostname;
-    var domain = hostname.replace(/^www\./, '');
-    var clearbit = 'https://logo.clearbit.com/' + domain;
-    var goog = 'https://www.google.com/s2/favicons?domain=' + encodeURIComponent(domain) + '&sz=64';
-    return '<img src="' + clearbit + '"'
-      + ' onerror="this.src=\'' + goog + '\';this.onerror=function(){this.replaceWith(document.createTextNode(\'🔗\'))}"'
+    var href = r.url.includes('://') ? r.url : 'https://' + r.url;
+    var domain = new URL(href).hostname.replace(/^www\./, '');
+    return '<img src="https://logo.clearbit.com/' + domain + '"'
+      + " onerror=\"_nextLogo(this,'" + domain + "',0)\""
       + ' style="width:2.2rem;height:2.2rem;object-fit:contain;border-radius:6px">';
   } catch(e) { return '<span style="font-size:2rem">🔗</span>'; }
 }
