@@ -301,7 +301,7 @@ function _nextLogo(img, domain, idx) {
 }
 function nameIcon(r) {
   var n = ((r.name || '') + ' ' + (r.category || '')).toLowerCase();
-  if (/expense|budget|spend/.test(n)) return '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" style="width:4rem;height:4rem"><rect width="48" height="48" rx="10" fill="#0F172A"/><text x="24" y="31" text-anchor="middle" font-size="28" fill="#DDB84A" font-family="system-ui,-apple-system,sans-serif" font-weight="700">$</text></svg>';
+  if (/expense|budget|spend/.test(n)) return '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" style="width:4rem;height:4rem"><defs><linearGradient id="dg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F5D06A"/><stop offset="100%" stop-color="#A07318"/></linearGradient></defs><text x="24" y="38" text-anchor="middle" font-size="42" fill="url(#dg)" font-family="Georgia,serif" font-weight="700">$</text></svg>';
   return null;
 }
 function logoSize(r) {
