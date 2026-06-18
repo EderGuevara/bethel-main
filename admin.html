@@ -181,6 +181,7 @@ a{text-decoration:none;color:inherit}
           <button class="btn-sm" style="width:100%;justify-content:center;margin-bottom:.75rem" id="uploadBtn" onclick="uploadResource()">⬆ Upload File</button>
           <div class="divider"><div class="divider-line"></div><div class="divider-text">Or Add Link (for larger files)</div><div class="divider-line"></div></div>
           <div class="field"><input id="resUrl" placeholder="https://..."></div>
+          <div class="field"><input id="resLogoUrl" placeholder="Logo image URL (optional — auto-detected if blank)"></div>
           <button class="btn-sm" style="width:100%;justify-content:center" onclick="addResourceLink()">🔗 Add Link</button>
           <div style="font-size:.72rem;font-weight:700;color:#9CA3AF;text-transform:uppercase;letter-spacing:.05em;margin:.75rem 0 .5rem">Files & Links</div>
           <div id="resList" style="max-height:220px;overflow-y:auto"><div class="empty">No resources yet</div></div>
@@ -205,6 +206,7 @@ a{text-decoration:none;color:inherit}
       </select>
     </div>
     <div class="field"><input id="editResUrl" placeholder="URL (leave blank to keep existing)" style="width:100%;box-sizing:border-box"></div>
+    <div class="field"><input id="editResLogoUrl" placeholder="Logo image URL (optional)" style="width:100%;box-sizing:border-box"></div>
     <button id="editResSaveBtn" onclick="saveEditRes()" class="btn-sm" style="width:100%;justify-content:center">Save Changes</button>
   </div>
 </div>
@@ -403,13 +405,17 @@ async function addResourceLink() {
   var desc     = document.getElementById('resDesc').value.trim();
   var category = document.getElementById('resCat').value;
   var url      = document.getElementById('resUrl').value.trim();
+  var logoUrl  = document.getElementById('resLogoUrl').value.trim();
   if (!name) { toast('Display name required.', false); return; }
   if (!url)  { toast('URL required.', false); return; }
   try {
-    await apiCall('POST', '/api/portal/resources/upload', { name, description: desc, category, url });
-    document.getElementById('resName').value = '';
-    document.getElementById('resDesc').value = '';
-    document.getElementById('resUrl').value  = '';
+    var payload = { name, description: desc, category, url };
+    if (logoUrl) payload.logoUrl = logoUrl;
+    await apiCall('POST', '/api/portal/resources/upload', payload);
+    document.getElementById('resName').value    = '';
+    document.getElementById('resDesc').value    = '';
+    document.getElementById('resUrl').value     = '';
+    document.getElementById('resLogoUrl').value = '';
     toast('Link added!', true);
     loadPortalData();
   } catch(e) { toast('Error: ' + e.message, false); }
@@ -455,9 +461,10 @@ function openEditRes(id) {
   var r = _resMap[id];
   if (!r) return;
   _editResId = id;
-  document.getElementById('editResName').value = r.name || '';
-  document.getElementById('editResDesc').value = r.description || '';
-  document.getElementById('editResUrl').value  = r.url  || '';
+  document.getElementById('editResName').value    = r.name || '';
+  document.getElementById('editResDesc').value    = r.description || '';
+  document.getElementById('editResUrl').value     = r.url || '';
+  document.getElementById('editResLogoUrl').value = r.logoUrl || '';
   var sel = document.getElementById('editResCat');
   for (var i = 0; i < sel.options.length; i++) {
     if (sel.options[i].value === r.category) { sel.selectedIndex = i; break; }
@@ -469,15 +476,16 @@ function closeEditRes() {
   _editResId = null;
 }
 async function saveEditRes() {
-  var name = document.getElementById('editResName').value.trim();
-  var desc = document.getElementById('editResDesc').value.trim();
-  var cat  = document.getElementById('editResCat').value;
-  var url  = document.getElementById('editResUrl').value.trim();
+  var name    = document.getElementById('editResName').value.trim();
+  var desc    = document.getElementById('editResDesc').value.trim();
+  var cat     = document.getElementById('editResCat').value;
+  var url     = document.getElementById('editResUrl').value.trim();
+  var logoUrl = document.getElementById('editResLogoUrl').value.trim();
   if (!name) { toast('Name required.', false); return; }
   var btn = document.getElementById('editResSaveBtn');
   btn.disabled = true; btn.textContent = 'Saving...';
   try {
-    var body = { name, description: desc, category: cat };
+    var body = { name, description: desc, category: cat, logoUrl: logoUrl || '' };
     if (url) body.url = url;
     await apiCall('PUT', '/api/portal/resources/' + _editResId, body);
     toast('Resource updated!', true);
