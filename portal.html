@@ -403,6 +403,7 @@ function renderDashboard(me, announcements) {
       return '<div style="padding:.6rem 0;border-bottom:1px solid #F3F4F6">'
         + (a.pinned ? '<div style="font-size:.65rem;color:#A07B18;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.15rem">📌 Pinned</div>' : '')
         + '<div style="font-size:.88rem;font-weight:700;color:#111827;margin-bottom:.2rem">' + escHtml(a.title) + '</div>'
+        + (a.hasImage ? '<img src="https://exam.bethelfinancialgroup.com/api/portal/announcements/' + a.id + '/image" style="max-width:100%;border-radius:8px;margin:.4rem 0;display:block">' : '')
         + '<div style="font-size:.78rem;color:#6B7280">' + fmt(a.postedAt) + '</div>'
         + '</div>';
     }).join('') + (announcements.length > 3 ? '<div style="margin-top:.75rem"><button onclick="showSection(\'announcements\')" style="background:none;border:none;color:#C9A227;font-size:.82rem;font-weight:600;cursor:pointer;font-family:inherit">View all →</button></div>' : '');
