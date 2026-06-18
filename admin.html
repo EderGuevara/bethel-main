@@ -153,6 +153,11 @@ a{text-decoration:none;color:inherit}
           <div class="card-title">📢 Post Announcement</div>
           <div class="field"><input id="annTitle" placeholder="Title"></div>
           <div class="field"><textarea id="annBody" placeholder="Message..."></textarea></div>
+          <div id="annDropZone" ondragover="annDragOver(event)" ondragleave="annDragLeave(event)" ondrop="annDrop(event)" onclick="document.getElementById('annImageInput').click()" style="border:2px dashed #E5E7EB;border-radius:10px;padding:.75rem;text-align:center;cursor:pointer;margin-bottom:.75rem;transition:border-color .15s,background .15s">
+            <input type="file" id="annImageInput" accept="image/*" style="display:none" onchange="annFileChosen(this.files[0])">
+            <div id="annDropLabel" style="font-size:.78rem;color:#9CA3AF">🖼 Drag image here or click to attach (optional)</div>
+            <img id="annImagePreview" style="display:none;max-width:100%;max-height:120px;border-radius:8px;margin-top:.5rem;object-fit:contain">
+          </div>
           <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem">
             <label style="display:flex;align-items:center;gap:6px;font-size:.82rem;color:#6B7280;cursor:pointer"><input type="checkbox" id="annPinned"> Pin to top</label>
             <button class="btn-sm" style="margin-left:auto" onclick="postAnnouncement()">📢 Post</button>
@@ -326,16 +331,53 @@ function renderResList(list) {
   }).join('');
 }
 
+var _annImageFile = null;
+function annDragOver(e) { e.preventDefault(); e.currentTarget.style.borderColor='#C9A227'; e.currentTarget.style.background='#FFFBF0'; }
+function annDragLeave(e) { e.currentTarget.style.borderColor='#E5E7EB'; e.currentTarget.style.background=''; }
+function annDrop(e) {
+  e.preventDefault(); e.currentTarget.style.borderColor='#E5E7EB'; e.currentTarget.style.background='';
+  var file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) annFileChosen(file);
+}
+function annFileChosen(file) {
+  if (!file) return;
+  _annImageFile = file;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var img = document.getElementById('annImagePreview');
+    img.src = e.target.result; img.style.display = 'block';
+    document.getElementById('annDropLabel').textContent = '✓ ' + file.name + ' — click to replace';
+  };
+  reader.readAsDataURL(file);
+}
+
 async function postAnnouncement() {
   var title  = document.getElementById('annTitle').value.trim();
   var body   = document.getElementById('annBody').value.trim();
   var pinned = document.getElementById('annPinned').checked;
   if (!title || !body) { toast('Title and message required.', false); return; }
   try {
-    await apiCall('POST', '/api/portal/announcements', { title, body, pinned });
+    var payload = { title, body, pinned };
+    if (_annImageFile) {
+      await new Promise(function(resolve, reject) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          payload.imageData     = e.target.result;
+          payload.imageFilename = _annImageFile.name;
+          payload.imageMimetype = _annImageFile.type;
+          resolve();
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(_annImageFile);
+      });
+    }
+    await apiCall('POST', '/api/portal/announcements', payload);
     document.getElementById('annTitle').value = '';
     document.getElementById('annBody').value  = '';
     document.getElementById('annPinned').checked = false;
+    document.getElementById('annImagePreview').style.display = 'none';
+    document.getElementById('annDropLabel').textContent = '🖼 Drag image here or click to attach (optional)';
+    _annImageFile = null;
     toast('Announcement posted!', true);
     loadPortalData();
   } catch(e) { toast('Error: ' + e.message, false); }

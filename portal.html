@@ -452,6 +452,7 @@ function renderAnnouncements(announcements) {
       + (a.pinned ? '<div class="announcement-pin">📌 Pinned</div>' : '')
       + '<div class="announcement-title">' + escHtml(a.title) + '</div>'
       + '<div class="announcement-body">' + escHtml(a.body) + '</div>'
+      + (a.imageUrl ? '<img src="' + escHtml(a.imageUrl) + '" style="max-width:100%;border-radius:10px;margin-top:.75rem;display:block">' : '')
       + '<div class="announcement-date">' + fmt(a.postedAt) + '</div>'
       + '</div>';
   }).join('');
