@@ -305,9 +305,15 @@ function nameIcon(r) {
   if (/schedule.*test|state test|prometric/.test(n)) return '📝';
   return null;
 }
+function logoSize(r) {
+  var n = (r.name || '').toLowerCase();
+  if (/e.?o|napa/.test(n)) return '2rem';
+  return '6rem';
+}
 function resourceIcon(r) {
   if (r.mimetype) return '<span style="font-size:3rem">' + fileIcon(r.mimetype) + '</span>';
-  if (r.logoUrl) { var d = new URL(r.url.includes('://')?r.url:'https://'+r.url).hostname.replace(/^www\./,''); return '<img src="' + escHtml(r.logoUrl) + '" onerror="this.onerror=null;_nextLogo(this,\'' + d + '\',-1)" style="width:6rem;height:6rem;object-fit:contain;border-radius:8px">'; }
+  var sz = logoSize(r);
+  if (r.logoUrl) { var d = new URL(r.url.includes('://')?r.url:'https://'+r.url).hostname.replace(/^www\./,''); return '<img src="' + escHtml(r.logoUrl) + '" onerror="this.onerror=null;_nextLogo(this,\'' + d + '\',-1)" style="width:' + sz + ';height:' + sz + ';object-fit:contain;border-radius:8px">'; }
   var ni = nameIcon(r);
   if (ni) return '<span style="font-size:3rem">' + ni + '</span>';
   try {
@@ -315,7 +321,7 @@ function resourceIcon(r) {
     var domain = new URL(href).hostname.replace(/^www\./, '');
     return '<img src="https://' + domain + '/apple-touch-icon.png"'
       + " onerror=\"_nextLogo(this,'" + domain + "',0)\""
-      + ' style="width:2rem;height:2rem;object-fit:contain;border-radius:8px;mix-blend-mode:multiply">';
+      + ' style="width:' + sz + ';height:' + sz + ';object-fit:contain;border-radius:8px;mix-blend-mode:multiply">';
   } catch(e) { return '<span style="font-size:3rem">🔗</span>'; }
 }
 function toast(msg, ok) {
