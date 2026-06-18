@@ -89,15 +89,14 @@ img{max-width:100%;display:block}
 .cat-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem}
 .cat-tab{padding:5px 16px;border-radius:20px;border:1.5px solid #E5E7EB;background:#fff;color:#6B7280;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif}
 .cat-tab.active{border-color:#C9A227;background:#FFFBF0;color:#A07B18}
-.resource-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem}
-.resource-card{background:#fff;border:1px solid #E5E7EB;border-radius:14px;padding:1.25rem;transition:all .2s;cursor:pointer}
-.resource-card:hover{border-color:#C9A227;box-shadow:0 4px 20px rgba(0,0,0,.08);transform:translateY(-2px)}
-.resource-icon{font-size:2rem;margin-bottom:.75rem}
-.resource-name{font-size:.9rem;font-weight:700;color:#111827;margin-bottom:.25rem;word-break:break-word}
-.resource-desc{font-size:.78rem;color:#9CA3AF;margin-bottom:.75rem;line-height:1.5}
-.resource-meta{font-size:.7rem;color:#CBD5E1;margin-bottom:.6rem}
-.download-btn{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#DDB84A,#8B6914);color:#fff;border:none;border-radius:8px;padding:7px 14px;font-size:.78rem;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;transition:all .15s;text-decoration:none}
-.download-btn:hover{opacity:.9}
+.resource-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.5rem}
+.resource-card{padding:1.5rem 1rem;text-align:center;border-radius:14px;transition:background .15s}
+.resource-card:hover{background:rgba(201,162,39,.07)}
+.resource-icon{display:flex;justify-content:center;align-items:center;height:3rem;margin-bottom:.75rem}
+.resource-name{font-size:.88rem;font-weight:700;color:#111827;margin-bottom:.3rem;word-break:break-word}
+.resource-desc{font-size:.73rem;color:#9CA3AF;margin-bottom:.9rem;line-height:1.5}
+.download-btn{display:inline-flex;align-items:center;gap:5px;border:1.5px solid #DDB84A;color:#A07B18;border-radius:20px;padding:5px 14px;font-size:.73rem;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;text-decoration:none;transition:all .15s}
+.download-btn:hover{background:#DDB84A;color:#fff}
 .empty-state{text-align:center;padding:3rem;color:#9CA3AF}
 .empty-icon{font-size:2.5rem;margin-bottom:.75rem}
 
@@ -301,15 +300,15 @@ function _nextLogo(img, domain, idx) {
   else { img.onerror = null; img.style.display = 'none'; }
 }
 function resourceIcon(r) {
-  if (r.mimetype) return '<span style="font-size:2rem">' + fileIcon(r.mimetype) + '</span>';
-  if (r.logoUrl) { var d = new URL(r.url.includes('://')?r.url:'https://'+r.url).hostname.replace(/^www\./,''); return '<img src="' + escHtml(r.logoUrl) + '" onerror="this.src=\'https://logo.clearbit.com/'+d+'\';this.onerror=function(){_nextLogo(this,\''+d+'\',0)}" style="width:2.2rem;height:2.2rem;object-fit:contain;border-radius:6px">'; }
+  if (r.mimetype) return '<span style="font-size:3rem">' + fileIcon(r.mimetype) + '</span>';
+  if (r.logoUrl) { var d = new URL(r.url.includes('://')?r.url:'https://'+r.url).hostname.replace(/^www\./,''); return '<img src="' + escHtml(r.logoUrl) + '" onerror="this.src=\'https://logo.clearbit.com/'+d+'\';this.onerror=function(){_nextLogo(this,\''+d+'\',0)}" style="width:3rem;height:3rem;object-fit:contain;border-radius:8px">'; }
   try {
     var href = r.url.includes('://') ? r.url : 'https://' + r.url;
     var domain = new URL(href).hostname.replace(/^www\./, '');
     return '<img src="https://logo.clearbit.com/' + domain + '"'
       + " onerror=\"_nextLogo(this,'" + domain + "',0)\""
-      + ' style="width:2.2rem;height:2.2rem;object-fit:contain;border-radius:6px">';
-  } catch(e) { return '<span style="font-size:2rem">🔗</span>'; }
+      + ' style="width:3rem;height:3rem;object-fit:contain;border-radius:8px">';
+  } catch(e) { return '<span style="font-size:3rem">🔗</span>'; }
 }
 function toast(msg, ok) {
   var t = document.getElementById('toast');
@@ -455,7 +454,6 @@ function renderResources(resources, cat) {
       + '<div class="resource-icon">' + resourceIcon(r) + '</div>'
       + '<div class="resource-name">' + escHtml(r.name) + '</div>'
       + (r.description ? '<div class="resource-desc">' + escHtml(r.description) + '</div>' : '')
-      + '<div class="resource-meta">' + fmtSize(r.size) + (r.uploadedAt ? ' · ' + fmt(r.uploadedAt) : '') + '</div>'
       + (r.url.includes('vercel-storage') || r.url.includes('blob.')
           ? '<a href="' + escHtml(r.url) + '" target="_blank" download class="download-btn">⬇ Download</a>'
           : '<a href="' + escHtml(r.url) + '" target="_blank" class="download-btn">↗ Open</a>')
