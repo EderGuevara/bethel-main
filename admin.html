@@ -308,15 +308,18 @@ function renderAnnList(list) {
   }).join('');
 }
 
+var _resMap = {};
 function renderResList(list) {
   var el = document.getElementById('resList');
   if (!list || !list.length) { el.innerHTML = '<div class="empty">No resources yet</div>'; return; }
+  _resMap = {};
+  list.forEach(function(r) { _resMap[r.id] = r; });
   el.innerHTML = list.map(function(r) {
     return '<div class="list-item">'
       + '<div class="list-item-info"><div class="list-item-name">' + escHtml(r.name) + '</div>'
       + '<div class="list-item-sub">' + escHtml(r.category) + '</div></div>'
       + '<div style="display:flex;gap:4px;flex-shrink:0">'
-      + '<button onclick="openEditRes(' + r.id + ',' + JSON.stringify(r.name) + ',' + JSON.stringify(r.description||'') + ',' + JSON.stringify(r.category) + ',' + JSON.stringify(r.url) + ')" style="background:none;border:1px solid #E5E7EB;border-radius:5px;color:#374151;cursor:pointer;font-size:.75rem;padding:2px 7px">✏</button>'
+      + '<button onclick="openEditRes(' + r.id + ')" style="background:none;border:1px solid #E5E7EB;border-radius:5px;color:#374151;cursor:pointer;font-size:.75rem;padding:2px 7px">✏</button>'
       + '<button class="del-btn" onclick="deleteRes(' + r.id + ')">✕</button>'
       + '</div>'
       + '</div>';
@@ -396,14 +399,16 @@ async function deleteRes(id) {
 }
 
 var _editResId = null;
-function openEditRes(id, name, desc, cat, url) {
+function openEditRes(id) {
+  var r = _resMap[id];
+  if (!r) return;
   _editResId = id;
-  document.getElementById('editResName').value = name || '';
-  document.getElementById('editResDesc').value = desc || '';
-  document.getElementById('editResUrl').value  = url  || '';
+  document.getElementById('editResName').value = r.name || '';
+  document.getElementById('editResDesc').value = r.description || '';
+  document.getElementById('editResUrl').value  = r.url  || '';
   var sel = document.getElementById('editResCat');
   for (var i = 0; i < sel.options.length; i++) {
-    if (sel.options[i].value === cat) { sel.selectedIndex = i; break; }
+    if (sel.options[i].value === r.category) { sel.selectedIndex = i; break; }
   }
   document.getElementById('editResModal').style.display = 'flex';
 }
