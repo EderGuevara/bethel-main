@@ -291,8 +291,8 @@ function fileIcon(mimetype) {
 }
 function _nextLogo(img, domain, idx) {
   var srcs = [
-    'https://logo.clearbit.com/' + domain,
-    'https://icons.duckduckgo.com/ip3/' + domain + '.ico',
+    'https://' + domain + '/apple-touch-icon.png',
+    'https://' + domain + '/favicon.ico',
     'https://www.google.com/s2/favicons?domain=' + domain + '&sz=64'
   ];
   idx++;
@@ -304,7 +304,7 @@ function resourceIcon(r) {
   try {
     var href = r.url.includes('://') ? r.url : 'https://' + r.url;
     var domain = new URL(href).hostname.replace(/^www\./, '');
-    return '<img src="https://logo.clearbit.com/' + domain + '"'
+    return '<img src="https://' + domain + '/apple-touch-icon.png"'
       + " onerror=\"_nextLogo(this,'" + domain + "',0)\""
       + ' style="width:2.2rem;height:2.2rem;object-fit:contain;border-radius:6px">';
   } catch(e) { return '<span style="font-size:2rem">🔗</span>'; }
