@@ -379,18 +379,24 @@ async function postAnnouncement() {
   try {
     var payload = { title, body, pinned };
     if (_annImageFile) {
-      payload.imageBase64 = await resizeImage(_annImageFile, 1000, 0.75);
+      toast('Resizing image…', true);
+      var b64 = await resizeImage(_annImageFile, 1000, 0.75);
+      console.log('[ann] imageBase64 length:', b64.length);
+      payload.imageBase64 = b64;
+    } else {
+      console.log('[ann] no image file attached');
     }
-    await apiCall('POST', '/api/portal/announcements', payload);
+    var result = await apiCall('POST', '/api/portal/announcements', payload);
+    console.log('[ann] server response:', JSON.stringify(result));
     document.getElementById('annTitle').value = '';
     document.getElementById('annBody').value  = '';
     document.getElementById('annPinned').checked = false;
     document.getElementById('annImagePreview').style.display = 'none';
     document.getElementById('annDropLabel').textContent = '🖼 Drag image here or click to attach (optional)';
     _annImageFile = null;
-    toast('Announcement posted!', true);
+    toast('Announcement posted!' + (payload.imageBase64 ? ' (with image)' : ''), true);
     loadPortalData();
-  } catch(e) { toast('Error: ' + e.message, false); }
+  } catch(e) { console.error('[ann] error:', e); toast('Error: ' + e.message, false); }
 }
 
 async function deleteAnn(id) {
