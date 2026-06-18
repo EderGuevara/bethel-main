@@ -343,12 +343,32 @@ function annFileChosen(file) {
   if (!file) return;
   _annImageFile = file;
   var reader = new FileReader();
-  reader.onload = function(e) {
+  reader.onload = function(ev) {
     var img = document.getElementById('annImagePreview');
-    img.src = e.target.result; img.style.display = 'block';
+    img.src = ev.target.result; img.style.display = 'block';
     document.getElementById('annDropLabel').textContent = '✓ ' + file.name + ' — click to replace';
   };
   reader.readAsDataURL(file);
+}
+function resizeImage(file, maxWidth, quality) {
+  return new Promise(function(resolve, reject) {
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      var img = new Image();
+      img.onload = function() {
+        var w = img.width, h = img.height;
+        if (w > maxWidth) { h = Math.round(h * maxWidth / w); w = maxWidth; }
+        var canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', quality).replace(/^data:[^;]+;base64,/, ''));
+      };
+      img.onerror = reject;
+      img.src = ev.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
 }
 
 async function postAnnouncement() {
@@ -359,30 +379,16 @@ async function postAnnouncement() {
   try {
     var payload = { title, body, pinned };
     if (_annImageFile) {
-      await new Promise(function(resolve, reject) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-          payload.imageData     = e.target.result;
-          payload.imageFilename = _annImageFile.name;
-          payload.imageMimetype = _annImageFile.type;
-          resolve();
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(_annImageFile);
-      });
+      payload.imageBase64 = await resizeImage(_annImageFile, 1000, 0.75);
     }
-    var result = await apiCall('POST', '/api/portal/announcements', payload);
+    await apiCall('POST', '/api/portal/announcements', payload);
     document.getElementById('annTitle').value = '';
     document.getElementById('annBody').value  = '';
     document.getElementById('annPinned').checked = false;
     document.getElementById('annImagePreview').style.display = 'none';
     document.getElementById('annDropLabel').textContent = '🖼 Drag image here or click to attach (optional)';
     _annImageFile = null;
-    if (result.imageError) {
-      toast('Posted — but image failed: ' + result.imageError, false);
-    } else {
-      toast('Announcement posted!', true);
-    }
+    toast('Announcement posted!', true);
     loadPortalData();
   } catch(e) { toast('Error: ' + e.message, false); }
 }
