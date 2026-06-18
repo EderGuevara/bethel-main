@@ -371,14 +371,18 @@ async function postAnnouncement() {
         reader.readAsDataURL(_annImageFile);
       });
     }
-    await apiCall('POST', '/api/portal/announcements', payload);
+    var result = await apiCall('POST', '/api/portal/announcements', payload);
     document.getElementById('annTitle').value = '';
     document.getElementById('annBody').value  = '';
     document.getElementById('annPinned').checked = false;
     document.getElementById('annImagePreview').style.display = 'none';
     document.getElementById('annDropLabel').textContent = '🖼 Drag image here or click to attach (optional)';
     _annImageFile = null;
-    toast('Announcement posted!', true);
+    if (result.imageError) {
+      toast('Posted — but image failed: ' + result.imageError, false);
+    } else {
+      toast('Announcement posted!', true);
+    }
     loadPortalData();
   } catch(e) { toast('Error: ' + e.message, false); }
 }
