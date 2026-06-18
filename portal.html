@@ -289,6 +289,15 @@ function fileIcon(mimetype) {
   if (mimetype.includes('zip') || mimetype.includes('compressed')) return '📦';
   return '📄';
 }
+function resourceIcon(r) {
+  if (r.mimetype) return '<span style="font-size:2rem">' + fileIcon(r.mimetype) + '</span>';
+  try {
+    var domain = new URL(r.url).hostname;
+    return '<img src="https://www.google.com/s2/favicons?domain=' + encodeURIComponent(domain) + '&sz=64"'
+      + ' onerror="this.replaceWith(document.createTextNode(\'🔗\'))"'
+      + ' style="width:2.2rem;height:2.2rem;object-fit:contain;border-radius:6px">';
+  } catch(e) { return '<span style="font-size:2rem">🔗</span>'; }
+}
 function toast(msg, ok) {
   var t = document.getElementById('toast');
   t.textContent = (ok !== false ? '✓ ' : '⚠ ') + msg;
@@ -430,7 +439,7 @@ function renderResources(resources, cat) {
   }
   grid.innerHTML = filtered.map(function(r) {
     return '<div class="resource-card">'
-      + '<div class="resource-icon">' + fileIcon(r.mimetype) + '</div>'
+      + '<div class="resource-icon">' + resourceIcon(r) + '</div>'
       + '<div class="resource-name">' + escHtml(r.name) + '</div>'
       + (r.description ? '<div class="resource-desc">' + escHtml(r.description) + '</div>' : '')
       + '<div class="resource-meta">' + fmtSize(r.size) + (r.uploadedAt ? ' · ' + fmt(r.uploadedAt) : '') + '</div>'
