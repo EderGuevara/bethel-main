@@ -458,19 +458,25 @@ async function deleteRes(id) {
 
 var _editResId = null;
 function openEditRes(id) {
-  var r = _resMap[id];
-  if (!r) { console.warn('[editRes] id not found in _resMap:', id, Object.keys(_resMap)); return; }
-  _editResId = id;
-  document.getElementById('editResName').value = r.name || '';
-  document.getElementById('editResDesc').value = r.description || '';
-  document.getElementById('editResUrl').value  = r.url || '';
-  var logoEl = document.getElementById('editResLogoUrl');
-  if (logoEl) logoEl.value = r.logoUrl || '';
-  var sel = document.getElementById('editResCat');
-  for (var i = 0; i < sel.options.length; i++) {
-    if (sel.options[i].value === r.category) { sel.selectedIndex = i; break; }
+  try {
+    var r = _resMap[id];
+    if (!r) { toast('Resource not found — try refreshing.', false); return; }
+    _editResId = id;
+    document.getElementById('editResName').value = r.name || '';
+    document.getElementById('editResDesc').value = r.description || '';
+    document.getElementById('editResUrl').value  = r.url || '';
+    var logoEl = document.getElementById('editResLogoUrl');
+    if (logoEl) logoEl.value = r.logoUrl || '';
+    var sel = document.getElementById('editResCat');
+    for (var i = 0; i < sel.options.length; i++) {
+      if (sel.options[i].value === r.category) { sel.selectedIndex = i; break; }
+    }
+    var modal = document.getElementById('editResModal');
+    if (!modal) { toast('Edit modal missing — try refreshing.', false); return; }
+    modal.style.display = 'flex';
+  } catch(e) {
+    toast('Edit error: ' + e.message, false);
   }
-  document.getElementById('editResModal').style.display = 'flex';
 }
 function closeEditRes() {
   document.getElementById('editResModal').style.display = 'none';
