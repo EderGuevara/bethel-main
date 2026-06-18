@@ -315,7 +315,7 @@ function resourceIcon(r) {
     var domain = new URL(href).hostname.replace(/^www\./, '');
     return '<img src="https://' + domain + '/apple-touch-icon.png"'
       + " onerror=\"_nextLogo(this,'" + domain + "',0)\""
-      + ' style="width:4rem;height:4rem;object-fit:contain;border-radius:8px;mix-blend-mode:multiply">';
+      + ' style="width:2rem;height:2rem;object-fit:contain;border-radius:8px;mix-blend-mode:multiply">';
   } catch(e) { return '<span style="font-size:3rem">🔗</span>'; }
 }
 function toast(msg, ok) {
