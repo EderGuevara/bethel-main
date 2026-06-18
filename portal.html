@@ -292,9 +292,12 @@ function fileIcon(mimetype) {
 function resourceIcon(r) {
   if (r.mimetype) return '<span style="font-size:2rem">' + fileIcon(r.mimetype) + '</span>';
   try {
-    var domain = new URL(r.url).hostname;
-    return '<img src="https://www.google.com/s2/favicons?domain=' + encodeURIComponent(domain) + '&sz=64"'
-      + ' onerror="this.replaceWith(document.createTextNode(\'🔗\'))"'
+    var hostname = new URL(r.url).hostname;
+    var domain = hostname.replace(/^www\./, '');
+    var clearbit = 'https://logo.clearbit.com/' + domain;
+    var goog = 'https://www.google.com/s2/favicons?domain=' + encodeURIComponent(domain) + '&sz=64';
+    return '<img src="' + clearbit + '"'
+      + ' onerror="this.src=\'' + goog + '\';this.onerror=function(){this.replaceWith(document.createTextNode(\'🔗\'))}"'
       + ' style="width:2.2rem;height:2.2rem;object-fit:contain;border-radius:6px">';
   } catch(e) { return '<span style="font-size:2rem">🔗</span>'; }
 }
