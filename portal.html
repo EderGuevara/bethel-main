@@ -302,7 +302,7 @@ function _nextLogo(img, domain, idx) {
 }
 function resourceIcon(r) {
   if (r.mimetype) return '<span style="font-size:2rem">' + fileIcon(r.mimetype) + '</span>';
-  if (r.logoUrl) return '<img src="' + escHtml(r.logoUrl) + '" onerror="this.style.display=\'none\'" style="width:2.2rem;height:2.2rem;object-fit:contain;border-radius:6px">';
+  if (r.logoUrl) { var d = new URL(r.url.includes('://')?r.url:'https://'+r.url).hostname.replace(/^www\./,''); return '<img src="' + escHtml(r.logoUrl) + '" onerror="this.src=\'https://logo.clearbit.com/'+d+'\';this.onerror=function(){_nextLogo(this,\''+d+'\',0)}" style="width:2.2rem;height:2.2rem;object-fit:contain;border-radius:6px">'; }
   try {
     var href = r.url.includes('://') ? r.url : 'https://' + r.url;
     var domain = new URL(href).hostname.replace(/^www\./, '');

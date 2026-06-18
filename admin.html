@@ -206,7 +206,10 @@ a{text-decoration:none;color:inherit}
       </select>
     </div>
     <div class="field"><input id="editResUrl" placeholder="URL (leave blank to keep existing)" style="width:100%;box-sizing:border-box"></div>
-    <div class="field"><input id="editResLogoUrl" placeholder="Logo image URL (optional)" style="width:100%;box-sizing:border-box"></div>
+    <div class="field" style="display:flex;gap:8px;align-items:center">
+      <input id="editResLogoUrl" placeholder="Logo image URL (optional)" style="flex:1;box-sizing:border-box" oninput="previewEditLogo()">
+      <img id="editResLogoPreview" style="width:2rem;height:2rem;object-fit:contain;border-radius:4px;border:1px solid #E5E7EB;display:none">
+    </div>
     <button id="editResSaveBtn" onclick="saveEditRes()" class="btn-sm" style="width:100%;justify-content:center">Save Changes</button>
   </div>
 </div>
@@ -457,6 +460,14 @@ async function deleteRes(id) {
 }
 
 var _editResId = null;
+function previewEditLogo() {
+  var url = document.getElementById('editResLogoUrl').value.trim();
+  var img = document.getElementById('editResLogoPreview');
+  if (!url) { img.style.display = 'none'; return; }
+  img.onerror = function() { img.style.display = 'none'; };
+  img.onload  = function() { img.style.display = 'block'; };
+  img.src = url;
+}
 function openEditRes(id) {
   try {
     var r = _resMap[id];
@@ -466,7 +477,7 @@ function openEditRes(id) {
     document.getElementById('editResDesc').value = r.description || '';
     document.getElementById('editResUrl').value  = r.url || '';
     var logoEl = document.getElementById('editResLogoUrl');
-    if (logoEl) logoEl.value = r.logoUrl || '';
+    if (logoEl) { logoEl.value = r.logoUrl || ''; previewEditLogo(); }
     var sel = document.getElementById('editResCat');
     for (var i = 0; i < sel.options.length; i++) {
       if (sel.options[i].value === r.category) { sel.selectedIndex = i; break; }
