@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Cap. 10: Seguro Social y Medicare</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F1F5F9;color:#1E293B;padding:2rem 1.5rem;min-height:100vh}
+.container{max-width:820px;margin:0 auto}
+.top-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;gap:8px}
+.top-nav a{color:#64748B;text-decoration:none;font-size:.8rem;padding:6px 14px;border:1px solid #E2E8F0;border-radius:8px;background:#fff;white-space:nowrap}
+.top-nav a:hover{border-color:#DDB84A;color:#DDB84A}
+.home-btn{background:#0F172A!important;color:#DDB84A!important;border-color:#0F172A!important}
+.ch-header{background:linear-gradient(135deg,#0F172A,#1E293B);border-radius:16px;padding:2rem 2.5rem;margin-bottom:2rem}
+.ch-badge{display:inline-block;background:#DDB84A;color:#0F172A;border-radius:8px;padding:4px 14px;font-size:11px;font-weight:700;letter-spacing:.1em;margin-bottom:.75rem}
+.ch-title{color:#fff;font-size:22px;font-weight:700;line-height:1.3;margin-bottom:.5rem}
+.ch-overview{color:#94A3B8;font-size:.88rem;line-height:1.6}
+.s-label{font-size:10px;font-weight:700;letter-spacing:.14em;color:#94A3B8;text-transform:uppercase;margin:2rem 0 .7rem}
+.terms-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.term{background:#fff;border:1px solid #E2E8F0;border-left:3px solid #DDB84A;border-radius:10px;padding:.85rem 1rem}
+.term-name{font-size:13px;font-weight:700;color:#0F172A;margin-bottom:3px}
+.term-def{font-size:12px;color:#64748B;line-height:1.5}
+.card{background:#fff;border:1px solid #E2E8F0;border-radius:10px;padding:1.1rem 1.4rem;margin-top:1rem}
+.card.blue{border-left:3px solid #3B82F6}.card.gold{border-left:3px solid #DDB84A;background:#FFFBF0;border-color:#E5C55A}.card.red{border-left:3px solid #EF4444;background:#FFF5F5;border-color:#FCA5A5}.card.green{border-left:3px solid #22C55E;background:#F0FDF4;border-color:#86EFAC}
+.card-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem}
+.card.blue .card-label{color:#2563EB}.card.gold .card-label{color:#92700A}.card.red .card-label{color:#B91C1C}.card.green .card-label{color:#15803D}
+.card-title{font-size:14px;font-weight:700;color:#0F172A;margin-bottom:.4rem}
+.card-body{font-size:13px;line-height:1.65}
+.card.blue .card-body{color:#475569}.card.gold .card-body{color:#5C4200}.card.red .card-body{color:#7F1D1D}.card.green .card-body{color:#166534}
+.card-body ul{margin:.5rem 0 0 1.2rem}.card-body li{margin-bottom:.3rem}
+.table-wrap{background:#fff;border:1px solid #E2E8F0;border-radius:10px;overflow:hidden;margin-top:1rem}
+.table-label{font-size:10px;font-weight:700;letter-spacing:.12em;color:#94A3B8;text-transform:uppercase;padding:.85rem 1.25rem .3rem}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead tr{background:#0F172A}
+th{padding:8px 14px;text-align:left;color:#DDB84A;font-weight:600}
+td{padding:8px 14px;color:#475569;border-top:1px solid #F1F5F9}
+td:first-child{color:#0F172A;font-weight:600}
+tr:nth-child(even) td{background:#F8FAFC}
+.recall{background:#0F172A;border-radius:12px;padding:1.5rem 1.75rem;margin-top:2rem}
+.recall-title{color:#DDB84A;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.9rem}
+.recall-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:.55rem;font-size:13px;color:#CBD5E1;line-height:1.5}
+.recall-item::before{content:"✓";color:#DDB84A;font-weight:700;flex-shrink:0}
+.footer-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;padding-top:1.5rem;border-top:1px solid #E2E8F0;gap:8px}
+.footer-nav a{display:flex;align-items:center;gap:6px;text-decoration:none;color:#64748B;font-size:.8rem;padding:8px 18px;border:1px solid #E2E8F0;border-radius:8px;background:#fff}
+.footer-nav a:hover{border-color:#DDB84A;color:#DDB84A}
+.brand{font-size:.72rem;color:#94A3B8;text-align:center;margin-top:1.5rem}
+@media print{body{background:#fff;padding:1rem}.top-nav,.footer-nav{display:none}}
+html.embedded .top-nav,html.embedded .footer-nav,html.embedded .brand,html.embedded .ch-header{display:none!important}html.embedded body{background:#fff;padding:0}html.embedded .container{max-width:100%;padding:.75rem 1rem}@media(max-width:600px){.terms-grid{grid-template-columns:1fr}.ch-title{font-size:19px}body{padding:1rem}}
+</style>
+<script>if(window.self!==window.top||location.search.indexOf("embed=1")>-1)document.documentElement.classList.add("embedded");</script>
+</head>
+<body>
+<div class="container">
+
+<div class="top-nav">
+  <a href="ch9.html">← Capítulo 9</a>
+  <a href="index.html" class="home-btn">⌂ Todos los Capítulos</a>
+  <a href="ch11.html">Capítulo 11 →</a>
+</div>
+
+<div class="ch-header">
+  <div class="ch-badge">CAPÍTULO 10</div>
+  <div class="ch-title">Seguro Social y Medicare</div>
+  <div class="ch-overview">Comprende los impuestos FICA, los requisitos de elegibilidad del Seguro Social, los beneficios de jubilación e incapacidad, los cuatro partes de Medicare y el período de penumbra.</div>
+</div>
+
+<div class="s-label">Términos Clave</div>
+<div class="terms-grid">
+  <div class="term"><div class="term-name">FICA</div><div class="term-def">Impuesto sobre la nómina que financia el Seguro Social y Medicare. Empleado y empleador contribuyen cada uno. Los trabajadores independientes pagan la parte completa (SECA).</div></div>
+  <div class="term"><div class="term-name">Créditos del Seguro Social</div><div class="term-def">Unidades de cobertura ganadas trabajando. Se necesitan 40 créditos (aprox. 10 años de trabajo) para ser "totalmente asegurado" y recibir beneficios de jubilación.</div></div>
+  <div class="term"><div class="term-name">Totalmente Asegurado</div><div class="term-def">40 créditos ganados de por vida. Elegible para beneficios de jubilación, sobreviviente e incapacidad.</div></div>
+  <div class="term"><div class="term-name">Actualmente Asegurado</div><div class="term-def">6 créditos en los últimos 13 trimestres. Elegible solo para beneficios limitados de sobreviviente.</div></div>
+  <div class="term"><div class="term-name">Edad de Jubilación Plena (FRA)</div><div class="term-def">La edad a la que se recibe el 100% del beneficio del Seguro Social. Actualmente entre 66 y 67 años según el año de nacimiento.</div></div>
+  <div class="term"><div class="term-name">SSDI</div><div class="term-def">Seguro de Incapacidad del Seguro Social. Requiere 5 meses de espera antes del primer pago de beneficios. La incapacidad debe ser total y de larga duración.</div></div>
+  <div class="term"><div class="term-name">Medicare Parte A</div><div class="term-def">Seguro hospitalario. Generalmente sin prima para quienes tienen 40+ créditos. Cubre hospitalización, cuidado en hogar de ancianos, hospicio.</div></div>
+  <div class="term"><div class="term-name">Medicare Parte B</div><div class="term-def">Seguro médico. Prima mensual requerida. Cubre servicios médicos de médicos, servicios ambulatorios, equipo médico durable.</div></div>
+</div>
+
+<div class="s-label">Impuesto FICA</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Desglose del Impuesto FICA</div>
+  <div class="card-body">El impuesto FICA financia el Seguro Social y Medicare. La tasa total es del <strong>7.65%</strong> para empleados y empleadores cada uno (total del 15.3%):
+    <ul>
+      <li><strong>6.2%</strong> — Seguro Social (OASDI) — aplica hasta el límite de ingresos sujetos a SS (ajustado anualmente)</li>
+      <li><strong>1.45%</strong> — Medicare — aplica a TODO el ingreso, sin límite</li>
+    </ul>
+    Los trabajadores independientes pagan el <strong>15.3% completo</strong> (SECA), pero pueden deducir la mitad en su declaración de impuestos.
+  </div>
+</div>
+
+<div class="s-label">Elegibilidad y Beneficios</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Créditos y Estatus de Asegurado</div>
+  <div class="card-body">
+    <ul>
+      <li>Se pueden ganar hasta <strong>4 créditos por año</strong> trabajando</li>
+      <li><strong>40 créditos</strong> = Totalmente Asegurado → elegible para beneficios de jubilación, sobreviviente completo e incapacidad</li>
+      <li><strong>6 de los últimos 13 trimestres</strong> = Actualmente Asegurado → elegible solo para beneficios limitados de sobreviviente (cónyuge con hijo menor de 16 o incapacitado)</li>
+      <li>Beneficios de incapacidad (SSDI) requieren ser totalmente asegurado Y haber trabajado recientemente</li>
+    </ul>
+  </div>
+</div>
+
+<div class="table-wrap">
+  <div class="table-label">Edades Clave de Jubilación del Seguro Social</div>
+  <table>
+    <thead><tr><th>Edad</th><th>Beneficio</th><th>Nota</th></tr></thead>
+    <tbody>
+      <tr><td>62 años</td><td>Jubilación anticipada (reducida)</td><td>Beneficio permanentemente reducido (~25–30% menos)</td></tr>
+      <tr><td>FRA (66–67)</td><td>Beneficio completo (100%)</td><td>Varía según año de nacimiento</td></tr>
+      <tr><td>70 años</td><td>Beneficio máximo</td><td>+8% por cada año de retraso después de la FRA; sin aumento después de los 70</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card gold">
+  <div class="card-label">Consejo de Examen</div>
+  <div class="card-title">Comenzar a los 62 vs. Esperar hasta la FRA o los 70</div>
+  <div class="card-body">Comenzar el SS a los 62 años da un beneficio <strong>permanentemente reducido</strong>. Esperar hasta la FRA (66–67) da el 100%. Retrasar hasta los 70 añade un 8% por año adicional de espera. El examen puede preguntar sobre las consecuencias de comenzar temprano o tarde — la reducción a los 62 es permanente, y el incremento se detiene a los 70.</div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Beneficio de Muerte del Seguro Social</div>
+  <div class="card-body">Al morir un trabajador asegurado:
+    <ul>
+      <li><strong>Pago único de $255</strong> — beneficio por muerte pagado al cónyuge sobreviviente o hijos elegibles. Este monto ha permanecido sin cambios por décadas.</li>
+      <li><strong>Beneficios de sobreviviente</strong> — el cónyuge con hijos menores de 16 (o incapacitados) puede recibir beneficios mensuales. Los pagos cesan cuando el hijo menor cumple 16 (período de penumbra). Recomienzan cuando el cónyuge cumple 60 (viudez).</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card red">
+  <div class="card-label">¡Atención!</div>
+  <div class="card-title">SSDI — Período de Espera de 5 Meses</div>
+  <div class="card-body">El Seguro de Incapacidad del Seguro Social (SSDI) tiene un <strong>período de espera de 5 meses</strong> antes de que comiencen los beneficios. La incapacidad debe ser total (no puede hacer ningún trabajo sustancialmente remunerado) y se espera que dure al menos 12 meses o resulte en muerte. Este período de espera es una razón clave por la que los seguros de incapacidad privados son importantes.</div>
+</div>
+
+<div class="s-label">Medicare — Los Cuatro Partes</div>
+
+<div class="table-wrap">
+  <div class="table-label">Las Cuatro Partes de Medicare</div>
+  <table>
+    <thead><tr><th>Parte</th><th>Nombre</th><th>Cubre</th><th>Prima</th></tr></thead>
+    <tbody>
+      <tr><td>Parte A</td><td>Seguro Hospitalario</td><td>Hospitalización, hogar de ancianos, hospicio, cuidado en el hogar</td><td>Generalmente sin prima (si 40+ créditos de SS)</td></tr>
+      <tr><td>Parte B</td><td>Seguro Médico</td><td>Médicos, servicios ambulatorios, equipo médico durable, servicios preventivos</td><td>Prima mensual requerida (~$170+/mes)</td></tr>
+      <tr><td>Parte C</td><td>Medicare Advantage</td><td>Reemplaza Partes A+B; ofrecida por aseguradoras privadas. Puede incluir visión, dental, audición.</td><td>Varía según el plan</td></tr>
+      <tr><td>Parte D</td><td>Medicamentos Recetados</td><td>Medicamentos de prescripción. Cobertura de "donut hole" (brecha de cobertura).</td><td>Prima mensual requerida; varía</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card gold">
+  <div class="card-label">Consejo de Examen</div>
+  <div class="card-title">Medicare Parte A = Sin Prima (Generalmente)</div>
+  <div class="card-body">La Parte A de Medicare generalmente no tiene prima para personas que han trabajado y pagado impuestos FICA durante al menos 10 años (40 créditos). Es uno de los pocos beneficios federales "sin costo" para la mayoría de los beneficiarios. La Parte B siempre tiene prima mensual. Las Partes C y D también tienen prima y varían según el plan.</div>
+</div>
+
+<div class="s-label">Tributación del Seguro Social</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Cuándo son Tributables los Beneficios del SS</div>
+  <div class="card-body">Los beneficios del Seguro Social pueden ser tributables según el "ingreso combinado" (ingreso bruto ajustado + intereses exentos de impuestos + 50% de beneficios del SS):
+    <ul>
+      <li><strong>Contribuyentes individuales:</strong>
+        <ul>
+          <li>$25,000 – $34,000 → hasta el <strong>50%</strong> de los beneficios es tributable</li>
+          <li>Más de $34,000 → hasta el <strong>85%</strong> de los beneficios es tributable</li>
+        </ul>
+      </li>
+      <li><strong>Declarantes conjuntos (casados):</strong>
+        <ul>
+          <li>$32,000 – $44,000 → hasta el <strong>50%</strong> es tributable</li>
+          <li>Más de $44,000 → hasta el <strong>85%</strong> es tributable</li>
+        </ul>
+      </li>
+    </ul>
+    Los beneficios del SS NUNCA son 100% tributables — el máximo es el 85%.
+  </div>
+</div>
+
+<div class="card green">
+  <div class="card-label">Números Clave</div>
+  <div class="card-title">Números del Capítulo 10</div>
+  <div class="card-body">
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:110px">7.65% / 15.3%</span><span>Tasa FICA: 7.65% empleado + 7.65% empleador (trabajador independiente paga 15.3%)</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:110px">6.2% + 1.45%</span><span>FICA desglosado: 6.2% SS + 1.45% Medicare</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:110px">40 créditos</span><span>Totalmente asegurado (aprox. 10 años de trabajo)</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:110px">6 de 13</span><span>Actualmente asegurado (6 créditos en últimos 13 trimestres)</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:110px">$255</span><span>Beneficio único por muerte del Seguro Social</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:110px">5 meses</span><span>Período de espera del SSDI antes del primer pago</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:110px">+8%/año</span><span>Crédito por retraso en SS (después de la FRA, hasta los 70)</span></div>
+    <div style="display:flex;gap:10px"><span style="font-weight:700;color:#15803D;min-width:110px">85%</span><span>Máximo porcentaje de beneficios del SS que puede ser tributable</span></div>
+  </div>
+</div>
+
+<div class="recall">
+  <div class="recall-title">Repaso Rápido — Debes Saber Antes de Continuar</div>
+  <div class="recall-item">FICA = 7.65% total: 6.2% para SS (con límite salarial) + 1.45% para Medicare (sin límite). Los trabajadores independientes pagan el 15.3%.</div>
+  <div class="recall-item">40 créditos = totalmente asegurado. 6 de los últimos 13 trimestres = actualmente asegurado (beneficios limitados de sobreviviente).</div>
+  <div class="recall-item">SS a los 62 = beneficio reducido permanentemente. FRA = 100%. Retraso hasta 70 = +8% por año adicional.</div>
+  <div class="recall-item">Pago único por muerte del SS = $255 (no ha cambiado en décadas).</div>
+  <div class="recall-item">SSDI requiere período de espera de 5 meses antes del primer pago de beneficios.</div>
+  <div class="recall-item">Período de penumbra: desde que el hijo menor cumple 16 hasta que el cónyuge sobreviviente cumple 60 — sin beneficios del SS.</div>
+  <div class="recall-item">Medicare Parte A = hospitalaria (sin prima si 40+ créditos). Parte B = médica (prima mensual). Parte C = Medicare Advantage. Parte D = medicamentos.</div>
+  <div class="recall-item">Tributación del SS: individuo $25K–$34K = 50% tributable; más de $34K = hasta 85% tributable. Nunca 100% tributable.</div>
+</div>
+
+<div class="footer-nav">
+  <a href="ch9.html">← Capítulo 9</a>
+  <a href="ch11.html">Capítulo 11: Planes de Jubilación →</a>
+</div>
+<div class="brand">Bethel Financial Group · Guía de Estudio para Licencia de Seguro de Vida</div>
+</div>
+</body>
+</html>

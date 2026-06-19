@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Cap. 1: Principios Básicos del Seguro de Vida</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F1F5F9;color:#1E293B;padding:2rem 1.5rem;min-height:100vh}
+.container{max-width:820px;margin:0 auto}
+.top-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;gap:8px}
+.top-nav a{color:#64748B;text-decoration:none;font-size:.8rem;padding:6px 14px;border:1px solid #E2E8F0;border-radius:8px;background:#fff;white-space:nowrap}
+.top-nav a:hover{border-color:#DDB84A;color:#DDB84A}
+.home-btn{background:#0F172A!important;color:#DDB84A!important;border-color:#0F172A!important}
+.ch-header{background:linear-gradient(135deg,#0F172A,#1E293B);border-radius:16px;padding:2rem 2.5rem;margin-bottom:2rem}
+.ch-badge{display:inline-block;background:#DDB84A;color:#0F172A;border-radius:8px;padding:4px 14px;font-size:11px;font-weight:700;letter-spacing:.1em;margin-bottom:.75rem}
+.ch-title{color:#fff;font-size:22px;font-weight:700;line-height:1.3;margin-bottom:.5rem}
+.ch-overview{color:#94A3B8;font-size:.88rem;line-height:1.6}
+.s-label{font-size:10px;font-weight:700;letter-spacing:.14em;color:#94A3B8;text-transform:uppercase;margin:2rem 0 .7rem}
+.terms-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.term{background:#fff;border:1px solid #E2E8F0;border-left:3px solid #DDB84A;border-radius:10px;padding:.85rem 1rem}
+.term-name{font-size:13px;font-weight:700;color:#0F172A;margin-bottom:3px}
+.term-def{font-size:12px;color:#64748B;line-height:1.5}
+.card{background:#fff;border:1px solid #E2E8F0;border-radius:10px;padding:1.1rem 1.4rem;margin-top:1rem}
+.card.blue{border-left:3px solid #3B82F6}
+.card.gold{border-left:3px solid #DDB84A;background:#FFFBF0;border-color:#E5C55A}
+.card.red{border-left:3px solid #EF4444;background:#FFF5F5;border-color:#FCA5A5}
+.card.green{border-left:3px solid #22C55E;background:#F0FDF4;border-color:#86EFAC}
+.card-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem}
+.card.blue .card-label{color:#2563EB}.card.gold .card-label{color:#92700A}.card.red .card-label{color:#B91C1C}.card.green .card-label{color:#15803D}
+.card-title{font-size:14px;font-weight:700;color:#0F172A;margin-bottom:.4rem}
+.card-body{font-size:13px;line-height:1.65}
+.card.blue .card-body{color:#475569}.card.gold .card-body{color:#5C4200}.card.red .card-body{color:#7F1D1D}.card.green .card-body{color:#166534}
+.card-body ul,.card-body ol{margin:.5rem 0 0 1.2rem}.card-body li{margin-bottom:.25rem}
+.num-row{display:flex;gap:10px;margin-bottom:.4rem;font-size:13px;color:#166534}
+.num-val{font-weight:700;color:#15803D;min-width:80px;flex-shrink:0}
+.table-wrap{background:#fff;border:1px solid #E2E8F0;border-radius:10px;overflow:hidden;margin-top:1rem}
+.table-label{font-size:10px;font-weight:700;letter-spacing:.12em;color:#94A3B8;text-transform:uppercase;padding:.85rem 1.25rem .3rem}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead tr{background:#0F172A}
+th{padding:8px 14px;text-align:left;color:#DDB84A;font-weight:600}
+td{padding:8px 14px;color:#475569;border-top:1px solid #F1F5F9}
+td:first-child{color:#0F172A;font-weight:600}
+tr:nth-child(even) td{background:#F8FAFC}
+.recall{background:#0F172A;border-radius:12px;padding:1.5rem 1.75rem;margin-top:2rem}
+.recall-title{color:#DDB84A;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.9rem}
+.recall-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:.55rem;font-size:13px;color:#CBD5E1;line-height:1.5}
+.recall-item::before{content:"✓";color:#DDB84A;font-weight:700;flex-shrink:0}
+.footer-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;padding-top:1.5rem;border-top:1px solid #E2E8F0;gap:8px}
+.footer-nav a{display:flex;align-items:center;gap:6px;text-decoration:none;color:#64748B;font-size:.8rem;padding:8px 18px;border:1px solid #E2E8F0;border-radius:8px;background:#fff}
+.footer-nav a:hover{border-color:#DDB84A;color:#DDB84A}
+.brand{font-size:.72rem;color:#94A3B8;text-align:center;margin-top:1.5rem}
+@media print{body{background:#fff;padding:1rem}.top-nav,.footer-nav{display:none}}
+html.embedded .top-nav,html.embedded .footer-nav,html.embedded .brand,html.embedded .ch-header{display:none!important}html.embedded body{background:#fff;padding:0}html.embedded .container{max-width:100%;padding:.75rem 1rem}@media(max-width:600px){.terms-grid{grid-template-columns:1fr}.ch-title{font-size:19px}body{padding:1rem}}
+</style>
+<script>if(window.self!==window.top||location.search.indexOf("embed=1")>-1)document.documentElement.classList.add("embedded");</script>
+</head>
+<body>
+<div class="container">
+
+<div class="top-nav">
+  <a href="index.html" class="home-btn">⌂ Todos los Capítulos</a>
+  <a href="ch2.html">Capítulo 2 →</a>
+</div>
+
+<div class="ch-header">
+  <div class="ch-badge">CAPÍTULO 1</div>
+  <div class="ch-title">Principios Básicos del Seguro de Vida</div>
+  <div class="ch-overview">Comprende qué es el seguro, por qué existe, los tipos de riesgo que cubre y los conceptos fundamentales que sostienen toda póliza de seguro de vida.</div>
+  <div class="term"><div class="term-name">Mutualización</div><div class="term-def">Conversión de una compañía de acciones a una compañía mutualista; los asegurados se convierten en propietarios</div></div>
+  <div class="term"><div class="term-name">Desmutualización</div><div class="term-def">Conversión de una compañía mutualista a una de acciones; los asegurados reciben acciones o efectivo</div></div>
+  <div class="term"><div class="term-name">Riesgo Físico</div><div class="term-def">Característica física que aumenta la probabilidad de pérdida (ej. condición cardíaca, tabaquismo, ocupación peligrosa)</div></div>
+  <div class="term"><div class="term-name">Riesgo Moral (Intencional)</div><div class="term-def">Tendencias deshonestas que aumentan intencionalmente la probabilidad de pérdida (ej. fraude, incendio provocado)</div></div>
+  <div class="term"><div class="term-name">Riesgo de Indiferencia</div><div class="term-def">Actitud descuidada ante pérdidas porque existe el seguro (ej. dejar las llaves en el auto porque está asegurado)</div></div>
+  <div class="term"><div class="term-name">Grupo de Retención de Riesgo</div><div class="term-def">Grupo de empresas del mismo sector que agrupan responsabilidades; debe estar licenciado en al menos un estado</div></div>
+  <div class="term"><div class="term-name">Seguro de Líneas Excedentes</div><div class="term-def">Cobertura con aseguradoras no admitidas cuando las admitidas no aceptan el riesgo; NO está respaldado por el fondo de garantía estatal</div></div>
+</div>
+
+<div class="s-label">Términos Clave</div>
+<div class="terms-grid">
+  <div class="term"><div class="term-name">Seguro</div><div class="term-def">Contrato que transfiere el riesgo de pérdida financiera de un individuo a una aseguradora a cambio de una prima.</div></div>
+  <div class="term"><div class="term-name">Riesgo Puro</div><div class="term-def">Riesgo que solo implica posibilidad de pérdida — sin posibilidad de ganancia. Ejemplos: muerte, incendio, accidente. <strong>Asegurable.</strong></div></div>
+  <div class="term"><div class="term-name">Riesgo Especulativo</div><div class="term-def">Riesgo que implica posibilidad de ganancia O pérdida. Ejemplos: juegos de azar, bolsa de valores. <strong>No asegurable.</strong></div></div>
+  <div class="term"><div class="term-name">Interés Asegurable</div><div class="term-def">Interés financiero en la continuidad de la vida de otra persona. Debe existir al momento de la solicitud.</div></div>
+  <div class="term"><div class="term-name">Ley de los Grandes Números</div><div class="term-def">Cuanto mayor es el grupo, más precisamente se pueden predecir las pérdidas futuras — base de la fijación de primas.</div></div>
+  <div class="term"><div class="term-name">Selección Adversa</div><div class="term-def">Tendencia de personas de mayor riesgo a buscar seguro más que las de menor riesgo. Controlada mediante la suscripción.</div></div>
+  <div class="term"><div class="term-name">Indemnización</div><div class="term-def">Restaurar al asegurado a la misma posición financiera antes de la pérdida — sin ganancia. El seguro de vida NO es un contrato de indemnización.</div></div>
+  <div class="term"><div class="term-name">Prima</div><div class="term-def">Pago que se hace a la aseguradora a cambio de cobertura. Determinada por edad, salud, género, monto y tipo de póliza.</div></div>
+</div>
+
+<div class="s-label">Conceptos Clave</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">El Propósito del Seguro</div>
+  <div class="card-body">El seguro existe para <strong>transferir el riesgo financiero</strong> de un individuo a un grupo amplio (la aseguradora y todos sus asegurados). Cuando falleces inesperadamente, la carga financiera no recae solo en tu familia — se comparte entre todos los asegurados que pagaron primas. Esto se llama mancomunación del riesgo.</div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Métodos de Manejo del Riesgo</div>
+  <div class="card-body">Existen cuatro formas de manejar el riesgo:
+    <ul>
+      <li><strong>Evasión</strong> — eliminar la actividad por completo (no manejar)</li>
+      <li><strong>Reducción</strong> — tomar medidas para reducir el riesgo (usar cinturón de seguridad)</li>
+      <li><strong>Retención</strong> — aceptar y autofinanciar el riesgo (autoseguro)</li>
+      <li><strong>Transferencia</strong> — trasladar el riesgo a un tercero (comprar seguro)</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Interés Asegurable — Las Reglas</div>
+  <div class="card-body">Automáticamente tienes interés asegurable en tu propia vida. También tienes interés asegurable en:
+    <ul>
+      <li>Tu cónyuge, hijos y dependientes</li>
+      <li>Socios de negocio (seguro de persona clave)</li>
+      <li>Acreedores (por el monto de la deuda)</li>
+    </ul>
+    <strong>Regla clave:</strong> El interés asegurable debe existir al momento de la solicitud — no al momento del reclamo. Un ex-cónyuge puede aún cobrar si permanece como beneficiario designado.
+  </div>
+</div>
+
+<div class="table-wrap">
+  <div class="table-label">Comparación Rápida — Compañías de Acciones vs. Mutualistas</div>
+  <table>
+    <thead><tr><th>Característica</th><th>Compañía de Acciones</th><th>Compañía Mutualista</th></tr></thead>
+    <tbody>
+      <tr><td>Propiedad de</td><td>Accionistas</td><td>Asegurados (titulares de póliza)</td></tr>
+      <tr><td>Dividendos</td><td>Pagados a los accionistas</td><td>Pagados a los asegurados</td></tr>
+      <tr><td>Tipo de Póliza</td><td>No participante</td><td>Participante</td></tr>
+      <tr><td>Objetivo</td><td>Generar ganancias para los accionistas</td><td>Servir los intereses de los asegurados</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="table-wrap">
+  <div class="table-label">Tipos de Riesgo</div>
+  <table>
+    <thead><tr><th>Tipo de Riesgo</th><th>Resultado Posible</th><th>¿Asegurable?</th><th>Ejemplo</th></tr></thead>
+    <tbody>
+      <tr><td>Riesgo Puro</td><td>Solo pérdida</td><td>Sí</td><td>Muerte, incendio, accidente</td></tr>
+      <tr><td>Riesgo Especulativo</td><td>Ganancia o pérdida</td><td>No</td><td>Juegos de azar, bolsa, negocio</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card gold">
+  <div class="card-label">Consejo de Examen</div>
+  <div class="card-title">Momento del Interés Asegurable</div>
+  <div class="card-body">El examen frecuentemente evalúa CUÁNDO debe existir el interés asegurable. La respuesta siempre es: <strong>al momento de la solicitud (fecha de la aplicación)</strong>, no al momento del reclamo. Por eso un ex-cónyuge puede recibir los beneficios si el asegurado nunca cambió al beneficiario.</div>
+</div>
+
+<div class="card gold">
+  <div class="card-label">Consejo de Examen</div>
+  <div class="card-title">El Seguro de Vida NO es Indemnización</div>
+  <div class="card-body">El seguro de propiedad/accidentes SÍ es indemnización (repone el valor real de la pérdida). El seguro de vida NO es indemnización — no se puede asignar un valor exacto a la vida humana, por lo que el beneficio por fallecimiento es la suma asegurada acordada. Se puede "ganar" con los beneficios del seguro de vida.</div>
+</div>
+
+<div class="card red">
+  <div class="card-label">¡Atención!</div>
+  <div class="card-title">Participante ≠ Mutualista</div>
+  <div class="card-body">Una compañía de acciones puede vender pólizas <em>participantes</em> (que pagan dividendos). "Participante" se refiere al tipo de póliza, no al tipo de compañía. Sin embargo, las compañías mutualistas siempre venden pólizas participantes. No asumas que todas las pólizas con dividendos provienen de compañías mutualistas.</div>
+</div>
+
+<div class="s-label">Mutualización y Desmutualización</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Conversiones entre Acciones y Mutualista</div>
+  <div class="card-body">
+    <ul>
+      <li><strong>Mutualización</strong> = Compañía de acciones se convierte en mutualista; los asegurados se vuelven propietarios y pueden recibir dividendos</li>
+      <li><strong>Desmutualización</strong> = Compañía mutualista se convierte en compañía de acciones; los asegurados reciben efectivo o acciones</li>
+      <li>Ambas conversiones requieren aprobación regulatoria estatal</li>
+      <li>Tras la desmutualización, los asegurados ya no son propietarios — los accionistas lo son</li>
+    </ul>
+  </div>
+</div>
+
+<div class="s-label">Tipos de Riesgo — Alta Prioridad en el Examen</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Tres Tipos de Riesgo (Hazard)</div>
+  <div class="card-body">
+    <ul>
+      <li><strong>Riesgo Físico</strong> — condición física medible que aumenta el riesgo (obesidad, enfermedad previa, ocupación peligrosa)</li>
+      <li><strong>Riesgo Moral (Intencional)</strong> — acto deshonesto intencional o tendencia al fraude (incendio provocado, accidentes simulados)</li>
+      <li><strong>Riesgo de Indiferencia</strong> — actitud descuidada o indiferencia ante pérdidas porque existe el seguro</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card red">
+  <div class="card-label">¡Atención!</div>
+  <div class="card-title">Riesgo Moral vs. Riesgo de Indiferencia — Trampa Clásica del Examen</div>
+  <div class="card-body"><strong>Riesgo Moral</strong> = deshonestidad deliberada (intencional). <strong>Riesgo de Indiferencia</strong> = descuido porque "el seguro lo cubre." Ejemplo: "Dejó el auto sin llave porque está asegurado" = riesgo de INDIFERENCIA. El examen confunde estos términos — lee cada situación palabra por palabra.</div>
+</div>
+
+<div class="s-label">Líneas Excedentes y Grupos de Retención de Riesgo</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Seguro No Admitido / Líneas Excedentes</div>
+  <div class="card-body">
+    <ul>
+      <li>Primero se deben intentar las aseguradoras admitidas — las líneas excedentes son el último recurso</li>
+      <li>Se requiere un <strong>corredor de líneas excedentes</strong> con licencia para colocar la cobertura</li>
+      <li><strong>NO está respaldado por la asociación estatal de garantía</strong></li>
+      <li>No está sujeto a la aprobación estatal de tarifas y formularios</li>
+      <li>Se usa para riesgos inusuales, de alto riesgo o especializados que las aseguradoras admitidas rechazan</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card red">
+  <div class="card-label">¡Atención!</div>
+  <div class="card-title">Líneas Excedentes = Sin Protección del Fondo de Garantía</div>
+  <div class="card-body">Si una aseguradora de líneas excedentes (no admitida) se vuelve insolvente, los asegurados NO tienen protección de la asociación estatal de garantía. Esta es una de las distinciones más examinadas entre aseguradoras admitidas y no admitidas.</div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Grupo de Retención de Riesgo (RRG)</div>
+  <div class="card-body">
+    <ul>
+      <li>Empresas del <strong>mismo sector</strong> agrupan sus responsabilidades</li>
+      <li>Debe estar licenciado o constituido en <strong>al menos un estado</strong></li>
+      <li>Los miembros son propietarios del grupo</li>
+      <li>Exento de algunas regulaciones estatales bajo la Ley Federal de Retención de Riesgo</li>
+    </ul>
+  </div>
+</div>
+
+<div class="s-label">Clasificación de Aseguradoras</div>
+<div class="terms-grid">
+  <div class="term"><div class="term-name">Aseguradora Doméstica</div><div class="term-def">Compañía de seguros que opera en el estado donde fue incorporada/constituida.</div></div>
+  <div class="term"><div class="term-name">Aseguradora Foránea</div><div class="term-def">Compañía de seguros incorporada en un estado de EE.UU. pero que opera en otro estado diferente.</div></div>
+  <div class="term"><div class="term-name">Aseguradora Extranjera (Alien)</div><div class="term-def">Compañía de seguros incorporada fuera de los Estados Unidos.</div></div>
+  <div class="term"><div class="term-name">Aseguradora Admitida</div><div class="term-def">Aseguradora con licencia y aprobación para operar en un estado en particular. Sujeta a regulación estatal.</div></div>
+  <div class="term"><div class="term-name">Aseguradora No Admitida</div><div class="term-def">Aseguradora SIN licencia en el estado, pero autorizada a vender cobertura de líneas excedentes para riesgos inusuales.</div></div>
+  <div class="term"><div class="term-name">Sociedad de Beneficio Fraternal</div><div class="term-def">Organización sin fines de lucro que ofrece seguros a sus miembros con un vínculo común (religioso, étnico, etc.).</div></div>
+  <div class="term"><div class="term-name">Aseguradora Recíproca</div><div class="term-def">Los miembros se aseguran entre sí; administrada por un apoderado (attorney-in-fact). Cada miembro es asegurado y asegurador.</div></div>
+  <div class="term"><div class="term-name">Reaseguro</div><div class="term-def">Cuando una aseguradora transfiere parte de su riesgo a otra aseguradora (reaseguradora) para limitar su exposición a grandes pérdidas.</div></div>
+  <div class="term"><div class="term-name">Asociación de Garantía</div><div class="term-def">Fondo estatal que paga reclamos si una aseguradora admitida se vuelve insolvente. NO cubre aseguradoras no admitidas.</div></div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Tipos de Aseguradoras</div>
+  <div class="card-body">
+    <ul>
+      <li><strong>Compañía de acciones</strong> — propiedad de los accionistas; las ganancias van a los accionistas</li>
+      <li><strong>Compañía mutualista</strong> — propiedad de los asegurados; el excedente se devuelve como dividendos</li>
+      <li><strong>Sociedad de beneficio fraternal</strong> — asegura a miembros con vínculo común; sin fines de lucro; sistema de logias</li>
+      <li><strong>Intercambio recíproco</strong> — los miembros se aseguran entre sí; administrado por apoderado</li>
+      <li><strong>Lloyd's de Londres</strong> — no es una aseguradora sino un mercado de suscriptores individuales que aceptan una porción del riesgo</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Regulación del Seguro</div>
+  <div class="card-body">El seguro se regula principalmente a <strong>nivel estatal</strong>, no federal. Cada estado tiene un Departamento de Seguros (DOI) encabezado por un Comisionado de Seguros. El papel del comisionado es:
+    <ul>
+      <li>Licenciar a las aseguradoras y agentes</li>
+      <li>Aprobar formularios de pólizas y tarifas</li>
+      <li>Investigar quejas y hacer cumplir las leyes</li>
+      <li>Proteger a los consumidores de la insolvencia</li>
+    </ul>
+    La <strong>NAIC</strong> (Asociación Nacional de Comisionados de Seguros) coordina leyes modelo entre estados pero no tiene autoridad de ejecución.
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Sistemas de Distribución (Cómo se Venden los Seguros)</div>
+  <div class="card-body">
+    <ul>
+      <li><strong>Agente de carrera (cautivo)</strong> — representa solo a una aseguradora; empleado o contratista exclusivo de la compañía</li>
+      <li><strong>Agente independiente</strong> — representa a múltiples aseguradoras; es dueño de las renovaciones de pólizas</li>
+      <li><strong>Corredor (broker)</strong> — representa al comprador/cliente, no a la aseguradora; tiene deber fiduciario con el cliente</li>
+      <li><strong>Respuesta directa</strong> — vendido directamente al consumidor por correo, internet o TV sin agente</li>
+      <li><strong>Agente General Administrador (MGA)</strong> — agente mayorista que distribuye para aseguradoras, a menudo en mercados especializados</li>
+    </ul>
+  </div>
+</div>
+
+<div class="table-wrap">
+  <div class="table-label">Clasificación de Aseguradoras por Ubicación</div>
+  <table>
+    <thead><tr><th>Clasificación</th><th>Lugar de Incorporación</th><th>Lugar de Operación</th></tr></thead>
+    <tbody>
+      <tr><td>Doméstica</td><td>Estado A</td><td>Estado A (mismo estado)</td></tr>
+      <tr><td>Foránea</td><td>Estado A (cualquier estado de EE.UU.)</td><td>Estado B (estado diferente de EE.UU.)</td></tr>
+      <tr><td>Extranjera (Alien)</td><td>Fuera de EE.UU.</td><td>Cualquier estado de EE.UU.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="table-wrap">
+  <div class="table-label">Agente vs. Corredor</div>
+  <table>
+    <thead><tr><th>Característica</th><th>Agente</th><th>Corredor (Broker)</th></tr></thead>
+    <tbody>
+      <tr><td>Representa a</td><td>La aseguradora</td><td>El cliente/comprador</td></tr>
+      <tr><td>Autoridad</td><td>Tiene autoridad vinculante para la aseguradora</td><td>Sin autoridad vinculante</td></tr>
+      <tr><td>Deber Fiduciario</td><td>Hacia la aseguradora</td><td>Hacia el cliente</td></tr>
+      <tr><td>Compensación</td><td>Comisión de la aseguradora</td><td>Honorario o comisión</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card gold">
+  <div class="card-label">Consejo de Examen</div>
+  <div class="card-title">Doméstica vs. Foránea — Depende del Estado</div>
+  <div class="card-body">Una compañía que es "doméstica" en Nueva York es "foránea" en Massachusetts. La clasificación siempre se hace <strong>desde la perspectiva del estado donde opera actualmente la compañía</strong>. Si el examen pregunta qué tipo de aseguradora es una compañía de NY cuando vende en MA, la respuesta es: foránea.</div>
+</div>
+
+<div class="card red">
+  <div class="card-label">¡Atención!</div>
+  <div class="card-title">Las Asociaciones de Garantía Solo Cubren Aseguradoras Admitidas</div>
+  <div class="card-body">Las asociaciones estatales de garantía protegen a los asegurados cuando falla una aseguradora <strong>admitida</strong>. Si un cliente adquiere una póliza de una aseguradora no admitida (líneas excedentes) y esa aseguradora falla, la asociación de garantía NO pagará el reclamo. Siempre compra de aseguradoras admitidas cuando sea posible.</div>
+</div>
+
+<div class="s-label">Asociación Estatal de Garantía — Tema Crítico del Examen</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Cómo Funciona la Asociación de Garantía</div>
+  <div class="card-body">
+    <ul>
+      <li>Toda aseguradora <strong>admitida</strong> debe ser miembro de la asociación estatal de garantía</li>
+      <li>Si una aseguradora admitida se vuelve insolvente, la asociación paga los reclamos hasta los límites fijados por el estado</li>
+      <li>Se financia mediante <strong>cuotas de todas las demás aseguradoras admitidas</strong> — no con impuestos</li>
+      <li>Límites comunes: $300,000–$500,000 para beneficios por fallecimiento de seguros de vida (varía por estado)</li>
+      <li>Aplica <strong>SOLO</strong> a aseguradoras admitidas — las no admitidas/líneas excedentes NO están cubiertas</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card red">
+  <div class="card-label">¡Atención!</div>
+  <div class="card-title">El Fondo de Garantía NO Cubre Líneas Excedentes</div>
+  <div class="card-body">La asociación de garantía protege solo a los asegurados de aseguradoras admitidas insolventes. Las aseguradoras de líneas excedentes (no admitidas) nunca están cubiertas. El fondo también tiene <strong>límites</strong> — no garantiza el 100% de cada reclamo en todos los casos.</div>
+</div>
+
+<div class="card gold">
+  <div class="card-label">Consejo de Examen</div>
+  <div class="card-title">Sociedad de Beneficio Fraternal</div>
+  <div class="card-body">Las sociedades fraternales ofrecen seguros a miembros con un <strong>vínculo común</strong> (grupo religioso, organización étnica, profesión). Operan bajo un sistema de logias con funcionarios electos. Distinciones clave: (1) emiten <strong>certificados</strong>, no pólizas; (2) <strong>NO están sujetas a todas las regulaciones estándar de seguros</strong> — tienen algunas exenciones; (3) estructura sin fines de lucro, propiedad de los miembros.</div>
+</div>
+
+<div class="recall">
+  <div class="recall-title">Repaso Rápido — Debes Saber Antes de Continuar</div>
+  <div class="recall-item">Riesgo puro = solo pérdida posible = asegurable. Riesgo especulativo = ganancia o pérdida = NO asegurable.</div>
+  <div class="recall-item">El interés asegurable se requiere al momento de la solicitud, NO al momento del reclamo.</div>
+  <div class="recall-item">Compañía de acciones = propiedad de accionistas = generalmente no participante.</div>
+  <div class="recall-item">Compañía mutualista = propiedad de asegurados = participante (paga dividendos a los asegurados).</div>
+  <div class="recall-item">Ley de los grandes números = grupo más grande = pérdidas más predecibles = primas más precisas.</div>
+  <div class="recall-item">Selección adversa = las personas más enfermas compran más seguro = por eso existe la suscripción.</div>
+  <div class="recall-item">El seguro de vida NO es un contrato de indemnización — no hay límite para asegurar una vida.</div>
+  <div class="recall-item">4 formas de manejar el riesgo: Evasión, Reducción, Retención, Transferencia (seguro = transferencia).</div>
+  <div class="recall-item">Riesgo moral = deshonestidad intencional. Riesgo de indiferencia = actitud descuidada por estar asegurado. El examen los confunde — lee con cuidado.</div>
+  <div class="recall-item">Líneas excedentes = aseguradora no admitida; NO cubierta por el fondo de garantía; primero se deben intentar las admitidas.</div>
+  <div class="recall-item">Mutualización = acciones → mutualista. Desmutualización = mutualista → acciones. Ambas requieren aprobación regulatoria.</div>
+  <div class="recall-item">Grupo de retención de riesgo = empresas del mismo sector que agrupan riesgo de responsabilidad; debe estar licenciado en al menos un estado.</div>
+  <div class="recall-item">Doméstica = incorporada Y operando en el MISMO estado.</div>
+  <div class="recall-item">Foránea = incorporada en un estado de EE.UU., operando en otro estado de EE.UU.</div>
+  <div class="recall-item">Extranjera (Alien) = incorporada FUERA de los Estados Unidos.</div>
+  <div class="recall-item">El seguro se regula a nivel ESTATAL (no federal). La NAIC crea leyes modelo pero NO tiene autoridad de ejecución.</div>
+  <div class="recall-item">El agente representa a la aseguradora. El corredor representa al cliente (deber fiduciario con el cliente).</div>
+  <div class="recall-item">Las asociaciones de garantía solo protegen a los asegurados de aseguradoras ADMITIDAS. Se financian con cuotas, no impuestos.</div>
+  <div class="recall-item">Lloyd's de Londres es un mercado de suscriptores, NO una compañía de seguros.</div>
+  <div class="recall-item">Reaseguro = la aseguradora transfiere riesgo a otra aseguradora para reducir su propia exposición.</div>
+  <div class="recall-item">El fondo de garantía tiene límites (ej. $300,000–$500,000) — no garantiza el 100% de cada reclamo.</div>
+  <div class="recall-item">Sociedad de beneficio fraternal: vínculo común, sistema de logias, emite certificados (no pólizas), algunas exenciones regulatorias.</div>
+  <div class="recall-item">MGA: intermediario mayorista con autoridad vinculante; puede nombrar agentes y suscribir en nombre de la aseguradora.</div>
+</div>
+
+<div class="footer-nav">
+  <a href="index.html">⌂ Índice</a>
+  <a href="ch2.html">Capítulo 2: Naturaleza del Seguro →</a>
+</div>
+
+<div class="brand">Bethel Financial Group · Guía de Estudio para Licencia de Seguro de Vida</div>
+</div>
+</body>
+</html>

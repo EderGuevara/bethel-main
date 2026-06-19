@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Cap. 6: Primas, Beneficios y Beneficiarios</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F1F5F9;color:#1E293B;padding:2rem 1.5rem;min-height:100vh}
+.container{max-width:820px;margin:0 auto}
+.top-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;gap:8px}
+.top-nav a{color:#64748B;text-decoration:none;font-size:.8rem;padding:6px 14px;border:1px solid #E2E8F0;border-radius:8px;background:#fff;white-space:nowrap}
+.top-nav a:hover{border-color:#DDB84A;color:#DDB84A}
+.home-btn{background:#0F172A!important;color:#DDB84A!important;border-color:#0F172A!important}
+.ch-header{background:linear-gradient(135deg,#0F172A,#1E293B);border-radius:16px;padding:2rem 2.5rem;margin-bottom:2rem}
+.ch-badge{display:inline-block;background:#DDB84A;color:#0F172A;border-radius:8px;padding:4px 14px;font-size:11px;font-weight:700;letter-spacing:.1em;margin-bottom:.75rem}
+.ch-title{color:#fff;font-size:22px;font-weight:700;line-height:1.3;margin-bottom:.5rem}
+.ch-overview{color:#94A3B8;font-size:.88rem;line-height:1.6}
+.s-label{font-size:10px;font-weight:700;letter-spacing:.14em;color:#94A3B8;text-transform:uppercase;margin:2rem 0 .7rem}
+.terms-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.term{background:#fff;border:1px solid #E2E8F0;border-left:3px solid #DDB84A;border-radius:10px;padding:.85rem 1rem}
+.term-name{font-size:13px;font-weight:700;color:#0F172A;margin-bottom:3px}
+.term-def{font-size:12px;color:#64748B;line-height:1.5}
+.card{background:#fff;border:1px solid #E2E8F0;border-radius:10px;padding:1.1rem 1.4rem;margin-top:1rem}
+.card.blue{border-left:3px solid #3B82F6}.card.gold{border-left:3px solid #DDB84A;background:#FFFBF0;border-color:#E5C55A}.card.red{border-left:3px solid #EF4444;background:#FFF5F5;border-color:#FCA5A5}.card.green{border-left:3px solid #22C55E;background:#F0FDF4;border-color:#86EFAC}
+.card-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem}
+.card.blue .card-label{color:#2563EB}.card.gold .card-label{color:#92700A}.card.red .card-label{color:#B91C1C}.card.green .card-label{color:#15803D}
+.card-title{font-size:14px;font-weight:700;color:#0F172A;margin-bottom:.4rem}
+.card-body{font-size:13px;line-height:1.65}
+.card.blue .card-body{color:#475569}.card.gold .card-body{color:#5C4200}.card.red .card-body{color:#7F1D1D}.card.green .card-body{color:#166534}
+.card-body ul{margin:.5rem 0 0 1.2rem}.card-body li{margin-bottom:.3rem}
+.table-wrap{background:#fff;border:1px solid #E2E8F0;border-radius:10px;overflow:hidden;margin-top:1rem}
+.table-label{font-size:10px;font-weight:700;letter-spacing:.12em;color:#94A3B8;text-transform:uppercase;padding:.85rem 1.25rem .3rem}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead tr{background:#0F172A}
+th{padding:8px 14px;text-align:left;color:#DDB84A;font-weight:600}
+td{padding:8px 14px;color:#475569;border-top:1px solid #F1F5F9}
+td:first-child{color:#0F172A;font-weight:600}
+tr:nth-child(even) td{background:#F8FAFC}
+.recall{background:#0F172A;border-radius:12px;padding:1.5rem 1.75rem;margin-top:2rem}
+.recall-title{color:#DDB84A;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.9rem}
+.recall-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:.55rem;font-size:13px;color:#CBD5E1;line-height:1.5}
+.recall-item::before{content:"✓";color:#DDB84A;font-weight:700;flex-shrink:0}
+.footer-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;padding-top:1.5rem;border-top:1px solid #E2E8F0;gap:8px}
+.footer-nav a{display:flex;align-items:center;gap:6px;text-decoration:none;color:#64748B;font-size:.8rem;padding:8px 18px;border:1px solid #E2E8F0;border-radius:8px;background:#fff}
+.footer-nav a:hover{border-color:#DDB84A;color:#DDB84A}
+.brand{font-size:.72rem;color:#94A3B8;text-align:center;margin-top:1.5rem}
+@media print{body{background:#fff;padding:1rem}.top-nav,.footer-nav{display:none}}
+html.embedded .top-nav,html.embedded .footer-nav,html.embedded .brand,html.embedded .ch-header{display:none!important}html.embedded body{background:#fff;padding:0}html.embedded .container{max-width:100%;padding:.75rem 1rem}@media(max-width:600px){.terms-grid{grid-template-columns:1fr}.ch-title{font-size:19px}body{padding:1rem}}
+</style>
+<script>if(window.self!==window.top||location.search.indexOf("embed=1")>-1)document.documentElement.classList.add("embedded");</script>
+</head>
+<body>
+<div class="container">
+
+<div class="top-nav">
+  <a href="ch5.html">← Capítulo 5</a>
+  <a href="index.html" class="home-btn">⌂ Todos los Capítulos</a>
+  <a href="ch7.html">Capítulo 7 →</a>
+</div>
+
+<div class="ch-header">
+  <div class="ch-badge">CAPÍTULO 6</div>
+  <div class="ch-title">Primas, Beneficios y Beneficiarios</div>
+  <div class="ch-overview">Aprende cómo se calculan las primas, el tratamiento fiscal del seguro de vida, las reglas de beneficiarios, el período de penumbra y los conceptos de reemplazo de seguro.</div>
+</div>
+
+<div class="s-label">Términos Clave</div>
+<div class="terms-grid">
+  <div class="term"><div class="term-name">Tabla de Mortalidad</div><div class="term-def">Tabla estadística que muestra las tasas de fallecimiento por edad. Base principal para el cálculo de primas del seguro de vida.</div></div>
+  <div class="term"><div class="term-name">Beneficiario Revocable</div><div class="term-def">Beneficiario que puede ser cambiado por el titular de la póliza en cualquier momento sin el consentimiento del beneficiario.</div></div>
+  <div class="term"><div class="term-name">Beneficiario Irrevocable</div><div class="term-def">Beneficiario que NO puede cambiarse sin su consentimiento. El titular pierde ciertos derechos de la póliza (préstamos, cambios, rescates).</div></div>
+  <div class="term"><div class="term-name">Por Estirpe (Per Stirpes)</div><div class="term-def">Si un beneficiario muere antes, su parte pasa a sus descendientes (hijos del beneficiario fallecido).</div></div>
+  <div class="term"><div class="term-name">Por Capita (Per Capita)</div><div class="term-def">Si un beneficiario muere antes, su parte se divide entre los beneficiarios SOBREVIVIENTES — los descendientes del fallecido no reciben nada.</div></div>
+  <div class="term"><div class="term-name">Período de Penumbra</div><div class="term-def">Período desde que el hijo menor cumple 16 años hasta que el cónyuge sobreviviente llega a los 60 años. Durante este tiempo, el cónyuge sobreviviente no recibe beneficios del Seguro Social.</div></div>
+  <div class="term"><div class="term-name">Intercambio 1035</div><div class="term-def">Disposición del IRS que permite cambiar una póliza de seguro de vida por otra, o una anualidad por otra, sin pagar impuestos sobre las ganancias acumuladas.</div></div>
+  <div class="term"><div class="term-name">Designación de Clase</div><div class="term-def">Nombramiento de un grupo (ej. "mis hijos") en lugar de individuos específicos. Cada miembro de la clase comparte igualmente el beneficio.</div></div>
+</div>
+
+<div class="s-label">Factores de Prima</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Los Tres Factores que Determinan la Prima</div>
+  <div class="card-body">Las aseguradoras calculan las primas basándose en tres factores:
+    <ul>
+      <li><strong>1. Mortalidad</strong> — la probabilidad de fallecimiento basada en tablas de mortalidad. Cuanto mayor la probabilidad de muerte, mayor la prima.</li>
+      <li><strong>2. Interés</strong> — el rendimiento esperado de las inversiones de las primas. Tasas de interés más altas reducen las primas.</li>
+      <li><strong>3. Gastos (Cargos)</strong> — los costos operativos de la aseguradora (comisiones, administración). Aumentan las primas.</li>
+    </ul>
+    La prima bruta = prima neta (solo mortalidad e interés) + cargos (gastos).
+  </div>
+</div>
+
+<div class="card gold">
+  <div class="card-label">Consejo de Examen</div>
+  <div class="card-title">El Pago Anual es el Más Económico</div>
+  <div class="card-body">El modo de pago anual siempre tiene el menor costo total porque la aseguradora puede invertir la prima completa al inicio del año. Los modos de pago más frecuentes (mensual, trimestral, semestral) cuestan más a lo largo del tiempo porque la aseguradora pierde el uso del dinero y añade gastos administrativos. Anual &lt; Semestral &lt; Trimestral &lt; Mensual en costo total.</div>
+</div>
+
+<div class="s-label">Tratamiento Fiscal del Seguro de Vida</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Beneficios por Fallecimiento — Regla General</div>
+  <div class="card-body">El beneficio por fallecimiento pagado a los beneficiarios generalmente está <strong>libre de impuestos sobre la renta</strong> bajo el IRC §101(a). Esta es una de las principales ventajas fiscales del seguro de vida. Sin embargo:
+    <ul>
+      <li>Si el beneficio se paga con intereses, los intereses son tributables.</li>
+      <li>El beneficio puede ser sujeto al <strong>impuesto al patrimonio</strong> si el difunto era dueño de la póliza al momento de la muerte.</li>
+      <li>Usar un fideicomiso irrevocable de seguro de vida (ILIT) elimina el beneficio del patrimonio tributable.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Intercambio 1035 — Reglas Clave</div>
+  <div class="card-body">El intercambio 1035 permite cambiar productos de seguro libre de impuestos:
+    <ul>
+      <li>Póliza de vida → Póliza de vida ✓</li>
+      <li>Póliza de vida → Anualidad ✓</li>
+      <li>Anualidad → Anualidad ✓</li>
+      <li>Anualidad → Póliza de vida ✗ (NO permitido)</li>
+    </ul>
+    La regla es unidireccional cuando se trata de mover valor de un seguro de vida a una anualidad, pero NO al revés. El seguro de vida tiene ventajas fiscales más favorables que las anualidades, por eso el IRS no permite el intercambio hacia arriba.
+  </div>
+</div>
+
+<div class="card red">
+  <div class="card-label">¡Atención!</div>
+  <div class="card-title">Seguro de Vida Colectivo — Umbral de $50,000</div>
+  <div class="card-body">Las primas que paga el empleador para cobertura de vida colectiva son libre de impuestos para el empleado hasta $50,000 de cobertura. Para cobertura superior a $50,000, el costo de la cobertura excedente (calculado usando la Tabla I del IRS) se incluye en el ingreso tributable del empleado. Esta regla aplica al <strong>seguro de vida colectivo patrocinado por el empleador</strong> — no a pólizas individuales.</div>
+</div>
+
+<div class="s-label">Reglas de Beneficiarios</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Beneficiario Principal vs. Contingente</div>
+  <div class="card-body">
+    <ul>
+      <li><strong>Beneficiario Principal</strong> — la primera persona en recibir el beneficio por fallecimiento. Puede haber varios; comparten el beneficio según los porcentajes designados.</li>
+      <li><strong>Beneficiario Contingente (Secundario)</strong> — recibe el beneficio solo si TODOS los beneficiarios principales han premuerto o renuncian al beneficio.</li>
+      <li><strong>Patrimonio</strong> — si todos los beneficiarios nombrados han premuerto y no hay contingentes, el beneficio va al patrimonio del asegurado y pasa por el proceso de sucesión (probate).</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Per Capita vs. Per Stirpes</div>
+  <div class="card-body">Estas designaciones determinan qué pasa si un beneficiario muere antes que el asegurado:
+    <ul>
+      <li><strong>Per Capita ("por cabeza")</strong> — la parte del beneficiario fallecido se divide entre los beneficiarios <em>sobrevivientes</em>. Los hijos del beneficiario fallecido NO reciben nada.</li>
+      <li><strong>Per Stirpes ("por estirpe")</strong> — la parte del beneficiario fallecido pasa a sus descendientes (hijos del beneficiario fallecido). Mantiene la herencia dentro de la línea familiar.</li>
+    </ul>
+    <em>Ejemplo:</em> Asegurado tiene dos hijos (A y B), cada uno con 50%. B muere antes. Con per capita, A recibe 100%. Con per stirpes, A recibe 50% y los hijos de B comparten el otro 50%.
+  </div>
+</div>
+
+<div class="card red">
+  <div class="card-label">¡Atención!</div>
+  <div class="card-title">Beneficiario Irrevocable — El Titular Pierde Control</div>
+  <div class="card-body">Cuando se nombra un beneficiario irrevocable, el titular NO puede:
+    <ul>
+      <li>Cambiar el beneficiario sin el consentimiento del beneficiario irrevocable</li>
+      <li>Pedir préstamos contra el valor acumulado de la póliza</li>
+      <li>Rescatar la póliza</li>
+      <li>Asignar la póliza</li>
+    </ul>
+    El beneficiario irrevocable tiene derechos sobre la póliza que deben ser respetados. Es común en divorcios (el excónyuge es designado beneficiario irrevocable para asegurar el pago de manutención) y acuerdos de compraventa empresariales.
+  </div>
+</div>
+
+<div class="card gold">
+  <div class="card-label">Consejo de Examen</div>
+  <div class="card-title">Acto de Muerte Simultánea — La Regla de los 120 Horas</div>
+  <div class="card-body">Si el asegurado y el beneficiario mueren en el mismo accidente y no se puede determinar quién murió primero, el Acto Uniforme de Muerte Simultánea presume que el asegurado sobrevivió al beneficiario. El beneficio se paga como si el beneficiario hubiera premuerto — pasa al beneficiario contingente o al patrimonio. Nota: muchos estados ahora requieren que el beneficiario sobreviva al asegurado por <strong>120 horas (5 días)</strong> para recibir el beneficio.
+  </div>
+</div>
+
+<div class="s-label">El Período de Penumbra</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">El Período de Penumbra del Seguro Social</div>
+  <div class="card-body">El período de penumbra es una brecha en los beneficios del Seguro Social para el cónyuge sobreviviente:
+    <ul>
+      <li>Los beneficios para el cónyuge sobreviviente con hijos terminan cuando el hijo más joven cumple <strong>16 años</strong></li>
+      <li>Los beneficios del Seguro Social para el viudo(a) por propia jubilación no empiezan hasta los <strong>60 años</strong></li>
+      <li>La brecha entre esos dos momentos se llama "período de penumbra" — sin beneficios del Seguro Social</li>
+    </ul>
+    Esta brecha crea una necesidad importante de seguro de vida privado para mantener los ingresos durante estos años.
+  </div>
+</div>
+
+<div class="card gold">
+  <div class="card-label">Consejo de Examen</div>
+  <div class="card-title">Cómo el Período de Penumbra Afecta la Planificación</div>
+  <div class="card-body">Al calcular las necesidades de seguro de vida de una familia con hijos, el período de penumbra es una razón clave por la que los cónyuges jóvenes necesitan mayor cobertura. El ingreso durante esos años debe ser reemplazado completamente por el seguro de vida privado. El término "período de penumbra" aparece en preguntas del examen que piden identificar cuándo termina el apoyo del SS para el cónyuge sobreviviente.</div>
+</div>
+
+<div class="s-label">Cesión de Póliza</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Cesión Absoluta vs. en Garantía</div>
+  <div class="card-body">
+    <ul>
+      <li><strong>Cesión Absoluta</strong> — transferencia completa e irrevocable de todos los derechos de la póliza al cesionario. El cedente pierde todos los derechos sobre la póliza. Ejemplo: donar una póliza de seguro de vida a una organización benéfica.</li>
+      <li><strong>Cesión en Garantía (Collateral Assignment)</strong> — la póliza se usa como colateral para un préstamo. El prestamista recibe derechos limitados (solo el saldo del préstamo pendiente). Si el asegurado fallece, el prestamista recibe el saldo del préstamo; el excedente va al beneficiario designado.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card green">
+  <div class="card-label">Números Clave</div>
+  <div class="card-title">Cifras Clave del Capítulo 6</div>
+  <div class="card-body">
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:90px">$50,000</span><span>Umbral de cobertura de vida colectiva libre de impuestos — el exceso genera ingreso tributable</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:90px">Edad 16</span><span>Edad en que termina el beneficio del SS para el cónyuge sobreviviente con hijos</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:90px">Edad 60</span><span>Edad en que empieza el beneficio de viudez del SS (a tarifa reducida)</span></div>
+    <div style="display:flex;gap:10px"><span style="font-weight:700;color:#15803D;min-width:90px">120 horas</span><span>Período de supervivencia requerido para que el beneficiario reciba el beneficio (Acto de Muerte Simultánea)</span></div>
+  </div>
+</div>
+
+<div class="recall">
+  <div class="recall-title">Repaso Rápido — Debes Saber Antes de Continuar</div>
+  <div class="recall-item">Las primas se basan en tres factores: mortalidad, interés y gastos. El pago anual es el modo más económico.</div>
+  <div class="recall-item">El beneficio por fallecimiento generalmente está libre de impuestos sobre la renta. Los intereses devengados después del pago sí son tributables.</div>
+  <div class="recall-item">Intercambio 1035: vida→vida ✓, vida→anualidad ✓, anualidad→anualidad ✓, anualidad→vida ✗.</div>
+  <div class="recall-item">El umbral de $50,000 aplica al seguro de vida colectivo — la cobertura por encima de $50K genera ingreso tributable para el empleado.</div>
+  <div class="recall-item">Per capita = la parte del fallecido va a los sobrevivientes. Per stirpes = la parte va a los descendientes del fallecido.</div>
+  <div class="recall-item">El beneficiario irrevocable no puede cambiarse sin su consentimiento; el titular pierde el derecho a préstamos, rescate y cesión.</div>
+  <div class="recall-item">El período de penumbra: desde que el hijo menor cumple 16 hasta que el cónyuge sobreviviente cumple 60 — sin beneficios del SS.</div>
+  <div class="recall-item">Cesión absoluta = transferencia total de derechos. Cesión en garantía = colateral de préstamo; el prestamista solo recibe el saldo pendiente.</div>
+</div>
+
+<div class="footer-nav">
+  <a href="ch5.html">← Capítulo 5</a>
+  <a href="ch7.html">Capítulo 7: Suscripción y Emisión de Pólizas →</a>
+</div>
+<div class="brand">Bethel Financial Group · Guía de Estudio para Licencia de Seguro de Vida</div>
+</div>
+</body>
+</html>

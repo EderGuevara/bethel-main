@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Cap. 8: Seguro de Vida Colectivo</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F1F5F9;color:#1E293B;padding:2rem 1.5rem;min-height:100vh}
+.container{max-width:820px;margin:0 auto}
+.top-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;gap:8px}
+.top-nav a{color:#64748B;text-decoration:none;font-size:.8rem;padding:6px 14px;border:1px solid #E2E8F0;border-radius:8px;background:#fff;white-space:nowrap}
+.top-nav a:hover{border-color:#DDB84A;color:#DDB84A}
+.home-btn{background:#0F172A!important;color:#DDB84A!important;border-color:#0F172A!important}
+.ch-header{background:linear-gradient(135deg,#0F172A,#1E293B);border-radius:16px;padding:2rem 2.5rem;margin-bottom:2rem}
+.ch-badge{display:inline-block;background:#DDB84A;color:#0F172A;border-radius:8px;padding:4px 14px;font-size:11px;font-weight:700;letter-spacing:.1em;margin-bottom:.75rem}
+.ch-title{color:#fff;font-size:22px;font-weight:700;line-height:1.3;margin-bottom:.5rem}
+.ch-overview{color:#94A3B8;font-size:.88rem;line-height:1.6}
+.s-label{font-size:10px;font-weight:700;letter-spacing:.14em;color:#94A3B8;text-transform:uppercase;margin:2rem 0 .7rem}
+.terms-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.term{background:#fff;border:1px solid #E2E8F0;border-left:3px solid #DDB84A;border-radius:10px;padding:.85rem 1rem}
+.term-name{font-size:13px;font-weight:700;color:#0F172A;margin-bottom:3px}
+.term-def{font-size:12px;color:#64748B;line-height:1.5}
+.card{background:#fff;border:1px solid #E2E8F0;border-radius:10px;padding:1.1rem 1.4rem;margin-top:1rem}
+.card.blue{border-left:3px solid #3B82F6}.card.gold{border-left:3px solid #DDB84A;background:#FFFBF0;border-color:#E5C55A}.card.red{border-left:3px solid #EF4444;background:#FFF5F5;border-color:#FCA5A5}.card.green{border-left:3px solid #22C55E;background:#F0FDF4;border-color:#86EFAC}
+.card-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem}
+.card.blue .card-label{color:#2563EB}.card.gold .card-label{color:#92700A}.card.red .card-label{color:#B91C1C}.card.green .card-label{color:#15803D}
+.card-title{font-size:14px;font-weight:700;color:#0F172A;margin-bottom:.4rem}
+.card-body{font-size:13px;line-height:1.65}
+.card.blue .card-body{color:#475569}.card.gold .card-body{color:#5C4200}.card.red .card-body{color:#7F1D1D}.card.green .card-body{color:#166534}
+.card-body ul{margin:.5rem 0 0 1.2rem}.card-body li{margin-bottom:.3rem}
+.table-wrap{background:#fff;border:1px solid #E2E8F0;border-radius:10px;overflow:hidden;margin-top:1rem}
+.table-label{font-size:10px;font-weight:700;letter-spacing:.12em;color:#94A3B8;text-transform:uppercase;padding:.85rem 1.25rem .3rem}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead tr{background:#0F172A}
+th{padding:8px 14px;text-align:left;color:#DDB84A;font-weight:600}
+td{padding:8px 14px;color:#475569;border-top:1px solid #F1F5F9}
+td:first-child{color:#0F172A;font-weight:600}
+tr:nth-child(even) td{background:#F8FAFC}
+.recall{background:#0F172A;border-radius:12px;padding:1.5rem 1.75rem;margin-top:2rem}
+.recall-title{color:#DDB84A;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.9rem}
+.recall-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:.55rem;font-size:13px;color:#CBD5E1;line-height:1.5}
+.recall-item::before{content:"✓";color:#DDB84A;font-weight:700;flex-shrink:0}
+.footer-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;padding-top:1.5rem;border-top:1px solid #E2E8F0;gap:8px}
+.footer-nav a{display:flex;align-items:center;gap:6px;text-decoration:none;color:#64748B;font-size:.8rem;padding:8px 18px;border:1px solid #E2E8F0;border-radius:8px;background:#fff}
+.footer-nav a:hover{border-color:#DDB84A;color:#DDB84A}
+.brand{font-size:.72rem;color:#94A3B8;text-align:center;margin-top:1.5rem}
+@media print{body{background:#fff;padding:1rem}.top-nav,.footer-nav{display:none}}
+html.embedded .top-nav,html.embedded .footer-nav,html.embedded .brand,html.embedded .ch-header{display:none!important}html.embedded body{background:#fff;padding:0}html.embedded .container{max-width:100%;padding:.75rem 1rem}@media(max-width:600px){.terms-grid{grid-template-columns:1fr}.ch-title{font-size:19px}body{padding:1rem}}
+</style>
+<script>if(window.self!==window.top||location.search.indexOf("embed=1")>-1)document.documentElement.classList.add("embedded");</script>
+</head>
+<body>
+<div class="container">
+
+<div class="top-nav">
+  <a href="ch7.html">← Capítulo 7</a>
+  <a href="index.html" class="home-btn">⌂ Todos los Capítulos</a>
+  <a href="ch9.html">Capítulo 9 →</a>
+</div>
+
+<div class="ch-header">
+  <div class="ch-badge">CAPÍTULO 8</div>
+  <div class="ch-title">Seguro de Vida Colectivo</div>
+  <div class="ch-overview">Comprende cómo funciona el seguro de vida colectivo, los requisitos de participación, los derechos de conversión, el seguro AD&D, la regla de los $50,000 y COBRA.</div>
+</div>
+
+<div class="s-label">Términos Clave</div>
+<div class="terms-grid">
+  <div class="term"><div class="term-name">Póliza Maestra</div><div class="term-def">Un único contrato emitido al empleador (el titular). Los empleados son los asegurados y reciben certificados — no pólizas individuales.</div></div>
+  <div class="term"><div class="term-name">Certificado de Cobertura</div><div class="term-def">Documento dado al empleado que resume sus beneficios bajo la póliza maestra. No es la póliza — la póliza pertenece al empleador.</div></div>
+  <div class="term"><div class="term-name">Plan Contributivo</div><div class="term-def">Los empleados pagan parte de la prima. Requiere participación de al menos el 75% de los empleados elegibles.</div></div>
+  <div class="term"><div class="term-name">Plan No Contributivo</div><div class="term-def">El empleador paga el 100% de las primas. Requiere participación del 100% de los empleados elegibles (registro automático).</div></div>
+  <div class="term"><div class="term-name">Conversión a Póliza Individual</div><div class="term-def">Al dejar el empleo, el empleado puede convertir la cobertura colectiva a una póliza individual SIN evidencia de asegurabilidad. Plazo: 31 días.</div></div>
+  <div class="term"><div class="term-name">COBRA</div><div class="term-def">Ley federal que permite a empleados que dejan su trabajo mantener el seguro de SALUD del grupo hasta 18–36 meses pagando el 100% más un 2% administrativo. NO aplica a seguros de vida.</div></div>
+  <div class="term"><div class="term-name">AD&D</div><div class="term-def">Seguro de Muerte y Desmembración Accidental. Paga la "Suma Principal" por fallecimiento accidental y la "Suma de Capital" por pérdida de miembros.</div></div>
+  <div class="term"><div class="term-name">Período de Prueba</div><div class="term-def">Tiempo que un nuevo empleado debe esperar antes de ser elegible para los beneficios del grupo (típicamente 30–90 días).</div></div>
+</div>
+
+<div class="s-label">Estructura del Seguro de Vida Colectivo</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Cómo Funciona el Seguro de Vida Colectivo</div>
+  <div class="card-body">
+    <ul>
+      <li>Se emite una <strong>sola póliza maestra</strong> al empleador. Los empleados reciben <strong>certificados de cobertura</strong> — no pólizas individuales.</li>
+      <li>Generalmente es <strong>seguro temporal de un año renovable</strong> — sin valor acumulado.</li>
+      <li>Los beneficios suelen ser un múltiplo del salario anual (ej. 1× o 2× el salario).</li>
+      <li>No se requiere evidencia de asegurabilidad para los montos básicos del grupo.</li>
+      <li>La selección adversa se controla mediante requisitos de participación mínima.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Planes Contributivos vs. No Contributivos</div>
+  <div class="card-body">
+    <ul>
+      <li><strong>Contributivo</strong> — empleado y empleador comparten el costo de la prima → se requiere al menos el <strong>75%</strong> de participación de empleados elegibles.</li>
+      <li><strong>No Contributivo</strong> — el empleador paga el 100% → se requiere el <strong>100%</strong> de participación (inscripción automática).</li>
+    </ul>
+    El requisito de participación existe para prevenir la selección adversa — si la cobertura es opcional, solo los más enfermos se inscribirán, lo que eleva los costos para todos.
+  </div>
+</div>
+
+<div class="s-label">Conversión y Portabilidad</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Conversión — El Derecho de 31 Días</div>
+  <div class="card-body">Cuando un empleado deja el trabajo (por cualquier razón excepto despido por mala conducta en algunos estados), tiene el derecho a convertir su cobertura de vida colectiva a una póliza <strong>individual permanente</strong>:
+    <ul>
+      <li>Dentro de los <strong>31 días</strong> de terminar el empleo</li>
+      <li><strong>Sin evidencia de asegurabilidad</strong> — sin examen médico</li>
+      <li>La póliza convertida debe ser un producto <strong>permanente</strong> (vida entera), NO temporal</li>
+      <li>La prima se basa en la edad actual y la clase de riesgo estándar (puede ser más alta que en el grupo)</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card gold">
+  <div class="card-label">Consejo de Examen</div>
+  <div class="card-title">Conversión → Solo a Permanente; Portabilidad → Puede ser Temporal</div>
+  <div class="card-body">La conversión solo permite convertir a una póliza permanente — no a temporal. La <strong>portabilidad</strong> es diferente: permite al empleado llevarse el seguro temporal del grupo cuando deja el empleo, manteniendo la misma cobertura temporal. La conversión no requiere evidencia de asegurabilidad; la portabilidad generalmente tampoco, pero la cobertura permanece como temporal (y puede ser más costosa). En el examen: si la pregunta dice "sin evidencia de asegurabilidad" y "permanente", es conversión.</div>
+</div>
+
+<div class="s-label">COBRA — Lo que Cubre y lo que No</div>
+
+<div class="card red">
+  <div class="card-label">¡Atención!</div>
+  <div class="card-title">COBRA es Solo para Seguro de SALUD</div>
+  <div class="card-body">COBRA (Consolidated Omnibus Budget Reconciliation Act) permite a empleados que pierden cobertura de grupo mantener el <strong>seguro de salud</strong> de grupo hasta:
+    <ul>
+      <li><strong>18 meses</strong> — terminación voluntaria o reducción de horas</li>
+      <li><strong>36 meses</strong> — otras causas (muerte del empleado, divorcio, hijo que supera la edad de dependiente)</li>
+    </ul>
+    El empleado paga el 100% de la prima más un 2% administrativo. <strong>COBRA NO aplica al seguro de vida de grupo</strong> — esta es una trampa común del examen. Para continuar el seguro de vida, el empleado debe usar el derecho de conversión.
+  </div>
+</div>
+
+<div class="s-label">Regla de los $50,000 — Seguro de Vida Colectivo</div>
+
+<div class="card green">
+  <div class="card-label">Números Clave</div>
+  <div class="card-title">Umbral de $50,000 para Cobertura de Vida Colectiva</div>
+  <div class="card-body">
+    <div style="display:flex;gap:10px;margin-bottom:.6rem"><span style="font-weight:700;color:#15803D;min-width:90px">≤ $50,000</span><span>Las primas del empleador son libres de impuestos para el empleado</span></div>
+    <div style="display:flex;gap:10px"><span style="font-weight:700;color:#15803D;min-width:90px">&gt; $50,000</span><span>El costo del exceso (calculado con la Tabla I del IRS) se incluye en el ingreso tributable del empleado</span></div>
+    <br>
+    Esta regla aplica únicamente al seguro de vida colectivo patrocinado por el empleador, no a pólizas individuales.
+  </div>
+</div>
+
+<div class="s-label">Seguro de Muerte y Desmembración Accidental (AD&D)</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Cómo Funciona el AD&D</div>
+  <div class="card-body">El AD&D paga beneficios por lesiones o muerte causadas directamente por accidente:
+    <ul>
+      <li><strong>Suma Principal</strong> — el beneficio completo, pagado por fallecimiento accidental</li>
+      <li><strong>Suma de Capital</strong> — el 50% de la Suma Principal, pagado por pérdida de UNA extremidad o vista de UN ojo. El 100% de la Suma Principal se paga por pérdida de DOS o más extremidades/ojos.</li>
+    </ul>
+    El AD&D es un suplemento, NO un reemplazo del seguro de vida. Los accidentes deben ser la causa directa, independiente e inmediata de la pérdida.
+  </div>
+</div>
+
+<div class="card gold">
+  <div class="card-label">Consejo de Examen</div>
+  <div class="card-title">Suma Principal vs. Suma de Capital</div>
+  <div class="card-body">Estas dos cifras son el corazón de las preguntas de AD&D en el examen:
+    <ul>
+      <li><strong>Suma Principal</strong> = 100% del beneficio = fallecimiento accidental O pérdida de 2+ extremidades/ojos</li>
+      <li><strong>Suma de Capital</strong> = 50% del beneficio = pérdida de 1 extremidad O vista de 1 ojo</li>
+    </ul>
+    Ejemplo: Suma Principal = $100,000. Pérdida de una mano = $50,000 (Suma de Capital). Pérdida de dos manos = $100,000 (Suma Principal).
+  </div>
+</div>
+
+<div class="s-label">Otras Disposiciones del Seguro Colectivo</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Cláusula de Trabajo Activo y Período de Prueba</div>
+  <div class="card-body">
+    <ul>
+      <li><strong>Cláusula de Trabajo Activo (Actively at Work)</strong> — los nuevos empleados deben estar activamente trabajando el día en que comienzan los beneficios del grupo. Si un empleado está de baja médica el primer día, la cobertura puede retrasarse hasta que regrese al trabajo.</li>
+      <li><strong>Período de Prueba (Probationary Period)</strong> — tiempo de espera antes de que un nuevo empleado sea elegible para inscribirse en el seguro de grupo (típicamente 30–90 días). Previene la selección adversa de empleados que solo buscan beneficios.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Cobertura de Dependientes — Edad 26</div>
+  <div class="card-body">Bajo la Ley de Cuidado de Salud Asequible (ACA), los hijos dependientes pueden permanecer en el plan de salud de los padres hasta los <strong>26 años</strong>, independientemente de si están casados, en la escuela o son financieramente dependientes. Esta regla aplica principalmente al seguro de salud colectivo. Para el seguro de vida colectivo, los detalles de cobertura de dependientes varían según la póliza maestra.</div>
+</div>
+
+<div class="card green">
+  <div class="card-label">Números Clave</div>
+  <div class="card-title">Números del Capítulo 8</div>
+  <div class="card-body">
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:90px">75%</span><span>Participación mínima requerida en planes contributivos</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:90px">100%</span><span>Participación requerida en planes no contributivos</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:90px">31 días</span><span>Plazo para convertir cobertura de grupo a póliza individual al dejar el empleo</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:90px">18 / 36 meses</span><span>Duración de la continuación COBRA (salud únicamente)</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:90px">$50,000</span><span>Umbral de cobertura de vida colectiva libre de impuestos</span></div>
+    <div style="display:flex;gap:10px"><span style="font-weight:700;color:#15803D;min-width:90px">Edad 26</span><span>Límite de cobertura de dependientes bajo la ACA</span></div>
+  </div>
+</div>
+
+<div class="recall">
+  <div class="recall-title">Repaso Rápido — Debes Saber Antes de Continuar</div>
+  <div class="recall-item">La póliza maestra se emite al empleador; los empleados reciben certificados de cobertura — no pólizas individuales.</div>
+  <div class="recall-item">Planes contributivos requieren 75% de participación; planes no contributivos requieren 100% (inscripción automática).</div>
+  <div class="recall-item">Al dejar el empleo, el empleado tiene 31 días para convertir a una póliza permanente individual, sin evidencia de asegurabilidad.</div>
+  <div class="recall-item">La conversión permite solo póliza permanente — no temporal. La portabilidad permite continuar con cobertura temporal.</div>
+  <div class="recall-item">COBRA aplica SOLO al seguro de salud — no al seguro de vida colectivo. Duración: 18 meses (terminación) o 36 meses (otros eventos).</div>
+  <div class="recall-item">Cobertura de vida colectiva ≤ $50,000 = libre de impuestos. El exceso genera ingreso tributable usando la Tabla I del IRS.</div>
+  <div class="recall-item">AD&D: Suma Principal = 100% (muerte o pérdida de 2+ miembros). Suma de Capital = 50% (pérdida de 1 miembro).</div>
+  <div class="recall-item">La cláusula de trabajo activo requiere que el empleado esté en funciones el día de inicio de la cobertura.</div>
+  <div class="recall-item">Los dependientes pueden mantenerse en el plan de salud hasta los 26 años bajo la ACA.</div>
+</div>
+
+<div class="footer-nav">
+  <a href="ch7.html">← Capítulo 7</a>
+  <a href="ch9.html">Capítulo 9: Anualidades →</a>
+</div>
+<div class="brand">Bethel Financial Group · Guía de Estudio para Licencia de Seguro de Vida</div>
+</div>
+</body>
+</html>

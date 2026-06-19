@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Cap. 2: Naturaleza del Seguro</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F1F5F9;color:#1E293B;padding:2rem 1.5rem;min-height:100vh}
+.container{max-width:820px;margin:0 auto}
+.top-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;gap:8px}
+.top-nav a{color:#64748B;text-decoration:none;font-size:.8rem;padding:6px 14px;border:1px solid #E2E8F0;border-radius:8px;background:#fff;white-space:nowrap}
+.top-nav a:hover{border-color:#DDB84A;color:#DDB84A}
+.home-btn{background:#0F172A!important;color:#DDB84A!important;border-color:#0F172A!important}
+.ch-header{background:linear-gradient(135deg,#0F172A,#1E293B);border-radius:16px;padding:2rem 2.5rem;margin-bottom:2rem}
+.ch-badge{display:inline-block;background:#DDB84A;color:#0F172A;border-radius:8px;padding:4px 14px;font-size:11px;font-weight:700;letter-spacing:.1em;margin-bottom:.75rem}
+.ch-title{color:#fff;font-size:22px;font-weight:700;line-height:1.3;margin-bottom:.5rem}
+.ch-overview{color:#94A3B8;font-size:.88rem;line-height:1.6}
+.s-label{font-size:10px;font-weight:700;letter-spacing:.14em;color:#94A3B8;text-transform:uppercase;margin:2rem 0 .7rem}
+.terms-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.term{background:#fff;border:1px solid #E2E8F0;border-left:3px solid #DDB84A;border-radius:10px;padding:.85rem 1rem}
+.term-name{font-size:13px;font-weight:700;color:#0F172A;margin-bottom:3px}
+.term-def{font-size:12px;color:#64748B;line-height:1.5}
+.card{background:#fff;border:1px solid #E2E8F0;border-radius:10px;padding:1.1rem 1.4rem;margin-top:1rem}
+.card.blue{border-left:3px solid #3B82F6}.card.gold{border-left:3px solid #DDB84A;background:#FFFBF0;border-color:#E5C55A}.card.red{border-left:3px solid #EF4444;background:#FFF5F5;border-color:#FCA5A5}.card.green{border-left:3px solid #22C55E;background:#F0FDF4;border-color:#86EFAC}
+.card-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem}
+.card.blue .card-label{color:#2563EB}.card.gold .card-label{color:#92700A}.card.red .card-label{color:#B91C1C}.card.green .card-label{color:#15803D}
+.card-title{font-size:14px;font-weight:700;color:#0F172A;margin-bottom:.4rem}
+.card-body{font-size:13px;line-height:1.65}
+.card.blue .card-body{color:#475569}.card.gold .card-body{color:#5C4200}.card.red .card-body{color:#7F1D1D}.card.green .card-body{color:#166534}
+.card-body ul{margin:.5rem 0 0 1.2rem}.card-body li{margin-bottom:.25rem}
+.table-wrap{background:#fff;border:1px solid #E2E8F0;border-radius:10px;overflow:hidden;margin-top:1rem}
+.table-label{font-size:10px;font-weight:700;letter-spacing:.12em;color:#94A3B8;text-transform:uppercase;padding:.85rem 1.25rem .3rem}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead tr{background:#0F172A}
+th{padding:8px 14px;text-align:left;color:#DDB84A;font-weight:600}
+td{padding:8px 14px;color:#475569;border-top:1px solid #F1F5F9}
+td:first-child{color:#0F172A;font-weight:600}
+tr:nth-child(even) td{background:#F8FAFC}
+.recall{background:#0F172A;border-radius:12px;padding:1.5rem 1.75rem;margin-top:2rem}
+.recall-title{color:#DDB84A;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.9rem}
+.recall-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:.55rem;font-size:13px;color:#CBD5E1;line-height:1.5}
+.recall-item::before{content:"✓";color:#DDB84A;font-weight:700;flex-shrink:0}
+.footer-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;padding-top:1.5rem;border-top:1px solid #E2E8F0;gap:8px}
+.footer-nav a{display:flex;align-items:center;gap:6px;text-decoration:none;color:#64748B;font-size:.8rem;padding:8px 18px;border:1px solid #E2E8F0;border-radius:8px;background:#fff}
+.footer-nav a:hover{border-color:#DDB84A;color:#DDB84A}
+.brand{font-size:.72rem;color:#94A3B8;text-align:center;margin-top:1.5rem}
+@media print{body{background:#fff;padding:1rem}.top-nav,.footer-nav{display:none}}
+html.embedded .top-nav,html.embedded .footer-nav,html.embedded .brand,html.embedded .ch-header{display:none!important}html.embedded body{background:#fff;padding:0}html.embedded .container{max-width:100%;padding:.75rem 1rem}@media(max-width:600px){.terms-grid{grid-template-columns:1fr}.ch-title{font-size:19px}body{padding:1rem}}
+</style>
+<script>if(window.self!==window.top||location.search.indexOf("embed=1")>-1)document.documentElement.classList.add("embedded");</script>
+</head>
+<body>
+<div class="container">
+
+<div class="top-nav">
+  <a href="ch1.html">← Capítulo 1</a>
+  <a href="index.html" class="home-btn">⌂ Todos los Capítulos</a>
+  <a href="ch3.html">Capítulo 3 →</a>
+</div>
+
+<div class="ch-header">
+  <div class="ch-badge">CAPÍTULO 2</div>
+  <div class="ch-title">Naturaleza del Seguro</div>
+  <div class="ch-overview">Domina los requisitos legales para un contrato de seguro válido, las características únicas que diferencian al seguro de otros contratos, y las doctrinas de buena fe que rigen a ambas partes.</div>
+</div>
+
+<div class="s-label">Términos Clave</div>
+<div class="terms-grid">
+  <div class="term"><div class="term-name">Oferta y Aceptación</div><div class="term-def">El solicitante hace la oferta (presenta la solicitud + prima). La aseguradora acepta emitiendo la póliza.</div></div>
+  <div class="term"><div class="term-name">Contraprestación</div><div class="term-def">Algo de valor intercambiado. Contraprestación del solicitante = prima + solicitud. De la aseguradora = promesa de pagar reclamos.</div></div>
+  <div class="term"><div class="term-name">Propósito Legal</div><div class="term-def">El contrato debe tener un fin lícito. Asegurar actividades delictivas lo hace nulo.</div></div>
+  <div class="term"><div class="term-name">Partes Competentes</div><div class="term-def">Ambas partes deben ser mayores de edad y estar en pleno uso de sus facultades mentales. Los menores e incapaces no pueden formar un contrato válido.</div></div>
+  <div class="term"><div class="term-name">Contrato Aleatorio</div><div class="term-def">Intercambio desigual de valor — el asegurado puede pagar pocas primas y recibir un gran beneficio, o pagar años y no cobrar nunca.</div></div>
+  <div class="term"><div class="term-name">Contrato Unilateral</div><div class="term-def">Solo UNA parte (la aseguradora) hace una promesa legalmente exigible. Al asegurado no se le puede obligar a pagar las primas.</div></div>
+  <div class="term"><div class="term-name">Contrato de Adhesión</div><div class="term-def">La póliza es redactada íntegramente por la aseguradora; el asegurado solo puede aceptarla o rechazarla. Las ambigüedades se interpretan a favor del asegurado.</div></div>
+  <div class="term"><div class="term-name">Contrato Condicional</div><div class="term-def">La obligación de pago de la aseguradora está condicionada a que el asegurado cumpla los requisitos de la póliza (pagar primas, presentar reclamos a tiempo).</div></div>
+  <div class="term"><div class="term-name">Interés Asegurable</div><div class="term-def">Interés financiero en la continuidad de la vida del asegurado. Debe existir al momento de la solicitud, no necesariamente al del reclamo.</div></div>
+  <div class="term"><div class="term-name">Declaración (Representation)</div><div class="term-def">Afirmación que se cree verdadera al momento de hacerse. NO tiene que ser literalmente exacta — solo sustancialmente verdadera.</div></div>
+  <div class="term"><div class="term-name">Garantía (Warranty)</div><div class="term-def">Afirmación garantizada como absolutamente verdadera. El incumplimiento de una garantía — aunque sea inocente — puede anular la póliza.</div></div>
+  <div class="term"><div class="term-name">Ocultamiento</div><div class="term-def">Retención intencional de información material por parte del asegurado. Motivo para anular la póliza.</div></div>
+  <div class="term"><div class="term-name">Renuncia y Impedimento (Waiver &amp; Estoppel)</div><div class="term-def">Renuncia = la aseguradora abandona voluntariamente un derecho conocido. Impedimento = se impide a la aseguradora negar cobertura por su propia conducta previa.</div></div>
+  <div class="term"><div class="term-name">Regla de Evidencia Oral (Parol Evidence Rule)</div><div class="term-def">Los acuerdos verbales realizados antes o durante la formación del contrato no pueden usarse para contradecir los términos escritos de la póliza.</div></div>
+</div>
+
+<div class="s-label">Conceptos Clave</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">COAL — Los 4 Requisitos para un Contrato Válido</div>
+  <div class="card-body">Todo contrato válido — incluyendo el de seguro — requiere los cuatro elementos. Truco mnemotécnico: <strong>COAL</strong>
+    <ul>
+      <li><strong>C</strong>ontraprestación — algo de valor de ambas partes</li>
+      <li><strong>O</strong>ferta y Aceptación — una oferta clara y aceptación incondicional</li>
+      <li><strong>A</strong>cuerdo para un propósito legal — debe tener un fin lícito</li>
+      <li><strong>L</strong>egalmente competentes — ambas partes deben ser legalmente capaces</li>
+    </ul>
+    Si falta alguno de estos elementos, el contrato es nulo o anulable.
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">4 Características Únicas de los Contratos de Seguro</div>
+  <div class="card-body">Los contratos de seguro difieren de los contratos ordinarios en cuatro aspectos importantes:
+    <ul>
+      <li><strong>Aleatorio</strong> — intercambio desigual (puedes cobrar mucho más de lo que pagaste, o nada)</li>
+      <li><strong>Unilateral</strong> — solo la aseguradora hace una promesa vinculante; el asegurado puede dejar de pagar en cualquier momento</li>
+      <li><strong>Adhesión</strong> — tómalo o déjalo; la aseguradora lo redacta; las ambigüedades favorecen al asegurado</li>
+      <li><strong>Condicional</strong> — la aseguradora solo paga si se cumplen las condiciones (prima pagada, reclamo oportuno, etc.)</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Interés Asegurable</div>
+  <div class="card-body">El interés asegurable debe existir <strong>al momento de la solicitud</strong>, no al momento del reclamo. Tienes interés asegurable en:
+    <ul>
+      <li>Tu propia vida (siempre)</li>
+      <li>Cónyuge, hijos, dependientes</li>
+      <li>Socios de negocio (persona clave)</li>
+      <li>Acreedores (hasta el monto de la deuda)</li>
+    </ul>
+    Sin interés asegurable, la póliza es nula — se convierte en un contrato de apuesta.
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Buena Fe Absoluta (Uberrimae Fidei)</div>
+  <div class="card-body">Los contratos de seguro requieren un <strong>estándar de honestidad más alto</strong> que los contratos comerciales ordinarios. Ambas partes deben actuar de completa buena fe. El asegurado debe revelar todos los hechos materiales; la aseguradora debe manejar los reclamos de manera justa. Las violaciones incluyen:
+    <ul>
+      <li><strong>Tergiversación</strong> — declaración falsa de un hecho material</li>
+      <li><strong>Ocultamiento</strong> — retención intencional de información material</li>
+      <li><strong>Fraude</strong> — engaño intencional para obtener seguro o pago de un reclamo</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Regla de Evidencia Oral (Parol Evidence Rule)</div>
+  <div class="card-body">Esta regla impide que cualquiera de las partes use <strong>acuerdos verbales (orales)</strong> realizados antes o al momento del contrato escrito para modificar o contradecir los términos escritos de la póliza. La póliza escrita es el acuerdo completo. Por eso los agentes no pueden hacer promesas verbales que contradigan lo que dice la póliza — el documento de la póliza es el que manda.</div>
+</div>
+
+<div class="table-wrap">
+  <div class="table-label">Declaración vs. Garantía vs. Ocultamiento</div>
+  <table>
+    <thead><tr><th>Tipo</th><th>Qué es</th><th>Estándar</th><th>Efecto del Incumplimiento</th></tr></thead>
+    <tbody>
+      <tr><td>Declaración</td><td>Afirmación que se cree verdadera</td><td>Sustancialmente verdadera</td><td>Póliza anulable solo si es material</td></tr>
+      <tr><td>Garantía</td><td>Afirmación garantizada como verdadera</td><td>Absolutamente verdadera</td><td>Póliza anulable incluso si no es material</td></tr>
+      <tr><td>Ocultamiento</td><td>Ocultar un hecho material</td><td>Debe ser intencional</td><td>Póliza anulable</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="table-wrap">
+  <div class="table-label">Contratos Nulos vs. Anulables</div>
+  <table>
+    <thead><tr><th>Tipo</th><th>Significado</th><th>Ejemplo</th></tr></thead>
+    <tbody>
+      <tr><td>Nulo</td><td>Nunca existió legalmente — no puede ejecutarse</td><td>Póliza emitida para un fin ilegal; sin interés asegurable</td></tr>
+      <tr><td>Anulable</td><td>Válido pero puede cancelarse por una de las partes</td><td>Tergiversación en la solicitud (la aseguradora puede rescindirlo)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card gold">
+  <div class="card-label">Consejo de Examen</div>
+  <div class="card-title">¿Quién Hace la Oferta en un Contrato de Seguro?</div>
+  <div class="card-body">El solicitante hace la oferta — no la aseguradora. Cuando presentas una solicitud (especialmente con la primera prima), estás haciendo una oferta a la aseguradora. La aseguradora acepta al emitir la póliza. Esta es una trampa clásica del examen — la mayoría asume que la aseguradora ofrece y el solicitante acepta.</div>
+</div>
+
+<div class="card gold">
+  <div class="card-label">Consejo de Examen</div>
+  <div class="card-title">Adhesión = Las Ambigüedades Favorecen al Asegurado</div>
+  <div class="card-body">Como el asegurado no tuvo participación en la redacción de la póliza (es de adhesión), cualquier lenguaje poco claro o ambiguo en la póliza será interpretado por los tribunales <strong>a favor del asegurado</strong> y en contra de la aseguradora que la redactó. Este es un principio legal clave que se examina con frecuencia.</div>
+</div>
+
+<div class="card red">
+  <div class="card-label">¡Atención!</div>
+  <div class="card-title">Declaraciones vs. Garantías — Conoce la Diferencia</div>
+  <div class="card-body">La mayoría de las afirmaciones en una solicitud de seguro son <strong>declaraciones</strong> (que se creen verdaderas, no garantizadas). Las verdaderas garantías son raras en el seguro de vida. Una tergiversación inocente en la solicitud justifica anular la póliza solo si es <strong>material</strong> — es decir, si habría afectado la decisión de suscripción de la aseguradora.</div>
+</div>
+
+<div class="card red">
+  <div class="card-label">¡Atención!</div>
+  <div class="card-title">Las Promesas Verbales No Anulan la Póliza Escrita</div>
+  <div class="card-body">Debido a la regla de evidencia oral, si un agente le dice a un cliente "no te preocupes, eso está cubierto" pero la póliza escrita lo excluye, la póliza escrita prevalece. Los clientes deben leer su póliza — las garantías verbales no son ejecutables contra la aseguradora. Los agentes que hacen promesas no autorizadas pueden ser personalmente responsables.</div>
+</div>
+
+<div class="recall">
+  <div class="recall-title">Repaso Rápido — Debes Saber Antes de Continuar</div>
+  <div class="recall-item">COAL = Contraprestación, Oferta y Aceptación, Acuerdo de propósito legal, Legalmente competentes.</div>
+  <div class="recall-item">4 características únicas: Aleatorio, Unilateral, Adhesión, Condicional.</div>
+  <div class="recall-item">El SOLICITANTE hace la oferta — la aseguradora acepta emitiendo la póliza.</div>
+  <div class="recall-item">Contrato de adhesión = la aseguradora lo redacta; cualquier ambigüedad se interpreta a favor del asegurado.</div>
+  <div class="recall-item">Unilateral = solo la aseguradora está legalmente obligada; el asegurado puede dejar de pagar en cualquier momento.</div>
+  <div class="recall-item">El interés asegurable debe existir al momento de la SOLICITUD — no al momento del reclamo.</div>
+  <div class="recall-item">Sin interés asegurable, el contrato es NULO — se considera un contrato de apuesta.</div>
+  <div class="recall-item">Declaración = se cree verdadera (sustancialmente). Garantía = absolutamente verdadera.</div>
+  <div class="recall-item">El ocultamiento debe ser intencional para anular una póliza. El no intencional puede no anularla.</div>
+  <div class="recall-item">Renuncia = la aseguradora abandona voluntariamente un derecho. Impedimento = la aseguradora es impedida por su propia conducta.</div>
+  <div class="recall-item">Regla de evidencia oral = las promesas verbales antes/al momento del contrato no pueden anular la póliza escrita.</div>
+  <div class="recall-item">La tergiversación anula una póliza solo si es MATERIAL — es decir, habría cambiado la decisión de suscripción.</div>
+</div>
+
+<div class="footer-nav">
+  <a href="ch1.html">← Capítulo 1</a>
+  <a href="ch3.html">Capítulo 3: Conceptos Legales →</a>
+</div>
+<div class="brand">Bethel Financial Group · Guía de Estudio para Licencia de Seguro de Vida</div>
+</div>
+</body>
+</html>

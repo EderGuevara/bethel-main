@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Cap. 7: Suscripción y Emisión de Pólizas</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F1F5F9;color:#1E293B;padding:2rem 1.5rem;min-height:100vh}
+.container{max-width:820px;margin:0 auto}
+.top-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;gap:8px}
+.top-nav a{color:#64748B;text-decoration:none;font-size:.8rem;padding:6px 14px;border:1px solid #E2E8F0;border-radius:8px;background:#fff;white-space:nowrap}
+.top-nav a:hover{border-color:#DDB84A;color:#DDB84A}
+.home-btn{background:#0F172A!important;color:#DDB84A!important;border-color:#0F172A!important}
+.ch-header{background:linear-gradient(135deg,#0F172A,#1E293B);border-radius:16px;padding:2rem 2.5rem;margin-bottom:2rem}
+.ch-badge{display:inline-block;background:#DDB84A;color:#0F172A;border-radius:8px;padding:4px 14px;font-size:11px;font-weight:700;letter-spacing:.1em;margin-bottom:.75rem}
+.ch-title{color:#fff;font-size:22px;font-weight:700;line-height:1.3;margin-bottom:.5rem}
+.ch-overview{color:#94A3B8;font-size:.88rem;line-height:1.6}
+.s-label{font-size:10px;font-weight:700;letter-spacing:.14em;color:#94A3B8;text-transform:uppercase;margin:2rem 0 .7rem}
+.terms-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.term{background:#fff;border:1px solid #E2E8F0;border-left:3px solid #DDB84A;border-radius:10px;padding:.85rem 1rem}
+.term-name{font-size:13px;font-weight:700;color:#0F172A;margin-bottom:3px}
+.term-def{font-size:12px;color:#64748B;line-height:1.5}
+.card{background:#fff;border:1px solid #E2E8F0;border-radius:10px;padding:1.1rem 1.4rem;margin-top:1rem}
+.card.blue{border-left:3px solid #3B82F6}.card.gold{border-left:3px solid #DDB84A;background:#FFFBF0;border-color:#E5C55A}.card.red{border-left:3px solid #EF4444;background:#FFF5F5;border-color:#FCA5A5}.card.green{border-left:3px solid #22C55E;background:#F0FDF4;border-color:#86EFAC}
+.card-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem}
+.card.blue .card-label{color:#2563EB}.card.gold .card-label{color:#92700A}.card.red .card-label{color:#B91C1C}.card.green .card-label{color:#15803D}
+.card-title{font-size:14px;font-weight:700;color:#0F172A;margin-bottom:.4rem}
+.card-body{font-size:13px;line-height:1.65}
+.card.blue .card-body{color:#475569}.card.gold .card-body{color:#5C4200}.card.red .card-body{color:#7F1D1D}.card.green .card-body{color:#166534}
+.card-body ul{margin:.5rem 0 0 1.2rem}.card-body li{margin-bottom:.3rem}
+.table-wrap{background:#fff;border:1px solid #E2E8F0;border-radius:10px;overflow:hidden;margin-top:1rem}
+.table-label{font-size:10px;font-weight:700;letter-spacing:.12em;color:#94A3B8;text-transform:uppercase;padding:.85rem 1.25rem .3rem}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead tr{background:#0F172A}
+th{padding:8px 14px;text-align:left;color:#DDB84A;font-weight:600}
+td{padding:8px 14px;color:#475569;border-top:1px solid #F1F5F9}
+td:first-child{color:#0F172A;font-weight:600}
+tr:nth-child(even) td{background:#F8FAFC}
+.recall{background:#0F172A;border-radius:12px;padding:1.5rem 1.75rem;margin-top:2rem}
+.recall-title{color:#DDB84A;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.9rem}
+.recall-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:.55rem;font-size:13px;color:#CBD5E1;line-height:1.5}
+.recall-item::before{content:"✓";color:#DDB84A;font-weight:700;flex-shrink:0}
+.footer-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;padding-top:1.5rem;border-top:1px solid #E2E8F0;gap:8px}
+.footer-nav a{display:flex;align-items:center;gap:6px;text-decoration:none;color:#64748B;font-size:.8rem;padding:8px 18px;border:1px solid #E2E8F0;border-radius:8px;background:#fff}
+.footer-nav a:hover{border-color:#DDB84A;color:#DDB84A}
+.brand{font-size:.72rem;color:#94A3B8;text-align:center;margin-top:1.5rem}
+@media print{body{background:#fff;padding:1rem}.top-nav,.footer-nav{display:none}}
+html.embedded .top-nav,html.embedded .footer-nav,html.embedded .brand,html.embedded .ch-header{display:none!important}html.embedded body{background:#fff;padding:0}html.embedded .container{max-width:100%;padding:.75rem 1rem}@media(max-width:600px){.terms-grid{grid-template-columns:1fr}.ch-title{font-size:19px}body{padding:1rem}}
+</style>
+<script>if(window.self!==window.top||location.search.indexOf("embed=1")>-1)document.documentElement.classList.add("embedded");</script>
+</head>
+<body>
+<div class="container">
+
+<div class="top-nav">
+  <a href="ch6.html">← Capítulo 6</a>
+  <a href="index.html" class="home-btn">⌂ Todos los Capítulos</a>
+  <a href="ch8.html">Capítulo 8 →</a>
+</div>
+
+<div class="ch-header">
+  <div class="ch-badge">CAPÍTULO 7</div>
+  <div class="ch-title">Suscripción y Emisión de Pólizas</div>
+  <div class="ch-overview">Domina el proceso de solicitud, las clases de riesgo, los recibos de cobertura, la entrega de póliza, las ilustraciones y los documentos de divulgación que los agentes deben proveer.</div>
+</div>
+
+<div class="s-label">Términos Clave</div>
+<div class="terms-grid">
+  <div class="term"><div class="term-name">Suscripción (Underwriting)</div><div class="term-def">Proceso de evaluación del riesgo para decidir si aceptar, modificar o rechazar una solicitud de seguro de vida.</div></div>
+  <div class="term"><div class="term-name">MIB (Oficina de Información Médica)</div><div class="term-def">Base de datos compartida entre aseguradoras que contiene registros de solicitudes de seguro previas. Los suscriptores la consultan para detectar inconsistencias.</div></div>
+  <div class="term"><div class="term-name">Recibo Vinculante</div><div class="term-def">Proporciona cobertura inmediata desde la fecha del recibo, independientemente de que la solicitud sea aprobada. Raro en seguro de vida individual.</div></div>
+  <div class="term"><div class="term-name">Recibo Condicional</div><div class="term-def">Proporciona cobertura desde la fecha del recibo O de la firma de la solicitud, SIEMPRE QUE el solicitante sea asegurable. El tipo de recibo más común en seguro de vida.</div></div>
+  <div class="term"><div class="term-name">Clase Preferida</div><div class="term-def">Mejor clasificación de riesgo — salud excelente, sin historial de enfermedades, non-fumador. Recibe las primas más bajas.</div></div>
+  <div class="term"><div class="term-name">Tarifa de Tabla (Table Rating)</div><div class="term-def">Prima adicional cobrada a solicitantes de mayor riesgo. Cada nivel de tabla generalmente añade un 25% al costo de la prima estándar.</div></div>
+  <div class="term"><div class="term-name">Extra Plana (Flat Extra)</div><div class="term-def">Carga fija por cada $1,000 de cobertura, añadida temporalmente para riesgos específicos que disminuyen con el tiempo (ej. recuperación de una cirugía).</div></div>
+  <div class="term"><div class="term-name">Retrodatación (Backdating)</div><div class="term-def">Fijar la fecha de emisión de la póliza antes de la fecha de solicitud para obtener una prima más baja basada en una edad anterior. Generalmente limitado a 6 meses.</div></div>
+</div>
+
+<div class="s-label">El Proceso de Solicitud</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Las Partes de la Solicitud</div>
+  <div class="card-body">La solicitud tiene dos partes:
+    <ul>
+      <li><strong>Parte 1 (General)</strong> — información personal: nombre, dirección, fecha de nacimiento, ocupación, ingresos, cobertura solicitada, designación de beneficiario, historial de seguro existente.</li>
+      <li><strong>Parte 2 (Médica)</strong> — historial de salud: enfermedades, cirugías, medicamentos, hábitos de tabaco/alcohol, historial familiar. Para cobertura grande, puede requerir examen médico completo.</li>
+    </ul>
+    La solicitud se convierte en parte del contrato cuando se emite la póliza. Las declaraciones hechas en ella son declaraciones, NO garantías (a menos que estén así designadas).
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">MIB — Rol del Suscriptor</div>
+  <div class="card-body">La Oficina de Información Médica (MIB) es una base de datos cooperativa utilizada por las aseguradoras para detectar omisiones o inconsistencias en las solicitudes. Los suscriptores la consultan para comparar la información declarada con solicitudes previas. El MIB NO:
+    <ul>
+      <li>Aprueba ni rechaza solicitudes</li>
+      <li>Contiene historiales médicos completos</li>
+      <li>Reemplaza exámenes médicos</li>
+    </ul>
+    Solo ayuda a verificar la coherencia de lo declarado. Los solicitantes tienen derecho a ver su archivo MIB y corregir errores.
+  </div>
+</div>
+
+<div class="s-label">Recibos de Cobertura Temporal</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Recibo Vinculante vs. Recibo Condicional</div>
+  <div class="card-body">
+    <ul>
+      <li><strong>Recibo Vinculante</strong> — la cobertura comienza INMEDIATAMENTE al pagar la primera prima, sin importar si la solicitud es finalmente aprobada o rechazada. Raro en seguro de vida individual; más común en seguros de propiedad y accidentes.</li>
+      <li><strong>Recibo Condicional</strong> — la cobertura empieza en la fecha del recibo o de la solicitud, SOLO SI el solicitante resulta ser asegurable a las tasas estándar. Si la aseguradora hubiera aprobado la solicitud con tasas modificadas y el solicitante muere durante la revisión, el beneficio podría pagarse a las tasas modificadas.</li>
+    </ul>
+    El recibo condicional es el más común en seguro de vida individual.
+  </div>
+</div>
+
+<div class="card gold">
+  <div class="card-label">Consejo de Examen</div>
+  <div class="card-title">El Recibo Condicional es el Más Común</div>
+  <div class="card-body">El examen frecuentemente pregunta qué tipo de recibo proporciona cobertura temporal en seguro de vida individual. La respuesta es el <strong>recibo condicional</strong>. La clave es la condición: el solicitante debe ser asegurable. Si muere antes de que se complete la suscripción y habría sido asegurable, la aseguradora paga el beneficio.</div>
+</div>
+
+<div class="s-label">Clases de Riesgo y Calificaciones</div>
+
+<div class="table-wrap">
+  <div class="table-label">Clases de Riesgo del Suscriptor</div>
+  <table>
+    <thead><tr><th>Clase</th><th>Perfil de Riesgo</th><th>Efecto en Prima</th></tr></thead>
+    <tbody>
+      <tr><td>Preferida</td><td>Salud excelente, no fumador, sin condiciones preexistentes</td><td>Prima más baja disponible</td></tr>
+      <tr><td>Estándar</td><td>Salud promedio, algunos factores de riesgo menores</td><td>Prima base estándar</td></tr>
+      <tr><td>Subestándar (Calificada)</td><td>Riesgo por encima del promedio; condiciones de salud, peligros de ocupación o pasatiempos</td><td>Prima más alta — calificación de tabla o extra plana</td></tr>
+      <tr><td>Rechazada</td><td>Riesgo demasiado alto para asegurar</td><td>No se emite póliza</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Calificación de Tabla vs. Extra Plana</div>
+  <div class="card-body">
+    <ul>
+      <li><strong>Calificación de Tabla</strong> — se usa para riesgos de salud permanentes (diabetes, enfermedades cardíacas). Cada nivel de tabla añade aprox. el 25% a la prima estándar. Tabla A = prima estándar ×125%; Tabla B = ×150%; etc.</li>
+      <li><strong>Extra Plana</strong> — se usa para riesgos temporales que se esperan disminuyan (recuperación post-cirugía, trabajo peligroso temporal). Es una cantidad fija por $1,000 de cobertura por un período específico, luego se elimina.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="s-label">Entrega de Póliza y Requisitos</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Cuándo la Póliza Entra en Vigor</div>
+  <div class="card-body">La póliza entra en vigor cuando se cumplen TODAS estas condiciones:
+    <ul>
+      <li>La póliza ha sido <strong>entregada</strong> al solicitante</li>
+      <li>Se ha pagado la <strong>primera prima</strong></li>
+      <li>El solicitante está en <strong>buena salud</strong> al momento de la entrega</li>
+    </ul>
+    Si el estado de salud del solicitante ha cambiado desde la solicitud, el agente debe notificar a la aseguradora. Si la primera prima se pagó con la solicitud y se emitió un recibo condicional, la cobertura puede retroactuar a la fecha de la solicitud.
+  </div>
+</div>
+
+<div class="card red">
+  <div class="card-label">¡Atención!</div>
+  <div class="card-title">Retrodatación — Límite de 6 Meses</div>
+  <div class="card-body">La retrodatación permite fijar la fecha de emisión de la póliza antes de la fecha real para obtener una prima basada en la edad anterior. <strong>Máximo 6 meses hacia atrás.</strong> El solicitante debe pagar las primas para el período retroactivo. Ejemplo: solicitud presentada en marzo cuando el solicitante cumple años en octubre — puede retrofechar la póliza hasta septiembre del año anterior. Ventaja: prima permanentemente más baja por toda la vida de la póliza.</div>
+</div>
+
+<div class="s-label">Ilustraciones y Documentos de Divulgación</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Requisitos de las Ilustraciones de Póliza</div>
+  <div class="card-body">Una ilustración de póliza proyecta el desempeño futuro de la póliza. Las regulaciones requieren que las ilustraciones:
+    <ul>
+      <li>Muestren TANTO las columnas de valores <strong>actuales</strong> (basados en tasas vigentes) COMO las de valores <strong>garantizados</strong> (el peor escenario)</li>
+      <li>Estén firmadas por el solicitante y el agente</li>
+      <li>No utilicen el término "dividendo" para pólizas no participantes</li>
+      <li>Identifiquen claramente los elementos garantizados vs. proyectados</li>
+    </ul>
+    El propósito es prevenir ventas engañosas mostrando solo las proyecciones optimistas.
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Guía del Comprador vs. Resumen de Póliza</div>
+  <div class="card-body">
+    <ul>
+      <li><strong>Guía del Comprador (Buyer's Guide)</strong> — documento genérico que explica los tipos de seguro de vida y cómo comprar sabiamente. Aplica a todos los productos, no a ninguno específico. Ayuda a los consumidores a entender las pólizas en general.</li>
+      <li><strong>Resumen de Póliza (Policy Summary)</strong> — documento específico para la póliza propuesta que contiene los datos reales: primas, beneficios por fallecimiento, valores en efectivo, cargos y costos. Específico para el producto que se vende.</li>
+    </ul>
+    Ambos documentos deben entregarse en el momento de la venta. La guía del comprador es genérica; el resumen de póliza es específico.
+  </div>
+</div>
+
+<div class="card gold">
+  <div class="card-label">Consejo de Examen</div>
+  <div class="card-title">Prácticas de Venta Prohibidas</div>
+  <div class="card-body">
+    <ul>
+      <li><strong>Torcimiento (Twisting)</strong> — persuadir a un cliente para reemplazar una póliza existente usando declaraciones falsas o engañosas. El agente puede hacer comparaciones honestas, pero no puede tergiversar.</li>
+      <li><strong>Churning</strong> — reemplazar la póliza del propio cliente para generar nuevas comisiones, en perjuicio del cliente. Misma aseguradora, mismo agente.</li>
+      <li>Ambos son prácticas de comercio desleales y pueden resultar en pérdida de licencia.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card green">
+  <div class="card-label">Números Clave</div>
+  <div class="card-title">Números del Capítulo 7</div>
+  <div class="card-body">
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:90px">+25%/tabla</span><span>Cada nivel de tabla de calificación añade aprox. 25% a la prima estándar</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:90px">6 meses</span><span>Límite máximo de retrodatación de la fecha de emisión de la póliza</span></div>
+    <div style="display:flex;gap:10px"><span style="font-weight:700;color:#15803D;min-width:90px">2 columnas</span><span>Las ilustraciones deben mostrar AMBAS: valores actuales Y valores garantizados</span></div>
+  </div>
+</div>
+
+<div class="recall">
+  <div class="recall-title">Repaso Rápido — Debes Saber Antes de Continuar</div>
+  <div class="recall-item">La solicitud tiene dos partes: general (Parte 1) y médica (Parte 2). Ambas se convierten en parte del contrato.</div>
+  <div class="recall-item">El MIB es una base de datos compartida para detectar inconsistencias — no aprueba ni rechaza solicitudes.</div>
+  <div class="recall-item">El recibo condicional es el más común en seguro de vida — proporciona cobertura si el solicitante es asegurable.</div>
+  <div class="recall-item">El recibo vinculante proporciona cobertura inmediata sin condiciones — raro en vida individual.</div>
+  <div class="recall-item">Las clases de riesgo van de preferida (prima más baja) a rechazada. Los riesgos subestándar pagan más.</div>
+  <div class="recall-item">Calificación de tabla = riesgos permanentes (+25% por tabla). Extra plana = riesgos temporales (monto fijo por $1,000).</div>
+  <div class="recall-item">La póliza entra en vigor al entregar, pagar primera prima y confirmar buena salud del solicitante.</div>
+  <div class="recall-item">Retrodatación: máximo 6 meses hacia atrás para obtener prima de edad anterior.</div>
+  <div class="recall-item">Ilustraciones deben mostrar AMBAS columnas: valores actuales y valores garantizados.</div>
+  <div class="recall-item">Guía del comprador = genérica. Resumen de póliza = específico para el producto propuesto. Ambos se entregan en la venta.</div>
+  <div class="recall-item">Torcimiento = reemplazar póliza ajena con información engañosa. Churning = reemplazar la póliza propia del cliente para generar comisiones.</div>
+</div>
+
+<div class="footer-nav">
+  <a href="ch6.html">← Capítulo 6</a>
+  <a href="ch8.html">Capítulo 8: Seguro de Vida Colectivo →</a>
+</div>
+<div class="brand">Bethel Financial Group · Guía de Estudio para Licencia de Seguro de Vida</div>
+</div>
+</body>
+</html>

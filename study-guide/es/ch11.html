@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Cap. 11: Planes de Jubilación</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F1F5F9;color:#1E293B;padding:2rem 1.5rem;min-height:100vh}
+.container{max-width:820px;margin:0 auto}
+.top-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;gap:8px}
+.top-nav a{color:#64748B;text-decoration:none;font-size:.8rem;padding:6px 14px;border:1px solid #E2E8F0;border-radius:8px;background:#fff;white-space:nowrap}
+.top-nav a:hover{border-color:#DDB84A;color:#DDB84A}
+.home-btn{background:#0F172A!important;color:#DDB84A!important;border-color:#0F172A!important}
+.ch-header{background:linear-gradient(135deg,#0F172A,#1E293B);border-radius:16px;padding:2rem 2.5rem;margin-bottom:2rem}
+.ch-badge{display:inline-block;background:#DDB84A;color:#0F172A;border-radius:8px;padding:4px 14px;font-size:11px;font-weight:700;letter-spacing:.1em;margin-bottom:.75rem}
+.ch-title{color:#fff;font-size:22px;font-weight:700;line-height:1.3;margin-bottom:.5rem}
+.ch-overview{color:#94A3B8;font-size:.88rem;line-height:1.6}
+.s-label{font-size:10px;font-weight:700;letter-spacing:.14em;color:#94A3B8;text-transform:uppercase;margin:2rem 0 .7rem}
+.terms-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.term{background:#fff;border:1px solid #E2E8F0;border-left:3px solid #DDB84A;border-radius:10px;padding:.85rem 1rem}
+.term-name{font-size:13px;font-weight:700;color:#0F172A;margin-bottom:3px}
+.term-def{font-size:12px;color:#64748B;line-height:1.5}
+.card{background:#fff;border:1px solid #E2E8F0;border-radius:10px;padding:1.1rem 1.4rem;margin-top:1rem}
+.card.blue{border-left:3px solid #3B82F6}.card.gold{border-left:3px solid #DDB84A;background:#FFFBF0;border-color:#E5C55A}.card.red{border-left:3px solid #EF4444;background:#FFF5F5;border-color:#FCA5A5}.card.green{border-left:3px solid #22C55E;background:#F0FDF4;border-color:#86EFAC}
+.card-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem}
+.card.blue .card-label{color:#2563EB}.card.gold .card-label{color:#92700A}.card.red .card-label{color:#B91C1C}.card.green .card-label{color:#15803D}
+.card-title{font-size:14px;font-weight:700;color:#0F172A;margin-bottom:.4rem}
+.card-body{font-size:13px;line-height:1.65}
+.card.blue .card-body{color:#475569}.card.gold .card-body{color:#5C4200}.card.red .card-body{color:#7F1D1D}.card.green .card-body{color:#166534}
+.card-body ul{margin:.5rem 0 0 1.2rem}.card-body li{margin-bottom:.3rem}
+.table-wrap{background:#fff;border:1px solid #E2E8F0;border-radius:10px;overflow:hidden;margin-top:1rem}
+.table-label{font-size:10px;font-weight:700;letter-spacing:.12em;color:#94A3B8;text-transform:uppercase;padding:.85rem 1.25rem .3rem}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead tr{background:#0F172A}
+th{padding:8px 14px;text-align:left;color:#DDB84A;font-weight:600}
+td{padding:8px 14px;color:#475569;border-top:1px solid #F1F5F9}
+td:first-child{color:#0F172A;font-weight:600}
+tr:nth-child(even) td{background:#F8FAFC}
+.recall{background:#0F172A;border-radius:12px;padding:1.5rem 1.75rem;margin-top:2rem}
+.recall-title{color:#DDB84A;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.9rem}
+.recall-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:.55rem;font-size:13px;color:#CBD5E1;line-height:1.5}
+.recall-item::before{content:"✓";color:#DDB84A;font-weight:700;flex-shrink:0}
+.footer-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;padding-top:1.5rem;border-top:1px solid #E2E8F0;gap:8px}
+.footer-nav a{display:flex;align-items:center;gap:6px;text-decoration:none;color:#64748B;font-size:.8rem;padding:8px 18px;border:1px solid #E2E8F0;border-radius:8px;background:#fff}
+.footer-nav a:hover{border-color:#DDB84A;color:#DDB84A}
+.brand{font-size:.72rem;color:#94A3B8;text-align:center;margin-top:1.5rem}
+@media print{body{background:#fff;padding:1rem}.top-nav,.footer-nav{display:none}}
+html.embedded .top-nav,html.embedded .footer-nav,html.embedded .brand,html.embedded .ch-header{display:none!important}html.embedded body{background:#fff;padding:0}html.embedded .container{max-width:100%;padding:.75rem 1rem}@media(max-width:600px){.terms-grid{grid-template-columns:1fr}.ch-title{font-size:19px}body{padding:1rem}}
+</style>
+<script>if(window.self!==window.top||location.search.indexOf("embed=1")>-1)document.documentElement.classList.add("embedded");</script>
+</head>
+<body>
+<div class="container">
+
+<div class="top-nav">
+  <a href="ch10.html">← Capítulo 10</a>
+  <a href="index.html" class="home-btn">⌂ Todos los Capítulos</a>
+  <a href="ch12.html">Capítulo 12 →</a>
+</div>
+
+<div class="ch-header">
+  <div class="ch-badge">CAPÍTULO 11</div>
+  <div class="ch-title">Planes de Jubilación</div>
+  <div class="ch-overview">Domina la distinción entre planes calificados y no calificados, las IRAs tradicionales vs. Roth, los principales planes de empleadores (401k, 403b, SIMPLE, SEP), la adquisición de derechos y las RMDs.</div>
+</div>
+
+<div class="s-label">Términos Clave</div>
+<div class="terms-grid">
+  <div class="term"><div class="term-name">Plan Calificado</div><div class="term-def">Plan de jubilación que cumple con ERISA. Las contribuciones son pre-impuestos (deducibles); el crecimiento es con diferimiento fiscal; las distribuciones son tributables como ingreso ordinario.</div></div>
+  <div class="term"><div class="term-name">Plan No Calificado</div><div class="term-def">No cumple con ERISA. Las contribuciones son post-impuestos (no deducibles); solo las ganancias son tributables al retirar. No tiene límites de contribución del IRS.</div></div>
+  <div class="term"><div class="term-name">ERISA</div><div class="term-def">Ley de Seguridad de Ingresos de Jubilación del Empleado. Establece normas mínimas de participación, adquisición de derechos y financiamiento para planes de jubilación del empleador.</div></div>
+  <div class="term"><div class="term-name">IRA Tradicional</div><div class="term-def">Cuenta de jubilación individual. Las contribuciones pueden ser deducibles; las distribuciones son tributables. RMDs comienzan a los 73 años.</div></div>
+  <div class="term"><div class="term-name">IRA Roth</div><div class="term-def">Contribuciones post-impuestos; las distribuciones calificadas son completamente libres de impuestos. Sin RMDs durante la vida del titular.</div></div>
+  <div class="term"><div class="term-name">RMD (Distribución Mínima Requerida)</div><div class="term-def">Distribuciones mínimas obligatorias de planes calificados e IRAs tradicionales. Comienzan a los 73 años. Roth IRA NO requiere RMDs.</div></div>
+  <div class="term"><div class="term-name">Adquisición de Derechos (Vesting)</div><div class="term-def">El proceso por el cual el empleado adquiere derecho irrevocable a las contribuciones del empleador. Las propias contribuciones del empleado siempre están 100% adquiridas inmediatamente.</div></div>
+  <div class="term"><div class="term-name">Plan de Beneficio Definido</div><div class="term-def">El empleador garantiza un beneficio de jubilación específico (ej. % del salario × años de servicio). El empleador asume el riesgo de inversión.</div></div>
+</div>
+
+<div class="s-label">Calificado vs. No Calificado</div>
+
+<div class="table-wrap">
+  <div class="table-label">Comparación: Plan Calificado vs. No Calificado</div>
+  <table>
+    <thead><tr><th>Característica</th><th>Plan Calificado</th><th>Plan No Calificado</th></tr></thead>
+    <tbody>
+      <tr><td>Cumple con ERISA</td><td>Sí</td><td>No</td></tr>
+      <tr><td>Contribuciones</td><td>Pre-impuestos (deducibles)</td><td>Post-impuestos (no deducibles)</td></tr>
+      <tr><td>Crecimiento</td><td>Con diferimiento fiscal</td><td>Con diferimiento fiscal</td></tr>
+      <tr><td>Distribuciones</td><td>100% tributables</td><td>Solo las ganancias son tributables</td></tr>
+      <tr><td>Límites de contribución</td><td>Sí (establecidos por el IRS)</td><td>No (sin límites del IRS)</td></tr>
+      <tr><td>Ejemplos</td><td>401k, IRA, 403b, SEP, SIMPLE</td><td>Comp. diferida, anualidades no calificadas</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="s-label">IRAs — Tradicional vs. Roth</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">IRA Tradicional vs. IRA Roth</div>
+  <div class="card-body">
+    <ul>
+      <li><strong>IRA Tradicional</strong>:
+        <ul>
+          <li>Contribuciones pueden ser deducibles (según ingresos y si tiene plan del empleador)</li>
+          <li>Crecimiento con diferimiento fiscal</li>
+          <li>Distribuciones son tributables como ingreso ordinario</li>
+          <li>RMDs comienzan a los <strong>73 años</strong></li>
+          <li>Penalización del 10% por retiros antes de los 59½</li>
+        </ul>
+      </li>
+      <li><strong>IRA Roth</strong>:
+        <ul>
+          <li>Contribuciones <strong>NO</strong> son deducibles (post-impuestos)</li>
+          <li>Distribuciones calificadas son <strong>libres de impuestos</strong></li>
+          <li><strong>Sin RMDs</strong> durante la vida del titular</li>
+          <li>Penalización del 10% solo sobre las ganancias retiradas antes de los 59½ (las contribuciones se pueden retirar sin penalización)</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="card green">
+  <div class="card-label">Números Clave</div>
+  <div class="card-title">Límites de Contribución IRA</div>
+  <div class="card-body">
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:100px">$7,000/año</span><span>Límite de contribución IRA (tradicional o Roth, o combinado entre ambas)</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:100px">$8,000/año</span><span>Límite para personas de 50+ años (contribución adicional de "catch-up" de $1,000)</span></div>
+    <div style="display:flex;gap:10px"><span style="font-weight:700;color:#15803D;min-width:100px">73 años</span><span>Edad en que comienzan las RMDs de la IRA tradicional (no aplica a Roth IRA)</span></div>
+  </div>
+</div>
+
+<div class="card gold">
+  <div class="card-label">Consejo de Examen</div>
+  <div class="card-title">Roth IRA = Sin RMDs = Mayor Flexibilidad</div>
+  <div class="card-body">La ausencia de RMDs en la Roth IRA es una de sus mayores ventajas. En la IRA tradicional, el IRS exige retirar un mínimo cada año a partir de los 73 — si no, hay una penalización del 25% sobre el monto no retirado. Con la Roth, el titular puede dejar el dinero crecer libre de impuestos indefinidamente y transferirlo a herederos.</div>
+</div>
+
+<div class="s-label">Planes del Empleador</div>
+
+<div class="table-wrap">
+  <div class="table-label">Principales Planes de Jubilación del Empleador</div>
+  <table>
+    <thead><tr><th>Plan</th><th>Quién lo Usa</th><th>Detalle Clave</th></tr></thead>
+    <tbody>
+      <tr><td>401(k)</td><td>Empresas con fines de lucro</td><td>Empleado contribuye; empleador puede hacer aportaciones iguales. Límite alto de contribución.</td></tr>
+      <tr><td>403(b)</td><td>Organizaciones sin fines de lucro, escuelas, hospitales</td><td>Similar al 401k pero para sector sin fines de lucro. Inversiones en anualidades o fondos mutuos.</td></tr>
+      <tr><td>457</td><td>Gobierno estatal y local</td><td>Similar al 401k pero SIN penalización del 10% por retiros anticipados. Penalización del IRS no aplica.</td></tr>
+      <tr><td>SEP IRA</td><td>Autoempleados y pequeñas empresas</td><td>Solo el empleador contribuye. Límites de contribución más altos que la IRA regular.</td></tr>
+      <tr><td>SIMPLE IRA</td><td>Empresas con ≤100 empleados</td><td>Empleado y empleador contribuyen. Período de espera de 2 años antes de transferir a otra IRA.</td></tr>
+      <tr><td>Plan Keogh (HR-10)</td><td>Autoempleados (propietarios únicos y socios)</td><td>Solo para autoempleados NO incorporados. NO para corporaciones S o corporaciones C.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card red">
+  <div class="card-label">¡Atención!</div>
+  <div class="card-title">Plan 457 — Sin Penalización del 10%</div>
+  <div class="card-body">El plan 457 es el único plan de jubilación principal que NO tiene la penalización del 10% por retiros antes de los 59½ años. Está disponible para empleados del gobierno estatal y local. Esta es una diferencia crítica del examen — si la pregunta menciona un empleado del gobierno que hace un retiro anticipado, el 457 no tiene penalización adicional (solo impuestos ordinarios).</div>
+</div>
+
+<div class="card red">
+  <div class="card-label">¡Atención!</div>
+  <div class="card-title">Keogh Solo para Autoempleados NO Incorporados</div>
+  <div class="card-body">El plan Keogh (HR-10) está disponible únicamente para <strong>propietarios únicos y socios</strong> — no para propietarios de corporaciones S o corporaciones C. Si el autoempleado se incorpora, deja de ser elegible para un Keogh y debe usar otros planes (SEP, SIMPLE, 401k de un solo participante). El examen puede presentar un escenario donde un "dueño de negocio" quiere un Keogh — verifica que sea realmente autoempleado no incorporado.</div>
+</div>
+
+<div class="s-label">Adquisición de Derechos (Vesting)</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Tipos de Adquisición de Derechos</div>
+  <div class="card-body">La adquisición de derechos determina cuándo el empleado tiene derecho irrevocable a las <strong>contribuciones del empleador</strong> (las propias del empleado siempre están 100% adquiridas inmediatamente):
+    <ul>
+      <li><strong>Adquisición en Acantilado (Cliff Vesting)</strong> — el empleado adquiere el 0% hasta alcanzar el período mínimo, luego salta al 100%. El IRS permite un máximo de <strong>3 años</strong> para la adquisición en acantilado.</li>
+      <li><strong>Adquisición Gradual (Graded Vesting)</strong> — el empleado adquiere un porcentaje incremental por año. El IRS requiere adquisición del 100% en no más de <strong>6 años</strong> (con un mínimo del 20% por año a partir del año 2).</li>
+    </ul>
+    Regla clave: las contribuciones propias del empleado (diferimientos salariales 401k, contribuciones IRA) siempre están 100% adquiridas inmediatamente.
+  </div>
+</div>
+
+<div class="s-label">Distribuciones y Excepciones</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Excepciones a la Penalización del 10%</div>
+  <div class="card-body">Las siguientes situaciones permiten retiros anticipados (antes de los 59½) SIN la penalización del 10%:
+    <ul>
+      <li>Muerte o incapacidad total del titular</li>
+      <li>Pagos periódicos sustancialmente iguales (SEPP / Regla 72(t))</li>
+      <li>Gastos médicos no reembolsados superiores al 7.5% del AGI</li>
+      <li>Separación del servicio a los 55 años (planes del empleador)</li>
+      <li>Órdenes de relaciones domésticas (QDRO)</li>
+      <li>Gastos de educación calificados (solo IRA)</li>
+      <li>Primera compra de vivienda hasta $10,000 (solo IRA)</li>
+      <li>Plan 457 — sin penalización en ningún retiro</li>
+    </ul>
+    Nota: siempre se deben impuestos sobre la renta en distribuciones de planes calificados — las excepciones solo eliminan la <em>penalización</em> adicional del 10%.
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">SEPPs — Pagos 72(t)</div>
+  <div class="card-body">Los Pagos Periódicos Sustancialmente Iguales (SEPP) bajo la sección 72(t) del IRS permiten al titular comenzar retiros antes de los 59½ sin penalización, siempre que:
+    <ul>
+      <li>Los pagos sean sustancialmente iguales (calculados por uno de tres métodos aprobados por el IRS)</li>
+      <li>Los pagos continúen por lo menos 5 años O hasta los 59½, lo que ocurra DESPUÉS</li>
+      <li>Si el titular modifica el plan antes de cumplir ambas condiciones, se aplica retroactivamente la penalización del 10% más intereses</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card green">
+  <div class="card-label">Números Clave</div>
+  <div class="card-title">Números del Capítulo 11</div>
+  <div class="card-body">
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:110px">$7,000 / $8,000</span><span>Límite IRA anual (menores de 50 / mayores de 50)</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:110px">59½ años</span><span>Edad mínima para retiros sin penalización del 10% (excepto 457)</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:110px">73 años</span><span>Edad en que comienzan las RMDs (IRA tradicional, 401k, etc. — NO Roth IRA)</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:110px">3 años</span><span>Máximo para adquisición en acantilado (cliff vesting)</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:110px">6 años</span><span>Máximo para adquisición gradual (graded vesting)</span></div>
+    <div style="display:flex;gap:10px"><span style="font-weight:700;color:#15803D;min-width:110px">2 años</span><span>Período de espera de SIMPLE IRA antes de transferir a otra IRA</span></div>
+  </div>
+</div>
+
+<div class="recall">
+  <div class="recall-title">Repaso Rápido — Debes Saber Antes de Continuar</div>
+  <div class="recall-item">Planes calificados: contribuciones pre-impuestos, crecimiento diferido, distribuciones 100% tributables. No calificados: contribuciones post-impuestos, solo ganancias tributables.</div>
+  <div class="recall-item">IRA tradicional: posiblemente deducible, RMDs a los 73. Roth IRA: no deducible, distribuciones calificadas libres de impuestos, SIN RMDs.</div>
+  <div class="recall-item">Límite IRA: $7,000/año ($8,000 si tienes 50+). El límite es combinado entre tradicional y Roth.</div>
+  <div class="recall-item">Plan 457: para empleados del gobierno, SIN penalización del 10% por retiros anticipados.</div>
+  <div class="recall-item">Plan Keogh: solo para autoempleados NO incorporados (propietarios únicos y socios).</div>
+  <div class="recall-item">Las contribuciones propias del empleado siempre están 100% adquiridas de inmediato. Las del empleador siguen un calendario de adquisición.</div>
+  <div class="recall-item">Cliff vesting: máximo 3 años. Graded vesting: máximo 6 años (20% por año desde el año 2).</div>
+  <div class="recall-item">Excepciones al 10%: muerte, incapacidad, SEPP (72t), gastos médicos, separación a los 55, primera vivienda (IRA), educación (IRA).</div>
+  <div class="recall-item">SEPPs bajo 72(t): pagos iguales por al menos 5 años O hasta los 59½ (lo que ocurra después). Modificar antes = penalización retroactiva.</div>
+</div>
+
+<div class="footer-nav">
+  <a href="ch10.html">← Capítulo 10</a>
+  <a href="ch12.html">Capítulo 12: Usos del Seguro de Vida →</a>
+</div>
+<div class="brand">Bethel Financial Group · Guía de Estudio para Licencia de Seguro de Vida</div>
+</div>
+</body>
+</html>

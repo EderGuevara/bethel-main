@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Cap. 4: Tipos de Pólizas de Seguro de Vida</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F1F5F9;color:#1E293B;padding:2rem 1.5rem;min-height:100vh}
+.container{max-width:820px;margin:0 auto}
+.top-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;gap:8px}
+.top-nav a{color:#64748B;text-decoration:none;font-size:.8rem;padding:6px 14px;border:1px solid #E2E8F0;border-radius:8px;background:#fff;white-space:nowrap}
+.top-nav a:hover{border-color:#DDB84A;color:#DDB84A}
+.home-btn{background:#0F172A!important;color:#DDB84A!important;border-color:#0F172A!important}
+.ch-header{background:linear-gradient(135deg,#0F172A,#1E293B);border-radius:16px;padding:2rem 2.5rem;margin-bottom:2rem}
+.ch-badge{display:inline-block;background:#DDB84A;color:#0F172A;border-radius:8px;padding:4px 14px;font-size:11px;font-weight:700;letter-spacing:.1em;margin-bottom:.75rem}
+.ch-title{color:#fff;font-size:22px;font-weight:700;line-height:1.3;margin-bottom:.5rem}
+.ch-overview{color:#94A3B8;font-size:.88rem;line-height:1.6}
+.s-label{font-size:10px;font-weight:700;letter-spacing:.14em;color:#94A3B8;text-transform:uppercase;margin:2rem 0 .7rem}
+.terms-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.term{background:#fff;border:1px solid #E2E8F0;border-left:3px solid #DDB84A;border-radius:10px;padding:.85rem 1rem}
+.term-name{font-size:13px;font-weight:700;color:#0F172A;margin-bottom:3px}
+.term-def{font-size:12px;color:#64748B;line-height:1.5}
+.card{background:#fff;border:1px solid #E2E8F0;border-radius:10px;padding:1.1rem 1.4rem;margin-top:1rem}
+.card.blue{border-left:3px solid #3B82F6}.card.gold{border-left:3px solid #DDB84A;background:#FFFBF0;border-color:#E5C55A}.card.red{border-left:3px solid #EF4444;background:#FFF5F5;border-color:#FCA5A5}.card.green{border-left:3px solid #22C55E;background:#F0FDF4;border-color:#86EFAC}
+.card-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem}
+.card.blue .card-label{color:#2563EB}.card.gold .card-label{color:#92700A}.card.red .card-label{color:#B91C1C}.card.green .card-label{color:#15803D}
+.card-title{font-size:14px;font-weight:700;color:#0F172A;margin-bottom:.4rem}
+.card-body{font-size:13px;line-height:1.65}
+.card.blue .card-body{color:#475569}.card.gold .card-body{color:#5C4200}.card.red .card-body{color:#7F1D1D}.card.green .card-body{color:#166534}
+.card-body ul{margin:.5rem 0 0 1.2rem}.card-body li{margin-bottom:.3rem}
+.table-wrap{background:#fff;border:1px solid #E2E8F0;border-radius:10px;overflow:hidden;margin-top:1rem}
+.table-label{font-size:10px;font-weight:700;letter-spacing:.12em;color:#94A3B8;text-transform:uppercase;padding:.85rem 1.25rem .3rem}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead tr{background:#0F172A}
+th{padding:8px 14px;text-align:left;color:#DDB84A;font-weight:600}
+td{padding:8px 14px;color:#475569;border-top:1px solid #F1F5F9}
+td:first-child{color:#0F172A;font-weight:600}
+tr:nth-child(even) td{background:#F8FAFC}
+.recall{background:#0F172A;border-radius:12px;padding:1.5rem 1.75rem;margin-top:2rem}
+.recall-title{color:#DDB84A;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.9rem}
+.recall-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:.55rem;font-size:13px;color:#CBD5E1;line-height:1.5}
+.recall-item::before{content:"✓";color:#DDB84A;font-weight:700;flex-shrink:0}
+.footer-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;padding-top:1.5rem;border-top:1px solid #E2E8F0;gap:8px}
+.footer-nav a{display:flex;align-items:center;gap:6px;text-decoration:none;color:#64748B;font-size:.8rem;padding:8px 18px;border:1px solid #E2E8F0;border-radius:8px;background:#fff}
+.footer-nav a:hover{border-color:#DDB84A;color:#DDB84A}
+.brand{font-size:.72rem;color:#94A3B8;text-align:center;margin-top:1.5rem}
+@media print{body{background:#fff;padding:1rem}.top-nav,.footer-nav{display:none}}
+html.embedded .top-nav,html.embedded .footer-nav,html.embedded .brand,html.embedded .ch-header{display:none!important}html.embedded body{background:#fff;padding:0}html.embedded .container{max-width:100%;padding:.75rem 1rem}@media(max-width:600px){.terms-grid{grid-template-columns:1fr}.ch-title{font-size:19px}body{padding:1rem}}
+</style>
+<script>if(window.self!==window.top||location.search.indexOf("embed=1")>-1)document.documentElement.classList.add("embedded");</script>
+</head>
+<body>
+<div class="container">
+
+<div class="top-nav">
+  <a href="ch3.html">← Capítulo 3</a>
+  <a href="index.html" class="home-btn">⌂ Todos los Capítulos</a>
+  <a href="ch5.html">Capítulo 5 →</a>
+</div>
+
+<div class="ch-header">
+  <div class="ch-badge">CAPÍTULO 4</div>
+  <div class="ch-title">Tipos de Pólizas de Seguro de Vida</div>
+  <div class="ch-overview">Comprende los principales tipos de pólizas de seguro de vida — temporal, entera, universal y productos variables — sus estructuras, usos y diferencias clave.</div>
+  <div class="term"><div class="term-name">Vida Universal Indexada (IUL)</div><div class="term-def">Póliza de vida universal que acredita intereses basados en un índice bursátil (ej. S&amp;P 500); tiene piso (0%) y techo; el titular NO posee acciones directamente</div></div>
+  <div class="term"><div class="term-name">Póliza de Vida Conjunta</div><div class="term-def">Asegura dos vidas; paga el beneficio por fallecimiento en la PRIMERA muerte (primero en morir); usada en acuerdos de compraventa y reemplazo de ingresos</div></div>
+  <div class="term"><div class="term-name">Póliza de Vida de Supervivencia</div><div class="term-def">Asegura dos vidas; paga el beneficio en la SEGUNDA muerte (segundo en morir); usada en planificación patrimonial e ILITs</div></div>
+  <div class="term"><div class="term-name">FIFO (Primero en Entrar, Primero en Salir)</div><div class="term-def">Tratamiento fiscal para retiros de pólizas no MEC; la base (primas ya gravadas) sale primero, libre de impuestos; la ganancia se grava solo después de recuperar toda la base</div></div>
+</div>
+
+<div class="s-label">Términos Clave</div>
+<div class="terms-grid">
+  <div class="term"><div class="term-name">Seguro de Vida Temporal</div><div class="term-def">Protección pura por fallecimiento por un período específico. Sin valor acumulado. Menor costo por dólar de cobertura. "Alquilar" seguro.</div></div>
+  <div class="term"><div class="term-name">Seguro de Vida Entera</div><div class="term-def">Cobertura permanente de por vida. Acumula valor en efectivo. Las primas son niveladas. "Comprar" seguro.</div></div>
+  <div class="term"><div class="term-name">Valor Acumulado (Cash Value)</div><div class="term-def">El elemento de ahorro en pólizas permanentes. Crece con diferimiento fiscal. El titular puede pedir préstamos contra él o rescatarlo.</div></div>
+  <div class="term"><div class="term-name">Vida Universal (UL)</div><div class="term-def">Seguro permanente de prima flexible. El titular puede ajustar la prima y el beneficio por fallecimiento. Gana la tasa de interés vigente.</div></div>
+  <div class="term"><div class="term-name">Vida Variable</div><div class="term-def">Póliza permanente donde el valor acumulado se invierte en cuentas separadas (como fondos mutuos). El riesgo de inversión recae en el titular.</div></div>
+  <div class="term"><div class="term-name">Vida Universal Variable</div><div class="term-def">Combina las primas flexibles de UL con las opciones de inversión de la vida variable. Requiere licencias de seguro y de valores.</div></div>
+  <div class="term"><div class="term-name">Póliza de Dotación (Endowment)</div><div class="term-def">Paga la suma asegurada si el asegurado muere O sobrevive a una fecha determinada. Acumula valor rápidamente. Rara en la actualidad.</div></div>
+  <div class="term"><div class="term-name">Seguro de Vida de Crédito</div><div class="term-def">Seguro temporal decreciente vinculado al saldo de un préstamo. Cancela el préstamo si el deudor fallece. El prestamista es el beneficiario.</div></div>
+</div>
+
+<div class="s-label">Conceptos Clave</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Seguro de Vida Temporal — Tipos</div>
+  <div class="card-body">El seguro temporal es cobertura provisional — sin valor acumulado, solo beneficio por fallecimiento. Hay tres tipos:
+    <ul>
+      <li><strong>Temporal nivelado</strong> — el beneficio permanece igual durante todo el término (el más común)</li>
+      <li><strong>Temporal decreciente</strong> — el beneficio disminuye con el tiempo; la prima permanece nivelada. Se usa para protección de hipoteca.</li>
+      <li><strong>Temporal creciente</strong> — el beneficio aumenta con el tiempo; a menudo se usa como cláusula adicional (rider), no como póliza independiente</li>
+    </ul>
+    Las pólizas temporales pueden ser <strong>renovables</strong> (se renuevan sin nuevo examen médico, pero a prima más alta) y/o <strong>convertibles</strong> (se convierten a permanente sin evidencia de asegurabilidad).
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Seguro de Vida Entera — Tipos</div>
+  <div class="card-body">Todas las pólizas de vida entera proveen cobertura permanente y acumulan valor en efectivo. Se diferencian en cómo se pagan las primas:
+    <ul>
+      <li><strong>Vida entera ordinaria (straight life)</strong> — primas pagadas de por vida; prima anual más baja</li>
+      <li><strong>Vida entera de pago limitado</strong> — primas pagadas por un período fijo (ej. 20 años, liquidada a los 65); prima anual más alta pero período de pago más corto</li>
+      <li><strong>Vida entera de prima única</strong> — un solo pago; la póliza queda inmediatamente pagada; crea un Contrato de Dotación Modificado (MEC)</li>
+      <li><strong>Vida entera modificada</strong> — primas más bajas los primeros años, luego prima nivelada mayor de por vida</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Vida Universal — Cómo Funciona</div>
+  <div class="card-body">La vida universal tiene dos componentes dentro de la póliza:
+    <ul>
+      <li><strong>Elemento de protección</strong> — costo de seguro puro (temporal), deducido mensualmente del valor acumulado</li>
+      <li><strong>Elemento de ahorro (cuenta de acumulación)</strong> — gana la tasa de interés vigente (con un mínimo garantizado, generalmente 3–4%)</li>
+    </ul>
+    El titular puede <strong>aumentar o disminuir las primas</strong> (dentro de límites) y <strong>ajustar el beneficio por fallecimiento</strong>. Si el valor acumulado se agota por pagos insuficientes, la póliza caduca. Dos opciones de beneficio:
+    <ul>
+      <li><strong>Opción A (nivelada)</strong> — el beneficio permanece constante; a medida que el valor crece, el seguro puro necesario disminuye</li>
+      <li><strong>Opción B (creciente)</strong> — beneficio = suma asegurada + valor acumulado; más costosa</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Productos Variables — Regla Clave</div>
+  <div class="card-body">Cualquier póliza donde el valor acumulado se invierte en <strong>cuentas separadas</strong> (acciones, bonos, fondos mutuos) es un producto variable. Por ser valores, los agentes deben tener:
+    <ul>
+      <li>Una <strong>licencia estatal de seguro de vida</strong></li>
+      <li>Un <strong>registro federal de valores</strong> (FINRA Serie 6 o 7)</li>
+    </ul>
+    Los productos variables ofrecen el <strong>mayor potencial de rendimiento</strong> pero el titular asume el riesgo de inversión — el beneficio y el valor acumulado pueden disminuir.
+  </div>
+</div>
+
+<div class="table-wrap">
+  <div class="table-label">Comparación de Pólizas</div>
+  <table>
+    <thead><tr><th>Tipo de Póliza</th><th>Duración</th><th>Valor Acumulado</th><th>Prima</th><th>¿Licencia de Valores?</th></tr></thead>
+    <tbody>
+      <tr><td>Temporal</td><td>Provisional</td><td>No</td><td>Más baja (inicialmente)</td><td>No</td></tr>
+      <tr><td>Vida Entera</td><td>Permanente</td><td>Sí (garantizado)</td><td>Nivelada, más alta</td><td>No</td></tr>
+      <tr><td>Vida Universal</td><td>Permanente</td><td>Sí (tasa vigente)</td><td>Flexible</td><td>No</td></tr>
+      <tr><td>Vida Variable</td><td>Permanente</td><td>Sí (basado en mercado)</td><td>Fija</td><td>Sí</td></tr>
+      <tr><td>Variable Universal</td><td>Permanente</td><td>Sí (basado en mercado)</td><td>Flexible</td><td>Sí</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="table-wrap">
+  <div class="table-label">Temporal vs. Vida Entera — La Diferencia Central</div>
+  <table>
+    <thead><tr><th>Característica</th><th>Temporal</th><th>Vida Entera</th></tr></thead>
+    <tbody>
+      <tr><td>Período de Cobertura</td><td>Provisional (1, 10, 20, 30 años)</td><td>De por vida (hasta los 100 o 121 años)</td></tr>
+      <tr><td>Valor Acumulado</td><td>Ninguno</td><td>Sí, crece con diferimiento fiscal</td></tr>
+      <tr><td>Prima</td><td>Baja inicialmente, aumenta al renovar</td><td>Más alta pero nivelada para siempre</td></tr>
+      <tr><td>Mejor para</td><td>Máxima cobertura, presupuesto ajustado</td><td>Necesidad permanente, planificación patrimonial</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card green">
+  <div class="card-label">Números Clave</div>
+  <div class="card-title">Números que Debes Memorizar</div>
+  <div class="card-body">
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:90px">Edad 100</span><span>La vida entera tradicional vence (valor acumulado = suma asegurada)</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:90px">Edad 121</span><span>Fecha de vencimiento de la vida entera moderna (pólizas CVAT / guideline premium)</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:90px">Prueba 7 pagos</span><span>Prueba MEC — si la póliza se liquida en menos de 7 años, se convierte en MEC</span></div>
+    <div style="display:flex;gap:10px"><span style="font-weight:700;color:#15803D;min-width:90px">Serie 6/7</span><span>Licencias FINRA requeridas para vender productos variables</span></div>
+  </div>
+</div>
+
+<div class="card gold">
+  <div class="card-label">Consejo de Examen</div>
+  <div class="card-title">Contrato de Dotación Modificado (MEC)</div>
+  <div class="card-body">Un MEC es una póliza de seguro de vida que ha sido <strong>sobrefinanciada</strong> — demasiada prima pagada demasiado rápido (no pasa la prueba de 7 pagos). Pierde algunos beneficios fiscales: los retiros y préstamos se gravan por LIFO (ganancias primero) y pueden incurrir en una penalización del 10% antes de los 59½ años. El beneficio por fallecimiento sigue siendo libre de impuestos sobre la renta. La vida entera de prima única siempre se convierte en MEC.</div>
+</div>
+
+<div class="card red">
+  <div class="card-label">¡Atención!</div>
+  <div class="card-title">Los Productos Variables Requieren Licencia de Valores</div>
+  <div class="card-body">Los productos de seguro fijo (temporal, vida entera, UL) solo requieren licencia estatal de seguro de vida. Los productos <strong>variables</strong> (vida variable, vida universal variable, anualidades variables) requieren TANTO la licencia de seguro de vida COMO el registro de valores. Vender productos variables sin licencia de valores es una violación grave.</div>
+</div>
+
+<div class="s-label">Vida Universal Indexada (IUL)</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Cómo Funciona el IUL</div>
+  <div class="card-body">
+    <ul>
+      <li>Los intereses se acreditan según el desempeño de un índice bursátil (típicamente S&amp;P 500)</li>
+      <li><strong>Piso</strong>: la tasa mínima de acreditación es 0% — el valor acumulado NO puede reducirse por la caída del mercado</li>
+      <li><strong>Techo</strong>: tasa máxima de acreditación (ej. 10–12%) que limita la participación alcista</li>
+      <li>El titular NO posee directamente acciones ni fondos mutuos — los posee la aseguradora</li>
+      <li>Las primas son flexibles (como todas las pólizas de vida universal)</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card gold">
+  <div class="card-label">Consejo de Examen</div>
+  <div class="card-title">IUL vs. Variable — Distinciones Clave</div>
+  <div class="card-body">
+    <ul>
+      <li><strong>IUL</strong>: intereses vinculados al índice, piso del 0%, SIN inversión directa en el mercado, la aseguradora asume el riesgo de inversión</li>
+      <li><strong>Vida Universal Variable</strong>: invierte realmente en cuentas separadas, el titular asume el riesgo de mercado, PUEDE perder valor acumulado, requiere licencia de valores</li>
+      <li>Regla clave: IUL tiene piso del 0% (no puede perder valor acumulado por el mercado). La variable NO tiene piso.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card red">
+  <div class="card-label">¡Atención!</div>
+  <div class="card-title">IUL — Sin Propiedad Directa de Acciones</div>
+  <div class="card-body">Los titulares NO son dueños de acciones con un IUL. La compañía de seguros posee las inversiones subyacentes. El titular recibe <strong>créditos de interés vinculados al índice</strong>, no rendimientos reales del mercado. Esta es una trampa común del examen — "el IUL invierte tu prima en el S&amp;P 500" es FALSO.</div>
+</div>
+
+<div class="s-label">Pólizas de Vida Conjunta y de Supervivencia</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Vida Conjunta vs. Vida de Supervivencia</div>
+  <div class="card-body">
+    <ul>
+      <li><strong>Vida Conjunta (Primero en Morir)</strong>: paga el beneficio cuando muere el PRIMER asegurado; usada para acuerdos de compraventa empresariales y reemplazo de ingresos en hogares con dos ingresos</li>
+      <li><strong>Vida de Supervivencia (Segundo en Morir)</strong>: paga el beneficio cuando muere el ÚLTIMO asegurado; usada para planificación patrimonial, financiamiento de impuestos sucesorios e ILITs (fideicomisos irrevocables de seguro de vida); prima generalmente más baja porque ambos deben morir antes del pago</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card gold">
+  <div class="card-label">Consejo de Examen</div>
+  <div class="card-title">Elige la Póliza Según la Necesidad</div>
+  <div class="card-body">Socios empresariales con un acuerdo de compraventa → <strong>Vida Conjunta (primero en morir)</strong>. Matrimonio que quiere financiar impuestos sucesorios para sus herederos → <strong>Vida de Supervivencia (segundo en morir)</strong>. El examen describirá un escenario — identifica la necesidad y elige el tipo correcto de póliza.</div>
+</div>
+
+<div class="s-label">MEC vs. Tratamiento Fiscal No-MEC</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">FIFO vs. LIFO — Distinción Fiscal Crítica</div>
+  <div class="card-body">
+    <ul>
+      <li><strong>Retiros de póliza no-MEC → FIFO</strong>: La base (primas ya gravadas) sale PRIMERO, libre de impuestos. La ganancia se grava solo DESPUÉS de retirar toda la base.</li>
+      <li><strong>Retiros de MEC → LIFO</strong>: La ganancia sale PRIMERO y es tributable como ingreso ordinario. También sujeta a penalización del 10% antes de los 59½ años.</li>
+      <li>La prueba de 7 pagos determina si una póliza es MEC. Una vez MEC, siempre MEC.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card red">
+  <div class="card-label">¡Atención!</div>
+  <div class="card-title">FIFO Solo Aplica a Pólizas No-MEC</div>
+  <div class="card-body">Una vez que una póliza no pasa la prueba de 7 pagos y se convierte en MEC, el LIFO aplica a TODOS los retiros — y la penalización del 10% por retiro anticipado aplica antes de los 59½ años. El examen evalúa AMBAS reglas. Identifica cuál aplica según si la póliza es MEC o no.</div>
+</div>
+
+<div class="recall">
+  <div class="recall-title">Repaso Rápido — Debes Saber Antes de Continuar</div>
+  <div class="recall-item">Temporal = provisional, sin valor acumulado, protección pura. Vida entera = permanente, acumula valor en efectivo.</div>
+  <div class="recall-item">Temporal decreciente = el beneficio disminuye; el seguro de vida de crédito es un uso común.</div>
+  <div class="recall-item">El temporal es renovable (sin examen médico) y convertible (a permanente sin evidencia de asegurabilidad).</div>
+  <div class="recall-item">El valor acumulado de la vida entera crece con diferimiento fiscal e iguala la suma asegurada a la edad 100 (o 121 en pólizas modernas).</div>
+  <div class="recall-item">Vida universal = primas flexibles + beneficio por fallecimiento ajustable + tasa de interés vigente sobre el valor acumulado.</div>
+  <div class="recall-item">Productos variables = valor acumulado en cuentas separadas = riesgo de inversión en el titular.</div>
+  <div class="recall-item">Los productos variables requieren licencia de seguro de vida + registro de valores (Serie 6 o 7).</div>
+  <div class="recall-item">MEC = póliza sobrefinanciada (no pasa la prueba de 7 pagos); pierde el tratamiento fiscal preferencial en retiros.</div>
+  <div class="recall-item">IUL: piso = 0% (sin pérdida de valor acumulado), techo limita el alza, SIN propiedad directa de acciones — la aseguradora asume el riesgo de mercado.</div>
+  <div class="recall-item">Vida conjunta (primero en morir) = acuerdos de compraventa. Vida de supervivencia (segundo en morir) = planificación patrimonial, ILITs.</div>
+  <div class="recall-item">Retiros no-MEC: FIFO (base primero, libre de impuestos). Retiros MEC: LIFO (ganancia primero, gravable + penalización del 10% antes de los 59½).</div>
+</div>
+
+<div class="footer-nav">
+  <a href="ch3.html">← Capítulo 3</a>
+  <a href="ch5.html">Capítulo 5: Disposiciones, Opciones y Cláusulas Adicionales →</a>
+</div>
+<div class="brand">Bethel Financial Group · Guía de Estudio para Licencia de Seguro de Vida</div>
+</div>
+</body>
+</html>
