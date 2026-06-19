@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Cap 14: Transferencia por Valor, Planificación Patrimonial, Discapacidad y LTC</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F1F5F9;color:#1E293B;padding:2rem 1.5rem;min-height:100vh}
+.container{max-width:820px;margin:0 auto}
+.top-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;gap:8px}
+.top-nav a{color:#64748B;text-decoration:none;font-size:.8rem;padding:6px 14px;border:1px solid #E2E8F0;border-radius:8px;background:#fff;white-space:nowrap}
+.top-nav a:hover{border-color:#DDB84A;color:#DDB84A}
+.home-btn{background:#0F172A!important;color:#DDB84A!important;border-color:#0F172A!important}
+.ch-header{background:linear-gradient(135deg,#0F172A,#1E293B);border-radius:16px;padding:2rem 2.5rem;margin-bottom:2rem}
+.ch-badge{display:inline-block;background:#DDB84A;color:#0F172A;border-radius:8px;padding:4px 14px;font-size:11px;font-weight:700;letter-spacing:.1em;margin-bottom:.75rem}
+.ch-title{color:#fff;font-size:22px;font-weight:700;line-height:1.3;margin-bottom:.5rem}
+.ch-overview{color:#94A3B8;font-size:.88rem;line-height:1.6}
+.s-label{font-size:10px;font-weight:700;letter-spacing:.14em;color:#94A3B8;text-transform:uppercase;margin:2rem 0 .7rem}
+.terms-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.term{background:#fff;border:1px solid #E2E8F0;border-left:3px solid #DDB84A;border-radius:10px;padding:.85rem 1rem}
+.term-name{font-size:13px;font-weight:700;color:#0F172A;margin-bottom:3px}
+.term-def{font-size:12px;color:#64748B;line-height:1.5}
+.card{background:#fff;border:1px solid #E2E8F0;border-radius:10px;padding:1.1rem 1.4rem;margin-top:1rem}
+.card.blue{border-left:3px solid #3B82F6}.card.gold{border-left:3px solid #DDB84A;background:#FFFBF0;border-color:#E5C55A}.card.red{border-left:3px solid #EF4444;background:#FFF5F5;border-color:#FCA5A5}.card.green{border-left:3px solid #22C55E;background:#F0FDF4;border-color:#86EFAC}
+.card-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem}
+.card.blue .card-label{color:#2563EB}.card.gold .card-label{color:#92700A}.card.red .card-label{color:#B91C1C}.card.green .card-label{color:#15803D}
+.card-title{font-size:14px;font-weight:700;color:#0F172A;margin-bottom:.4rem}
+.card-body{font-size:13px;line-height:1.65}
+.card.blue .card-body{color:#475569}.card.gold .card-body{color:#5C4200}.card.red .card-body{color:#7F1D1D}.card.green .card-body{color:#166534}
+.card-body ul{margin:.5rem 0 0 1.2rem}.card-body li{margin-bottom:.3rem}
+.section-divider{border:none;border-top:2px solid #E2E8F0;margin:2rem 0 0}
+.table-wrap{background:#fff;border:1px solid #E2E8F0;border-radius:10px;overflow:hidden;margin-top:1rem}
+.table-label{font-size:10px;font-weight:700;letter-spacing:.12em;color:#94A3B8;text-transform:uppercase;padding:.85rem 1.25rem .3rem}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead tr{background:#0F172A}
+th{padding:8px 14px;text-align:left;color:#DDB84A;font-weight:600}
+td{padding:8px 14px;color:#475569;border-top:1px solid #F1F5F9}
+td:first-child{color:#0F172A;font-weight:600}
+tr:nth-child(even) td{background:#F8FAFC}
+.recall{background:#0F172A;border-radius:12px;padding:1.5rem 1.75rem;margin-top:2rem}
+.recall-title{color:#DDB84A;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.9rem}
+.recall-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:.55rem;font-size:13px;color:#CBD5E1;line-height:1.5}
+.recall-item::before{content:"✓";color:#DDB84A;font-weight:700;flex-shrink:0}
+.complete-badge{background:linear-gradient(135deg,#DDB84A,#A07B18);border-radius:12px;padding:1.5rem 2rem;margin-top:2rem;text-align:center}
+.complete-title{color:#0F172A;font-size:16px;font-weight:800;margin-bottom:.4rem}
+.complete-sub{color:#3D2800;font-size:13px}
+.footer-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;padding-top:1.5rem;border-top:1px solid #E2E8F0;gap:8px}
+.footer-nav a{display:flex;align-items:center;gap:6px;text-decoration:none;color:#64748B;font-size:.8rem;padding:8px 18px;border:1px solid #E2E8F0;border-radius:8px;background:#fff}
+.footer-nav a:hover{border-color:#DDB84A;color:#DDB84A}
+.brand{font-size:.72rem;color:#94A3B8;text-align:center;margin-top:1.5rem}
+@media print{body{background:#fff;padding:1rem}.top-nav,.footer-nav{display:none}}
+html.embedded .top-nav,html.embedded .footer-nav,html.embedded .brand,html.embedded .ch-header{display:none!important}html.embedded body{background:#fff;padding:0}html.embedded .container{max-width:100%;padding:.75rem 1rem}@media(max-width:600px){.terms-grid{grid-template-columns:1fr}.ch-title{font-size:19px}body{padding:1rem}}
+</style>
+<script>if(window.self!==window.top||location.search.indexOf("embed=1")>-1)document.documentElement.classList.add("embedded");</script>
+</head>
+<body>
+<div class="container">
+
+<div class="top-nav">
+  <a href="ch13.html">← Capítulo 13</a>
+  <a href="index.html" class="home-btn">⌂ Todos los Capítulos</a>
+  <a href="index.html">Revisión Final →</a>
+</div>
+
+<div class="ch-header">
+  <div class="ch-badge">CAPÍTULO 14</div>
+  <div class="ch-title">Transferencia por Valor, Planificación Patrimonial, Discapacidad y LTC</div>
+  <div class="ch-overview">Cuatro temas críticos del examen: la regla de transferencia por valor, uso del seguro de vida en planificación patrimonial, conceptos básicos del seguro de discapacidad y el seguro de cuidado a largo plazo.</div>
+</div>
+
+<!-- PARTE 1: TRANSFERENCIA POR VALOR -->
+<div class="s-label">Parte 1 — Regla de Transferencia por Valor</div>
+
+<div class="terms-grid">
+  <div class="term"><div class="term-name">Regla de Transferencia por Valor</div><div class="term-def">Cuando una póliza de seguro de vida se vende o transfiere a cambio de una consideración valiosa, el beneficio por muerte PIERDE su estatus de libre de impuesto sobre la renta. El exceso sobre la base se vuelve gravable.</div></div>
+  <div class="term"><div class="term-name">Base de Costo (en este contexto)</div><div class="term-def">La cantidad que el comprador pagó por la póliza MÁS las primas pagadas después de la transferencia. Solo esta cantidad se recibe libre de impuesto; todo lo que supere esa cantidad es gravable.</div></div>
+  <div class="term"><div class="term-name">Transferencia con Base Heredada</div><div class="term-def">Una transferencia libre de impuesto (regalo, divorcio, reestructuración corporativa). NO activa la regla de transferencia por valor — el tratamiento fiscal original libre de impuesto se preserva.</div></div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Principal</div>
+  <div class="card-title">La Regla de Transferencia por Valor — Cómo Funciona</div>
+  <div class="card-body">Los beneficios por muerte del seguro de vida normalmente están 100% libres de impuesto sobre la renta. La regla de transferencia por valor es la excepción principal:
+    <ul>
+      <li>Si una póliza se <strong>vende o transfiere a cambio de una consideración valiosa</strong> (dinero, asunción de una deuda, etc.), el beneficio por muerte pierde su estatus libre de impuesto</li>
+      <li>El nuevo dueño (comprador) pagará impuesto ordinario sobre la renta por el beneficio recibido, <strong>menos</strong> lo que pagó por la póliza y las primas pagadas después de la transferencia</li>
+    </ul>
+    <strong>Ejemplo:</strong> Un inversionista compra una póliza de $500,000 por $50,000 y luego paga $10,000 más en primas. Cuando el asegurado muere, el inversionista recibe $500,000. Cantidad gravable = $500,000 − $60,000 = $440,000 gravable como ingreso ordinario.
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Principal</div>
+  <div class="card-title">Excepciones a la Regla de Transferencia por Valor</div>
+  <div class="card-body">Estas transferencias NO activan la regla — el beneficio por muerte permanece libre de impuesto:
+    <ul>
+      <li>Transferencia <strong>al propio asegurado</strong> (ej: el empleado compra de vuelta su póliza de persona clave)</li>
+      <li>Transferencia <strong>a un socio del asegurado</strong></li>
+      <li>Transferencia <strong>a una sociedad en la que el asegurado es socio</strong></li>
+      <li>Transferencia <strong>a una corporación en la que el asegurado es accionista o funcionario</strong></li>
+      <li>Transferencia donde <strong>la base del cesionario está determinada por la base del cedente</strong> (base heredada — regalos, ciertas transacciones corporativas libres de impuesto)</li>
+    </ul>
+    Truco para recordar: las transferencias dentro de una relación comercial que involucra al asegurado son seguras. Es la venta a un <strong>extraño</strong> la que activa la regla.
+  </div>
+</div>
+
+<!-- PARTE 2: PLANIFICACIÓN PATRIMONIAL -->
+<hr class="section-divider">
+<div class="s-label">Parte 2 — Planificación Patrimonial con Seguro de Vida</div>
+
+<div class="terms-grid">
+  <div class="term"><div class="term-name">Inclusión en el Patrimonio Gravable</div><div class="term-def">Si el asegurado es dueño de su propia póliza de seguro de vida al morir, el beneficio completo se incluye en su patrimonio gravable — aunque sea libre de impuesto sobre la renta para el beneficiario.</div></div>
+  <div class="term"><div class="term-name">ILIT</div><div class="term-def">Irrevocable Life Insurance Trust (Fideicomiso Irrevocable de Seguro de Vida). Un fideicomiso que posee la póliza de seguro de vida, removiendo el beneficio por muerte del patrimonio gravable del asegurado.</div></div>
+  <div class="term"><div class="term-name">Incidentes de Propiedad</div><div class="term-def">Cualquier derecho sobre una póliza (cambiar beneficiario, pedir préstamos, entregar). Si el asegurado tiene incidentes de propiedad al morir, la póliza SÍ se incluye en el patrimonio gravable.</div></div>
+  <div class="term"><div class="term-name">Aviso Crummey</div><div class="term-def">Un aviso escrito enviado a los beneficiarios del fideicomiso dándoles una breve ventana para retirar contribuciones al fideicomiso. Convierte los regalos al fideicomiso en regalos de exclusión anual (no gravables).</div></div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Principal</div>
+  <div class="card-title">Cuándo el Seguro de Vida SÍ Se Incluye en el Patrimonio Gravable</div>
+  <div class="card-body">El beneficio por muerte está <strong>libre de impuesto sobre la renta</strong> — pero aún puede estar sujeto al <strong>impuesto al patrimonio</strong> si:
+    <ul>
+      <li>El asegurado <strong>posee la póliza</strong> (es el titular) al momento de su muerte</li>
+      <li>El asegurado tiene cualquier <strong>incidente de propiedad</strong> (derecho a cambiar beneficiario, pedir préstamos, entregar la póliza)</li>
+      <li>El <strong>patrimonio del asegurado es nombrado como beneficiario</strong></li>
+    </ul>
+    Para clientes de alto patrimonio, un beneficio por muerte de $1,000,000 puede agregar $1,000,000 al patrimonio gravable — creando una factura de impuesto al patrimonio significativa aunque el beneficiario lo recibió libre de impuesto sobre la renta.
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Principal</div>
+  <div class="card-title">ILIT — Mantener el Seguro de Vida Fuera del Patrimonio</div>
+  <div class="card-body">Un Irrevocable Life Insurance Trust (ILIT) resuelve el problema del impuesto al patrimonio:
+    <ul>
+      <li>El <strong>fideicomiso posee la póliza</strong> — no el asegurado. El asegurado no tiene incidentes de propiedad.</li>
+      <li>El <strong>fideicomiso es el beneficiario</strong> — el beneficio va al fideicomiso, no al patrimonio del asegurado</li>
+      <li>El beneficio por muerte <strong>queda excluido del patrimonio gravable</strong> del asegurado</li>
+      <li>El asegurado regala dinero al fideicomiso para pagar las primas — usando la exclusión anual de regalo ($18,000 por beneficiario en 2024)</li>
+      <li>Se envían <strong>avisos Crummey</strong> a los beneficiarios del fideicomiso para calificar los regalos como regalos de exclusión anual</li>
+    </ul>
+    Desventaja: el fideicomiso es irrevocable — el asegurado cede todos los derechos sobre la póliza permanentemente.
+  </div>
+</div>
+
+<div class="card red">
+  <div class="card-label">Atención</div>
+  <div class="card-title">Transferencia por Valor — Las Excepciones Comerciales Son Estrechas</div>
+  <div class="card-body">Las excepciones a la regla de transferencia por valor son <strong>específicas y estrechas</strong>. Una transferencia a un co-accionista (que no sea el asegurado) NO califica para una excepción. Una transferencia a un fideicomiso NO califica (a menos que el asegurado sea el otorgante y el fideicomiso sea un grantor trust). En caso de duda: si la transferencia involucra a un extraño o a una tercera parte sin relación comercial con el asegurado, asume que la regla aplica y el beneficio por muerte será parcialmente gravable.</div>
+</div>
+
+<!-- PARTE 3: SEGURO DE DISCAPACIDAD -->
+<hr class="section-divider">
+<div class="s-label">Parte 3 — Seguro de Ingreso por Discapacidad</div>
+
+<div class="terms-grid">
+  <div class="term"><div class="term-name">Ingreso por Discapacidad (DI)</div><div class="term-def">Seguro que reemplaza una parte del ingreso ganado cuando el asegurado no puede trabajar por enfermedad o lesión. NO reemplaza el 100% del ingreso (típicamente el 60–70%).</div></div>
+  <div class="term"><div class="term-name">Período de Eliminación</div><div class="term-def">Un período de espera antes de que comiencen los beneficios de DI — como un deducible medido en tiempo. Común: 30, 60, 90 o 180 días. Período de eliminación más largo = prima más baja.</div></div>
+  <div class="term"><div class="term-name">Período de Beneficio</div><div class="term-def">Por cuánto tiempo se pagan los beneficios de DI. Opciones: 2 años, 5 años, hasta los 65 años, o de por vida. Período de beneficio más largo = prima más alta.</div></div>
+  <div class="term"><div class="term-name">Own-Occupation</div><div class="term-def">Discapacidad definida como la incapacidad de realizar las funciones de TU ocupación específica. La más favorable para el asegurado. Los médicos, dentistas y especialistas prefieren esta definición.</div></div>
+  <div class="term"><div class="term-name">Any-Occupation</div><div class="term-def">Discapacidad definida como la incapacidad de realizar CUALQUIER ocupación para la que estés razonablemente capacitado por educación, entrenamiento o experiencia. Más restrictiva. Más difícil de calificar.</div></div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Principal</div>
+  <div class="card-title">Seguro de Discapacidad — Características Clave</div>
+  <div class="card-body">
+    <ul>
+      <li><strong>Período de eliminación</strong> = período de espera antes de que comiencen los beneficios. Actúa como un deducible. Más largo = prima más baja.</li>
+      <li><strong>Período de beneficio</strong> = por cuánto tiempo duran los beneficios. "Hasta los 65 años" es el estándar de oro para DI individual.</li>
+      <li><strong>Definición de own-occupation</strong> = mejor protección; el asegurado está discapacitado si no puede hacer su propio trabajo</li>
+      <li><strong>Discapacidad parcial/residual</strong> — beneficios proporcionales cuando el asegurado puede trabajar a tiempo parcial o con capacidad reducida</li>
+      <li><strong>Non-cancelable</strong> — la aseguradora no puede cancelar ni subir las primas mientras se paguen (el mejor contrato)</li>
+      <li><strong>Guaranteed renewable</strong> — la aseguradora debe renovar; puede subir primas para toda la clase de riesgo pero no para un individuo</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card green">
+  <div class="card-label">Concepto Clave</div>
+  <div class="card-title">Impuestos del DI — Quién Paga la Prima es lo que Importa</div>
+  <div class="card-body">
+    <div style="display:flex;gap:10px;margin-bottom:.6rem;align-items:flex-start"><span style="font-weight:700;color:#15803D;min-width:200px">Empleado paga la prima</span><span>Los beneficios recibidos están <strong>libres de impuesto</strong></span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.6rem;align-items:flex-start"><span style="font-weight:700;color:#15803D;min-width:200px">Empleador paga la prima</span><span>Los beneficios recibidos son <strong>ingreso gravable</strong> para el empleado</span></div>
+    <div style="display:flex;gap:10px;align-items:flex-start"><span style="font-weight:700;color:#15803D;min-width:200px">Empleador + empleado comparten</span><span>Los beneficios son parcialmente gravables (proporcional a la parte del empleador)</span></div>
+  </div>
+</div>
+
+<!-- PARTE 4: CUIDADO A LARGO PLAZO -->
+<hr class="section-divider">
+<div class="s-label">Parte 4 — Seguro de Cuidado a Largo Plazo</div>
+
+<div class="terms-grid">
+  <div class="term"><div class="term-name">Cuidado a Largo Plazo (LTC)</div><div class="term-def">Seguro que cubre servicios de cuidado de custodia — asistencia con Actividades de la Vida Diaria (ADLs) — en un hogar de ancianos, instalación de vida asistida o en casa.</div></div>
+  <div class="term"><div class="term-name">Actividades de la Vida Diaria (ADLs)</div><div class="term-def">Las 6 funciones básicas de autocuidado: Bañarse, Vestirse, Comer, Usar el baño, Transferirse (moverse hacia/desde la cama), Continencia. Necesitar ayuda con 2+ ADLs generalmente activa los beneficios de LTC.</div></div>
+  <div class="term"><div class="term-name">Deterioro Cognitivo</div><div class="term-def">Deterioro cognitivo grave (ej: enfermedad de Alzheimer) es un activador alternativo para los beneficios de LTC, aunque el asegurado pueda realizar las ADLs físicamente.</div></div>
+  <div class="term"><div class="term-name">Rider de Protección contra la Inflación</div><div class="term-def">Aumenta el beneficio diario/mensual con el tiempo para mantener el ritmo con los costos crecientes del cuidado. Muy recomendado — los costos de hogares de ancianos aumentan significativamente con el tiempo.</div></div>
+  <div class="term"><div class="term-name">Programa de Asociación</div><div class="term-def">Programa estatal-federal: si una póliza de LTC calificada paga cierta cantidad, el estado permite al asegurado proteger una cantidad equivalente de activos de los requisitos de gasto de Medicaid.</div></div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Concepto Principal</div>
+  <div class="card-title">Seguro de LTC — Cómo Funciona</div>
+  <div class="card-body">El seguro de cuidado a largo plazo está diseñado para cubrir lo que Medicare y el seguro de salud regular NO cubren — el cuidado de custodia (no médico):
+    <ul>
+      <li><strong>Activadores de beneficio</strong> — los beneficios comienzan cuando el asegurado no puede realizar 2+ de las 6 ADLs, O tiene deterioro cognitivo grave</li>
+      <li><strong>Período de eliminación</strong> — período de espera antes de que comiencen los beneficios (30, 60 o 90 días son los más comunes)</li>
+      <li><strong>Beneficio diario/mensual</strong> — la cantidad en dólares pagada por día o mes por el cuidado</li>
+      <li><strong>Período de beneficio</strong> — por cuánto tiempo se pagan los beneficios (2 años, 3 años, 5 años, de por vida)</li>
+      <li><strong>Entorno</strong> — puede cubrir hogar de ancianos, vida asistida, centro de día para adultos, atención médica en casa</li>
+    </ul>
+  </div>
+</div>
+
+<div class="table-wrap">
+  <div class="table-label">Medicare vs. Seguro de LTC — Qué Cubre Cada Uno</div>
+  <table>
+    <thead><tr><th>Tipo de Cuidado</th><th>¿Medicare lo Cubre?</th><th>¿Seguro de LTC lo Cubre?</th></tr></thead>
+    <tbody>
+      <tr><td>Enfermería especializada (después de hospitalización)</td><td>Sí (limitado — hasta 100 días)</td><td>Sí</td></tr>
+      <tr><td>Cuidado de custodia (ayuda con ADLs)</td><td>No</td><td>Sí — este es el propósito principal</td></tr>
+      <tr><td>Atención médica en casa (especializada)</td><td>Sí (limitado)</td><td>Sí</td></tr>
+      <tr><td>Instalación de vida asistida</td><td>No</td><td>Sí</td></tr>
+      <tr><td>Hogar de ancianos a largo plazo</td><td>No (después del día 100)</td><td>Sí</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card green">
+  <div class="card-label">Números Clave</div>
+  <div class="card-title">Números para Memorizar</div>
+  <div class="card-body">
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:110px">6 ADLs</span><span>Bañarse, Vestirse, Comer, Usar el baño, Transferirse, Continencia</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:110px">2+ ADLs</span><span>Número de ADLs con las que el asegurado no puede valerse para activar los beneficios de LTC</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:110px">100 días</span><span>Límite de beneficio de Medicare en instalaciones de enfermería especializada (los días 21–100 requieren copago)</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:110px">Calificada fiscalmente</span><span>Las primas de LTC pueden ser deducibles como gastos médicos (limitado por edad); los beneficios generalmente están libres de impuesto</span></div>
+    <div style="display:flex;gap:10px"><span style="font-weight:700;color:#15803D;min-width:110px">5+ años</span><span>Período de beneficio mínimo recomendado (muchas necesidades de cuidado a largo plazo superan los 3 años)</span></div>
+  </div>
+</div>
+
+<div class="card gold">
+  <div class="card-label">Consejo para el Examen</div>
+  <div class="card-title">Medicare NO Cubre el Cuidado de Custodia</div>
+  <div class="card-body">Este es uno de los hechos más examinados sobre LTC. Medicare cubre el <strong>cuidado médico especializado</strong> (enfermeras, terapeutas) — no el cuidado de custodia (ayuda para bañarse, vestirse, etc.). La razón principal por la que las personas necesitan seguro de LTC es que Medicare NO pagará el tipo de cuidado que la mayoría de las personas necesitan al envejecer. Medicaid SÍ paga el cuidado en hogares de ancianos — pero solo después de que la persona haya gastado casi todos sus activos.</div>
+</div>
+
+<div class="recall">
+  <div class="recall-title">Repaso Rápido — Debes Saber Esto Antes de Continuar</div>
+  <div class="recall-item">Transferencia por valor: vender una póliza a cambio de una consideración = beneficio por muerte parcialmente gravable. Excepción: transferencias al asegurado, socio, sociedad o corporación donde el asegurado es accionista/funcionario.</div>
+  <div class="recall-item">Impuesto al patrimonio: el asegurado que POSEE su propia póliza tiene el beneficio por muerte incluido en el patrimonio gravable.</div>
+  <div class="recall-item">ILIT: el fideicomiso posee la póliza → elimina el beneficio por muerte del patrimonio gravable del asegurado.</div>
+  <div class="recall-item">Incidentes de propiedad (derecho a pedir préstamos, cambiar beneficiario, entregar) = póliza incluida en el patrimonio.</div>
+  <div class="recall-item">Período de eliminación de DI = período de espera antes de que comiencen los beneficios. Más largo = prima más baja.</div>
+  <div class="recall-item">Own-occupation = no puede hacer TU trabajo = discapacitado. Any-occupation = no puede hacer NINGÚN trabajo = discapacitado.</div>
+  <div class="recall-item">Impuestos de DI: empleado paga = beneficios libres de impuesto. Empleador paga = beneficios gravables para el empleado.</div>
+  <div class="recall-item">Activadores de LTC: incapaz de realizar 2+ de las 6 ADLs, O deterioro cognitivo grave.</div>
+  <div class="recall-item">Las 6 ADLs: Bañarse, Vestirse, Comer, Usar el baño, Transferirse, Continencia.</div>
+  <div class="recall-item">Medicare NO cubre el cuidado de custodia (ayuda con ADLs) — el seguro de LTC llena este vacío.</div>
+</div>
+
+<div class="complete-badge">
+  <div class="complete-title">¡Guía de Estudio Completa — Los 14 Capítulos Terminados!</div>
+  <div class="complete-sub">Repasa cada sección de Repaso Rápido, memoriza los Números Clave y estarás listo para el examen.</div>
+</div>
+
+<div class="footer-nav">
+  <a href="ch13.html">← Capítulo 13</a>
+  <a href="index.html">⌂ Volver al Índice Completo</a>
+</div>
+<div class="brand">Bethel Financial Group · Guía de Estudio de Licencia de Seguro de Vida</div>
+</div>
+</body>
+</html>
