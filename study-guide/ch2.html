@@ -46,8 +46,9 @@ tr:nth-child(even) td{background:#F8FAFC}
 .footer-nav a:hover{border-color:#DDB84A;color:#DDB84A}
 .brand{font-size:.72rem;color:#94A3B8;text-align:center;margin-top:1.5rem}
 @media print{body{background:#fff;padding:1rem}.top-nav,.footer-nav{display:none}}
-@media(max-width:600px){.terms-grid{grid-template-columns:1fr}.ch-title{font-size:19px}body{padding:1rem}}
+html.embedded .top-nav,html.embedded .footer-nav,html.embedded .brand,html.embedded .ch-header{display:none!important}html.embedded body{background:#fff;padding:0}html.embedded .container{max-width:100%;padding:.75rem 1rem}@media(max-width:600px){.terms-grid{grid-template-columns:1fr}.ch-title{font-size:19px}body{padding:1rem}}
 </style>
+<script>if(window.self!==window.top||location.search.indexOf("embed=1")>-1)document.documentElement.classList.add("embedded");</script>
 </head>
 <body>
 <div class="container">
@@ -61,159 +62,149 @@ tr:nth-child(even) td{background:#F8FAFC}
 <div class="ch-header">
   <div class="ch-badge">CHAPTER 2</div>
   <div class="ch-title">Nature of Insurance</div>
-  <div class="ch-overview">Learn the different types of insurers, how they are classified, how insurance is regulated, and the distribution systems agents operate within.</div>
-  <div class="term"><div class="term-name">Fraternal Benefit Society</div><div class="term-def">Non-profit organization formed by members sharing a common bond (religious, ethnic, or vocational) that provides insurance to members; operates under a lodge system; some regulatory exemptions</div></div>
-  <div class="term"><div class="term-name">Guaranty Association</div><div class="term-def">State-mandated fund that protects policyholders if an admitted insurer becomes insolvent; funded by assessments on admitted insurers</div></div>
-  <div class="term"><div class="term-name">Managing General Agent (MGA)</div><div class="term-def">Wholesale intermediary with authority to bind coverage, appoint agents, and underwrite on behalf of an insurer; common in specialty and surplus lines markets</div></div>
+  <div class="ch-overview">Master the legal requirements for a valid insurance contract, the unique characteristics that set insurance apart from other contracts, and the doctrines of good faith that govern both parties.</div>
 </div>
 
 <div class="s-label">Key Terms</div>
 <div class="terms-grid">
-  <div class="term"><div class="term-name">Domestic Insurer</div><div class="term-def">An insurance company operating in the state where it was incorporated/chartered.</div></div>
-  <div class="term"><div class="term-name">Foreign Insurer</div><div class="term-def">An insurance company incorporated in one U.S. state but doing business in another state.</div></div>
-  <div class="term"><div class="term-name">Alien Insurer</div><div class="term-def">An insurance company incorporated outside the United States.</div></div>
-  <div class="term"><div class="term-name">Admitted Insurer</div><div class="term-def">An insurer licensed and approved to do business in a particular state. Subject to state regulation.</div></div>
-  <div class="term"><div class="term-name">Non-Admitted Insurer</div><div class="term-def">An insurer NOT licensed in the state but allowed to sell surplus lines coverage for unusual risks.</div></div>
-  <div class="term"><div class="term-name">Fraternal Benefit Society</div><div class="term-def">Non-profit organization that provides insurance to its members based on a common bond (religious, ethnic, etc.).</div></div>
-  <div class="term"><div class="term-name">Reciprocal Insurer</div><div class="term-def">Members insure each other; managed by an attorney-in-fact. Each member is both insured and insurer.</div></div>
-  <div class="term"><div class="term-name">Reinsurance</div><div class="term-def">When an insurer transfers a portion of its risk to another insurer (reinsurer) to limit exposure to large losses.</div></div>
-  <div class="term"><div class="term-name">Guaranty Association</div><div class="term-def">A state fund that pays claims if an admitted insurer becomes insolvent. Does NOT cover non-admitted insurers.</div></div>
+  <div class="term"><div class="term-name">Offer &amp; Acceptance</div><div class="term-def">Applicant makes the offer (submits application + premium). Insurer accepts by issuing the policy.</div></div>
+  <div class="term"><div class="term-name">Consideration</div><div class="term-def">Something of value exchanged. Applicant's consideration = premium + application. Insurer's = promise to pay claims.</div></div>
+  <div class="term"><div class="term-name">Legal Purpose</div><div class="term-def">The contract must be for a lawful purpose. Insuring criminal activity is void.</div></div>
+  <div class="term"><div class="term-name">Competent Parties</div><div class="term-def">Both parties must be of legal age and sound mind. Minors and mentally incompetent persons cannot form a valid contract.</div></div>
+  <div class="term"><div class="term-name">Aleatory Contract</div><div class="term-def">Unequal exchange of value — the insured may pay little in premiums but receive a large death benefit, or pay for years and never collect.</div></div>
+  <div class="term"><div class="term-name">Unilateral Contract</div><div class="term-def">Only ONE party (the insurer) makes a legally enforceable promise. The insured cannot be forced to pay premiums.</div></div>
+  <div class="term"><div class="term-name">Contract of Adhesion</div><div class="term-def">Policy is drafted entirely by the insurer; insured can only accept or reject. Ambiguities are interpreted in favor of the insured.</div></div>
+  <div class="term"><div class="term-name">Conditional Contract</div><div class="term-def">The insurer's obligation to pay is conditional on the insured meeting policy requirements (paying premiums, filing timely claims).</div></div>
+  <div class="term"><div class="term-name">Insurable Interest</div><div class="term-def">A financial stake in the continued life of the insured. Must exist at the time of application, not necessarily at the time of the claim.</div></div>
+  <div class="term"><div class="term-name">Representation</div><div class="term-def">A statement believed to be true at the time made. Does NOT have to be literally true — just substantially true.</div></div>
+  <div class="term"><div class="term-name">Warranty</div><div class="term-def">A statement guaranteed to be absolutely true. Breach of warranty — even innocent — can void the policy.</div></div>
+  <div class="term"><div class="term-name">Concealment</div><div class="term-def">Intentional withholding of material information from the insurer. Grounds for voiding the policy.</div></div>
+  <div class="term"><div class="term-name">Waiver &amp; Estoppel</div><div class="term-def">Waiver = insurer voluntarily gives up a known right. Estoppel = insurer is prevented from denying coverage due to its own prior conduct.</div></div>
+  <div class="term"><div class="term-name">Parol Evidence Rule</div><div class="term-def">Oral (verbal) agreements made before or during contract formation cannot be used to contradict the written policy terms.</div></div>
 </div>
 
 <div class="s-label">Core Concepts</div>
 
 <div class="card blue">
   <div class="card-label">Core Concept</div>
-  <div class="card-title">Types of Insurers</div>
-  <div class="card-body">
+  <div class="card-title">COAL — The 4 Requirements for a Valid Contract</div>
+  <div class="card-body">Every valid contract — including insurance — requires all four elements. Memory trick: <strong>COAL</strong>
     <ul>
-      <li><strong>Stock company</strong> — owned by shareholders, profits go to stockholders</li>
-      <li><strong>Mutual company</strong> — owned by policyholders, surplus returned as dividends</li>
-      <li><strong>Fraternal benefit society</strong> — insures members sharing a common bond; non-profit; lodge system</li>
-      <li><strong>Reciprocal exchange</strong> — members insure each other; managed by attorney-in-fact</li>
-      <li><strong>Lloyd's of London</strong> — not an insurer but a marketplace of individual underwriters who each accept a portion of the risk</li>
+      <li><strong>C</strong>onsideration — something of value from both parties</li>
+      <li><strong>O</strong>ffer &amp; Acceptance — a clear offer and unconditional acceptance</li>
+      <li><strong>A</strong>gree to legal purpose — must be for a lawful objective</li>
+      <li><strong>L</strong>egal competence — both parties must be legally capable</li>
+    </ul>
+    If any one element is missing, the contract is void or voidable.
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Core Concept</div>
+  <div class="card-title">4 Unique Characteristics of Insurance Contracts</div>
+  <div class="card-body">Insurance contracts are different from regular contracts in four important ways:
+    <ul>
+      <li><strong>Aleatory</strong> — unequal exchange (you may collect far more than you paid, or nothing)</li>
+      <li><strong>Unilateral</strong> — only the insurer makes a binding promise; insured can stop paying at any time</li>
+      <li><strong>Adhesion</strong> — take-it-or-leave-it; insurer writes it; ambiguities favor the insured</li>
+      <li><strong>Conditional</strong> — insurer only pays if conditions are met (premium paid, timely claim, etc.)</li>
     </ul>
   </div>
 </div>
 
 <div class="card blue">
   <div class="card-label">Core Concept</div>
-  <div class="card-title">Insurance Regulation</div>
-  <div class="card-body">Insurance is regulated primarily at the <strong>state level</strong>, not federal. Each state has a Department of Insurance (DOI) headed by an Insurance Commissioner (or Superintendent). The commissioner's role is to:
+  <div class="card-title">Insurable Interest</div>
+  <div class="card-body">Insurable interest must exist <strong>at the time of application</strong>, not at the time of the claim. You have insurable interest in:
     <ul>
-      <li>License insurers and agents</li>
-      <li>Approve policy forms and rates</li>
-      <li>Investigate complaints and enforce laws</li>
-      <li>Protect consumers from insolvency</li>
+      <li>Your own life (always)</li>
+      <li>Spouse, children, dependents</li>
+      <li>Business partners (key person)</li>
+      <li>Creditors (to the amount of the debt)</li>
     </ul>
-    The <strong>NAIC</strong> (National Association of Insurance Commissioners) coordinates model laws across states but has no enforcement authority.
+    Without insurable interest, the policy is void — it becomes a wagering contract.
   </div>
 </div>
 
 <div class="card blue">
   <div class="card-label">Core Concept</div>
-  <div class="card-title">Distribution Systems (How Insurance Is Sold)</div>
-  <div class="card-body">
+  <div class="card-title">Utmost Good Faith (Uberrimae Fidei)</div>
+  <div class="card-body">Insurance contracts require a <strong>higher standard of honesty</strong> than regular commercial contracts. Both parties must act in complete good faith. The insured must disclose all material facts; the insurer must deal fairly with claims. Violations include:
     <ul>
-      <li><strong>Career (captive) agent</strong> — represents only one insurer; company's employee or exclusive contractor</li>
-      <li><strong>Independent agent</strong> — represents multiple insurers; owns the policy expirations (renewals)</li>
-      <li><strong>Broker</strong> — represents the buyer/client, not the insurer; owes fiduciary duty to the client</li>
-      <li><strong>Direct response</strong> — sold directly to consumer via mail, internet, or TV without an agent</li>
-      <li><strong>Managing General Agent (MGA)</strong> — wholesale agent who distributes for insurers, often for specialty markets</li>
+      <li><strong>Misrepresentation</strong> — false statement of a material fact</li>
+      <li><strong>Concealment</strong> — intentional withholding of material information</li>
+      <li><strong>Fraud</strong> — intentional deception to obtain insurance or a claim payout</li>
     </ul>
   </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Core Concept</div>
+  <div class="card-title">Parol Evidence Rule</div>
+  <div class="card-body">The parol evidence rule prevents either party from using <strong>verbal (oral) agreements</strong> made before or at the time of the written contract to change or contradict the written policy terms. The written policy is the complete agreement. This is why agents cannot make verbal promises that override what the policy says — the policy document controls.</div>
 </div>
 
 <div class="table-wrap">
-  <div class="table-label">Insurer Classification by Location</div>
+  <div class="table-label">Representation vs. Warranty vs. Concealment</div>
   <table>
-    <thead><tr><th>Classification</th><th>Where Incorporated</th><th>Where Doing Business</th></tr></thead>
+    <thead><tr><th>Type</th><th>What It Is</th><th>Standard</th><th>Effect of Breach</th></tr></thead>
     <tbody>
-      <tr><td>Domestic</td><td>State A</td><td>State A (same state)</td></tr>
-      <tr><td>Foreign</td><td>State A (any U.S. state)</td><td>State B (different U.S. state)</td></tr>
-      <tr><td>Alien</td><td>Outside the U.S.</td><td>Any U.S. state</td></tr>
+      <tr><td>Representation</td><td>Statement believed to be true</td><td>Substantially true</td><td>Policy voidable only if material</td></tr>
+      <tr><td>Warranty</td><td>Statement guaranteed to be true</td><td>Absolutely true</td><td>Policy voidable even if immaterial</td></tr>
+      <tr><td>Concealment</td><td>Hiding a material fact</td><td>Must be intentional</td><td>Policy voidable</td></tr>
     </tbody>
   </table>
 </div>
 
 <div class="table-wrap">
-  <div class="table-label">Agent vs. Broker</div>
+  <div class="table-label">Void vs. Voidable Contracts</div>
   <table>
-    <thead><tr><th>Feature</th><th>Agent</th><th>Broker</th></tr></thead>
+    <thead><tr><th>Type</th><th>Meaning</th><th>Example</th></tr></thead>
     <tbody>
-      <tr><td>Represents</td><td>The insurance company</td><td>The client/buyer</td></tr>
-      <tr><td>Authority</td><td>Has binding authority for the insurer</td><td>No binding authority</td></tr>
-      <tr><td>Fiduciary Duty</td><td>To the insurer</td><td>To the client</td></tr>
-      <tr><td>Compensation</td><td>Commission from insurer</td><td>Fee or commission</td></tr>
+      <tr><td>Void</td><td>Never legally existed — no enforcement possible</td><td>Policy issued for illegal purpose; no insurable interest</td></tr>
+      <tr><td>Voidable</td><td>Valid but can be cancelled by one party</td><td>Misrepresentation on application (insurer can rescind)</td></tr>
     </tbody>
   </table>
 </div>
 
-<div class="card green">
-  <div class="card-label">Key Numbers</div>
-  <div class="card-title">Numbers to Memorize</div>
-  <div class="card-body">
-    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:80px">State level</span><span>Insurance regulation — states, not federal government</span></div>
-    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:80px">NAIC</span><span>National Association of Insurance Commissioners — model laws only, no enforcement power</span></div>
-  </div>
+<div class="card gold">
+  <div class="card-label">Exam Tip</div>
+  <div class="card-title">Who Makes the Offer in an Insurance Contract?</div>
+  <div class="card-body">The applicant makes the offer — not the insurer. When you submit an application (especially with the first premium), you are making an offer to the insurer. The insurer accepts by issuing the policy. This is a classic exam trick — most people assume the insurer offers and the applicant accepts.</div>
 </div>
 
 <div class="card gold">
   <div class="card-label">Exam Tip</div>
-  <div class="card-title">Domestic vs. Foreign — It Depends on the State</div>
-  <div class="card-body">A company that is "domestic" in New York is "foreign" in Massachusetts. The classification is always <strong>from the perspective of the state where the company is currently doing business</strong>. If the exam asks what type of insurer a NY company is when selling in MA, the answer is: foreign.</div>
+  <div class="card-title">Adhesion = Ambiguity Favors the Insured</div>
+  <div class="card-body">Because the insured had no say in drafting the policy (it's adhesion), any unclear or ambiguous language in the policy will be interpreted by courts <strong>in favor of the insured</strong> and against the insurer who wrote it. This is a key legal principle tested frequently.</div>
 </div>
 
 <div class="card red">
   <div class="card-label">Watch Out</div>
-  <div class="card-title">Guaranty Associations Only Cover Admitted Insurers</div>
-  <div class="card-body">State guaranty associations protect policyholders when an <strong>admitted</strong> insurer fails. If a client purchases a policy from a non-admitted (surplus lines) insurer and that insurer fails, the guaranty association will NOT pay the claim. Always buy from admitted insurers when possible.</div>
-</div>
-
-<div class="s-label">State Guaranty Association — Critical Exam Topic</div>
-
-<div class="card blue">
-  <div class="card-label">Core Concept</div>
-  <div class="card-title">How the Guaranty Association Works</div>
-  <div class="card-body">
-    <ul>
-      <li>Every <strong>admitted</strong> insurer must be a member of the state guaranty association</li>
-      <li>If an admitted insurer becomes insolvent, the guaranty association pays claims up to state-set limits</li>
-      <li>Funded by <strong>assessments on all other admitted insurers</strong> — not by taxes</li>
-      <li>Common limits: $300,000–$500,000 for life insurance death benefits (varies by state)</li>
-      <li>Applies <strong>ONLY</strong> to admitted insurers — non-admitted/surplus lines are NOT covered</li>
-    </ul>
-  </div>
+  <div class="card-title">Representations vs. Warranties — Know the Difference</div>
+  <div class="card-body">Most statements on an insurance application are <strong>representations</strong> (believed to be true, not guaranteed). True warranties are rare in life insurance. An innocent misrepresentation on an application is grounds to void the policy only if it is <strong>material</strong> — meaning it would have affected the insurer's underwriting decision.</div>
 </div>
 
 <div class="card red">
   <div class="card-label">Watch Out</div>
-  <div class="card-title">Guaranty Fund Does NOT Cover Surplus Lines</div>
-  <div class="card-body">The guaranty association protects policyholders of <strong>admitted</strong> insolvent insurers only. Surplus lines (non-admitted) carriers are never covered. The fund also has <strong>limits</strong> — it does not guarantee 100% of every claim in all cases.</div>
+  <div class="card-title">Verbal Promises Don't Override the Written Policy</div>
+  <div class="card-body">Due to the parol evidence rule, if an agent tells a client "don't worry, that's covered" but the written policy excludes it, the written policy wins. Clients must read their policy — verbal assurances are not enforceable against the insurer. Agents who make unauthorized promises may be personally liable.</div>
 </div>
-
-<div class="card gold">
-  <div class="card-label">Exam Tip</div>
-  <div class="card-title">Fraternal Benefit Society</div>
-  <div class="card-body">Fraternal societies provide insurance to members sharing a <strong>common bond</strong> (religious group, ethnic organization, profession). They operate under a lodge system with elected officers. Key distinctions: (1) issue <strong>certificates</strong>, not policies; (2) <strong>NOT subject to all standard insurance regulations</strong> — they have some exemptions; (3) non-profit, member-owned structure.</div>
-</div>
-
 
 <div class="recall">
   <div class="recall-title">Quick Recall — Must Know Before Moving On</div>
-  <div class="recall-item">Domestic = incorporated AND doing business in the SAME state.</div>
-  <div class="recall-item">Foreign = incorporated in one U.S. state, doing business in another U.S. state.</div>
-  <div class="recall-item">Alien = incorporated OUTSIDE the United States.</div>
-  <div class="recall-item">Insurance is regulated at the STATE level (not federal).</div>
-  <div class="recall-item">NAIC creates model laws but has NO enforcement authority.</div>
-  <div class="recall-item">Agent represents the insurer. Broker represents the client.</div>
-  <div class="recall-item">Guaranty associations only protect policyholders of ADMITTED insurers.</div>
-  <div class="recall-item">Lloyd's of London is a marketplace of underwriters, NOT an insurance company.</div>
-  <div class="recall-item">Reinsurance = insurer transfers risk to another insurer to reduce its exposure.</div>
-  <div class="recall-item">Guaranty Association protects policyholders of INSOLVENT admitted insurers; NOT for surplus lines; funded by assessments on other admitted insurers.</div>
-  <div class="recall-item">Guaranty fund has limits per policy (e.g., $300,000–$500,000) — does not guarantee 100% in all cases.</div>
-  <div class="recall-item">Fraternal benefit society: common bond, lodge system, issues certificates (not policies), some regulatory exemptions.</div>
-  <div class="recall-item">MGA: wholesale intermediary with binding authority; can appoint agents and underwrite on behalf of insurer.</div>
+  <div class="recall-item">COAL = Consideration, Offer &amp; Acceptance, Agreement to legal purpose, Legal competence.</div>
+  <div class="recall-item">4 unique characteristics: Aleatory, Unilateral, Adhesion, Conditional.</div>
+  <div class="recall-item">The APPLICANT makes the offer — the insurer accepts by issuing the policy.</div>
+  <div class="recall-item">Adhesion contract = insurer writes it; any ambiguity is interpreted in favor of the insured.</div>
+  <div class="recall-item">Unilateral = only the insurer is legally bound; the insured can stop paying at any time.</div>
+  <div class="recall-item">Insurable interest must exist at the time of APPLICATION — not at the time of claim.</div>
+  <div class="recall-item">Without insurable interest, the contract is VOID — considered a wagering contract.</div>
+  <div class="recall-item">Representation = believed to be true (substantially true). Warranty = absolutely guaranteed true.</div>
+  <div class="recall-item">Concealment must be intentional to void a policy. Innocent non-disclosure may not void.</div>
+  <div class="recall-item">Waiver = insurer voluntarily gives up a right. Estoppel = insurer prevented by its own conduct.</div>
+  <div class="recall-item">Parol evidence rule = verbal promises before/at contract cannot override the written policy.</div>
+  <div class="recall-item">Misrepresentation voids a policy only if MATERIAL — i.e., would have changed the underwriting decision.</div>
 </div>
 
 <div class="footer-nav">
