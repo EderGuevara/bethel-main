@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Ch 7: Life Insurance Underwriting &amp; Policy Issue</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F1F5F9;color:#1E293B;padding:2rem 1.5rem;min-height:100vh}
+.container{max-width:820px;margin:0 auto}
+.top-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;gap:8px}
+.top-nav a{color:#64748B;text-decoration:none;font-size:.8rem;padding:6px 14px;border:1px solid #E2E8F0;border-radius:8px;background:#fff;white-space:nowrap}
+.top-nav a:hover{border-color:#DDB84A;color:#DDB84A}
+.home-btn{background:#0F172A!important;color:#DDB84A!important;border-color:#0F172A!important}
+.ch-header{background:linear-gradient(135deg,#0F172A,#1E293B);border-radius:16px;padding:2rem 2.5rem;margin-bottom:2rem}
+.ch-badge{display:inline-block;background:#DDB84A;color:#0F172A;border-radius:8px;padding:4px 14px;font-size:11px;font-weight:700;letter-spacing:.1em;margin-bottom:.75rem}
+.ch-title{color:#fff;font-size:22px;font-weight:700;line-height:1.3;margin-bottom:.5rem}
+.ch-overview{color:#94A3B8;font-size:.88rem;line-height:1.6}
+.s-label{font-size:10px;font-weight:700;letter-spacing:.14em;color:#94A3B8;text-transform:uppercase;margin:2rem 0 .7rem}
+.terms-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.term{background:#fff;border:1px solid #E2E8F0;border-left:3px solid #DDB84A;border-radius:10px;padding:.85rem 1rem}
+.term-name{font-size:13px;font-weight:700;color:#0F172A;margin-bottom:3px}
+.term-def{font-size:12px;color:#64748B;line-height:1.5}
+.card{background:#fff;border:1px solid #E2E8F0;border-radius:10px;padding:1.1rem 1.4rem;margin-top:1rem}
+.card.blue{border-left:3px solid #3B82F6}.card.gold{border-left:3px solid #DDB84A;background:#FFFBF0;border-color:#E5C55A}.card.red{border-left:3px solid #EF4444;background:#FFF5F5;border-color:#FCA5A5}.card.green{border-left:3px solid #22C55E;background:#F0FDF4;border-color:#86EFAC}
+.card-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem}
+.card.blue .card-label{color:#2563EB}.card.gold .card-label{color:#92700A}.card.red .card-label{color:#B91C1C}.card.green .card-label{color:#15803D}
+.card-title{font-size:14px;font-weight:700;color:#0F172A;margin-bottom:.4rem}
+.card-body{font-size:13px;line-height:1.65}
+.card.blue .card-body{color:#475569}.card.gold .card-body{color:#5C4200}.card.red .card-body{color:#7F1D1D}.card.green .card-body{color:#166534}
+.card-body ul{margin:.5rem 0 0 1.2rem}.card-body li{margin-bottom:.3rem}
+.table-wrap{background:#fff;border:1px solid #E2E8F0;border-radius:10px;overflow:hidden;margin-top:1rem}
+.table-label{font-size:10px;font-weight:700;letter-spacing:.12em;color:#94A3B8;text-transform:uppercase;padding:.85rem 1.25rem .3rem}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead tr{background:#0F172A}
+th{padding:8px 14px;text-align:left;color:#DDB84A;font-weight:600}
+td{padding:8px 14px;color:#475569;border-top:1px solid #F1F5F9}
+td:first-child{color:#0F172A;font-weight:600}
+tr:nth-child(even) td{background:#F8FAFC}
+.recall{background:#0F172A;border-radius:12px;padding:1.5rem 1.75rem;margin-top:2rem}
+.recall-title{color:#DDB84A;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.9rem}
+.recall-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:.55rem;font-size:13px;color:#CBD5E1;line-height:1.5}
+.recall-item::before{content:"✓";color:#DDB84A;font-weight:700;flex-shrink:0}
+.footer-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;padding-top:1.5rem;border-top:1px solid #E2E8F0;gap:8px}
+.footer-nav a{display:flex;align-items:center;gap:6px;text-decoration:none;color:#64748B;font-size:.8rem;padding:8px 18px;border:1px solid #E2E8F0;border-radius:8px;background:#fff}
+.footer-nav a:hover{border-color:#DDB84A;color:#DDB84A}
+.brand{font-size:.72rem;color:#94A3B8;text-align:center;margin-top:1.5rem}
+@media print{body{background:#fff;padding:1rem}.top-nav,.footer-nav{display:none}}
+@media(max-width:600px){.terms-grid{grid-template-columns:1fr}.ch-title{font-size:19px}body{padding:1rem}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="top-nav">
+  <a href="ch6.html">← Chapter 6</a>
+  <a href="index.html" class="home-btn">⌂ All Chapters</a>
+  <a href="ch8.html">Chapter 8 →</a>
+</div>
+
+<div class="ch-header">
+  <div class="ch-badge">CHAPTER 7</div>
+  <div class="ch-title">Life Insurance Underwriting &amp; Policy Issue</div>
+  <div class="ch-overview">Learn the underwriting process — from application submission through policy delivery — including risk classification, MIB, medical exams, and replacement rules.</div>
+</div>
+
+<div class="s-label">Key Terms</div>
+<div class="terms-grid">
+  <div class="term"><div class="term-name">Underwriting</div><div class="term-def">The process of evaluating applications to determine insurability and appropriate premium. Controls adverse selection.</div></div>
+  <div class="term"><div class="term-name">MIB (Medical Information Bureau)</div><div class="term-def">A shared database where insurers report medical and lifestyle information from applications. Helps detect fraud and misrepresentation.</div></div>
+  <div class="term"><div class="term-name">Preferred Risk</div><div class="term-def">Healthiest applicants — below-average mortality. Qualify for the lowest premiums.</div></div>
+  <div class="term"><div class="term-name">Standard Risk</div><div class="term-def">Average health — normal life expectancy. Issued at standard rates.</div></div>
+  <div class="term"><div class="term-name">Substandard Risk</div><div class="term-def">Higher-than-average health risk. Issued at higher (rated) premiums or with exclusions.</div></div>
+  <div class="term"><div class="term-name">Declined (Rejected)</div><div class="term-def">Application refused — risk is too high for any rating or the condition is uninsurable.</div></div>
+  <div class="term"><div class="term-name">Conditional Receipt</div><div class="term-def">Given to applicant when first premium is paid at application. Coverage is conditional — begins if the applicant is found insurable as applied for.</div></div>
+  <div class="term"><div class="term-name">Backdating</div><div class="term-def">Dating the policy prior to the application date to get a lower age (and lower premium). Most states allow up to 6 months back.</div></div>
+  <div class="term"><div class="term-name">Replacement</div><div class="term-def">Terminating an existing policy and purchasing a new one. Regulated to prevent churning and protect consumers.</div></div>
+</div>
+
+<div class="s-label">Core Concepts</div>
+
+<div class="card blue">
+  <div class="card-label">Core Concept</div>
+  <div class="card-title">The Application — Part 1 and Part 2</div>
+  <div class="card-body">The life insurance application has two parts:
+    <ul>
+      <li><strong>Part 1</strong> — General information: name, address, date of birth, amount of coverage requested, beneficiary, policy type</li>
+      <li><strong>Part 2</strong> — Medical history and health questions: prior illnesses, medications, family history, tobacco use</li>
+    </ul>
+    The completed application becomes part of the policy contract. The applicant must sign the application and attest that all answers are accurate.
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Core Concept</div>
+  <div class="card-title">Sources of Underwriting Information</div>
+  <div class="card-body">Underwriters gather information from multiple sources:
+    <ul>
+      <li><strong>Application</strong> — health history, lifestyle, finances, beneficiaries</li>
+      <li><strong>Medical exam</strong> — required for larger policies; blood tests, urinalysis, blood pressure, height/weight</li>
+      <li><strong>Attending physician statement (APS)</strong> — obtained from the applicant's doctor when health history flags an issue</li>
+      <li><strong>MIB report</strong> — checks prior applications and reported conditions</li>
+      <li><strong>Inspection report / consumer report</strong> — background on finances, habits, and character (governed by FCRA)</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Core Concept</div>
+  <div class="card-title">Conditional Receipt vs. Binding Receipt</div>
+  <div class="card-body">
+    <ul>
+      <li><strong>Conditional receipt</strong> — the most common. Coverage begins on the date of application (or medical exam, if required) IF the applicant is found insurable as applied for. If the applicant is not insurable, there is no coverage and premiums are returned.</li>
+      <li><strong>Binding receipt</strong> — provides coverage immediately and unconditionally for a limited time (e.g., 30–60 days). Less common.</li>
+    </ul>
+    Without any receipt, coverage does not begin until the policy is delivered and the first premium is paid.
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Core Concept</div>
+  <div class="card-title">Policy Delivery Requirements</div>
+  <div class="card-body">For the policy to take effect, all of the following must occur:
+    <ul>
+      <li>Policy must be <strong>delivered</strong> to the applicant while they are still in good health</li>
+      <li>First premium must be <strong>paid</strong> (if not collected at application)</li>
+      <li>Any outstanding requirements (health statements, amended applications) must be satisfied</li>
+    </ul>
+    If the applicant's health has changed since the application, the agent must note this — the insurer may re-underwrite the policy.
+  </div>
+</div>
+
+<div class="table-wrap">
+  <div class="table-label">Risk Classification Summary</div>
+  <table>
+    <thead><tr><th>Class</th><th>Health Profile</th><th>Premium</th><th>Common Action</th></tr></thead>
+    <tbody>
+      <tr><td>Preferred Plus / Elite</td><td>Excellent health, ideal BMI, no tobacco</td><td>Lowest</td><td>Issue as applied</td></tr>
+      <tr><td>Preferred</td><td>Very good health, minor issues</td><td>Low</td><td>Issue as applied</td></tr>
+      <tr><td>Standard</td><td>Average health for age</td><td>Standard</td><td>Issue as applied</td></tr>
+      <tr><td>Substandard (Rated)</td><td>Above-average risk — health conditions</td><td>Higher</td><td>Issue with rated premium or exclusion rider</td></tr>
+      <tr><td>Declined</td><td>Uninsurable risk</td><td>N/A</td><td>Application rejected</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="table-wrap">
+  <div class="table-label">Replacement Requirements</div>
+  <table>
+    <thead><tr><th>Requirement</th><th>Details</th></tr></thead>
+    <tbody>
+      <tr><td>Notice of Replacement</td><td>Agent must provide a signed Notice of Replacement to the applicant</td></tr>
+      <tr><td>Policy comparison</td><td>Agent must leave an illustration comparing old and new policy</td></tr>
+      <tr><td>Notify existing insurer</td><td>Replacing insurer must notify the existing insurer within specified time</td></tr>
+      <tr><td>Free look</td><td>Replaced policies typically have a longer free look period (20–30 days)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card gold">
+  <div class="card-label">Exam Tip</div>
+  <div class="card-title">Who Is the Applicant vs. the Insured?</div>
+  <div class="card-body">The <strong>applicant</strong> (owner) is the person applying for and paying for the policy — they have all contractual rights. The <strong>insured</strong> is the person whose life is covered. They can be the same person, or different (e.g., a parent buying insurance on a child). The agent owes a duty to the applicant/owner, not necessarily the insured.</div>
+</div>
+
+<div class="card gold">
+  <div class="card-label">Exam Tip</div>
+  <div class="card-title">Churning vs. Twisting</div>
+  <div class="card-body">
+    <ul>
+      <li><strong>Churning</strong> — inducing a policyholder to replace their own company's policy unnecessarily (agent replacing within the same insurer)</li>
+      <li><strong>Twisting</strong> — inducing a policyholder to replace a policy from one insurer to another using misrepresentation or incomplete comparisons</li>
+    </ul>
+    Both are illegal and unethical practices. Both are forms of replacement abuse.
+  </div>
+</div>
+
+<div class="card red">
+  <div class="card-label">Watch Out</div>
+  <div class="card-title">Changes Made to the Application</div>
+  <div class="card-body">If the agent or insurer makes a material change to the application during underwriting (e.g., adds an exclusion rider or changes the coverage amount), the applicant must receive a <strong>counter-offer</strong> — the new policy — and has the right to accept or reject it. The original application is no longer valid. The policyholder should never be bound to a policy they didn't apply for.</div>
+</div>
+
+<div class="recall">
+  <div class="recall-title">Quick Recall — Must Know Before Moving On</div>
+  <div class="recall-item">Underwriting purpose = evaluate risk to control adverse selection and set appropriate premiums.</div>
+  <div class="recall-item">Application Part 1 = general info. Part 2 = health/medical history.</div>
+  <div class="recall-item">MIB = database of prior insurance applications — helps detect fraud.</div>
+  <div class="recall-item">Conditional receipt = coverage backdates to application date IF applicant is insurable as applied for.</div>
+  <div class="recall-item">Risk classes: Preferred → Standard → Substandard (rated) → Declined.</div>
+  <div class="recall-item">Policy effective only when delivered, in good health, first premium paid.</div>
+  <div class="recall-item">Backdating = dating policy prior to application to save age; most states allow up to 6 months.</div>
+  <div class="recall-item">Twisting = replacing a competitor's policy with misrepresentation. Churning = same insurer.</div>
+  <div class="recall-item">Replacement requires: Notice of Replacement, policy comparison, notify existing insurer.</div>
+</div>
+
+<div class="footer-nav">
+  <a href="ch6.html">← Chapter 6</a>
+  <a href="ch8.html">Chapter 8: Group Life Insurance →</a>
+</div>
+<div class="brand">Bethel Financial Group · Life Insurance Licensing Study Guide</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Ch 10: Social Security &amp; Medicare</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F1F5F9;color:#1E293B;padding:2rem 1.5rem;min-height:100vh}
+.container{max-width:820px;margin:0 auto}
+.top-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;gap:8px}
+.top-nav a{color:#64748B;text-decoration:none;font-size:.8rem;padding:6px 14px;border:1px solid #E2E8F0;border-radius:8px;background:#fff;white-space:nowrap}
+.top-nav a:hover{border-color:#DDB84A;color:#DDB84A}
+.home-btn{background:#0F172A!important;color:#DDB84A!important;border-color:#0F172A!important}
+.ch-header{background:linear-gradient(135deg,#0F172A,#1E293B);border-radius:16px;padding:2rem 2.5rem;margin-bottom:2rem}
+.ch-badge{display:inline-block;background:#DDB84A;color:#0F172A;border-radius:8px;padding:4px 14px;font-size:11px;font-weight:700;letter-spacing:.1em;margin-bottom:.75rem}
+.ch-title{color:#fff;font-size:22px;font-weight:700;line-height:1.3;margin-bottom:.5rem}
+.ch-overview{color:#94A3B8;font-size:.88rem;line-height:1.6}
+.s-label{font-size:10px;font-weight:700;letter-spacing:.14em;color:#94A3B8;text-transform:uppercase;margin:2rem 0 .7rem}
+.terms-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.term{background:#fff;border:1px solid #E2E8F0;border-left:3px solid #DDB84A;border-radius:10px;padding:.85rem 1rem}
+.term-name{font-size:13px;font-weight:700;color:#0F172A;margin-bottom:3px}
+.term-def{font-size:12px;color:#64748B;line-height:1.5}
+.card{background:#fff;border:1px solid #E2E8F0;border-radius:10px;padding:1.1rem 1.4rem;margin-top:1rem}
+.card.blue{border-left:3px solid #3B82F6}.card.gold{border-left:3px solid #DDB84A;background:#FFFBF0;border-color:#E5C55A}.card.red{border-left:3px solid #EF4444;background:#FFF5F5;border-color:#FCA5A5}.card.green{border-left:3px solid #22C55E;background:#F0FDF4;border-color:#86EFAC}
+.card-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem}
+.card.blue .card-label{color:#2563EB}.card.gold .card-label{color:#92700A}.card.red .card-label{color:#B91C1C}.card.green .card-label{color:#15803D}
+.card-title{font-size:14px;font-weight:700;color:#0F172A;margin-bottom:.4rem}
+.card-body{font-size:13px;line-height:1.65}
+.card.blue .card-body{color:#475569}.card.gold .card-body{color:#5C4200}.card.red .card-body{color:#7F1D1D}.card.green .card-body{color:#166534}
+.card-body ul{margin:.5rem 0 0 1.2rem}.card-body li{margin-bottom:.3rem}
+.table-wrap{background:#fff;border:1px solid #E2E8F0;border-radius:10px;overflow:hidden;margin-top:1rem}
+.table-label{font-size:10px;font-weight:700;letter-spacing:.12em;color:#94A3B8;text-transform:uppercase;padding:.85rem 1.25rem .3rem}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead tr{background:#0F172A}
+th{padding:8px 14px;text-align:left;color:#DDB84A;font-weight:600}
+td{padding:8px 14px;color:#475569;border-top:1px solid #F1F5F9}
+td:first-child{color:#0F172A;font-weight:600}
+tr:nth-child(even) td{background:#F8FAFC}
+.recall{background:#0F172A;border-radius:12px;padding:1.5rem 1.75rem;margin-top:2rem}
+.recall-title{color:#DDB84A;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.9rem}
+.recall-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:.55rem;font-size:13px;color:#CBD5E1;line-height:1.5}
+.recall-item::before{content:"✓";color:#DDB84A;font-weight:700;flex-shrink:0}
+.footer-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;padding-top:1.5rem;border-top:1px solid #E2E8F0;gap:8px}
+.footer-nav a{display:flex;align-items:center;gap:6px;text-decoration:none;color:#64748B;font-size:.8rem;padding:8px 18px;border:1px solid #E2E8F0;border-radius:8px;background:#fff}
+.footer-nav a:hover{border-color:#DDB84A;color:#DDB84A}
+.brand{font-size:.72rem;color:#94A3B8;text-align:center;margin-top:1.5rem}
+@media print{body{background:#fff;padding:1rem}.top-nav,.footer-nav{display:none}}
+@media(max-width:600px){.terms-grid{grid-template-columns:1fr}.ch-title{font-size:19px}body{padding:1rem}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="top-nav">
+  <a href="ch9.html">← Chapter 9</a>
+  <a href="index.html" class="home-btn">⌂ All Chapters</a>
+  <a href="ch11.html">Chapter 11 →</a>
+</div>
+
+<div class="ch-header">
+  <div class="ch-badge">CHAPTER 10</div>
+  <div class="ch-title">Social Security &amp; Medicare</div>
+  <div class="ch-overview">Learn the Social Security program — FICA taxes, eligibility, retirement and disability benefits, survivors benefits — and the four parts of Medicare. These concepts directly tie to why life insurance and annuities are needed.</div>
+</div>
+
+<div class="s-label">Key Terms</div>
+<div class="terms-grid">
+  <div class="term"><div class="term-name">FICA</div><div class="term-def">Federal Insurance Contributions Act. The payroll tax that funds Social Security (6.2%) and Medicare (1.45%). Total: 7.65% each for employee and employer.</div></div>
+  <div class="term"><div class="term-name">Fully Insured</div><div class="term-def">Worker has earned 40 quarters of coverage (10 years of work). Required for full retirement benefits and most Social Security programs.</div></div>
+  <div class="term"><div class="term-name">Currently Insured</div><div class="term-def">Worker has earned at least 6 quarters of coverage in the last 13 quarters. Qualifies for limited survivors and disability benefits only.</div></div>
+  <div class="term"><div class="term-name">Quarter of Coverage (Credit)</div><div class="term-def">One credit earned for a set amount of earnings. Maximum 4 credits per year. 40 total credits = fully insured.</div></div>
+  <div class="term"><div class="term-name">Full Retirement Age (FRA)</div><div class="term-def">Age at which full Social Security retirement benefits are payable. Currently 66–67 depending on birth year.</div></div>
+  <div class="term"><div class="term-name">Early Retirement</div><div class="term-def">Social Security retirement benefits can begin as early as age 62 — but at a permanently reduced amount (up to 30% reduction).</div></div>
+  <div class="term"><div class="term-name">Delayed Retirement</div><div class="term-def">Delaying benefits past FRA increases monthly benefit by 8% per year (up to age 70).</div></div>
+</div>
+
+<div class="s-label">Core Concepts</div>
+
+<div class="card blue">
+  <div class="card-label">Core Concept</div>
+  <div class="card-title">Social Security Benefits — 4 Types</div>
+  <div class="card-body">Social Security provides four main categories of benefits:
+    <ul>
+      <li><strong>Retirement benefits</strong> — for fully insured workers (40 credits). Begin at 62 (reduced) or FRA (full). Increased for each year delayed past FRA up to age 70.</li>
+      <li><strong>Disability benefits (SSDI)</strong> — for fully insured workers (with additional recent-work requirement). Must be unable to perform any substantial work for at least 12 months. 5-month waiting period before benefits start.</li>
+      <li><strong>Survivors benefits</strong> — paid to the spouse and children of a deceased fully or currently insured worker. A lump-sum death benefit of $255 is also paid to the surviving spouse or children.</li>
+      <li><strong>Medicare</strong> — health insurance program for those age 65+ and certain disabled individuals.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Core Concept</div>
+  <div class="card-title">Medicare — 4 Parts</div>
+  <div class="card-body">Medicare has four distinct parts:
+    <ul>
+      <li><strong>Part A (Hospital Insurance)</strong> — covers inpatient hospital care, skilled nursing, hospice. Funded by FICA taxes — no monthly premium for most people (if they have 40 work credits).</li>
+      <li><strong>Part B (Medical Insurance)</strong> — covers outpatient doctor visits, lab tests, preventive care. Requires a monthly premium. Voluntary enrollment.</li>
+      <li><strong>Part C (Medicare Advantage)</strong> — private insurance plans that bundle Parts A and B (and usually D). Approved by Medicare. Alternative to traditional Medicare.</li>
+      <li><strong>Part D (Prescription Drug Coverage)</strong> — covers prescription drugs. Sold by private insurers. Requires a monthly premium.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Core Concept</div>
+  <div class="card-title">Social Security Survivors Benefits</div>
+  <div class="card-body">When a fully or currently insured worker dies, the following may be eligible for survivors benefits:
+    <ul>
+      <li>Surviving spouse age 60+ (or 50+ if disabled)</li>
+      <li>Surviving spouse any age if caring for the worker's child under age 16</li>
+      <li>Unmarried children under age 18 (or 19 if still in high school)</li>
+      <li>Dependent parents age 62+</li>
+    </ul>
+    <strong>Lump-sum death benefit: $255</strong> paid to surviving spouse (or children if no surviving spouse). This is a tested number — and it's intentionally small.
+  </div>
+</div>
+
+<div class="table-wrap">
+  <div class="table-label">Social Security Quick Reference</div>
+  <table>
+    <thead><tr><th>Benefit</th><th>Requires</th><th>Key Age / Number</th></tr></thead>
+    <tbody>
+      <tr><td>Retirement</td><td>Fully insured (40 credits)</td><td>Age 62 (reduced) / FRA (full) / 70 (maximum)</td></tr>
+      <tr><td>Disability (SSDI)</td><td>Fully insured + recent work</td><td>5-month waiting period; must last 12+ months</td></tr>
+      <tr><td>Survivors</td><td>Fully or currently insured</td><td>$255 lump-sum death benefit</td></tr>
+      <tr><td>Medicare</td><td>Age 65 or disability</td><td>Part A = free (if 40 credits); Parts B, D = premium</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="table-wrap">
+  <div class="table-label">Medicare Parts Summary</div>
+  <table>
+    <thead><tr><th>Part</th><th>Name</th><th>Covers</th><th>Premium?</th></tr></thead>
+    <tbody>
+      <tr><td>Part A</td><td>Hospital Insurance</td><td>Inpatient hospital, skilled nursing, hospice</td><td>Usually FREE (if 40 credits)</td></tr>
+      <tr><td>Part B</td><td>Medical Insurance</td><td>Doctor visits, outpatient, preventive</td><td>Yes (monthly)</td></tr>
+      <tr><td>Part C</td><td>Medicare Advantage</td><td>Bundled A+B+usually D via private plan</td><td>Varies</td></tr>
+      <tr><td>Part D</td><td>Prescription Drugs</td><td>Prescription medications</td><td>Yes (monthly)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card green">
+  <div class="card-label">Key Numbers</div>
+  <div class="card-title">Numbers to Memorize</div>
+  <div class="card-body">
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:90px">7.65%</span><span>Total FICA tax rate — 6.2% Social Security + 1.45% Medicare (employee's share)</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:90px">40 credits</span><span>Fully insured status (10 years × 4 credits/year)</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:90px">6 credits</span><span>Currently insured (minimum 6 of last 13 quarters)</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:90px">Age 62</span><span>Earliest age for reduced Social Security retirement benefits</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:90px">Age 65</span><span>Medicare eligibility age</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:90px">$255</span><span>Social Security lump-sum death benefit to surviving spouse or children</span></div>
+    <div style="display:flex;gap:10px"><span style="font-weight:700;color:#15803D;min-width:90px">5 months</span><span>Disability waiting period before SSDI benefits begin</span></div>
+  </div>
+</div>
+
+<div class="card gold">
+  <div class="card-label">Exam Tip</div>
+  <div class="card-title">Fully Insured vs. Currently Insured</div>
+  <div class="card-body"><strong>Fully insured (40 credits)</strong> unlocks: retirement benefits, full survivors benefits, disability benefits, and Medicare. <strong>Currently insured (6 of last 13 credits)</strong> unlocks only limited survivors benefits — it does NOT give retirement or disability. A young worker who dies with 6 recent credits still provides survivors benefits for their family even though they weren't fully insured.</div>
+</div>
+
+<div class="card red">
+  <div class="card-label">Watch Out</div>
+  <div class="card-title">Social Security Does NOT Replace Life Insurance</div>
+  <div class="card-body">A common exam scenario: the $255 Social Security lump-sum death benefit and survivors benefits are real, but they are rarely sufficient to replace a worker's income for a family. This is why life insurance exists — to fill the gap. The exam may ask you to identify what Social Security covers and what it does NOT. Know that Social Security survivors benefits have limits and eligibility rules that leave many families underprotected.</div>
+</div>
+
+<div class="recall">
+  <div class="recall-title">Quick Recall — Must Know Before Moving On</div>
+  <div class="recall-item">FICA = 7.65% total: 6.2% Social Security + 1.45% Medicare (paid by employee AND employer).</div>
+  <div class="recall-item">40 credits = fully insured (10 years). 6 of last 13 credits = currently insured.</div>
+  <div class="recall-item">Retirement: age 62 (reduced), FRA (full), age 70 (maximum — 8%/year increase for delay).</div>
+  <div class="recall-item">SSDI = 5-month waiting period; disability must be expected to last 12+ months.</div>
+  <div class="recall-item">Lump-sum death benefit = $255. Small but tested.</div>
+  <div class="recall-item">Medicare: Part A = hospital (usually free), Part B = medical (premium), Part C = Advantage, Part D = drugs.</div>
+  <div class="recall-item">Medicare eligibility = age 65 (or disabled after 24 months of SSDI).</div>
+</div>
+
+<div class="footer-nav">
+  <a href="ch9.html">← Chapter 9</a>
+  <a href="ch11.html">Chapter 11: Retirement Plans →</a>
+</div>
+<div class="brand">Bethel Financial Group · Life Insurance Licensing Study Guide</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Ch 6: Life Insurance Premiums, Proceeds &amp; Beneficiaries</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F1F5F9;color:#1E293B;padding:2rem 1.5rem;min-height:100vh}
+.container{max-width:820px;margin:0 auto}
+.top-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;gap:8px}
+.top-nav a{color:#64748B;text-decoration:none;font-size:.8rem;padding:6px 14px;border:1px solid #E2E8F0;border-radius:8px;background:#fff;white-space:nowrap}
+.top-nav a:hover{border-color:#DDB84A;color:#DDB84A}
+.home-btn{background:#0F172A!important;color:#DDB84A!important;border-color:#0F172A!important}
+.ch-header{background:linear-gradient(135deg,#0F172A,#1E293B);border-radius:16px;padding:2rem 2.5rem;margin-bottom:2rem}
+.ch-badge{display:inline-block;background:#DDB84A;color:#0F172A;border-radius:8px;padding:4px 14px;font-size:11px;font-weight:700;letter-spacing:.1em;margin-bottom:.75rem}
+.ch-title{color:#fff;font-size:22px;font-weight:700;line-height:1.3;margin-bottom:.5rem}
+.ch-overview{color:#94A3B8;font-size:.88rem;line-height:1.6}
+.s-label{font-size:10px;font-weight:700;letter-spacing:.14em;color:#94A3B8;text-transform:uppercase;margin:2rem 0 .7rem}
+.terms-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.term{background:#fff;border:1px solid #E2E8F0;border-left:3px solid #DDB84A;border-radius:10px;padding:.85rem 1rem}
+.term-name{font-size:13px;font-weight:700;color:#0F172A;margin-bottom:3px}
+.term-def{font-size:12px;color:#64748B;line-height:1.5}
+.card{background:#fff;border:1px solid #E2E8F0;border-radius:10px;padding:1.1rem 1.4rem;margin-top:1rem}
+.card.blue{border-left:3px solid #3B82F6}.card.gold{border-left:3px solid #DDB84A;background:#FFFBF0;border-color:#E5C55A}.card.red{border-left:3px solid #EF4444;background:#FFF5F5;border-color:#FCA5A5}.card.green{border-left:3px solid #22C55E;background:#F0FDF4;border-color:#86EFAC}
+.card-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem}
+.card.blue .card-label{color:#2563EB}.card.gold .card-label{color:#92700A}.card.red .card-label{color:#B91C1C}.card.green .card-label{color:#15803D}
+.card-title{font-size:14px;font-weight:700;color:#0F172A;margin-bottom:.4rem}
+.card-body{font-size:13px;line-height:1.65}
+.card.blue .card-body{color:#475569}.card.gold .card-body{color:#5C4200}.card.red .card-body{color:#7F1D1D}.card.green .card-body{color:#166534}
+.card-body ul{margin:.5rem 0 0 1.2rem}.card-body li{margin-bottom:.3rem}
+.table-wrap{background:#fff;border:1px solid #E2E8F0;border-radius:10px;overflow:hidden;margin-top:1rem}
+.table-label{font-size:10px;font-weight:700;letter-spacing:.12em;color:#94A3B8;text-transform:uppercase;padding:.85rem 1.25rem .3rem}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead tr{background:#0F172A}
+th{padding:8px 14px;text-align:left;color:#DDB84A;font-weight:600}
+td{padding:8px 14px;color:#475569;border-top:1px solid #F1F5F9}
+td:first-child{color:#0F172A;font-weight:600}
+tr:nth-child(even) td{background:#F8FAFC}
+.recall{background:#0F172A;border-radius:12px;padding:1.5rem 1.75rem;margin-top:2rem}
+.recall-title{color:#DDB84A;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.9rem}
+.recall-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:.55rem;font-size:13px;color:#CBD5E1;line-height:1.5}
+.recall-item::before{content:"✓";color:#DDB84A;font-weight:700;flex-shrink:0}
+.footer-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;padding-top:1.5rem;border-top:1px solid #E2E8F0;gap:8px}
+.footer-nav a{display:flex;align-items:center;gap:6px;text-decoration:none;color:#64748B;font-size:.8rem;padding:8px 18px;border:1px solid #E2E8F0;border-radius:8px;background:#fff}
+.footer-nav a:hover{border-color:#DDB84A;color:#DDB84A}
+.brand{font-size:.72rem;color:#94A3B8;text-align:center;margin-top:1.5rem}
+@media print{body{background:#fff;padding:1rem}.top-nav,.footer-nav{display:none}}
+@media(max-width:600px){.terms-grid{grid-template-columns:1fr}.ch-title{font-size:19px}body{padding:1rem}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="top-nav">
+  <a href="ch5.html">← Chapter 5</a>
+  <a href="index.html" class="home-btn">⌂ All Chapters</a>
+  <a href="ch7.html">Chapter 7 →</a>
+</div>
+
+<div class="ch-header">
+  <div class="ch-badge">CHAPTER 6</div>
+  <div class="ch-title">Life Insurance Premiums, Proceeds &amp; Beneficiaries</div>
+  <div class="ch-overview">Understand how premiums are calculated and paid, how death benefits are received tax-free, and the rules governing beneficiary designations, assignments, and policy loans.</div>
+</div>
+
+<div class="s-label">Key Terms</div>
+<div class="terms-grid">
+  <div class="term"><div class="term-name">Mortality Factor</div><div class="term-def">The likelihood of death based on age, gender, and health. Higher mortality = higher premium.</div></div>
+  <div class="term"><div class="term-name">Net Single Premium</div><div class="term-def">The present value of future benefits — the theoretical one-time cost of a policy based on mortality and interest only.</div></div>
+  <div class="term"><div class="term-name">Loading</div><div class="term-def">Amount added to the net premium to cover the insurer's expenses, profit, and contingencies.</div></div>
+  <div class="term"><div class="term-name">Gross Premium</div><div class="term-def">What the policyholder actually pays. Net premium + loading = gross premium.</div></div>
+  <div class="term"><div class="term-name">Primary Beneficiary</div><div class="term-def">The first in line to receive the death benefit. Can be one person or multiple people.</div></div>
+  <div class="term"><div class="term-name">Contingent Beneficiary</div><div class="term-def">Receives proceeds ONLY if the primary beneficiary predeceases the insured or cannot receive the benefit.</div></div>
+  <div class="term"><div class="term-name">Revocable Beneficiary</div><div class="term-def">Can be changed by the policyholder at any time without the beneficiary's consent. Most common.</div></div>
+  <div class="term"><div class="term-name">Irrevocable Beneficiary</div><div class="term-def">Cannot be changed without the beneficiary's written consent. Policyholder needs their permission to change beneficiary, take loans, or surrender the policy.</div></div>
+  <div class="term"><div class="term-name">Spendthrift Clause</div><div class="term-def">Prevents the beneficiary from assigning or borrowing against their future benefits. Protects proceeds from creditors.</div></div>
+  <div class="term"><div class="term-name">Policy Loan</div><div class="term-def">Borrowing against the cash value of a permanent policy. NOT taxable. If not repaid, reduces the death benefit.</div></div>
+</div>
+
+<div class="s-label">Core Concepts</div>
+
+<div class="card blue">
+  <div class="card-label">Core Concept</div>
+  <div class="card-title">Factors That Affect Premium Cost</div>
+  <div class="card-body">Life insurance premiums are based on three factors:
+    <ul>
+      <li><strong>Mortality</strong> — probability of death; older or unhealthier people pay more</li>
+      <li><strong>Interest</strong> — earnings the insurer expects on invested premiums; higher interest = lower premium</li>
+      <li><strong>Expenses (loading)</strong> — insurer's operating costs, commissions, profit margin</li>
+    </ul>
+    Other factors: age at issue, gender, amount of coverage, type of policy, tobacco use, and health classification.
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Core Concept</div>
+  <div class="card-title">Premium Payment Modes</div>
+  <div class="card-body">Policyholders can choose how often to pay. The less frequently, the more they pay overall (insurer charges for the convenience of spreading payments):
+    <ul>
+      <li><strong>Annual</strong> — lowest total cost; pay once per year</li>
+      <li><strong>Semi-annual</strong> — twice a year</li>
+      <li><strong>Quarterly</strong> — four times a year</li>
+      <li><strong>Monthly</strong> — highest total cost; most common (often auto-drafted)</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Core Concept</div>
+  <div class="card-title">Tax Treatment of Life Insurance</div>
+  <div class="card-body">Life insurance has some of the best tax advantages available:
+    <ul>
+      <li><strong>Death benefit</strong> — generally income-tax FREE to the beneficiary</li>
+      <li><strong>Cash value growth</strong> — grows TAX-DEFERRED; no annual tax on gains</li>
+      <li><strong>Policy loans</strong> — NOT taxable as long as the policy stays in force</li>
+      <li><strong>Dividends</strong> — NOT taxable until they exceed total premiums paid</li>
+      <li><strong>1035 exchange</strong> — exchange one policy for another without triggering taxes</li>
+    </ul>
+    Exception: employer-paid group life over $50,000 in coverage — the value of the excess is taxable to the employee.
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Core Concept</div>
+  <div class="card-title">Beneficiary Designations</div>
+  <div class="card-body">How proceeds are distributed depends on who is named and how:
+    <ul>
+      <li><strong>Per capita</strong> — divide equally among all surviving named beneficiaries</li>
+      <li><strong>Per stirpes</strong> — if a named beneficiary dies, their share passes to their children (heirs)</li>
+      <li><strong>Estate as beneficiary</strong> — proceeds go through probate; often taxable as part of estate; generally avoid</li>
+      <li><strong>Minor as beneficiary</strong> — proceeds must be managed by a court-appointed guardian or trust; direct naming of minors is usually discouraged</li>
+    </ul>
+  </div>
+</div>
+
+<div class="table-wrap">
+  <div class="table-label">Assignment Types</div>
+  <table>
+    <thead><tr><th>Type</th><th>What It Means</th><th>Common Use</th></tr></thead>
+    <tbody>
+      <tr><td>Absolute Assignment</td><td>Transfer ALL ownership rights to another party permanently</td><td>Gifting a policy to a charity or irrevocable trust</td></tr>
+      <tr><td>Collateral Assignment</td><td>Temporarily assign policy as loan collateral; rights revert when loan is repaid</td><td>Using a policy as security for a bank loan</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="table-wrap">
+  <div class="table-label">Revocable vs. Irrevocable Beneficiary</div>
+  <table>
+    <thead><tr><th>Feature</th><th>Revocable</th><th>Irrevocable</th></tr></thead>
+    <tbody>
+      <tr><td>Can owner change?</td><td>Yes, at any time</td><td>Only with beneficiary's written consent</td></tr>
+      <tr><td>Beneficiary's rights?</td><td>No vested rights while insured lives</td><td>Has vested interest in policy</td></tr>
+      <tr><td>Policy loans?</td><td>Owner can take loans freely</td><td>Requires beneficiary consent</td></tr>
+      <tr><td>Most common?</td><td>Yes</td><td>No (used in divorce, business)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card green">
+  <div class="card-label">Key Numbers</div>
+  <div class="card-title">Numbers to Memorize</div>
+  <div class="card-body">
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:90px">$0 tax</span><span>Death benefit received by beneficiary — generally 100% income-tax free</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:90px">$50,000</span><span>Group life threshold — employer-paid coverage above this amount is taxable to the employee</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:.4rem"><span style="font-weight:700;color:#15803D;min-width:90px">Tax-deferred</span><span>Cash value growth inside a permanent policy</span></div>
+    <div style="display:flex;gap:10px"><span style="font-weight:700;color:#15803D;min-width:90px">Annual mode</span><span>Cheapest overall premium payment mode</span></div>
+  </div>
+</div>
+
+<div class="card gold">
+  <div class="card-label">Exam Tip</div>
+  <div class="card-title">Policy Loans Are NOT Taxable Income</div>
+  <div class="card-body">When a policyholder borrows from their cash value, it is a <strong>loan — not a withdrawal</strong>. Loans are not taxable income regardless of size, as long as the policy remains in force. If the policy lapses or is surrendered with an outstanding loan, the loan amount becomes taxable to the extent it exceeds the cost basis (total premiums paid).</div>
+</div>
+
+<div class="card gold">
+  <div class="card-label">Exam Tip</div>
+  <div class="card-title">1035 Exchange — Tax-Free Policy Swap</div>
+  <div class="card-body">Under Section 1035 of the Internal Revenue Code, you can exchange:
+    <ul>
+      <li>Life insurance → life insurance or annuity (tax-free)</li>
+      <li>Annuity → annuity (tax-free)</li>
+      <li>Annuity → life insurance (NOT allowed tax-free)</li>
+    </ul>
+    The exchange must be done directly between insurers — you cannot receive the proceeds and then buy a new policy. 1035 preserves the tax basis and avoids triggering a taxable event.
+  </div>
+</div>
+
+<div class="card red">
+  <div class="card-label">Watch Out</div>
+  <div class="card-title">Naming Your Estate as Beneficiary</div>
+  <div class="card-body">If the estate is named as beneficiary (or if there is no beneficiary), the death benefit passes through <strong>probate</strong>. This means: delays in payment, public record, creditor claims against the estate, and potential estate taxes. Always name a specific person as beneficiary to keep proceeds out of the estate and paid quickly.</div>
+</div>
+
+<div class="recall">
+  <div class="recall-title">Quick Recall — Must Know Before Moving On</div>
+  <div class="recall-item">3 premium factors: Mortality (age/health), Interest (investment returns), Expenses (loading).</div>
+  <div class="recall-item">Annual mode = cheapest total cost. Monthly mode = most expensive total cost.</div>
+  <div class="recall-item">Death benefit = income-tax FREE to beneficiary (general rule).</div>
+  <div class="recall-item">Cash value grows tax-deferred; policy loans are not taxable income.</div>
+  <div class="recall-item">Revocable beneficiary = owner can change anytime. Irrevocable = needs beneficiary's consent.</div>
+  <div class="recall-item">Per stirpes = deceased beneficiary's share goes to their children.</div>
+  <div class="recall-item">Collateral assignment = temporary; absolute assignment = permanent transfer of all rights.</div>
+  <div class="recall-item">1035 exchange: life → life or annuity is OK tax-free. Annuity → life is NOT.</div>
+  <div class="recall-item">Group life over $50,000 = taxable to the employee (the cost of excess coverage).</div>
+</div>
+
+<div class="footer-nav">
+  <a href="ch5.html">← Chapter 5</a>
+  <a href="ch7.html">Chapter 7: Underwriting &amp; Policy Issue →</a>
+</div>
+<div class="brand">Bethel Financial Group · Life Insurance Licensing Study Guide</div>
+</div>
+</body>
+</html>
