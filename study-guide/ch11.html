@@ -46,8 +46,9 @@ tr:nth-child(even) td{background:#F8FAFC}
 .footer-nav a:hover{border-color:#DDB84A;color:#DDB84A}
 .brand{font-size:.72rem;color:#94A3B8;text-align:center;margin-top:1.5rem}
 @media print{body{background:#fff;padding:1rem}.top-nav,.footer-nav{display:none}}
-@media(max-width:600px){.terms-grid{grid-template-columns:1fr}.ch-title{font-size:19px}body{padding:1rem}}
+html.embedded .top-nav,html.embedded .footer-nav,html.embedded .brand,html.embedded .ch-header{display:none!important}html.embedded body{background:#fff;padding:0}html.embedded .container{max-width:100%;padding:.75rem 1rem}@media(max-width:600px){.terms-grid{grid-template-columns:1fr}.ch-title{font-size:19px}body{padding:1rem}}
 </style>
+<script>if(window.self!==window.top||location.search.indexOf("embed=1")>-1)document.documentElement.classList.add("embedded");</script>
 </head>
 <body>
 <div class="container">
@@ -270,6 +271,20 @@ tr:nth-child(even) td{background:#F8FAFC}
   </div>
 </div>
 
+
+<div class="s-label">Defined Benefit vs. Defined Contribution — Exam Priority</div>
+
+<div class="card blue">
+  <div class="card-label">Core Concept</div>
+  <div class="card-title">Defined Benefit vs. Defined Contribution Plans</div>
+  <div class="card-body">
+    <ul>
+      <li><strong>Defined Benefit (Pension)</strong>: employer PROMISES a specific benefit amount at retirement (based on salary and years of service). Employer bears ALL investment risk — regardless of how investments perform, the promised benefit is paid.</li>
+      <li><strong>Defined Contribution (401k, 403b, SEP)</strong>: the CONTRIBUTION amount is defined. The ultimate benefit depends on investment performance. Employee (and sometimes employer) bears the investment risk.</li>
+    </ul>
+    <strong>KEY RULE: Defined Benefit = employer promises and bears risk. Defined Contribution = defined input, variable output — employee bears investment risk.</strong>
+  </div>
+</div>
 
 <div class="recall">
   <div class="recall-title">Quick Recall — Must Know Before Moving On</div>

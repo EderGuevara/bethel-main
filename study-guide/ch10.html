@@ -46,8 +46,9 @@ tr:nth-child(even) td{background:#F8FAFC}
 .footer-nav a:hover{border-color:#DDB84A;color:#DDB84A}
 .brand{font-size:.72rem;color:#94A3B8;text-align:center;margin-top:1.5rem}
 @media print{body{background:#fff;padding:1rem}.top-nav,.footer-nav{display:none}}
-@media(max-width:600px){.terms-grid{grid-template-columns:1fr}.ch-title{font-size:19px}body{padding:1rem}}
+html.embedded .top-nav,html.embedded .footer-nav,html.embedded .brand,html.embedded .ch-header{display:none!important}html.embedded body{background:#fff;padding:0}html.embedded .container{max-width:100%;padding:.75rem 1rem}@media(max-width:600px){.terms-grid{grid-template-columns:1fr}.ch-title{font-size:19px}body{padding:1rem}}
 </style>
+<script>if(window.self!==window.top||location.search.indexOf("embed=1")>-1)document.documentElement.classList.add("embedded");</script>
 </head>
 <body>
 <div class="container">
@@ -247,6 +248,27 @@ tr:nth-child(even) td{background:#F8FAFC}
   <div class="card-body">WEP <strong>reduces</strong> SS retirement benefits — it does NOT eliminate them entirely. The exam may try to say WEP "eliminates" the benefit. Also: WEP applies to <strong>retirement benefits</strong>, not survivor benefits. If the question asks about a surviving spouse, WEP is not the answer.</div>
 </div>
 
+
+<div class="s-label">SS Taxation &amp; WEP — Exam Priority Cards</div>
+
+<div class="card blue">
+  <div class="card-label">Core Concept</div>
+  <div class="card-title">Social Security Benefit Taxation</div>
+  <div class="card-body">SS benefits MAY be partially taxable based on combined income (AGI + tax-exempt interest + &frac12; of SS benefits):
+    <ul>
+      <li>Below $25,000 (single) / $32,000 (married): SS benefits <strong>NOT taxable</strong></li>
+      <li>$25,000–$34,000 (single) / $32,000–$44,000 (married): up to <strong>50%</strong> of SS taxable</li>
+      <li>Above $34,000 (single) / $44,000 (married): up to <strong>85%</strong> of SS taxable</li>
+    </ul>
+    <strong>KEY RULE: SS benefits are NOT always tax-free. Maximum taxable = 85% (never 100%).</strong>
+  </div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Core Concept</div>
+  <div class="card-title">Windfall Elimination Provision (WEP)</div>
+  <div class="card-body">Reduces Social Security retirement benefits for workers who receive a pension from employment NOT covered by Social Security (e.g., certain government jobs, state/local employees who did not pay into SS). The standard SS benefit formula gives a higher replacement rate to lower earners — WEP adjusts this for those who appear to be "lower earners" only because some of their work wasn't covered by SS. <strong>KEY RULE: WEP reduces SS benefits for people who also receive a non-SS pension from uncovered employment.</strong></div>
+</div>
 
 <div class="recall">
   <div class="recall-title">Quick Recall — Must Know Before Moving On</div>

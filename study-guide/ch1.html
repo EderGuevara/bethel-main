@@ -51,8 +51,9 @@ tr:nth-child(even) td{background:#F8FAFC}
 .footer-nav a:hover{border-color:#DDB84A;color:#DDB84A}
 .brand{font-size:.72rem;color:#94A3B8;text-align:center;margin-top:1.5rem}
 @media print{body{background:#fff;padding:1rem}.top-nav,.footer-nav{display:none}}
-@media(max-width:600px){.terms-grid{grid-template-columns:1fr}.ch-title{font-size:19px}body{padding:1rem}}
+html.embedded .top-nav,html.embedded .footer-nav,html.embedded .brand,html.embedded .ch-header{display:none!important}html.embedded body{background:#fff;padding:0}html.embedded .container{max-width:100%;padding:.75rem 1rem}@media(max-width:600px){.terms-grid{grid-template-columns:1fr}.ch-title{font-size:19px}body{padding:1rem}}
 </style>
+<script>if(window.self!==window.top||location.search.indexOf("embed=1")>-1)document.documentElement.classList.add("embedded");</script>
 </head>
 <body>
 <div class="container">
@@ -353,6 +354,20 @@ tr:nth-child(even) td{background:#F8FAFC}
   <div class="card-body">Fraternal societies provide insurance to members sharing a <strong>common bond</strong> (religious group, ethnic organization, profession). They operate under a lodge system with elected officers. Key distinctions: (1) issue <strong>certificates</strong>, not policies; (2) <strong>NOT subject to all standard insurance regulations</strong> — they have some exemptions; (3) non-profit, member-owned structure.</div>
 </div>
 
+
+<div class="s-label">Adverse Selection &amp; Surplus Lines — Exam Priority</div>
+
+<div class="card blue">
+  <div class="card-label">Core Concept</div>
+  <div class="card-title">Adverse Selection</div>
+  <div class="card-body">The tendency for higher-risk individuals to seek insurance MORE than lower-risk people, skewing the risk pool. Left unchecked, it leads to higher claims and insolvency. Insurers combat it through underwriting, medical exams, and waiting periods. <strong>KEY RULE: Adverse selection is WHY underwriting exists.</strong></div>
+</div>
+
+<div class="card blue">
+  <div class="card-label">Core Concept</div>
+  <div class="card-title">Surplus Lines Insurance</div>
+  <div class="card-body">Insurance placed with non-admitted (unauthorized) insurers when coverage cannot be obtained from admitted carriers in the state. Must be placed through a licensed surplus lines broker. <strong>WARNING: No state guaranty fund protection</strong> — if the surplus lines insurer becomes insolvent, the insured has no state backstop.</div>
+</div>
 
 <div class="recall">
   <div class="recall-title">Quick Recall — Must Know Before Moving On</div>
