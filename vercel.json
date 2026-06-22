@@ -9,5 +9,8 @@
     { "src": "sw.js", "use": "@vercel/static" }
   ],
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/admin", "destination": "https://exam.bethelfinancialgroup.com/admin", "permanent": false }
+  ]
 }
