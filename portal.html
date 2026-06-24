@@ -318,7 +318,7 @@ function resourceIcon(r) {
   var sz = logoSize(r);
   var isPrometric = /prometric/.test(((r.name || '') + ' ' + (r.url || '')).toLowerCase());
   var promBg = '';
-  if (r.logoUrl) { var d = new URL(r.url.includes('://')?r.url:'https://'+r.url).hostname.replace(/^www\./,''); var promBlend = isPrometric ? 'mix-blend-mode:screen;' : ''; return '<img src="' + escHtml(r.logoUrl) + '" onerror="this.onerror=null;_nextLogo(this,\'' + d + '\',-1)" style="width:' + sz + ';height:' + sz + ';object-fit:contain;border-radius:8px;' + promBlend + '">'; }
+  if (r.logoUrl) { var d = new URL(r.url.includes('://')?r.url:'https://'+r.url).hostname.replace(/^www\./,''); var promBlend = isPrometric ? 'filter:invert(1) hue-rotate(180deg);' : ''; return '<img src="' + escHtml(r.logoUrl) + '" onerror="this.onerror=null;_nextLogo(this,\'' + d + '\',-1)" style="width:' + sz + ';height:' + sz + ';object-fit:contain;border-radius:8px;' + promBlend + '">'; }
   try {
     var href = r.url.includes('://') ? r.url : 'https://' + r.url;
     var domain = new URL(href).hostname.replace(/^www\./, '');
