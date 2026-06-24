@@ -86,9 +86,10 @@ img{max-width:100%;display:block}
 .announcement-date{font-size:.72rem;color:#9CA3AF;margin-top:.5rem}
 
 /* RESOURCES */
-.cat-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem}
-.cat-tab{padding:5px 16px;border-radius:20px;border:1.5px solid #E5E7EB;background:#fff;color:#6B7280;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif}
-.cat-tab.active{border-color:#C9A227;background:#FFFBF0;color:#A07B18}
+.cat-tabs{display:flex;gap:0;flex-wrap:wrap;margin-bottom:1.5rem;border-bottom:1.5px solid #E2E8F0}
+.cat-tab{padding:8px 18px;border:none;border-bottom:2.5px solid transparent;background:transparent;color:#94A3B8;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;letter-spacing:.02em;margin-bottom:-1.5px}
+.cat-tab:hover{color:#475569}
+.cat-tab.active{color:#0F172A;border-bottom-color:#DDB84A}
 .resource-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.5rem}
 .resource-card{padding:1.5rem 1rem;text-align:center;border-radius:14px;transition:background .15s}
 .resource-card:hover{background:rgba(201,162,39,.07)}
@@ -229,12 +230,12 @@ img{max-width:100%;display:block}
       <div id="sec-resources" style="display:none">
         <div class="cat-tabs" id="catTabs">
           <button class="cat-tab active" onclick="filterResources('All')">All</button>
-          <button class="cat-tab" onclick="filterResources('Documents')">📄 Documents</button>
-          <button class="cat-tab" onclick="filterResources('Forms')">📝 Forms</button>
-          <button class="cat-tab" onclick="filterResources('Presentations')">📊 Presentations</button>
-          <button class="cat-tab" onclick="filterResources('Training')">🎓 Training</button>
-          <button class="cat-tab" onclick="filterResources('Websites')">🌐 Websites</button>
-          <button class="cat-tab" onclick="filterResources('Insurers')">🏢 Insurers</button>
+          <button class="cat-tab" onclick="filterResources('Documents')">Documents</button>
+          <button class="cat-tab" onclick="filterResources('Forms')">Forms</button>
+          <button class="cat-tab" onclick="filterResources('Presentations')">Presentations</button>
+          <button class="cat-tab" onclick="filterResources('Training')">Training</button>
+          <button class="cat-tab" onclick="filterResources('Websites')">Websites</button>
+          <button class="cat-tab" onclick="filterResources('Insurers')">Insurers</button>
         </div>
         <div class="resource-grid" id="resourceGrid">
           <div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">📁</div><div>No resources yet</div></div>
