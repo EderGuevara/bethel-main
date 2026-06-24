@@ -468,13 +468,11 @@ function renderResources(resources, cat) {
     return;
   }
   grid.innerHTML = filtered.map(function(r) {
-    return '<div class="resource-card">'
+    var isDownload = r.url.includes('vercel-storage') || r.url.includes('blob.');
+    return '<div class="resource-card" onclick="window.open(\'' + escHtml(r.url) + '\',\'_blank\')" style="cursor:pointer">'
       + '<div class="resource-icon">' + resourceIcon(r) + '</div>'
       + '<div class="resource-name">' + escHtml(r.name) + '</div>'
       + (r.description ? '<div class="resource-desc">' + escHtml(r.description) + '</div>' : '')
-      + (r.url.includes('vercel-storage') || r.url.includes('blob.')
-          ? '<a href="' + escHtml(r.url) + '" target="_blank" download class="download-btn">⬇ Download</a>'
-          : '<a href="' + escHtml(r.url) + '" target="_blank" class="download-btn">↗ Open</a>')
       + '</div>';
   }).join('');
 }
