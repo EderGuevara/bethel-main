@@ -180,7 +180,7 @@ img{max-width:100%;display:block}
     <div class="nav-section">External</div>
     <div class="nav-item" onclick="window.open('https://exam.bethelfinancialgroup.com','_blank')"><span class="nav-icon">📚</span>Study Course ↗</div>
     <div class="sidebar-footer">
-      <button class="sign-out-btn" onclick="doLogout()">Sign Out</button>
+      <button class="sign-out-btn" onclick="doLogout()" style="display:none">Sign Out</button>
     </div>
   </div>
 
@@ -259,7 +259,7 @@ img{max-width:100%;display:block}
 <div class="toast" id="toast"></div>
 
 <script>
-var API = 'https://exam.bethelfinancialgroup.com';
+var API = '';
 var token = localStorage.getItem('bethel_portal_token') || '';
 var currentUser = null;
 var allResources = [];
@@ -414,16 +414,13 @@ function closeSidebar() {
 // ── DATA ──────────────────────────────────────────────────────────────────
 async function loadAll() {
   try {
-    var [me, resources, announcements] = await Promise.all([
-      apiCall('GET', '/api/me'),
+    var [resources, announcements] = await Promise.all([
       apiCall('GET', '/api/portal/resources'),
       apiCall('GET', '/api/portal/announcements'),
     ]);
-    currentUser = Object.assign(currentUser, me);
     allResources = resources;
     allAnnouncements = announcements;
-
-    renderDashboard(me, announcements);
+    renderDashboard(announcements);
     renderResources(allResources, 'All');
     renderAnnouncements(announcements);
   } catch(e) {
@@ -432,8 +429,7 @@ async function loadAll() {
 }
 
 // ── DASHBOARD ──────────────────────────────────────────────────────────────
-function renderDashboard(me, announcements) {
-  document.getElementById('welcomeName').textContent = 'Welcome back, ' + (me.name.split(' ')[0]) + '!';
+function renderDashboard(announcements) {
 
   // Latest 3 announcements
   var dashAnn = document.getElementById('dashAnnouncements');
@@ -444,7 +440,7 @@ function renderDashboard(me, announcements) {
       return '<div style="padding:.6rem 0;border-bottom:1px solid #F3F4F6">'
         + (a.pinned ? '<div style="font-size:.65rem;color:#A07B18;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.15rem">📌 Pinned</div>' : '')
         + '<div style="font-size:.88rem;font-weight:700;color:#111827;margin-bottom:.2rem">' + escHtml(a.title) + '</div>'
-        + (a.hasImage ? '<img src="https://exam.bethelfinancialgroup.com/api/portal/announcements/' + a.id + '/image" style="max-width:100%;border-radius:8px;margin:.4rem 0;display:block">' : '')
+        + (a.hasImage ? '<img src="/api/portal/announcements/' + a.id + '/image" style="max-width:100%;border-radius:8px;margin:.4rem 0;display:block">' : '')
         + '<div style="font-size:.78rem;color:#6B7280">' + fmt(a.postedAt) + '</div>'
         + '</div>';
     }).join('') + (announcements.length > 3 ? '<div style="margin-top:.75rem"><button onclick="showSection(\'announcements\')" style="background:none;border:none;color:#C9A227;font-size:.82rem;font-weight:600;cursor:pointer;font-family:inherit">View all →</button></div>' : '');
@@ -491,7 +487,7 @@ function renderAnnouncements(announcements) {
       + (a.pinned ? '<div class="announcement-pin">📌 Pinned</div>' : '')
       + '<div class="announcement-title">' + escHtml(a.title) + '</div>'
       + '<div class="announcement-body">' + escHtml(a.body) + '</div>'
-      + (a.hasImage ? '<img src="https://exam.bethelfinancialgroup.com/api/portal/announcements/' + a.id + '/image" style="max-width:100%;border-radius:10px;margin-top:.75rem;display:block">' : '')
+      + (a.hasImage ? '<img src="/api/portal/announcements/' + a.id + '/image" style="max-width:100%;border-radius:10px;margin-top:.75rem;display:block">' : '')
       + '<div class="announcement-date">' + fmt(a.postedAt) + '</div>'
       + '</div>';
   }).join('');
@@ -499,16 +495,10 @@ function renderAnnouncements(announcements) {
 
 
 // ── INIT ──────────────────────────────────────────────────────────────────
-(async function() {
-  if (token) {
-    try {
-      var data = await apiCall('GET', '/api/me');
-      if (data.isAdmin) { token = ''; localStorage.removeItem('bethel_portal_token'); }
-      else if (!data.licensed) { token = ''; localStorage.removeItem('bethel_portal_token'); }
-      else { currentUser = data; enterPortal(data); return; }
-    } catch(e) { token = ''; localStorage.removeItem('bethel_portal_token'); }
-  }
-  document.getElementById('authWrap').style.display = 'flex';
+(function() {
+  document.getElementById('authWrap').style.display = 'none';
+  document.getElementById('appShell').classList.add('visible');
+  loadAll();
 })();
 </script>
 </body>
