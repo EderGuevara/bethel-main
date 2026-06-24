@@ -1,5 +1,5 @@
-const CACHE_STATIC = 'bfg-main-static-v1';
-const CACHE_PAGES  = 'bfg-main-pages-v1';
+const CACHE_STATIC = 'bfg-main-static-v2';
+const CACHE_PAGES  = 'bfg-main-pages-v2';
 const ALL_CACHES   = [CACHE_STATIC, CACHE_PAGES];
 
 const APP_SHELL = ['/', '/index.html', '/manifest.json', '/icon-192.png', '/assets/Logo.JPG'];
@@ -18,7 +18,7 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
-  if (url.pathname.startsWith('/api/') || url.origin !== self.location.origin) return;
+  if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/admin') || url.origin !== self.location.origin) return;
 
   if (e.request.mode === 'navigate') {
     e.respondWith(
