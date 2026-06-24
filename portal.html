@@ -301,14 +301,14 @@ function _nextLogo(img, domain, idx) {
 }
 function nameIcon(r) {
   var n = ((r.name || '') + ' ' + (r.category || '')).toLowerCase();
-  if (/expense|budget|spend|gastos/.test(n)) return '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" style="width:4rem;height:4rem"><defs><linearGradient id="dg-exp" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F5D06A"/><stop offset="100%" stop-color="#A07318"/></linearGradient></defs><text x="24" y="38" text-anchor="middle" font-size="42" fill="url(#dg-exp)" font-family="Georgia,serif" font-weight="700">$</text></svg>';
+  if (/expense|budget|spend|gastos/.test(n)) return '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" style="width:5rem;height:5rem"><defs><linearGradient id="dg-exp" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F5D06A"/><stop offset="100%" stop-color="#A07318"/></linearGradient></defs><text x="24" y="38" text-anchor="middle" font-size="42" fill="url(#dg-exp)" font-family="Georgia,serif" font-weight="700">$</text></svg>';
   if (/dime/.test(n)) return '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" style="width:4rem;height:4rem"><defs><linearGradient id="dg-di" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F5D06A"/><stop offset="100%" stop-color="#A07318"/></linearGradient></defs><rect x="4" y="28" width="10" height="17" rx="2" fill="url(#dg-di)" fill-opacity="0.45"/><rect x="19" y="18" width="10" height="27" rx="2" fill="url(#dg-di)" fill-opacity="0.72"/><rect x="34" y="8" width="10" height="37" rx="2" fill="url(#dg-di)"/></svg>';
   if (/aplicac/.test(n)) return '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" style="width:4rem;height:4rem"><defs><linearGradient id="dg-ap" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F5D06A"/><stop offset="100%" stop-color="#A07318"/></linearGradient></defs><circle cx="24" cy="15" r="9" fill="url(#dg-ap)"/><path d="M6,44 C6,30 42,30 42,44" fill="url(#dg-ap)"/></svg>';
   return null;
 }
 function logoSize(r) {
   var n = (r.name || '').toLowerCase();
-  if (/experior/.test(n)) return '4rem';
+  if (/experior|nipr|webce/.test(n)) return '5rem';
   return '4rem';
 }
 function resourceIcon(r) {
