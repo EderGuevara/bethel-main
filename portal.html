@@ -470,7 +470,8 @@ function renderResources(resources, cat) {
   }
   grid.innerHTML = filtered.map(function(r) {
     var isDownload = r.url.includes('vercel-storage') || r.url.includes('blob.');
-    return '<div class="resource-card" onclick="window.open(\'' + escHtml(r.url) + '\',\'_blank\')" style="cursor:pointer">'
+    var openUrl = r.url.includes('://') ? r.url : 'https://' + r.url;
+    return '<div class="resource-card" onclick="window.open(\'' + escHtml(openUrl) + '\',\'_blank\')" style="cursor:pointer">'
       + '<div class="resource-icon">' + resourceIcon(r) + '</div>'
       + '<div class="resource-name">' + escHtml(r.name) + '</div>'
       + (r.description ? '<div class="resource-desc">' + escHtml(r.description) + '</div>' : '')
