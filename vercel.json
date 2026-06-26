@@ -17,6 +17,7 @@
     { "src": "/forms/(.*)", "dest": "/forms/$1" },
     { "src": "/assets/(.*)", "dest": "/assets/$1" },
     { "src": "/gastos", "dest": "/gastos/index.html" },
+    { "src": "/interes-compuesto", "dest": "/interes-compuesto.html" },
     { "src": "/admin", "dest": "/admin.html" },
     { "src": "/portal", "dest": "/portal.html" },
     { "src": "/(.+\\.(?:jpg|jpeg|png|gif|svg|ico|webp|css|js|woff|woff2|ttf))", "dest": "/$1" },
