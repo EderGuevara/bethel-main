@@ -1,125 +1,110 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Bethel Financial Group — Calculadora de Interés Compuesto</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interés Compuesto — Bethel Financial Group</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
-  :root{--gold:#C9A84C;--gold-dark:#8B6914;--black:#1A1A1A;--gray:#6B6B6B;--light:#F8F6F0;--white:#FFFFFF;--green:#1E6B3C;--border:#E0D8C8;}
-  body{font-family:Arial,sans-serif;background:#F0EDE6;display:flex;justify-content:center;padding:2rem 1rem;min-height:100vh}
-  .card{background:var(--white);border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.12);width:100%;max-width:860px}
-  .header{background:var(--black);padding:1rem 1.8rem;display:flex;align-items:center;justify-content:space-between}
-  .logo-area img{height:52px;width:auto}
-  .lang-btn{background:transparent;border:1.5px solid var(--gold);color:var(--gold);padding:6px 16px;border-radius:20px;cursor:pointer;font-size:12px;font-weight:700;letter-spacing:1px;transition:all .2s}
-  .lang-btn:hover{background:var(--gold);color:var(--black)}
-  .subtitle-bar{background:var(--gold);padding:.5rem 1.8rem;color:var(--black);font-size:11px;font-weight:700;letter-spacing:1px}
-  .body{background:var(--light);padding:1.4rem 1.8rem}
-  .client-section{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:.8rem 1rem 1rem;margin-bottom:1rem}
-  .section-title{font-size:10px;font-weight:700;letter-spacing:1px;color:var(--gold-dark);text-transform:uppercase;margin-bottom:.65rem}
-  .client-grid{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
-  @media(max-width:600px){.client-grid{grid-template-columns:1fr}}
-  .field{display:flex;flex-direction:column;gap:3px}
-  .field label{font-size:10px;font-weight:700;color:var(--gray);letter-spacing:.4px;text-transform:uppercase}
-  .field input{border:1px solid #DDD;border-radius:4px;padding:6px 9px;font-size:13px;color:var(--black);background:var(--white)}
-  .field input:focus{outline:none;border-color:var(--gold)}
-  .field input::placeholder{color:#BDBDBD}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:#F8FAFC;color:#1E293B;min-height:100vh;padding:1.5rem}
+  .page{max-width:860px;margin:0 auto;background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,.10);overflow:hidden}
+  .hdr{background:#0F172A;padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+  .hdr-logo{height:52px;object-fit:contain}
+  .hdr-right{text-align:right}
+  .hdr-title{color:#DDB84A;font-size:1.1rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+  .hdr-sub{color:#94A3B8;font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+  .action-bar{background:#1E293B;padding:.75rem 2rem;display:flex;gap:.75rem;justify-content:flex-end;align-items:center;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:8px;font-size:.82rem;font-weight:700;cursor:pointer;border:none;transition:.15s;font-family:inherit}
+  .btn-gold{background:linear-gradient(135deg,#DDB84A,#8B6914);color:#fff}
+  .btn-gold:hover{opacity:.9}
+  .btn-outline{background:transparent;border:1.5px solid #DDB84A;color:#DDB84A}
+  .btn-outline:hover{background:#DDB84A;color:#0F172A}
+  .btn-clear{background:transparent;border:1.5px solid #475569;color:#94A3B8;font-size:.75rem}
+  .btn-clear:hover{border-color:#94A3B8;color:#CBD5E1}
+  .lang-btn{background:transparent;border:1.5px solid #DDB84A;color:#DDB84A;padding:6px 16px;border-radius:20px;cursor:pointer;font-size:12px;font-weight:700;letter-spacing:1px;transition:all .2s;font-family:inherit}
+  .lang-btn:hover{background:#DDB84A;color:#0F172A}
+  .body{padding:2rem}
+  .inputs-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+  @media(max-width:580px){.inputs-grid{grid-template-columns:1fr}}
+  .field{display:flex;flex-direction:column;gap:5px}
+  .field label{font-size:.72rem;font-weight:700;color:#64748B;letter-spacing:.05em;text-transform:uppercase}
+  .input-wrap{display:flex;align-items:center;border:1.5px solid #E2E8F0;border-radius:8px;overflow:hidden;background:#F8FAFC;transition:border-color .15s}
+  .input-wrap:focus-within{border-color:#DDB84A;box-shadow:0 0 0 3px rgba(221,184,74,.12);background:#fff}
+  .prefix{padding:0 10px;font-size:14px;font-weight:700;color:#8B6914;background:#FDF8EC;border-right:1px solid #E2E8F0;line-height:38px}
+  .suffix{padding:0 12px;font-size:13px;font-weight:700;color:#64748B}
+  .input-wrap input,.input-wrap select{flex:1;border:none;padding:9px 12px;font-size:.95rem;color:#1E293B;background:transparent;outline:none;font-family:inherit;min-width:0}
   .full{grid-column:1/-1}
-  .inputs-section{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:.8rem 1rem 1rem;margin-bottom:1rem}
-  .inputs-grid{display:grid;grid-template-columns:1fr 1fr;gap:.65rem}
-  @media(max-width:600px){.inputs-grid{grid-template-columns:1fr}}
-  .input-wrap{display:flex;align-items:center;border:1.5px solid #DDD;border-radius:6px;overflow:hidden;background:var(--white)}
-  .input-wrap:focus-within{border-color:var(--gold)}
-  .input-prefix{padding:0 9px;font-size:14px;font-weight:700;color:var(--gold-dark);background:#FBF8F0;border-right:1px solid #DDD;line-height:36px}
-  .input-wrap input,.input-wrap select{flex:1;border:none;padding:8px 10px;font-size:14px;color:var(--black);background:transparent;outline:none;min-width:0}
-  .input-suffix{padding:0 10px;font-size:13px;font-weight:700;color:var(--gray)}
-  .results-box{background:var(--black);border-radius:8px;padding:1.2rem 1.4rem;margin-bottom:1rem}
-  .results-main{text-align:center;padding:.4rem 0 1rem}
-  .res-label{font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;margin-bottom:.3rem}
-  .res-amount{font-size:38px;font-weight:700;color:var(--white);letter-spacing:-1px}
-  .res-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem}
+  .results{background:#0F172A;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+  .results-main{text-align:center;margin-bottom:1.2rem}
+  .res-label{font-size:.68rem;font-weight:700;letter-spacing:1.5px;color:#DDB84A;text-transform:uppercase;margin-bottom:.3rem}
+  .res-amount{font-size:2.6rem;font-weight:900;color:#fff;letter-spacing:-1px}
+  .res-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem}
   @media(max-width:500px){.res-grid{grid-template-columns:1fr 1fr}}
-  .res-cell{background:rgba(255,255,255,.07);border-radius:6px;padding:.65rem .8rem;text-align:center}
-  .res-cell-label{font-size:9px;font-weight:700;color:#9CA3AF;letter-spacing:.8px;text-transform:uppercase;margin-bottom:.3rem}
-  .res-cell-val{font-size:16px;font-weight:700;color:var(--white)}
-  .res-cell-val.gold{color:var(--gold)}
-  .table-wrap{background:var(--white);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:1rem;max-height:240px;overflow-y:auto}
-  table{width:100%;border-collapse:collapse;font-size:12px}
-  thead{background:var(--black);position:sticky;top:0}
-  th{padding:.5rem .8rem;text-align:right;font-size:10px;font-weight:700;color:var(--gold);letter-spacing:.5px;text-transform:uppercase}
+  .res-cell{background:rgba(255,255,255,.06);border-radius:8px;padding:.75rem;text-align:center}
+  .res-cell-label{font-size:.65rem;font-weight:700;color:#64748B;letter-spacing:.8px;text-transform:uppercase;margin-bottom:.3rem}
+  .res-cell-val{font-size:1.05rem;font-weight:800;color:#fff}
+  .res-cell-val.gold{color:#DDB84A}
+  .table-wrap{border:1.5px solid #E2E8F0;border-radius:10px;overflow:hidden;max-height:260px;overflow-y:auto}
+  table{width:100%;border-collapse:collapse;font-size:.82rem}
+  thead{background:#0F172A;position:sticky;top:0}
+  th{padding:.55rem .9rem;text-align:right;font-size:.68rem;font-weight:700;color:#DDB84A;letter-spacing:.5px;text-transform:uppercase}
   th:first-child{text-align:left}
-  td{padding:.45rem .8rem;text-align:right;border-bottom:.5px solid #F0E8D8;color:var(--black)}
-  td:first-child{text-align:left;font-weight:700;color:var(--gold-dark)}
-  tr:nth-child(even) td{background:#FAF8F4}
-  .actions{display:flex;gap:10px}
-  .btn{flex:1;padding:.75rem;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:7px;transition:opacity .2s}
-  .btn:hover{opacity:.85}
-  .btn-gold{background:var(--gold);color:var(--black)}
-  .btn-dark{background:var(--black);color:var(--white)}
-  .btn-outline{background:transparent;border:1.5px solid #DDD;color:var(--gray);flex:0 0 auto;padding:.75rem 1.2rem}
-  .btn-outline:hover{border-color:var(--black);color:var(--black);opacity:1}
-  .toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--black);color:var(--white);padding:.6rem 1.4rem;border-radius:24px;font-size:13px;font-weight:700;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;z-index:999}
+  td{padding:.5rem .9rem;text-align:right;border-bottom:1px solid #F1F5F9;color:#1E293B}
+  td:first-child{text-align:left;font-weight:700;color:#8B6914}
+  tr:nth-child(even) td{background:#FAFAFA}
+  .empty-row td{text-align:center;color:#94A3B8;padding:1.5rem;font-size:.85rem}
+  .toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(20px);background:#0F172A;color:#fff;padding:.6rem 1.4rem;border-radius:24px;font-size:.82rem;font-weight:700;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;z-index:999}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-  .footer{background:var(--black);padding:.6rem 1.8rem;text-align:center;font-size:10px;color:#555;letter-spacing:.5px}
+  .footer{background:#0F172A;padding:.6rem 2rem;text-align:center;font-size:.68rem;color:#475569;letter-spacing:.5px;margin-top:2rem;border-radius:0 0 16px 16px}
 </style>
 </head>
 <body>
-<div class="card">
-  <div class="header">
-    <div class="logo-area"><img src="assets/Logo.JPG" alt="Bethel Financial Group" onerror="this.style.display='none'"/></div>
-    <button class="lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
+<div class="page">
+  <div class="hdr">
+    <img class="hdr-logo" src="/assets/Logo.JPG" alt="Bethel Financial Group" onerror="this.style.display='none'"/>
+    <div class="hdr-right">
+      <div class="hdr-title" id="hdrTitle">Calculadora de Interés Compuesto</div>
+      <div class="hdr-sub">Bethel Financial Group</div>
+    </div>
   </div>
-  <div class="subtitle-bar" id="subtitleBar">Calculadora de Interés Compuesto</div>
+  <div class="action-bar">
+    <button class="lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
+    <button class="btn btn-clear" onclick="clearAll()" id="clearBtnEl"><span id="clearLbl">🗑 Limpiar</span></button>
+    <button class="btn btn-outline" onclick="shareSummary()"><span id="shareLbl">↑ Compartir</span></button>
+    <button class="btn btn-gold" onclick="downloadPDF()" id="pdfBtnEl"><span id="pdfLbl">⬇ Descargar PDF</span></button>
+  </div>
   <div class="body">
-
-    <!-- CLIENT INFO -->
-    <div class="client-section">
-      <div class="section-title" id="clientSectionTitle">Información del Cliente</div>
-      <div class="client-grid">
-        <div class="field"><label id="lbl_name">Nombre completo</label><input type="text" id="clientName" placeholder="—"/></div>
-        <div class="field"><label id="lbl_date">Fecha</label><input type="date" id="clientDate"/></div>
-        <div class="field"><label id="lbl_phone">Teléfono</label><input type="tel" id="clientPhone" placeholder="—"/></div>
-        <div class="field"><label id="lbl_email">Correo electrónico</label><input type="email" id="clientEmail" placeholder="—"/></div>
-        <div class="field full"><label id="lbl_advisor">Asesor / Agente</label><input type="text" id="advisorName" placeholder="—"/></div>
+    <div class="inputs-grid">
+      <div class="field">
+        <label id="lbl_principal">Capital inicial</label>
+        <div class="input-wrap"><span class="prefix">$</span><input type="number" id="principal" placeholder="10,000" min="0" step="100" oninput="calc()"/></div>
       </div>
-    </div>
-
-    <!-- CALCULATOR INPUTS -->
-    <div class="inputs-section">
-      <div class="section-title" id="inputSectionTitle">Parámetros de Cálculo</div>
-      <div class="inputs-grid">
-        <div class="field">
-          <label id="lbl_principal">Capital inicial</label>
-          <div class="input-wrap"><span class="input-prefix">$</span><input type="number" id="principal" placeholder="10,000" min="0" step="100" oninput="calc()"/></div>
-        </div>
-        <div class="field">
-          <label id="lbl_rate">Tasa anual de interés</label>
-          <div class="input-wrap"><input type="number" id="rate" placeholder="7" min="0" max="100" step="0.1" oninput="calc()"/><span class="input-suffix">%</span></div>
-        </div>
-        <div class="field">
-          <label id="lbl_years">Años</label>
-          <div class="input-wrap"><input type="number" id="years" placeholder="20" min="1" max="50" step="1" oninput="calc()"/></div>
-        </div>
-        <div class="field">
-          <label id="lbl_contrib">Aportación mensual</label>
-          <div class="input-wrap"><span class="input-prefix">$</span><input type="number" id="contrib" placeholder="0" min="0" step="50" oninput="calc()"/></div>
-        </div>
-        <div class="field full">
-          <label id="lbl_freq">Frecuencia de capitalización</label>
-          <div class="input-wrap">
-            <select id="freq" onchange="calc()">
-              <option value="12" id="opt_monthly">Mensual</option>
-              <option value="4" id="opt_quarterly">Trimestral</option>
-              <option value="2" id="opt_semi">Semestral</option>
-              <option value="1" id="opt_annual">Anual</option>
-            </select>
-          </div>
+      <div class="field">
+        <label id="lbl_rate">Tasa anual de interés</label>
+        <div class="input-wrap"><input type="number" id="rate" placeholder="7" min="0" max="100" step="0.1" oninput="calc()"/><span class="suffix">%</span></div>
+      </div>
+      <div class="field">
+        <label id="lbl_years">Años</label>
+        <div class="input-wrap"><input type="number" id="years" placeholder="20" min="1" max="50" step="1" oninput="calc()"/></div>
+      </div>
+      <div class="field">
+        <label id="lbl_contrib">Aportación mensual</label>
+        <div class="input-wrap"><span class="prefix">$</span><input type="number" id="contrib" placeholder="0" min="0" step="50" oninput="calc()"/></div>
+      </div>
+      <div class="field full">
+        <label id="lbl_freq">Frecuencia de capitalización</label>
+        <div class="input-wrap">
+          <select id="freq" onchange="calc()">
+            <option value="12" id="opt_monthly">Mensual</option>
+            <option value="4" id="opt_quarterly">Trimestral</option>
+            <option value="2" id="opt_semi">Semestral</option>
+            <option value="1" id="opt_annual">Anual</option>
+          </select>
         </div>
       </div>
     </div>
 
-    <!-- RESULTS -->
-    <div class="results-box">
+    <div class="results">
       <div class="results-main">
         <div class="res-label" id="lbl_finalBal">Balance Final</div>
         <div class="res-amount" id="finalBalance">—</div>
@@ -140,7 +125,6 @@
       </div>
     </div>
 
-    <!-- YEAR-BY-YEAR TABLE -->
     <div class="table-wrap">
       <table>
         <thead>
@@ -152,30 +136,22 @@
           </tr>
         </thead>
         <tbody id="tblBody">
-          <tr><td colspan="4" style="text-align:center;color:#9CA3AF;padding:1.2rem" id="emptyMsg">Ingresa los valores para ver la proyección</td></tr>
+          <tr class="empty-row"><td colspan="4" id="emptyMsg">Ingresa los valores para ver la proyección</td></tr>
         </tbody>
       </table>
     </div>
-
-    <!-- ACTIONS -->
-    <div class="actions">
-      <button class="btn btn-gold" onclick="downloadPDF()" id="pdfBtnEl"><span id="pdfBtnLbl">⬇ Descargar PDF</span></button>
-      <button class="btn btn-dark" onclick="shareSummary()"><span id="shareBtnLbl">↑ Compartir</span></button>
-      <button class="btn btn-outline" onclick="clearAll()" id="clearBtnEl">🗑 <span id="clearBtnLbl">Limpiar</span></button>
-    </div>
-    <div class="toast" id="toast"></div>
   </div>
   <div class="footer">BETHEL FINANCIAL GROUP &nbsp;|&nbsp; bethelfinancialgroup.com</div>
 </div>
+<div class="toast" id="toast"></div>
 <script>
 const T={
-  es:{subtitle:'Calculadora de Interés Compuesto',clientSection:'Información del Cliente',inputSection:'Parámetros de Cálculo',lbl_name:'Nombre completo',lbl_date:'Fecha',lbl_phone:'Teléfono',lbl_email:'Correo electrónico',lbl_advisor:'Asesor / Agente',lbl_principal:'Capital inicial',lbl_rate:'Tasa anual de interés',lbl_years:'Años',lbl_contrib:'Aportación mensual',lbl_freq:'Frecuencia de capitalización',opt_monthly:'Mensual',opt_quarterly:'Trimestral',opt_semi:'Semestral',opt_annual:'Anual',lbl_finalBal:'Balance Final',lbl_contributed:'Total Aportado',lbl_earned:'Interés Ganado',lbl_mult:'Multiplicador',th_year:'Año',th_balance:'Balance',th_contribs:'Aportaciones',th_interest:'Interés',pdfBtnLbl:'⬇ Descargar PDF',pdfLoading:'⏳ Cargando...',pdfError:'Error al cargar. Revisa tu conexión.',shareBtnLbl:'↑ Compartir',clearBtnLbl:'Limpiar',copied:'¡Resumen copiado!',empty:'Ingresa los valores para ver la proyección'},
-  en:{subtitle:'Compound Interest Calculator',clientSection:'Client Information',inputSection:'Calculation Parameters',lbl_name:'Full name',lbl_date:'Date',lbl_phone:'Phone',lbl_email:'Email',lbl_advisor:'Advisor / Agent',lbl_principal:'Initial Principal',lbl_rate:'Annual Interest Rate',lbl_years:'Years',lbl_contrib:'Monthly Contribution',lbl_freq:'Compounding Frequency',opt_monthly:'Monthly',opt_quarterly:'Quarterly',opt_semi:'Semi-Annual',opt_annual:'Annual',lbl_finalBal:'Final Balance',lbl_contributed:'Total Contributed',lbl_earned:'Interest Earned',lbl_mult:'Multiplier',th_year:'Year',th_balance:'Balance',th_contribs:'Contributions',th_interest:'Interest',pdfBtnLbl:'⬇ Download PDF',pdfLoading:'⏳ Loading...',pdfError:'Load error. Check your connection.',shareBtnLbl:'↑ Share',clearBtnLbl:'Clear',copied:'Summary copied!',empty:'Enter values to see projection'}
+  es:{title:'Calculadora de Interés Compuesto',lbl_principal:'Capital inicial',lbl_rate:'Tasa anual de interés',lbl_years:'Años',lbl_contrib:'Aportación mensual',lbl_freq:'Frecuencia de capitalización',opt_monthly:'Mensual',opt_quarterly:'Trimestral',opt_semi:'Semestral',opt_annual:'Anual',lbl_finalBal:'Balance Final',lbl_contributed:'Total Aportado',lbl_earned:'Interés Ganado',lbl_mult:'Multiplicador',th_year:'Año',th_balance:'Balance',th_contribs:'Aportaciones',th_interest:'Interés',pdfLbl:'⬇ Descargar PDF',pdfLoading:'⏳ Cargando...',pdfError:'Error al cargar PDF.',shareLbl:'↑ Compartir',clearLbl:'🗑 Limpiar',copied:'¡Copiado!',empty:'Ingresa los valores para ver la proyección'},
+  en:{title:'Compound Interest Calculator',lbl_principal:'Initial Principal',lbl_rate:'Annual Interest Rate',lbl_years:'Years',lbl_contrib:'Monthly Contribution',lbl_freq:'Compounding Frequency',opt_monthly:'Monthly',opt_quarterly:'Quarterly',opt_semi:'Semi-Annual',opt_annual:'Annual',lbl_finalBal:'Final Balance',lbl_contributed:'Total Contributed',lbl_earned:'Interest Earned',lbl_mult:'Multiplier',th_year:'Year',th_balance:'Balance',th_contribs:'Contributions',th_interest:'Interest',pdfLbl:'⬇ Download PDF',pdfLoading:'⏳ Loading...',pdfError:'PDF load error.',shareLbl:'↑ Share',clearLbl:'🗑 Clear',copied:'Copied!',empty:'Enter values to see projection'}
 };
-let lang='es', rows=[];
+let lang='es',rows=[];
 
 function fmt(n){return'$'+Math.round(n).toLocaleString('en-US');}
-function fmtDate(d){if(!d)return'';const[y,m,day]=d.split('-');return m+'/'+day+'/'+y;}
 
 function calc(){
   const P=parseFloat(document.getElementById('principal').value)||0;
@@ -184,19 +160,14 @@ function calc(){
   const pmt=parseFloat(document.getElementById('contrib').value)||0;
   const n=parseInt(document.getElementById('freq').value)||12;
   if((!P&&!pmt)||!r||!yrs){
-    document.getElementById('finalBalance').textContent='—';
-    document.getElementById('totalContrib').textContent='—';
-    document.getElementById('totalInterest').textContent='—';
-    document.getElementById('multiplier').textContent='—';
-    document.getElementById('tblBody').innerHTML='<tr><td colspan="4" style="text-align:center;color:#9CA3AF;padding:1.2rem">'+T[lang].empty+'</td></tr>';
+    ['finalBalance','totalContrib','totalInterest','multiplier'].forEach(id=>document.getElementById(id).textContent='—');
+    document.getElementById('tblBody').innerHTML='<tr class="empty-row"><td colspan="4">'+T[lang].empty+'</td></tr>';
     rows=[];return;
   }
-  const rn=r/100/n;
-  const pmtPerPeriod=pmt*12/n;
-  rows=[];
-  let bal=P;
+  const rn=r/100/n, pmtPer=pmt*12/n;
+  rows=[];let bal=P;
   for(let yr=1;yr<=yrs;yr++){
-    for(let p=0;p<n;p++){bal=bal*(1+rn)+pmtPerPeriod;}
+    for(let p=0;p<n;p++) bal=bal*(1+rn)+pmtPer;
     const totalC=P+pmt*12*yr;
     rows.push({yr,bal,totalC,interest:bal-totalC});
   }
@@ -205,13 +176,12 @@ function calc(){
   document.getElementById('totalContrib').textContent=fmt(f.totalC);
   document.getElementById('totalInterest').textContent=fmt(f.interest);
   const totalPut=P+pmt*12*yrs;
-  document.getElementById('multiplier').textContent=(totalPut>0?(f.bal/totalPut).toFixed(2):0)+'x';
+  document.getElementById('multiplier').textContent=(totalPut>0?(f.bal/totalPut).toFixed(2):'0')+'x';
   document.getElementById('tblBody').innerHTML=rows.map(row=>'<tr><td>'+row.yr+'</td><td>'+fmt(row.bal)+'</td><td>'+fmt(row.totalC)+'</td><td>'+fmt(row.interest)+'</td></tr>').join('');
 }
 
 function clearAll(){
-  ['principal','rate','years','contrib','clientName','clientPhone','clientEmail','advisorName'].forEach(id=>{document.getElementById(id).value='';});
-  document.getElementById('clientDate').value=new Date().toISOString().split('T')[0];
+  ['principal','rate','years','contrib'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('freq').selectedIndex=0;
   calc();
 }
@@ -220,103 +190,65 @@ function toggleLang(){
   lang=lang==='es'?'en':'es';
   const t=T[lang];
   document.getElementById('langBtn').textContent=lang==='es'?'EN':'ES';
-  document.getElementById('subtitleBar').textContent=t.subtitle;
-  document.getElementById('clientSectionTitle').textContent=t.clientSection;
-  document.getElementById('inputSectionTitle').textContent=t.inputSection;
-  document.getElementById('lbl_name').textContent=t.lbl_name;
-  document.getElementById('lbl_date').textContent=t.lbl_date;
-  document.getElementById('lbl_phone').textContent=t.lbl_phone;
-  document.getElementById('lbl_email').textContent=t.lbl_email;
-  document.getElementById('lbl_advisor').textContent=t.lbl_advisor;
-  document.getElementById('lbl_principal').textContent=t.lbl_principal;
-  document.getElementById('lbl_rate').textContent=t.lbl_rate;
-  document.getElementById('lbl_years').textContent=t.lbl_years;
-  document.getElementById('lbl_contrib').textContent=t.lbl_contrib;
-  document.getElementById('lbl_freq').textContent=t.lbl_freq;
-  document.getElementById('opt_monthly').textContent=t.opt_monthly;
-  document.getElementById('opt_quarterly').textContent=t.opt_quarterly;
-  document.getElementById('opt_semi').textContent=t.opt_semi;
-  document.getElementById('opt_annual').textContent=t.opt_annual;
-  document.getElementById('lbl_finalBal').textContent=t.lbl_finalBal;
-  document.getElementById('lbl_contributed').textContent=t.lbl_contributed;
-  document.getElementById('lbl_earned').textContent=t.lbl_earned;
-  document.getElementById('lbl_mult').textContent=t.lbl_mult;
-  document.getElementById('th_year').textContent=t.th_year;
-  document.getElementById('th_balance').textContent=t.th_balance;
-  document.getElementById('th_contribs').textContent=t.th_contribs;
-  document.getElementById('th_interest').textContent=t.th_interest;
-  document.getElementById('pdfBtnLbl').textContent=t.pdfBtnLbl;
-  document.getElementById('shareBtnLbl').textContent=t.shareBtnLbl;
-  document.getElementById('clearBtnLbl').textContent=t.clearBtnLbl;
+  document.getElementById('hdrTitle').textContent=t.title;
+  ['lbl_principal','lbl_rate','lbl_years','lbl_contrib','lbl_freq','lbl_finalBal','lbl_contributed','lbl_earned','lbl_mult','th_year','th_balance','th_contribs','th_interest'].forEach(k=>{const el=document.getElementById(k);if(el)el.textContent=t[k];});
+  ['opt_monthly','opt_quarterly','opt_semi','opt_annual'].forEach(k=>{const el=document.getElementById(k);if(el)el.textContent=t[k];});
+  document.getElementById('pdfLbl').textContent=t.pdfLbl;
+  document.getElementById('shareLbl').textContent=t.shareLbl;
+  document.getElementById('clearLbl').textContent=t.clearLbl;
   calc();
 }
 
-function getClient(){return{name:(document.getElementById('clientName').value||'').trim(),date:(document.getElementById('clientDate').value||''),phone:(document.getElementById('clientPhone').value||'').trim(),email:(document.getElementById('clientEmail').value||'').trim(),advisor:(document.getElementById('advisorName').value||'').trim()};}
-
 function buildText(){
-  const c=getClient();const t=T[lang];
+  const t=T[lang];
   const P=parseFloat(document.getElementById('principal').value)||0;
   const r=parseFloat(document.getElementById('rate').value)||0;
   const yrs=parseInt(document.getElementById('years').value)||0;
   const pmt=parseFloat(document.getElementById('contrib').value)||0;
-  let txt='BETHEL FINANCIAL GROUP\n'+t.subtitle+'\n'+'─'.repeat(38)+'\n';
-  if(c.name)txt+='\n'+t.lbl_name+': '+c.name;
-  if(c.date)txt+='\n'+t.lbl_date+': '+fmtDate(c.date);
-  if(c.phone)txt+='\n'+t.lbl_phone+': '+c.phone;
-  if(c.email)txt+='\n'+t.lbl_email+': '+c.email;
-  if(c.advisor)txt+='\n'+t.lbl_advisor+': '+c.advisor;
-  txt+='\n\n'+t.lbl_principal+': '+fmt(P)+'\n'+t.lbl_rate+': '+r+'%\n'+t.lbl_years+': '+yrs+'\n'+t.lbl_contrib+': '+fmt(pmt)+'\n\n';
+  let txt='BETHEL FINANCIAL GROUP\n'+t.title+'\n'+'─'.repeat(36)+'\n\n';
+  txt+=t.lbl_principal+': '+fmt(P)+'\n'+t.lbl_rate+': '+r+'%\n'+t.lbl_years+': '+yrs+'\n'+t.lbl_contrib+': '+fmt(pmt)+'\n\n';
   if(rows.length){const f=rows[rows.length-1];txt+=t.lbl_finalBal+': '+fmt(f.bal)+'\n'+t.lbl_contributed+': '+fmt(f.totalC)+'\n'+t.lbl_earned+': '+fmt(f.interest);}
   return txt;
 }
 
 function showToast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2500);}
-function shareSummary(){const text=buildText();if(navigator.share){navigator.share({title:'Bethel Financial Group — '+T[lang].subtitle,text});}else{navigator.clipboard.writeText(text).then(()=>showToast(T[lang].copied)).catch(()=>{});}}
+function shareSummary(){const text=buildText();if(navigator.share){navigator.share({title:'Bethel Financial Group',text});}else{navigator.clipboard.writeText(text).then(()=>showToast(T[lang].copied)).catch(()=>{});}}
 
 function generatePDF(){
-  const{jsPDF}=window.jspdf;const doc=new jsPDF();
-  const c=getClient();const t=T[lang];
+  const{jsPDF}=window.jspdf;const doc=new jsPDF();const t=T[lang];
   const P=parseFloat(document.getElementById('principal').value)||0;
   const r=parseFloat(document.getElementById('rate').value)||0;
   const yrs=parseInt(document.getElementById('years').value)||0;
   const pmt=parseFloat(document.getElementById('contrib').value)||0;
-  doc.setFillColor(26,26,26);doc.rect(0,0,210,32,'F');
-  doc.setTextColor(201,168,76);doc.setFontSize(22);doc.setFont('helvetica','bold');
-  doc.text('BETHEL FINANCIAL GROUP',105,14,{align:'center'});
-  doc.setFontSize(11);doc.setFont('helvetica','normal');doc.text(t.subtitle,105,24,{align:'center'});
-  doc.setFillColor(248,246,240);doc.rect(0,32,210,24,'F');
-  doc.setFontSize(10);doc.setFont('helvetica','bold');doc.setTextColor(26,26,26);
-  if(c.name)doc.text(c.name,14,42);
-  const meta=[fmtDate(c.date),c.phone,c.email].filter(Boolean).join('   |   ');
-  doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(100,100,100);
-  if(meta)doc.text(meta,14,49);
-  if(c.advisor){doc.setTextColor(139,105,20);doc.text((lang==='es'?'Asesor: ':'Advisor: ')+c.advisor,196,42,{align:'right'});}
-  doc.setFillColor(201,168,76);doc.rect(0,56,210,.6,'F');
-  let y=68;
-  doc.setFontSize(10);doc.setFont('helvetica','bold');doc.setTextColor(26,26,26);
+  doc.setFillColor(15,23,42);doc.rect(0,0,210,32,'F');
+  doc.setTextColor(221,184,74);doc.setFontSize(20);doc.setFont('helvetica','bold');
+  doc.text('BETHEL FINANCIAL GROUP',105,13,{align:'center'});
+  doc.setFontSize(10);doc.setFont('helvetica','normal');doc.text(t.title,105,23,{align:'center'});
+  doc.setFillColor(221,184,74);doc.rect(0,32,210,.5,'F');
+  let y=46;
+  doc.setTextColor(15,23,42);doc.setFontSize(10);doc.setFont('helvetica','bold');
   doc.text(t.lbl_principal+':',14,y);doc.text(fmt(P),196,y,{align:'right'});y+=7;
   doc.text(t.lbl_rate+':',14,y);doc.text(r+'%',196,y,{align:'right'});y+=7;
   doc.text(t.lbl_years+':',14,y);doc.text(String(yrs),196,y,{align:'right'});y+=7;
   if(pmt>0){doc.text(t.lbl_contrib+':',14,y);doc.text(fmt(pmt),196,y,{align:'right'});y+=7;}
-  y+=4;
+  y+=5;
   if(rows.length){
     const f=rows[rows.length-1];
-    doc.setFillColor(26,26,26);doc.rect(14,y,182,14,'F');
+    doc.setFillColor(15,23,42);doc.rect(14,y,182,14,'F');
     doc.setTextColor(255,255,255);doc.setFontSize(13);
     doc.text(t.lbl_finalBal+':',18,y+10);doc.text(fmt(f.bal),192,y+10,{align:'right'});y+=18;
     doc.setFillColor(30,107,60);doc.rect(14,y,90,10,'F');
     doc.setFontSize(9);doc.text(t.lbl_contributed+':',18,y+7);doc.text(fmt(f.totalC),102,y+7,{align:'right'});
-    doc.setFillColor(201,168,76);doc.rect(108,y,88,10,'F');
-    doc.setTextColor(26,26,26);doc.text(t.lbl_earned+':',112,y+7);doc.text(fmt(f.interest),196,y+7,{align:'right'});
+    doc.setFillColor(221,184,74);doc.rect(108,y,88,10,'F');
+    doc.setTextColor(15,23,42);doc.text(t.lbl_earned+':',112,y+7);doc.text(fmt(f.interest),196,y+7,{align:'right'});
     y+=18;
-    doc.setFillColor(26,26,26);doc.rect(14,y,.3,rows.length*6+8,'F');doc.rect(196,y,.3,rows.length*6+8,'F');
-    doc.setTextColor(201,168,76);doc.setFontSize(9);doc.setFont('helvetica','bold');
-    doc.text(t.th_year,18,y+6);doc.text(t.th_balance,110,y+6,{align:'right'});doc.text(t.th_contribs,152,y+6,{align:'right'});doc.text(t.th_interest,193,y+6,{align:'right'});
-    y+=9;doc.setFillColor(201,168,76);doc.rect(14,y,182,.3,'F');y+=5;
-    doc.setFont('helvetica','normal');doc.setTextColor(26,26,26);
+    doc.setFillColor(15,23,42);doc.rect(14,y,182,8,'F');
+    doc.setTextColor(221,184,74);doc.setFontSize(8);doc.setFont('helvetica','bold');
+    doc.text(t.th_year,18,y+5.5);doc.text(t.th_balance,110,y+5.5,{align:'right'});doc.text(t.th_contribs,152,y+5.5,{align:'right'});doc.text(t.th_interest,193,y+5.5,{align:'right'});
+    y+=11;doc.setFont('helvetica','normal');doc.setTextColor(15,23,42);
     rows.forEach(row=>{
       if(y>275){doc.addPage();y=20;}
-      if(row.yr%2===0){doc.setFillColor(250,248,244);doc.rect(14,y-3.5,182,6,'F');}
+      if(row.yr%2===0){doc.setFillColor(250,250,250);doc.rect(14,y-3.5,182,6,'F');}
       doc.setFontSize(9);
       doc.text(String(row.yr),18,y);doc.text(fmt(row.bal),110,y,{align:'right'});doc.text(fmt(row.totalC),152,y,{align:'right'});doc.text(fmt(row.interest),193,y,{align:'right'});
       y+=6;
@@ -329,15 +261,13 @@ function generatePDF(){
 
 function downloadPDF(){
   if(window.jspdf){generatePDF();return;}
-  const btn=document.getElementById('pdfBtnEl');const lbl=document.getElementById('pdfBtnLbl');const orig=lbl.textContent;
+  const btn=document.getElementById('pdfBtnEl');const lbl=document.getElementById('pdfLbl');const orig=lbl.textContent;
   lbl.textContent=T[lang].pdfLoading;btn.disabled=true;
   const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
   s.onload=()=>{lbl.textContent=orig;btn.disabled=false;generatePDF();};
   s.onerror=()=>{lbl.textContent=orig;btn.disabled=false;alert(T[lang].pdfError);};
   document.head.appendChild(s);
 }
-
-document.getElementById('clientDate').value=new Date().toISOString().split('T')[0];
 </script>
 </body>
 </html>
