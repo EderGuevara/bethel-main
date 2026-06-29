@@ -194,6 +194,18 @@ app.post('/api/contact', async (req, res) => {
   } catch (e) { res.status(500).json({ error: 'Server error.' }); }
 });
 
+// GET /api/submissions/join
+app.get('/api/submissions/join', requireAdmin, async (req, res) => {
+  try { res.json((await kv.get(K('join:submissions'))) || []); }
+  catch (e) { res.status(500).json({ error: 'Server error.' }); }
+});
+
+// GET /api/submissions/contact
+app.get('/api/submissions/contact', requireAdmin, async (req, res) => {
+  try { res.json((await kv.get(K('contact:submissions'))) || []); }
+  catch (e) { res.status(500).json({ error: 'Server error.' }); }
+});
+
 // ── MIGRATION IMPORT (one-time use) ─────────────────────────────────────────
 // POST /api/admin/import  { resources: [...], announcements: [...] }
 app.post('/api/admin/import', requireAdmin, async (req, res) => {

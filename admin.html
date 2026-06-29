@@ -145,6 +145,12 @@ a{text-decoration:none;color:inherit}
           <div class="choose-desc">Manage agents, progress, approvals, messaging, and the exam prep platform.</div>
           <button class="choose-btn">Open Course Admin →</button>
         </div>
+        <div class="choose-card" onclick="showSubmissions()" style="border-color:#059669">
+          <div class="choose-icon">📬</div>
+          <div class="choose-title">Form Submissions</div>
+          <div class="choose-desc">View agent applications and contact messages submitted from the landing page.</div>
+          <button class="choose-btn" style="background:linear-gradient(135deg,#10b981,#059669)">View Submissions →</button>
+        </div>
       </div>
     </div>
 
@@ -196,6 +202,19 @@ a{text-decoration:none;color:inherit}
       </div>
     </div>
   </div>
+</div>
+
+<!-- SUBMISSIONS PANEL -->
+<div class="portal-panel" id="submissionsPanel">
+  <button class="back-btn" onclick="showChoose()">← Back to Admin Home</button>
+  <div class="page-title">📬 Form Submissions</div>
+  <div class="page-sub">Agent applications and contact messages from the landing page</div>
+  <div style="display:flex;gap:.5rem;margin-bottom:1.5rem">
+    <button id="tabJoin" onclick="switchSubTab('join')" class="btn-sm">📋 Applications</button>
+    <button id="tabContact" onclick="switchSubTab('contact')" class="btn-sm" style="opacity:.5;background:#E5E7EB;color:#374151">✉ Contact Messages</button>
+  </div>
+  <div id="subJoinPanel"><div id="joinList"><div class="empty">Loading…</div></div></div>
+  <div id="subContactPanel" style="display:none"><div id="contactList"><div class="empty">Loading…</div></div></div>
 </div>
 
 <!-- EDIT RESOURCE MODAL -->
@@ -291,6 +310,7 @@ function enterApp(name) {
 function showChoose() {
   document.getElementById('chooseSection').style.display = 'block';
   document.getElementById('portalPanel').classList.remove('visible');
+  document.getElementById('submissionsPanel').classList.remove('visible');
 }
 function showPortalAdmin() {
   document.getElementById('chooseSection').style.display = 'none';
@@ -518,6 +538,61 @@ async function saveEditRes() {
     loadPortalData();
   } catch(e) { toast('Error: ' + e.message, false); }
   finally { btn.disabled = false; btn.textContent = 'Save Changes'; }
+}
+
+// ── SUBMISSIONS ──
+function showSubmissions() {
+  document.getElementById('chooseSection').style.display = 'none';
+  document.getElementById('submissionsPanel').classList.add('visible');
+  loadSubmissions();
+}
+var _subTab = 'join';
+function switchSubTab(tab) {
+  _subTab = tab;
+  document.getElementById('subJoinPanel').style.display    = tab === 'join'    ? 'block' : 'none';
+  document.getElementById('subContactPanel').style.display = tab === 'contact' ? 'block' : 'none';
+  document.getElementById('tabJoin').style.opacity    = tab === 'join'    ? '1' : '.5';
+  document.getElementById('tabContact').style.opacity = tab === 'contact' ? '1' : '.5';
+  document.getElementById('tabJoin').style.background    = tab === 'join'    ? '' : '#E5E7EB';
+  document.getElementById('tabContact').style.background = tab === 'contact' ? '' : '#E5E7EB';
+  document.getElementById('tabJoin').style.color    = tab === 'join'    ? '' : '#374151';
+  document.getElementById('tabContact').style.color = tab === 'contact' ? '' : '#374151';
+}
+async function loadSubmissions() {
+  try {
+    var res = await Promise.all([
+      apiCall('GET', '/api/submissions/join').catch(function() { return []; }),
+      apiCall('GET', '/api/submissions/contact').catch(function() { return []; }),
+    ]);
+    renderJoinList(res[0]);
+    renderContactList(res[1]);
+  } catch(e) { console.error(e.message); }
+}
+function renderJoinList(list) {
+  var el = document.getElementById('joinList');
+  if (!list || !list.length) { el.innerHTML = '<div class="empty">No applications yet</div>'; return; }
+  el.innerHTML = list.map(function(a) {
+    return '<div class="list-item" style="flex-direction:column;align-items:flex-start;gap:.2rem">'
+      + '<div style="display:flex;justify-content:space-between;width:100%;align-items:center">'
+      + '<div class="list-item-name">' + escHtml(a.firstName||'') + ' ' + escHtml(a.lastName||'') + '</div>'
+      + '<div class="list-item-sub">' + fmt(a.submittedAt) + '</div></div>'
+      + '<div style="font-size:.82rem;color:#374151">' + escHtml(a.email||'') + (a.phone ? ' · ' + escHtml(a.phone) : '') + '</div>'
+      + '<div style="font-size:.78rem;color:#6B7280">State: ' + escHtml(a.state||'—') + ' · Licensed: ' + escHtml(a.licensed||'—') + '</div>'
+      + '</div>';
+  }).join('');
+}
+function renderContactList(list) {
+  var el = document.getElementById('contactList');
+  if (!list || !list.length) { el.innerHTML = '<div class="empty">No messages yet</div>'; return; }
+  el.innerHTML = list.map(function(a) {
+    return '<div class="list-item" style="flex-direction:column;align-items:flex-start;gap:.2rem">'
+      + '<div style="display:flex;justify-content:space-between;width:100%;align-items:center">'
+      + '<div class="list-item-name">' + escHtml(a.firstName||'') + ' ' + escHtml(a.lastName||'') + '</div>'
+      + '<div class="list-item-sub">' + fmt(a.submittedAt) + '</div></div>'
+      + '<div style="font-size:.82rem;color:#374151">' + escHtml(a.email||'') + (a.subject ? ' · ' + escHtml(a.subject) : '') + '</div>'
+      + '<div style="font-size:.78rem;color:#6B7280;margin-top:.15rem;white-space:pre-wrap;word-break:break-word">' + escHtml(a.message||'') + '</div>'
+      + '</div>';
+  }).join('');
 }
 
 // ── INIT ──
