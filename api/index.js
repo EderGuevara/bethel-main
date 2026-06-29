@@ -2,6 +2,7 @@ const express   = require('express');
 const cors      = require('cors');
 const jwt       = require('jsonwebtoken');
 const { Redis } = require('@upstash/redis');
+const { Resend } = require('resend');
 
 const app = express();
 app.use(cors());
@@ -143,6 +144,54 @@ app.delete('/api/portal/announcements/:id', requireAdmin, async (req, res) => {
     await kv.del(K('ann:img:' + id));
     res.json({ ok: true });
   } catch { res.status(500).json({ error: 'Server error.' }); }
+});
+
+// ── PUBLIC FORM SUBMISSIONS ──────────────────────────────────────────────────
+
+// POST /api/join  –  agent application from landing page
+app.post('/api/join', async (req, res) => {
+  try {
+    const { firstName, lastName, email, phone, state, licensed } = req.body;
+    if (!firstName || !email) return res.status(400).json({ error: 'Name and email are required.' });
+    const entry = { firstName, lastName, email, phone, state, licensed, submittedAt: nowISO() };
+    const list  = (await kv.get(K('join:submissions'))) || [];
+    list.unshift(entry);
+    await kv.set(K('join:submissions'), list.slice(0, 500));
+    const key = process.env.RESEND_API_KEY;
+    if (key) {
+      const resend = new Resend(key);
+      await resend.emails.send({
+        from: process.env.RESEND_FROM_EMAIL || 'noreply@bethelfinancialgroup.com',
+        to:   ADMIN_EMAIL,
+        subject: `New Agent Application — ${firstName} ${lastName} (${state || 'No state'})`,
+        html: `<p><b>Name:</b> ${firstName} ${lastName}</p><p><b>Email:</b> ${email}</p><p><b>Phone:</b> ${phone || '—'}</p><p><b>State:</b> ${state || '—'}</p><p><b>Licensed:</b> ${licensed || '—'}</p><p><b>Submitted:</b> ${entry.submittedAt}</p>`,
+      }).catch(() => {});
+    }
+    res.json({ ok: true });
+  } catch (e) { res.status(500).json({ error: 'Server error.' }); }
+});
+
+// POST /api/contact  –  contact form from landing page
+app.post('/api/contact', async (req, res) => {
+  try {
+    const { firstName, lastName, email, subject, message } = req.body;
+    if (!firstName || !email || !message) return res.status(400).json({ error: 'Name, email, and message are required.' });
+    const entry = { firstName, lastName, email, subject, message, submittedAt: nowISO() };
+    const list  = (await kv.get(K('contact:submissions'))) || [];
+    list.unshift(entry);
+    await kv.set(K('contact:submissions'), list.slice(0, 500));
+    const key = process.env.RESEND_API_KEY;
+    if (key) {
+      const resend = new Resend(key);
+      await resend.emails.send({
+        from: process.env.RESEND_FROM_EMAIL || 'noreply@bethelfinancialgroup.com',
+        to:   ADMIN_EMAIL,
+        subject: `Contact Form — ${subject || 'General Inquiry'} from ${firstName} ${lastName}`,
+        html: `<p><b>From:</b> ${firstName} ${lastName} (${email})</p><p><b>Subject:</b> ${subject || '—'}</p><p><b>Message:</b></p><p>${message.replace(/\n/g,'<br>')}</p><p><b>Submitted:</b> ${entry.submittedAt}</p>`,
+      }).catch(() => {});
+    }
+    res.json({ ok: true });
+  } catch (e) { res.status(500).json({ error: 'Server error.' }); }
 });
 
 // ── MIGRATION IMPORT (one-time use) ─────────────────────────────────────────
