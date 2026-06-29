@@ -277,7 +277,7 @@ footer{background:var(--navy);padding:60px 0 30px}
           <img src="assets/founders.jpg" alt="Eder Guevara and Evelyn Aguirre — Founders" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
           <div class="img-placeholder" style="display:none"><div style="font-size:3rem;margin-bottom:1rem">&#127963;</div><div>Founders Photo</div></div>
         </div>
-        <div class="about-img-badge"><div class="badge-num">10+</div><div class="badge-lbl" data-t="badge_years">Years<br>of Trust</div></div>
+        <div class="about-img-badge"><div class="badge-num">10+</div><div class="badge-lbl" id="badgeLbl">Years<br>of Trust</div></div>
       </div>
       <div class="reveal">
         <div class="section-tag" data-t="about_tag">Who We Are</div>
@@ -650,7 +650,7 @@ var PT = {
     aboutTitle:'More Than an Agency —<br>A <em class="gold-text">Movement</em>',
     about_p1:'Bethel Financial Group is a life insurance agency committed to protecting families and building the next generation of financial professionals. We believe in developing people, not just policies.',
     about_p2:'Licensed to operate in all 50 states, with active agents currently serving MA, NY, FL, NJ, and MD. Our team delivers personalized financial protection solutions while building meaningful careers in the insurance industry.',
-    badge_years:'Years<br>of Trust',
+    badgeLbl:'Years<br>of Trust',
     val1_t:'Integrity First', val1_d:'We do right by our clients and agents, always.',
     val2_t:'Agent Development', val2_d:'We invest in your growth and licensing journey.',
     val3_t:'Family Protection', val3_d:'Every policy we write protects a real family.',
@@ -738,7 +738,7 @@ var PT = {
     aboutTitle:'Más Que una Agencia —<br>Un <em class="gold-text">Movimiento</em>',
     about_p1:'Bethel Financial Group es una agencia de seguros de vida comprometida con proteger familias y formar la próxima generación de profesionales financieros. Creemos en desarrollar personas, no solo pólizas.',
     about_p2:'Licenciados para operar en los 50 estados, con agentes activos actualmente en MA, NY, FL, NJ y MD. Nuestro equipo ofrece soluciones personalizadas de protección financiera mientras construye carreras significativas en la industria.',
-    badge_years:'Años de<br>Confianza',
+    badgeLbl:'Años de<br>Confianza',
     val1_t:'Integridad Primero', val1_d:'Hacemos lo correcto por nuestros clientes y agentes, siempre.',
     val2_t:'Desarrollo del Agente', val2_d:'Invertimos en tu crecimiento y proceso de licenciamiento.',
     val3_t:'Protección Familiar', val3_d:'Cada póliza que escribimos protege a una familia real.',
@@ -818,7 +818,7 @@ var PT = {
 };
 
 // IDs that use innerHTML (have <em> or HTML tags)
-var htmlIds = ['heroTitle','aboutTitle','svcTitle','pathTitle','trTitle','testTitle','joinTitle','ctTitle','ctaTitle'];
+var htmlIds = ['heroTitle','aboutTitle','svcTitle','pathTitle','trTitle','testTitle','joinTitle','ctTitle','ctaTitle','badgeLbl'];
 
 function setLang(lang) {
   var t = PT[lang];
