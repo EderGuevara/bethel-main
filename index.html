@@ -157,8 +157,45 @@ footer{background:var(--navy);padding:60px 0 30px}
 .footer-legal a:hover{color:rgba(255,255,255,.6)}
 .toast{position:fixed;bottom:2rem;right:2rem;background:var(--navy);color:#fff;padding:.85rem 1.5rem;border-radius:12px;font-size:.85rem;font-weight:600;z-index:9999;opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none;box-shadow:0 8px 30px rgba(0,0,0,.3);border-left:3px solid var(--gold)}
 .toast.show{opacity:1;transform:none}
-@media(max-width:900px){.about-grid,.training-grid,.join-inner,.contact-grid{grid-template-columns:1fr;gap:3rem}.services-grid{grid-template-columns:1fr 1fr}.about-img-badge{right:0;bottom:-10px}.footer-top{grid-template-columns:1fr 1fr}.join-form{margin-top:0}}
-@media(max-width:700px){.nav-links,.nav-right{display:none}.nav-toggle{display:block}.stats-bar .container{grid-template-columns:1fr 1fr}.stat-item{border-right:none;border-bottom:1px solid var(--border);padding:1.75rem 1rem}.stat-item:nth-child(odd){border-right:1px solid var(--border)}.services-grid{grid-template-columns:1fr}.benefits-grid{grid-template-columns:1fr}.form-row,.cf-row{grid-template-columns:1fr}.footer-top{grid-template-columns:1fr}.section{padding:70px 0}.about-values{grid-template-columns:1fr}.hero-btns{flex-direction:column;align-items:center}}
+/* PATH */
+.path-grid{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:0;align-items:start;margin-top:4rem}
+.path-step{background:#fff;border:1px solid var(--border);border-radius:24px;padding:2.5rem 2rem;text-align:center;position:relative;transition:all .3s}
+.path-step:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.08);border-color:var(--gold)}
+.path-num{font-family:'Playfair Display',serif;font-size:3.5rem;font-weight:700;line-height:1;background:linear-gradient(135deg,rgba(221,184,74,.25),rgba(139,105,20,.15));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.5rem}
+.path-icon{font-size:2.2rem;margin-bottom:1rem}
+.path-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--navy);margin-bottom:.75rem}
+.path-desc{font-size:.875rem;color:var(--muted);line-height:1.7}
+.path-connector{display:flex;align-items:center;justify-content:center;padding:0 1.5rem;margin-top:6rem}
+.path-connector::after{content:'→';font-size:1.8rem;color:var(--gold);opacity:.5}
+/* TESTIMONIALS */
+.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:3.5rem}
+.test-card{background:#fff;border:1px solid var(--border);border-radius:24px;padding:2.5rem;position:relative;transition:all .3s;display:flex;flex-direction:column}
+.test-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.08)}
+.test-card::before{content:'\201C';font-family:'Playfair Display',serif;font-size:5rem;line-height:.8;color:var(--gold);opacity:.2;position:absolute;top:1.5rem;left:2rem}
+.test-body{font-size:.93rem;color:#374151;line-height:1.8;margin-bottom:1.75rem;flex:1;padding-top:1.5rem}
+.test-author{display:flex;align-items:center;gap:.75rem;border-top:1px solid var(--border);padding-top:1.25rem}
+.test-avatar{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--gold-light),var(--gold-dark));display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:.95rem;flex-shrink:0;overflow:hidden}
+.test-avatar img{width:100%;height:100%;object-fit:cover}
+.test-name{font-weight:700;font-size:.88rem;color:var(--navy)}
+.test-role{font-size:.78rem;color:var(--muted);margin-top:1px}
+.test-stars{color:var(--gold);font-size:.8rem;letter-spacing:1px;margin-bottom:.25rem}
+/* CTA BANNER */
+.cta-band{background:linear-gradient(135deg,var(--navy) 0%,#1e3a5f 60%,rgba(139,105,20,.4) 100%);padding:100px 0;position:relative;overflow:hidden}
+.cta-band::before{content:'';position:absolute;top:-100px;right:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(201,162,39,.12) 0%,transparent 70%);pointer-events:none}
+.cta-band-inner{text-align:center;max-width:700px;margin:0 auto;position:relative;z-index:1}
+.cta-band-tag{font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(201,162,39,.7);margin-bottom:1rem}
+.cta-band-title{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,4vw,3.5rem);font-weight:700;color:#fff;line-height:1.15;margin-bottom:1.25rem}
+.cta-band-title em{font-style:italic;background:linear-gradient(135deg,var(--gold-light),var(--gold-dark));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.cta-band-sub{font-size:1rem;color:rgba(255,255,255,.65);line-height:1.7;margin-bottom:2.5rem;max-width:520px;margin-left:auto;margin-right:auto}
+.cta-band-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+/* SOCIAL LINKS */
+.social-links{display:flex;gap:.6rem;margin-top:1.25rem}
+.social-link{width:38px;height:38px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all .2s;color:rgba(255,255,255,.5)}
+.social-link:hover{background:rgba(201,162,39,.2);border-color:rgba(201,162,39,.4);color:var(--gold)}
+/* FOUNDERS */
+.founders-line{font-size:.82rem;color:rgba(255,255,255,.4);margin-top:.6rem}
+@media(max-width:900px){.about-grid,.training-grid,.join-inner,.contact-grid{grid-template-columns:1fr;gap:3rem}.services-grid{grid-template-columns:1fr 1fr}.about-img-badge{right:0;bottom:-10px}.footer-top{grid-template-columns:1fr 1fr}.join-form{margin-top:0}.path-grid{grid-template-columns:1fr;gap:1.5rem}.path-connector{display:none}.test-grid{grid-template-columns:1fr}}
+@media(max-width:700px){.nav-links,.nav-right{display:none}.nav-toggle{display:block}.stats-bar .container{grid-template-columns:1fr 1fr}.stat-item{border-right:none;border-bottom:1px solid var(--border);padding:1.75rem 1rem}.stat-item:nth-child(odd){border-right:1px solid var(--border)}.services-grid{grid-template-columns:1fr}.benefits-grid{grid-template-columns:1fr}.form-row,.cf-row{grid-template-columns:1fr}.footer-top{grid-template-columns:1fr}.section{padding:70px 0}.about-values{grid-template-columns:1fr}.hero-btns{flex-direction:column;align-items:center}.cta-band-btns{flex-direction:column;align-items:center}}
 </style>
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" href="/icon-192.png">
@@ -224,10 +261,10 @@ footer{background:var(--navy);padding:60px 0 30px}
 
 <div class="stats-bar">
   <div class="container">
-    <div class="stat-item reveal"><div class="stat-n">200+</div><div class="stat-l" data-t="stat1_l">Families Protected</div></div>
-    <div class="stat-item reveal"><div class="stat-n">20+</div><div class="stat-l" data-t="stat2_l">Licensed Agents</div></div>
-    <div class="stat-item reveal"><div class="stat-n">5</div><div class="stat-l" data-t="stat3_l">States</div></div>
-    <div class="stat-item reveal"><div class="stat-n">98%</div><div class="stat-l" data-t="stat4_l">Client Satisfaction</div></div>
+    <div class="stat-item reveal"><div class="stat-n" data-count="200" data-suffix="+">200+</div><div class="stat-l" data-t="stat1_l">Families Protected</div></div>
+    <div class="stat-item reveal"><div class="stat-n" data-count="20" data-suffix="+">20+</div><div class="stat-l" data-t="stat2_l">Licensed Agents</div></div>
+    <div class="stat-item reveal"><div class="stat-n" data-count="5" data-suffix="">5</div><div class="stat-l" data-t="stat3_l">States</div></div>
+    <div class="stat-item reveal"><div class="stat-n" data-count="98" data-suffix="%">98%</div><div class="stat-l" data-t="stat4_l">Client Satisfaction</div></div>
   </div>
 </div>
 
@@ -247,6 +284,7 @@ footer{background:var(--navy);padding:60px 0 30px}
         <div class="gold-line"></div>
         <p class="section-sub" data-t="about_p1">Bethel Financial Group is a life insurance agency committed to protecting families and building the next generation of financial professionals. We believe in developing people, not just policies.</p>
         <p style="font-size:.92rem;color:var(--muted);margin-top:1rem;line-height:1.8" data-t="about_p2">Based across MA, NY, FL, NJ, and MD, our team of licensed agents delivers personalized financial protection solutions while building meaningful careers in the insurance industry.</p>
+        <p style="font-size:.88rem;color:var(--gold-dark);font-weight:600;margin-top:1.25rem" data-t="about_founders">Founded by Eder Guevara &amp; Evelyn Aguirre</p>
         <div class="about-values">
           <div class="value-item"><div class="value-dot"></div><div class="value-text"><strong data-t="val1_t">Integrity First</strong><span data-t="val1_d">We do right by our clients and agents, always.</span></div></div>
           <div class="value-item"><div class="value-dot"></div><div class="value-text"><strong data-t="val2_t">Agent Development</strong><span data-t="val2_d">We invest in your growth and licensing journey.</span></div></div>
@@ -273,6 +311,39 @@ footer{background:var(--navy);padding:60px 0 30px}
       <div class="service-card reveal"><div class="service-icon">&#128101;</div><div class="service-title" data-t="svc4_t">Team Building</div><p class="service-desc" data-t="svc4_d">Build and lead your own team of agents. Our team lead program gives you the structure, tools, and support to grow your own book of business.</p></div>
       <div class="service-card reveal"><div class="service-icon">&#128204;</div><div class="service-title" data-t="svc5_t">Business Insurance</div><p class="service-desc" data-t="svc5_d">Key person insurance, buy-sell agreements, and business continuation planning. Protect your business with the same care you protect your family.</p></div>
       <div class="service-card reveal"><div class="service-icon">&#129309;</div><div class="service-title" data-t="svc6_t">Client Support</div><p class="service-desc" data-t="svc6_d">We don't disappear after the sale. Ongoing policy reviews, beneficiary updates, and dedicated agent support ensure your coverage always fits your life.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-cream" id="path">
+  <div class="container">
+    <div class="reveal" style="text-align:center;max-width:600px;margin:0 auto">
+      <div class="section-tag" data-t="path_tag">How It Works</div>
+      <h2 class="section-title" id="pathTitle">Your Path to a <em class="gold-text">Licensed Career</em></h2>
+      <div class="gold-line" style="margin:1.5rem auto"></div>
+      <p class="section-sub" style="margin:0 auto" data-t="path_sub">Three steps stand between you and a career that changes your life. We'll be with you for every single one.</p>
+    </div>
+    <div class="path-grid">
+      <div class="path-step reveal">
+        <div class="path-num">01</div>
+        <div class="path-icon">📋</div>
+        <h3 class="path-title" data-t="path1_t">Apply</h3>
+        <p class="path-desc" data-t="path1_d">Fill out the quick form below and a team leader — Eder or Evelyn — will personally reach out within 24 hours to walk you through next steps.</p>
+      </div>
+      <div class="path-connector"></div>
+      <div class="path-step reveal">
+        <div class="path-num">02</div>
+        <div class="path-icon">📚</div>
+        <h3 class="path-title" data-t="path2_t">Get Licensed</h3>
+        <p class="path-desc" data-t="path2_d">Study with our exclusive bilingual exam prep platform — 13 chapters, AI-powered practice questions, and 2 full practice finals. Pass on your first try.</p>
+      </div>
+      <div class="path-connector"></div>
+      <div class="path-step reveal">
+        <div class="path-num">03</div>
+        <div class="path-icon">💰</div>
+        <h3 class="path-title" data-t="path3_t">Start Earning</h3>
+        <p class="path-desc" data-t="path3_d">Join the team, protect families, and grow your income — with mentorship, leads support, and a team that actually has your back.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -321,6 +392,42 @@ footer{background:var(--navy);padding:60px 0 30px}
           </div>
         </div>
         <div class="training-badge"><span>🎓</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-cream" id="testimonials">
+  <div class="container">
+    <div class="reveal" style="text-align:center;max-width:600px;margin:0 auto">
+      <div class="section-tag" data-t="test_tag">Real Stories</div>
+      <h2 class="section-title" id="testTitle">Agents Who <em class="gold-text">Made the Leap</em></h2>
+      <div class="gold-line" style="margin:1.5rem auto"></div>
+    </div>
+    <div class="test-grid">
+      <div class="test-card reveal">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-body" data-t="test1_q">"I had zero experience in insurance and was nervous to start. Bethel's training platform and the support from Eder and Evelyn made all the difference. I passed my exam on the first try and closed my first policy within two weeks of getting licensed."</p>
+        <div class="test-author">
+          <div class="test-avatar" id="testAvatar1">A</div>
+          <div><div class="test-name" data-t="test1_n">— Add Name Here</div><div class="test-role" data-t="test1_r">Licensed Agent · Add State</div></div>
+        </div>
+      </div>
+      <div class="test-card reveal">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-body" data-t="test2_q">"The bilingual support was a game changer for me. Being able to study everything in Spanish gave me so much more confidence going into the exam. This team genuinely invests in you — not just as an agent, but as a person."</p>
+        <div class="test-author">
+          <div class="test-avatar" id="testAvatar2">B</div>
+          <div><div class="test-name" data-t="test2_n">— Add Name Here</div><div class="test-role" data-t="test2_r">Licensed Agent · Add State</div></div>
+        </div>
+      </div>
+      <div class="test-card reveal">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-body" data-t="test3_q">"Joining Bethel was the best professional decision I've made. In six months I went from studying for my license to leading my own team. The culture here is unlike anything I've experienced — everyone wins together."</p>
+        <div class="test-author">
+          <div class="test-avatar" id="testAvatar3">C</div>
+          <div><div class="test-name" data-t="test3_n">— Add Name Here</div><div class="test-role" data-t="test3_r">Team Lead · Add State</div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -383,7 +490,8 @@ footer{background:var(--navy);padding:60px 0 30px}
     <div class="contact-grid">
       <div class="reveal">
         <div class="contact-info-item"><div class="contact-icon">&#128205;</div><div><div class="contact-label" data-t="ct_office_l">Office</div><div class="contact-value">Serving MA · NY · FL · NJ · MD</div></div></div>
-        <div class="contact-info-item"><div class="contact-icon">&#128231;</div><div><div class="contact-label" data-t="ct_email_l">Email</div><div class="contact-value">office@bethelfinancialgroup.com</div></div></div>
+        <div class="contact-info-item"><div class="contact-icon">&#128222;</div><div><div class="contact-label" data-t="ct_phone_l">Phone</div><div class="contact-value"><a href="tel:+17818541815" style="color:inherit">(781) 854-1815</a></div></div></div>
+        <div class="contact-info-item"><div class="contact-icon">&#128231;</div><div><div class="contact-label" data-t="ct_email_l">Email</div><div class="contact-value"><a href="mailto:office@bethelfinancialgroup.com" style="color:inherit">office@bethelfinancialgroup.com</a></div></div></div>
         <div class="contact-info-item"><div class="contact-icon">&#128274;</div><div><div class="contact-label" data-t="ct_portal_l">Agent Portal</div><div class="contact-value"><a href="/portal" style="color:var(--gold)">www.bethelfinancialgroup.com/portal →</a></div></div></div>
         <div class="contact-info-item"><div class="contact-icon">&#9201;</div><div><div class="contact-label" data-t="ct_resp_l">Response Time</div><div class="contact-value" data-t="ct_resp_v">Within 24 business hours</div></div></div>
       </div>
@@ -412,6 +520,20 @@ footer{background:var(--navy);padding:60px 0 30px}
   </div>
 </section>
 
+<section class="cta-band">
+  <div class="container">
+    <div class="cta-band-inner reveal">
+      <div class="cta-band-tag" data-t="cta_tag">Ready to Start?</div>
+      <h2 class="cta-band-title" id="ctaTitle">Take the First Step<br><em>Toward Your Future</em></h2>
+      <p class="cta-band-sub" data-t="cta_sub">Join Eder, Evelyn, and the Bethel team. No prior experience needed — just the drive to build something that matters.</p>
+      <div class="cta-band-btns">
+        <a href="#join" class="btn btn-gold" data-t="cta_btn1">Apply Now →</a>
+        <a href="tel:+17818541815" class="btn btn-outline" data-t="cta_btn2">📞 (781) 854-1815</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="container">
     <div class="footer-top">
@@ -419,13 +541,25 @@ footer{background:var(--navy);padding:60px 0 30px}
         <img src="assets/Logo.JPG" alt="Bethel Financial Group" class="footer-logo" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
         <div class="footer-logo-placeholder" style="display:none">Bethel Financial Group</div>
         <p class="footer-tagline" data-t="ft_tagline">Building futures through insurance. Empowering agents and protecting families across the nation.</p>
+        <p class="founders-line" data-t="ft_founders">Founded by Eder Guevara &amp; Evelyn Aguirre</p>
+        <div class="social-links">
+          <a href="#" class="social-link" aria-label="Instagram" id="socialIG" title="Instagram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="#" class="social-link" aria-label="Facebook" id="socialFB" title="Facebook">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a href="#" class="social-link" aria-label="LinkedIn" id="socialLI" title="LinkedIn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+        </div>
       </div>
-      <div class="footer-col"><h4 data-t="ft_company">Company</h4><a href="#about" data-t="nav_about">About</a><a href="#services" data-t="nav_services">Services</a><a href="#join" data-t="ft_careers">Careers</a><a href="#contact" data-t="nav_contact">Contact</a></div>
+      <div class="footer-col"><h4 data-t="ft_company">Company</h4><a href="#about" data-t="nav_about">About</a><a href="#services" data-t="nav_services">Services</a><a href="#path" data-t="ft_howit">How It Works</a><a href="#join" data-t="ft_careers">Careers</a><a href="#contact" data-t="nav_contact">Contact</a></div>
       <div class="footer-col"><h4 data-t="ft_agents">Agents</h4><a href="/portal" data-t="ft_portal">Agent Portal</a><a href="https://exam.bethelfinancialgroup.com" target="_blank" data-t="ft_exam">Exam Prep</a><a href="https://exam.bethelfinancialgroup.com/team" target="_blank" data-t="ft_team">Team Dashboard</a><a href="#join" data-t="ft_join">Join the Team</a></div>
       <div class="footer-col"><h4 data-t="ft_states">States</h4><a href="#">Massachusetts</a><a href="#">New York</a><a href="#">Florida</a><a href="#">New Jersey</a><a href="#">Maryland</a></div>
     </div>
     <div class="footer-bottom">
-      <div class="footer-copy" data-t="ft_copy">&copy; 2025 Bethel Financial Group. All rights reserved.</div>
+      <div class="footer-copy" data-t="ft_copy">&copy; 2026 Bethel Financial Group. All rights reserved.</div>
       <div class="footer-legal"><a href="#" data-t="ft_privacy">Privacy Policy</a><a href="#" data-t="ft_terms">Terms of Use</a><a href="#" data-t="ft_licensing">Licensing</a></div>
     </div>
   </div>
@@ -451,6 +585,28 @@ var revealObserver = new IntersectionObserver(function(entries) {
   });
 }, { threshold: 0.12 });
 document.querySelectorAll('.reveal').forEach(function(el) { revealObserver.observe(el); });
+
+// ── COUNTER ANIMATION ──────────────────────────────────────────────────
+var counterObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (!e.isIntersecting || e.target.dataset.animated) return;
+    e.target.dataset.animated = '1';
+    var target = parseInt(e.target.dataset.count);
+    var suffix = e.target.dataset.suffix || '';
+    var duration = 1600;
+    var startTime = null;
+    function step(ts) {
+      if (!startTime) startTime = ts;
+      var progress = Math.min((ts - startTime) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      e.target.textContent = Math.floor(eased * target) + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+      else e.target.textContent = target + suffix;
+    }
+    requestAnimationFrame(step);
+  });
+}, { threshold: 0.6 });
+document.querySelectorAll('.stat-n[data-count]').forEach(function(el) { counterObserver.observe(el); });
 
 // ── TOAST ──────────────────────────────────────────────────────────────
 function showToast(msg, ok) {
@@ -573,16 +729,36 @@ var PT = {
     ct_tag:'Get in Touch',
     ctTitle:"We'd Love to <em class=\"gold-text\">Hear From You</em>",
     ct_sub:"Whether you have questions about our services, want to join the team, or just want to learn more — we're here.",
-    ct_office_l:'Office', ct_email_l:'Email', ct_portal_l:'Agent Portal', ct_resp_l:'Response Time', ct_resp_v:'Within 24 business hours',
+    ct_phone_l:'Phone', ct_office_l:'Office', ct_email_l:'Email', ct_portal_l:'Agent Portal', ct_resp_l:'Response Time', ct_resp_v:'Within 24 business hours',
     cf_title:'Send a Message', cf_sub:"We'll get back to you as soon as possible.",
     cf_fn:'First Name', cf_fn_ph:'First name', cf_ln:'Last Name', cf_ln_ph:'Last name',
     cf_email:'Email', cf_subject:'Subject', cf_sel:'Select a topic',
     cf_gen:'General inquiry', cf_join:'Join the team', cf_quote:'Life insurance quote', cf_training:'Agent training', cf_other:'Other',
     cf_msg:'Message', cf_msg_ph:'How can we help you?', cf_btn:'Send Message',
+    about_founders:'Founded by Eder Guevara & Evelyn Aguirre',
+    path_tag:'How It Works',
+    pathTitle:'Your Path to a <em class="gold-text">Licensed Career</em>',
+    path_sub:'Three steps stand between you and a career that changes your life. We\'ll be with you for every single one.',
+    path1_t:'Apply', path1_d:'Fill out the quick form below and a team leader — Eder or Evelyn — will personally reach out within 24 hours to walk you through next steps.',
+    path2_t:'Get Licensed', path2_d:'Study with our exclusive bilingual exam prep platform — 13 chapters, AI-powered practice questions, and 2 full practice finals. Pass on your first try.',
+    path3_t:'Start Earning', path3_d:'Join the team, protect families, and grow your income — with mentorship, leads support, and a team that actually has your back.',
+    test_tag:'Real Stories',
+    testTitle:'Agents Who <em class="gold-text">Made the Leap</em>',
+    test1_q:'"I had zero experience in insurance and was nervous to start. Bethel\'s training platform and the support from Eder and Evelyn made all the difference. I passed my exam on the first try and closed my first policy within two weeks of getting licensed."',
+    test1_n:'— Add Name Here', test1_r:'Licensed Agent · Add State',
+    test2_q:'"The bilingual support was a game changer for me. Being able to study everything in Spanish gave me so much more confidence going into the exam. This team genuinely invests in you — not just as an agent, but as a person."',
+    test2_n:'— Add Name Here', test2_r:'Licensed Agent · Add State',
+    test3_q:'"Joining Bethel was the best professional decision I\'ve made. In six months I went from studying for my license to leading my own team. The culture here is unlike anything I\'ve experienced — everyone wins together."',
+    test3_n:'— Add Name Here', test3_r:'Team Lead · Add State',
+    cta_tag:'Ready to Start?',
+    ctaTitle:'Take the First Step<br><em>Toward Your Future</em>',
+    cta_sub:'Join Eder, Evelyn, and the Bethel team. No prior experience needed — just the drive to build something that matters.',
+    cta_btn1:'Apply Now →', cta_btn2:'📞 (781) 854-1815',
     ft_tagline:'Building futures through insurance. Empowering agents and protecting families across the nation.',
-    ft_company:'Company', ft_agents:'Agents', ft_states:'States', ft_careers:'Careers',
+    ft_founders:'Founded by Eder Guevara & Evelyn Aguirre',
+    ft_company:'Company', ft_agents:'Agents', ft_states:'States', ft_careers:'Careers', ft_howit:'How It Works',
     ft_portal:'Agent Portal', ft_exam:'Exam Prep', ft_team:'Team Dashboard', ft_join:'Join the Team',
-    ft_copy:'© 2025 Bethel Financial Group. All rights reserved.',
+    ft_copy:'© 2026 Bethel Financial Group. All rights reserved.',
     ft_privacy:'Privacy Policy', ft_terms:'Terms of Use', ft_licensing:'Licensing',
   },
   es: {
@@ -641,22 +817,42 @@ var PT = {
     ct_tag:'Contáctanos',
     ctTitle:'Nos Encantaría <em class="gold-text">Escucharte</em>',
     ct_sub:'Ya sea que tengas preguntas sobre nuestros servicios, quieras unirte al equipo o simplemente quieras saber más — estamos aquí.',
-    ct_office_l:'Oficina', ct_email_l:'Correo', ct_portal_l:'Portal del Agente', ct_resp_l:'Tiempo de Respuesta', ct_resp_v:'En 24 horas hábiles',
+    ct_phone_l:'Teléfono', ct_office_l:'Oficina', ct_email_l:'Correo', ct_portal_l:'Portal del Agente', ct_resp_l:'Tiempo de Respuesta', ct_resp_v:'En 24 horas hábiles',
     cf_title:'Envía un Mensaje', cf_sub:'Te responderemos lo antes posible.',
     cf_fn:'Nombre', cf_fn_ph:'Nombre', cf_ln:'Apellido', cf_ln_ph:'Apellido',
     cf_email:'Correo', cf_subject:'Asunto', cf_sel:'Selecciona un tema',
     cf_gen:'Consulta general', cf_join:'Unirse al equipo', cf_quote:'Cotización de seguro de vida', cf_training:'Capacitación de agentes', cf_other:'Otro',
     cf_msg:'Mensaje', cf_msg_ph:'¿En qué podemos ayudarte?', cf_btn:'Enviar Mensaje',
+    about_founders:'Fundado por Eder Guevara y Evelyn Aguirre',
+    path_tag:'Cómo Funciona',
+    pathTitle:'Tu Camino hacia una <em class="gold-text">Carrera Licenciada</em>',
+    path_sub:'Tres pasos te separan de una carrera que cambia tu vida. Estaremos contigo en cada uno de ellos.',
+    path1_t:'Aplica', path1_d:'Completa el formulario y un líder del equipo — Eder o Evelyn — se comunicará contigo personalmente en 24 horas para guiarte en los próximos pasos.',
+    path2_t:'Obtén tu Licencia', path2_d:'Estudia con nuestra plataforma bilingüe exclusiva — 13 capítulos, preguntas de práctica con IA y 2 exámenes finales completos. Aprueba al primer intento.',
+    path3_t:'Empieza a Ganar', path3_d:'Únete al equipo, protege familias y haz crecer tus ingresos — con mentoría, apoyo en prospectos y un equipo que realmente te respalda.',
+    test_tag:'Historias Reales',
+    testTitle:'Agentes Que <em class="gold-text">Dieron el Salto</em>',
+    test1_q:'"No tenía experiencia en seguros y estaba nervioso al empezar. La plataforma de capacitación de Bethel y el apoyo de Eder y Evelyn marcaron la diferencia. Aprobé mi examen al primer intento y cerré mi primera póliza dentro de dos semanas de licenciarme."',
+    test1_n:'— Agregar Nombre', test1_r:'Agente Licenciado · Agregar Estado',
+    test2_q:'"El soporte bilingüe fue clave para mí. Poder estudiar todo en español me dio mucha más confianza al entrar al examen. Este equipo realmente invierte en ti — no solo como agente, sino como persona."',
+    test2_n:'— Agregar Nombre', test2_r:'Agente Licenciado · Agregar Estado',
+    test3_q:'"Unirme a Bethel fue la mejor decisión profesional que he tomado. En seis meses pasé de estudiar para mi licencia a liderar mi propio equipo. La cultura aquí es diferente — todos ganamos juntos."',
+    test3_n:'— Agregar Nombre', test3_r:'Team Lead · Agregar Estado',
+    cta_tag:'¿Listo para Empezar?',
+    ctaTitle:'Da el Primer Paso<br><em>Hacia Tu Futuro</em>',
+    cta_sub:'Únete a Eder, Evelyn y el equipo de Bethel. No se requiere experiencia previa — solo las ganas de construir algo que importa.',
+    cta_btn1:'Aplica Ahora →', cta_btn2:'📞 (781) 854-1815',
     ft_tagline:'Construyendo futuros a través del seguro. Empoderando agentes y protegiendo familias en todo el país.',
-    ft_company:'Empresa', ft_agents:'Agentes', ft_states:'Estados', ft_careers:'Carreras',
+    ft_founders:'Fundado por Eder Guevara y Evelyn Aguirre',
+    ft_company:'Empresa', ft_agents:'Agentes', ft_states:'Estados', ft_careers:'Carreras', ft_howit:'Cómo Funciona',
     ft_portal:'Portal del Agente', ft_exam:'Prep para Examen', ft_team:'Panel del Team Lead', ft_join:'Únete al Equipo',
-    ft_copy:'© 2025 Bethel Financial Group. Todos los derechos reservados.',
+    ft_copy:'© 2026 Bethel Financial Group. Todos los derechos reservados.',
     ft_privacy:'Política de Privacidad', ft_terms:'Términos de Uso', ft_licensing:'Licenciamiento',
   }
 };
 
 // IDs that use innerHTML (have <em> or HTML tags)
-var htmlIds = ['heroTitle','aboutTitle','svcTitle','trTitle','joinTitle','ctTitle'];
+var htmlIds = ['heroTitle','aboutTitle','svcTitle','pathTitle','trTitle','testTitle','joinTitle','ctTitle','ctaTitle'];
 
 function setLang(lang) {
   var t = PT[lang];
