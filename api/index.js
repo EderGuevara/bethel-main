@@ -128,12 +128,16 @@ app.post('/api/portal/announcements', requireAdmin, async (req, res) => {
 
 app.get('/api/portal/announcements/:id/image', async (req, res) => {
   try {
-    const b64 = await kv.get(K('ann:img:' + req.params.id));
+    let b64 = await kv.get(K('ann:img:' + req.params.id));
     if (!b64) return res.status(404).send('Not found');
-    res.setHeader('Content-Type', 'image/jpeg');
+    // Strip data URL prefix if present
+    const match = String(b64).match(/^data:([^;]+);base64,(.+)$/);
+    let contentType = 'image/jpeg';
+    if (match) { contentType = match[1]; b64 = match[2]; }
+    res.setHeader('Content-Type', contentType);
     res.setHeader('Cache-Control', 'public, max-age=31536000');
-    res.send(Buffer.from(b64, 'base64'));
-  } catch { res.status(500).send('Server error'); }
+    res.send(Buffer.from(String(b64), 'base64'));
+  } catch (e) { res.status(500).send('Server error: ' + e.message); }
 });
 
 app.delete('/api/portal/announcements/:id', requireAdmin, async (req, res) => {
