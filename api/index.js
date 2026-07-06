@@ -128,7 +128,9 @@ app.post('/api/portal/announcements', requireAdmin, async (req, res) => {
 
 app.get('/api/portal/announcements/:id/image', async (req, res) => {
   try {
+    // Try prefixed key first; fall back to unprefixed for images posted before Jun 24 namespace migration
     let b64 = await kv.get(K('ann:img:' + req.params.id));
+    if (!b64) b64 = await kv.get('ann:img:' + req.params.id);
     if (!b64) return res.status(404).send('Not found');
     // Strip data URL prefix if present
     const match = String(b64).match(/^data:([^;]+);base64,(.+)$/);
