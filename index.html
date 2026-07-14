@@ -469,6 +469,7 @@ footer{background:var(--navy);padding:60px 0 30px}
           <div class="cf-field"><label data-t="cf_ln">Last Name</label><input type="text" data-t-ph="cf_ln_ph"></div>
         </div>
         <div class="cf-field"><label data-t="cf_email">Email</label><input type="email" placeholder="your@email.com"></div>
+        <div class="cf-field"><label data-t="cf_phone">Phone</label><input type="tel" placeholder="(555) 000-0000"></div>
         <div class="cf-field"><label data-t="cf_subject">Subject</label>
           <select>
             <option value="" data-t="cf_sel">Select a topic</option>
@@ -583,6 +584,20 @@ function showToast(msg, ok) {
 }
 
 // ── FORMS ──────────────────────────────────────────────────────────────
+// Persist ad-campaign attribution for the visit so submissions report the
+// correct fuente/campana to the CRM (see CLAUDE.md).
+(function() {
+  var p = new URLSearchParams(location.search);
+  ['utm_source', 'utm_campaign'].forEach(function(k) {
+    if (p.get(k)) sessionStorage.setItem('bethel_' + k, p.get(k));
+  });
+})();
+function utmData() {
+  return {
+    utmSource:   sessionStorage.getItem('bethel_utm_source')   || '',
+    utmCampaign: sessionStorage.getItem('bethel_utm_campaign') || ''
+  };
+}
 async function submitJoin(btn) {
   var es = pageLang === 'es';
   var form = btn.closest('.join-form');
@@ -599,7 +614,8 @@ async function submitJoin(btn) {
   }
   btn.disabled = true; btn.textContent = es ? 'Enviando…' : 'Submitting…';
   try {
-    var r = await fetch('/api/join', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({firstName,lastName,email,phone,state,licensed}) });
+    var u = utmData();
+    var r = await fetch('/api/join', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({firstName,lastName,email,phone,state,licensed,utmSource:u.utmSource,utmCampaign:u.utmCampaign}) });
     var d = await r.json();
     if (!d.ok) throw new Error(d.error);
     showToast(es ? '¡Gracias! Te contactaremos en 24 horas.' : "Thanks! We'll be in touch within 24 hours.", true);
@@ -616,15 +632,17 @@ async function submitContact(btn) {
   var firstName = inputs[0].value.trim();
   var lastName  = inputs[1].value.trim();
   var email     = inputs[2].value.trim();
-  var subject   = inputs[3].value;
-  var message   = inputs[4].value.trim();
+  var phone     = inputs[3].value.trim();
+  var subject   = inputs[4].value;
+  var message   = inputs[5].value.trim();
   if (!firstName || !email || !message) {
     showToast(es ? 'Por favor completa todos los campos.' : 'Please fill in all fields.', false);
     return;
   }
   btn.disabled = true; btn.textContent = es ? 'Enviando…' : 'Sending…';
   try {
-    var r = await fetch('/api/contact', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({firstName,lastName,email,subject,message}) });
+    var u = utmData();
+    var r = await fetch('/api/contact', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({firstName,lastName,email,phone,subject,message,utmSource:u.utmSource,utmCampaign:u.utmCampaign}) });
     var d = await r.json();
     if (!d.ok) throw new Error(d.error);
     showToast(es ? '¡Mensaje enviado! Te responderemos pronto.' : "Message sent! We'll reply soon.", true);
@@ -698,7 +716,7 @@ var PT = {
     ct_phone_l:'Phone', ct_office_l:'Office', ct_email_l:'Email', ct_portal_l:'Agent Portal', ct_resp_l:'Response Time', ct_resp_v:'Within 24 business hours',
     cf_title:'Send a Message', cf_sub:"We'll get back to you as soon as possible.",
     cf_fn:'First Name', cf_fn_ph:'First name', cf_ln:'Last Name', cf_ln_ph:'Last name',
-    cf_email:'Email', cf_subject:'Subject', cf_sel:'Select a topic',
+    cf_email:'Email', cf_phone:'Phone', cf_subject:'Subject', cf_sel:'Select a topic',
     cf_gen:'General inquiry', cf_join:'Join the team', cf_quote:'Life insurance quote', cf_training:'Agent training', cf_other:'Other',
     cf_msg:'Message', cf_msg_ph:'How can we help you?', cf_btn:'Send Message',
     about_founders:'Founded by Eder Guevara & Evelyn Aguirre',
@@ -786,7 +804,7 @@ var PT = {
     ct_phone_l:'Teléfono', ct_office_l:'Oficina', ct_email_l:'Correo', ct_portal_l:'Portal del Agente', ct_resp_l:'Tiempo de Respuesta', ct_resp_v:'En 24 horas hábiles',
     cf_title:'Envía un Mensaje', cf_sub:'Te responderemos lo antes posible.',
     cf_fn:'Nombre', cf_fn_ph:'Nombre', cf_ln:'Apellido', cf_ln_ph:'Apellido',
-    cf_email:'Correo', cf_subject:'Asunto', cf_sel:'Selecciona un tema',
+    cf_email:'Correo', cf_phone:'Teléfono', cf_subject:'Asunto', cf_sel:'Selecciona un tema',
     cf_gen:'Consulta general', cf_join:'Unirse al equipo', cf_quote:'Cotización de seguro de vida', cf_training:'Capacitación de agentes', cf_other:'Otro',
     cf_msg:'Mensaje', cf_msg_ph:'¿En qué podemos ayudarte?', cf_btn:'Enviar Mensaje',
     about_founders:'Fundado por Eder Guevara y Evelyn Aguirre',

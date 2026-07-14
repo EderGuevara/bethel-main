@@ -152,17 +152,65 @@ app.delete('/api/portal/announcements/:id', requireAdmin, async (req, res) => {
   } catch { res.status(500).json({ error: 'Server error.' }); }
 });
 
+// ── CRM LEAD FORWARDING ─────────────────────────────────────────────────────
+// Every captured lead must also reach the Bethel-CRM capture-lead webhook
+// (see CLAUDE.md). CRM_WEBHOOK_URL = https://<crm-site>.netlify.app/.netlify/functions/capture-lead
+
+const CRM_WEBHOOK_URL = process.env.CRM_WEBHOOK_URL || '';
+
+function mapFuente(utmSource) {
+  const s = (utmSource || '').toLowerCase();
+  if (/facebook|fb|meta|instagram|ig/.test(s)) return 'meta_ads';
+  if (/google|adwords/.test(s))                return 'google_ads';
+  return 'organico';
+}
+
+async function forwardLeadToCRM(lead) {
+  const payload = {
+    nombre:         lead.nombre,
+    telefono:       lead.telefono || '',
+    email:          lead.email || undefined,
+    fuente:         lead.fuente,
+    campana:        lead.campana || undefined,
+    landing_origen: 'bethel-main',
+  };
+  try {
+    if (!CRM_WEBHOOK_URL)  throw new Error('CRM_WEBHOOK_URL not configured');
+    if (!payload.telefono) throw new Error('missing telefono (required by CRM)');
+    const r = await fetch(CRM_WEBHOOK_URL, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify(payload),
+    });
+    if (!r.ok) throw new Error('CRM responded ' + r.status);
+  } catch (e) {
+    // Never lose a lead: queue anything the CRM didn't accept for manual review
+    try {
+      const list = (await kv.get(K('crm:unsent'))) || [];
+      list.unshift({ ...payload, error: e.message, at: nowISO() });
+      await kv.set(K('crm:unsent'), list.slice(0, 500));
+    } catch {}
+  }
+}
+
 // ── PUBLIC FORM SUBMISSIONS ──────────────────────────────────────────────────
 
 // POST /api/join  –  agent application from landing page
 app.post('/api/join', async (req, res) => {
   try {
-    const { firstName, lastName, email, phone, state, licensed } = req.body;
+    const { firstName, lastName, email, phone, state, licensed, utmSource, utmCampaign } = req.body;
     if (!firstName || !email) return res.status(400).json({ error: 'Name and email are required.' });
     const entry = { firstName, lastName, email, phone, state, licensed, submittedAt: nowISO() };
     const list  = (await kv.get(K('join:submissions'))) || [];
     list.unshift(entry);
     await kv.set(K('join:submissions'), list.slice(0, 500));
+    await forwardLeadToCRM({
+      nombre:   [firstName, lastName].filter(Boolean).join(' '),
+      telefono: phone,
+      email,
+      fuente:   mapFuente(utmSource),
+      campana:  utmCampaign || 'formulario-unete',
+    });
     const key = process.env.RESEND_API_KEY;
     if (key) {
       const resend = new Resend(key);
@@ -180,12 +228,19 @@ app.post('/api/join', async (req, res) => {
 // POST /api/contact  –  contact form from landing page
 app.post('/api/contact', async (req, res) => {
   try {
-    const { firstName, lastName, email, subject, message } = req.body;
+    const { firstName, lastName, email, phone, subject, message, utmSource, utmCampaign } = req.body;
     if (!firstName || !email || !message) return res.status(400).json({ error: 'Name, email, and message are required.' });
-    const entry = { firstName, lastName, email, subject, message, submittedAt: nowISO() };
+    const entry = { firstName, lastName, email, phone, subject, message, submittedAt: nowISO() };
     const list  = (await kv.get(K('contact:submissions'))) || [];
     list.unshift(entry);
     await kv.set(K('contact:submissions'), list.slice(0, 500));
+    await forwardLeadToCRM({
+      nombre:   [firstName, lastName].filter(Boolean).join(' '),
+      telefono: phone,
+      email,
+      fuente:   mapFuente(utmSource),
+      campana:  utmCampaign || 'formulario-contacto',
+    });
     const key = process.env.RESEND_API_KEY;
     if (key) {
       const resend = new Resend(key);
@@ -193,7 +248,7 @@ app.post('/api/contact', async (req, res) => {
         from: process.env.RESEND_FROM_EMAIL || 'noreply@bethelfinancialgroup.com',
         to:   ADMIN_EMAIL,
         subject: `Contact Form — ${subject || 'General Inquiry'} from ${firstName} ${lastName}`,
-        html: `<p><b>From:</b> ${firstName} ${lastName} (${email})</p><p><b>Subject:</b> ${subject || '—'}</p><p><b>Message:</b></p><p>${message.replace(/\n/g,'<br>')}</p><p><b>Submitted:</b> ${entry.submittedAt}</p>`,
+        html: `<p><b>From:</b> ${firstName} ${lastName} (${email})</p><p><b>Phone:</b> ${phone || '—'}</p><p><b>Subject:</b> ${subject || '—'}</p><p><b>Message:</b></p><p>${message.replace(/\n/g,'<br>')}</p><p><b>Submitted:</b> ${entry.submittedAt}</p>`,
       }).catch(() => {});
     }
     res.json({ ok: true });
@@ -209,6 +264,12 @@ app.get('/api/submissions/join', requireAdmin, async (req, res) => {
 // GET /api/submissions/contact
 app.get('/api/submissions/contact', requireAdmin, async (req, res) => {
   try { res.json((await kv.get(K('contact:submissions'))) || []); }
+  catch (e) { res.status(500).json({ error: 'Server error.' }); }
+});
+
+// GET /api/submissions/crm-unsent  –  leads that could not be forwarded to the CRM
+app.get('/api/submissions/crm-unsent', requireAdmin, async (req, res) => {
+  try { res.json((await kv.get(K('crm:unsent'))) || []); }
   catch (e) { res.status(500).json({ error: 'Server error.' }); }
 });
 
