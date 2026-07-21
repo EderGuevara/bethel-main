@@ -60,6 +60,19 @@
   .ben-table input{border:1.5px solid #E2E8F0;border-radius:6px;padding:7px 9px;font-size:.85rem;width:100%;background:#F8FAFC;font-family:inherit;outline:none}
   .ben-table input:focus{border-color:#DDB84A;background:#fff}
   .ben-table tr:last-child td{border-bottom:none}
+  .ben-table tr.ben-row1 td{border-bottom:none;padding-bottom:2px}
+  .ben-table tr.ben-row2 td{padding-top:2px;border-bottom:1px solid #E2E8F0;padding-bottom:10px}
+  .ben-table tr.ben-row2:last-child td{border-bottom:none;padding-bottom:2px}
+
+  /* Auto-growing textareas */
+  textarea{resize:vertical;min-height:44px;overflow:hidden}
+  textarea.notes{min-height:120px}
+
+  /* Document checklist */
+  .checklist{background:#FFFBEB;border:1.5px solid #DDB84A;border-radius:10px;padding:1rem 1.25rem}
+  .checklist-title{font-size:.8rem;font-weight:800;color:#8B6914;margin-bottom:.5rem}
+  .checklist label{display:flex;align-items:center;gap:8px;text-transform:none;font-size:.88rem;font-weight:600;color:#1E293B;letter-spacing:0;padding:3px 0;cursor:pointer}
+  .checklist input[type=checkbox]{width:15px;height:15px;accent-color:#DDB84A;cursor:pointer}
 
   /* Divider */
   .divider{height:1px;background:#F1F5F9;margin:1.5rem 0}
@@ -79,8 +92,9 @@
     .page{box-shadow:none;border-radius:0}
     .action-bar{display:none}
     .form-footer{display:none}
-    input,select{border-color:#CBD5E1 !important;background:#fff !important}
+    input,select,textarea{border-color:#CBD5E1 !important;background:#fff !important}
     .ben-table input{border-color:#CBD5E1 !important;background:#fff !important}
+    .section,.checklist{break-inside:avoid}
   }
 
   @media(max-width:600px){
@@ -126,7 +140,7 @@
         </div>
         <div class="field">
           <label id="lblFechaNac">Fecha de Nacimiento</label>
-          <input type="date" id="fechaNac">
+          <input type="text" id="fechaNac" class="js-date" placeholder="MM/DD/AAAA" maxlength="10" inputmode="numeric">
         </div>
         <div class="field">
           <label id="lblSSN">Seguro Social / ITIN</label>
@@ -178,6 +192,10 @@
           <label id="lblIngreso">Ingreso Mensual</label>
           <input type="text" id="ingreso" placeholder="$0,000">
         </div>
+        <div class="field">
+          <label id="lblIngresoConyuge">Ingreso Mensual del Cónyuge</label>
+          <input type="text" id="ingresoConyuge" placeholder="$0,000 (si aplica)">
+        </div>
       </div>
     </div>
 
@@ -211,13 +229,29 @@
           <label id="lblMedicina">Medicamentos</label>
           <input type="text" id="medicina" placeholder="Ninguno / listar medicamentos">
         </div>
-        <div class="field">
+        <div class="field full">
           <label id="lblDoctor">Doctor / Clínica</label>
-          <input type="text" id="doctor" placeholder="Nombre del médico o clínica">
+          <textarea id="doctor" rows="2" placeholder="Nombre, dirección y teléfono del médico o clínica"></textarea>
         </div>
         <div class="field">
-          <label id="lblUltimaVisita">Última Visita Médica</label>
-          <input type="date" id="ultimaVisita">
+          <label id="lblUltimaVisita">Fecha de Última Visita Médica</label>
+          <input type="text" id="ultimaVisita" class="js-date" placeholder="MM/DD/AAAA" maxlength="10" inputmode="numeric">
+        </div>
+        <div class="field">
+          <label id="lblTipoVisita">Tipo de Visita</label>
+          <select id="tipoVisita">
+            <option value="">— Seleccionar —</option>
+            <option>Chequeo de rutina</option>
+            <option>Seguimiento</option>
+            <option>Enfermedad</option>
+            <option>Lesión</option>
+            <option>Receta / Medicamento</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label id="lblRazonVisita">Razón de la Visita</label>
+          <input type="text" id="razonVisita" placeholder="Motivo de la última visita médica">
         </div>
       </div>
     </div>
@@ -266,9 +300,26 @@
 
     <div class="divider"></div>
 
-    <!-- Beneficiarios -->
+    <!-- Póliza Deseada -->
     <div class="section">
-      <div class="section-title" id="secBenef">👨‍👩‍👧 Beneficiarios</div>
+      <div class="section-title" id="secPoliza">💰 Póliza Deseada</div>
+      <div class="fields">
+        <div class="field">
+          <label id="lblPrimaMensual">Prima Mensual</label>
+          <input type="text" id="primaMensual" placeholder="$0.00 / mes">
+        </div>
+        <div class="field">
+          <label id="lblPrimaAnual">Prima Anual</label>
+          <input type="text" id="primaAnual" placeholder="$0.00 / año">
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Beneficiarios Primarios -->
+    <div class="section">
+      <div class="section-title" id="secBenef">👨‍👩‍👧 Beneficiarios Primarios</div>
       <table class="ben-table">
         <thead>
           <tr>
@@ -283,6 +334,47 @@
           <!-- rows inserted by JS -->
         </tbody>
       </table>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Beneficiarios Contingentes -->
+    <div class="section">
+      <div class="section-title" id="secBenefCont">🛟 Beneficiarios Contingentes</div>
+      <table class="ben-table">
+        <thead>
+          <tr>
+            <th style="width:32%" id="thNombre2">Nombre Completo</th>
+            <th style="width:18%" id="thFecha2">Fecha de Nac.</th>
+            <th style="width:14%" id="thPorcentaje2">Porcentaje</th>
+            <th style="width:18%" id="thParentesco2">Parentesco</th>
+            <th style="width:18%" id="thSSN2">Seguro Social</th>
+          </tr>
+        </thead>
+        <tbody id="contBody">
+          <!-- rows inserted by JS -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Notas -->
+    <div class="section">
+      <div class="section-title" id="secNotas">📝 Notas</div>
+      <div class="fields single">
+        <div class="field full">
+          <textarea id="notas" class="notes" rows="5" placeholder="Observaciones, preguntas del cliente o información adicional importante"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recordatorio de documentos -->
+    <div class="checklist">
+      <div class="checklist-title" id="docTitle">📌 No olvides pedir al cliente:</div>
+      <label><input type="checkbox" id="chkLicencia"> <span id="docItem1">Licencia de conducir o identificación</span></label>
+      <label><input type="checkbox" id="chkPasaporte"> <span id="docItem2">Pasaporte (si aplica)</span></label>
+      <label><input type="checkbox" id="chkSeguro"> <span id="docItem3">Tarjeta de Seguro Social (si aplica)</span></label>
     </div>
 
 
@@ -300,21 +392,36 @@
 
 <script>
 // ── Init ──────────────────────────────────────────────────────────────────────
-(function(){
-  // Set today's date on footer
-  document.getElementById('footerDate').textContent = new Date().toLocaleDateString('es-US',{year:'numeric',month:'long',day:'numeric'});
-  // Build beneficiary rows
-  var tbody = document.getElementById('benefBody');
-  ['Beneficiario #1','Beneficiario #2','Beneficiario #3','Beneficiario #4'].forEach(function(lbl,i){
-    var tr = document.createElement('tr');
-    tr.innerHTML =
+function buildBenefRows(tbodyId, labels, phonePh, addrPh){
+  var tbody = document.getElementById(tbodyId);
+  tbody.innerHTML = '';
+  labels.forEach(function(lbl){
+    var tr1 = document.createElement('tr');
+    tr1.className = 'ben-row1';
+    tr1.innerHTML =
       '<td><input type="text" placeholder="'+lbl+'"></td>'+
-      '<td><input type="date"></td>'+
+      '<td><input type="text" class="js-date" placeholder="MM/DD/AAAA" maxlength="10" inputmode="numeric"></td>'+
       '<td><input type="text" placeholder="100%" maxlength="6"></td>'+
       '<td><input type="text" placeholder="Ej: Cónyuge"></td>'+
       '<td><input type="text" placeholder="XXX-XX-XXXX" maxlength="11"></td>';
-    tbody.appendChild(tr);
+    var tr2 = document.createElement('tr');
+    tr2.className = 'ben-row2';
+    tr2.innerHTML =
+      '<td colspan="2"><input type="tel" class="js-phone" placeholder="'+phonePh+'"></td>'+
+      '<td colspan="3"><input type="text" class="ben-addr" placeholder="'+addrPh+'"></td>';
+    tbody.appendChild(tr1);
+    tbody.appendChild(tr2);
   });
+}
+
+(function(){
+  // Set today's date on footer
+  document.getElementById('footerDate').textContent = new Date().toLocaleDateString('es-US',{year:'numeric',month:'long',day:'numeric'});
+  // Build beneficiary rows (primary + contingent)
+  buildBenefRows('benefBody', ['Beneficiario #1','Beneficiario #2','Beneficiario #3','Beneficiario #4'],
+    'Teléfono del beneficiario', 'Dirección del beneficiario');
+  buildBenefRows('contBody', ['Beneficiario Contingente #1','Beneficiario Contingente #2'],
+    'Teléfono del beneficiario', 'Dirección del beneficiario');
   // SSN auto-format
   document.getElementById('ssn').addEventListener('input', function(){
     var v = this.value.replace(/\D/g,'');
@@ -329,6 +436,26 @@
     else if(v.length>3) v = '('+v.slice(0,3)+') '+v.slice(3);
     this.value = v;
   });
+  // Delegated formatters: MM/DD/YYYY dates, beneficiary phones, auto-grow textareas
+  document.addEventListener('input', function(e){
+    var el = e.target;
+    if(el.classList && el.classList.contains('js-date')){
+      var v = el.value.replace(/\D/g,'');
+      if(v.length>4) v = v.slice(0,2)+'/'+v.slice(2,4)+'/'+v.slice(4,8);
+      else if(v.length>2) v = v.slice(0,2)+'/'+v.slice(2);
+      el.value = v;
+    }
+    if(el.classList && el.classList.contains('js-phone')){
+      var p = el.value.replace(/\D/g,'');
+      if(p.length>6) p = '('+p.slice(0,3)+') '+p.slice(3,6)+'-'+p.slice(6,10);
+      else if(p.length>3) p = '('+p.slice(0,3)+') '+p.slice(3);
+      el.value = p;
+    }
+    if(el.tagName === 'TEXTAREA'){
+      el.style.height = '0';
+      el.style.height = (el.scrollHeight + el.offsetHeight - el.clientHeight) + 'px';
+    }
+  });
 })();
 
 
@@ -340,32 +467,50 @@ var _T = {
     btnLimpiar:'🗑 Limpiar', btnCompartir:'↗ Compartir', btnPDF:'⬇ Descargar PDF',
     secPersonal:'📋 Información Personal', secSalud:'🏥 Información de Salud',
     secAdicional:'➕ Información Adicional', secBancaria:'🏦 Información Bancaria',
-    secBenef:'👨\u200d👩\u200d👧 Beneficiarios',
+    secBenef:'👨\u200d👩\u200d👧 Beneficiarios Primarios',
+    secBenefCont:'🛟 Beneficiarios Contingentes',
+    secPoliza:'💰 Póliza Deseada', secNotas:'📝 Notas',
     lblNombre:'Nombre Completo', lblFechaNac:'Fecha de Nacimiento',
     lblSSN:'Seguro Social / ITIN', lblDireccion:'Dirección de Casa',
     lblEstadoCivil:'Estado Civil', lblEstadoLegal:'Estado Legal',
     lblEmail:'Email', lblTelefono:'Teléfono', lblEmpleador:'Empleador',
     lblPosicion:'Posición / Cargo', lblIngreso:'Ingreso Mensual',
+    lblIngresoConyuge:'Ingreso Mensual del Cónyuge',
     lblPeso:'Peso', lblEstatura:'Estatura', lblFuma:'¿Fuma?',
     lblCondicion:'Condición Médica', lblMedicina:'Medicamentos',
-    lblDoctor:'Doctor / Clínica', lblUltimaVisita:'Última Visita Médica',
+    lblDoctor:'Doctor / Clínica', lblUltimaVisita:'Fecha de Última Visita Médica',
+    lblTipoVisita:'Tipo de Visita', lblRazonVisita:'Razón de la Visita',
+    lblPrimaMensual:'Prima Mensual', lblPrimaAnual:'Prima Anual',
     lblEdadMama:'Edad de Mamá', lblEdadPapa:'Edad de Papá',
     lblDiscapacidad:'Discapacidad', lblBanco:'Banco',
     lblRuta:'Número de Ruta', lblCuenta:'Número de Cuenta',
     thNombre:'Nombre Completo', thFecha:'Fecha de Nac.', thPorcentaje:'Porcentaje',
     thParentesco:'Parentesco', thSSN:'Seguro Social',
     footerConfidencial:'Información confidencial del cliente',
+    docTitle:'📌 No olvides pedir al cliente:',
+    docItem1:'Licencia de conducir o identificación',
+    docItem2:'Pasaporte (si aplica)',
+    docItem3:'Tarjeta de Seguro Social (si aplica)',
     phNombre:'Nombre y apellidos completos', phDireccion:'Calle, ciudad, estado, código postal',
     phPeso:'lbs o kg', phEstatura:'pies/pulg o cm', phCondicion:'Ninguna / describir si aplica',
-    phMedicina:'Ninguno / listar medicamentos', phDoctor:'Nombre del médico o clínica',
+    phMedicina:'Ninguno / listar medicamentos', phDoctor:'Nombre, dirección y teléfono del médico o clínica',
+    phRazonVisita:'Motivo de la última visita médica',
+    phPrimaMensual:'$0.00 / mes', phPrimaAnual:'$0.00 / año',
+    phIngresoConyuge:'$0,000 (si aplica)',
+    phNotas:'Observaciones, preguntas del cliente o información adicional importante',
+    phDate:'MM/DD/AAAA',
     phEdadMama:'Edad o fallecida', phEdadPapa:'Edad o fallecido',
     phDiscapacidad:'Ninguna / describir', phBanco:'Nombre del banco',
     phRuta:'9 dígitos', phCuenta:'Número de cuenta bancaria',
     civilOpts:['— Seleccionar —','Soltero/a','Casado/a','Divorciado/a','Viudo/a','Unión libre'],
     legalOpts:['— Seleccionar —','Ciudadano Americano','Residente Permanente','Visa de Trabajo','DACA','Otro'],
+    visitaOpts:['— Seleccionar —','Chequeo de rutina','Seguimiento','Enfermedad','Lesión','Receta / Medicamento','Otro'],
     fumaOpts:['No','Sí','Exfumador/a'],
     benefPlaceholders:['Beneficiario #1','Beneficiario #2','Beneficiario #3','Beneficiario #4'],
+    contPlaceholders:['Beneficiario Contingente #1','Beneficiario Contingente #2'],
     benefRelPlaceholder:'Ej: Cónyuge',
+    benefPhonePlaceholder:'Teléfono del beneficiario',
+    benefAddrPlaceholder:'Dirección del beneficiario',
     confirmClear:'¿Limpiar todos los campos? Esta acción no se puede deshacer.',
     toastCleared:'Formulario limpiado ✓',
     toastPDF:'Usa "Guardar como PDF" en el diálogo de impresión ↑',
@@ -378,32 +523,50 @@ var _T = {
     btnLimpiar:'🗑 Clear', btnCompartir:'↗ Share', btnPDF:'⬇ Download PDF',
     secPersonal:'📋 Personal Information', secSalud:'🏥 Health Information',
     secAdicional:'➕ Additional Information', secBancaria:'🏦 Banking Information',
-    secBenef:'👨\u200d👩\u200d👧 Beneficiaries',
+    secBenef:'👨\u200d👩\u200d👧 Primary Beneficiaries',
+    secBenefCont:'🛟 Contingent Beneficiaries',
+    secPoliza:'💰 Desired Policy', secNotas:'📝 Notes',
     lblNombre:'Full Name', lblFechaNac:'Date of Birth',
     lblSSN:'Social Security / ITIN', lblDireccion:'Home Address',
     lblEstadoCivil:'Marital Status', lblEstadoLegal:'Legal Status',
     lblEmail:'Email', lblTelefono:'Phone', lblEmpleador:'Employer',
     lblPosicion:'Position / Title', lblIngreso:'Monthly Income',
+    lblIngresoConyuge:"Spouse's Monthly Income",
     lblPeso:'Weight', lblEstatura:'Height', lblFuma:'Do you smoke?',
     lblCondicion:'Medical Condition', lblMedicina:'Medications',
-    lblDoctor:'Doctor / Clinic', lblUltimaVisita:'Last Medical Visit',
+    lblDoctor:'Doctor / Clinic', lblUltimaVisita:'Date of Last Medical Visit',
+    lblTipoVisita:'Type of Visit', lblRazonVisita:'Reason for Visit',
+    lblPrimaMensual:'Monthly Premium', lblPrimaAnual:'Annual Premium',
     lblEdadMama:"Mother's Age", lblEdadPapa:"Father's Age",
     lblDiscapacidad:'Disability', lblBanco:'Bank',
     lblRuta:'Routing Number', lblCuenta:'Account Number',
     thNombre:'Full Name', thFecha:'Date of Birth', thPorcentaje:'Percentage',
     thParentesco:'Relationship', thSSN:'Social Security',
     footerConfidencial:'Confidential client information',
+    docTitle:"📌 Don't forget to ask the client for:",
+    docItem1:"Driver's license or ID",
+    docItem2:'Passport (if applicable)',
+    docItem3:'Social Security card (if applicable)',
     phNombre:'First and last name', phDireccion:'Street, city, state, ZIP code',
     phPeso:'lbs or kg', phEstatura:'ft/in or cm', phCondicion:'None / describe if applicable',
-    phMedicina:'None / list medications', phDoctor:'Doctor or clinic name',
+    phMedicina:'None / list medications', phDoctor:'Doctor or clinic name, address and phone',
+    phRazonVisita:'Reason for the last medical visit',
+    phPrimaMensual:'$0.00 / month', phPrimaAnual:'$0.00 / year',
+    phIngresoConyuge:'$0,000 (if applicable)',
+    phNotas:'Observations, client questions or other important information',
+    phDate:'MM/DD/YYYY',
     phEdadMama:'Age or deceased', phEdadPapa:'Age or deceased',
     phDiscapacidad:'None / describe', phBanco:'Bank name',
     phRuta:'9 digits', phCuenta:'Bank account number',
     civilOpts:['— Select —','Single','Married','Divorced','Widowed','Common Law'],
     legalOpts:['— Select —','U.S. Citizen','Permanent Resident','Work Visa','DACA','Other'],
+    visitaOpts:['— Select —','Routine checkup','Follow-up','Illness','Injury','Prescription / Medication','Other'],
     fumaOpts:['No','Yes','Ex-smoker'],
     benefPlaceholders:['Beneficiary #1','Beneficiary #2','Beneficiary #3','Beneficiary #4'],
+    contPlaceholders:['Contingent Beneficiary #1','Contingent Beneficiary #2'],
     benefRelPlaceholder:'e.g.: Spouse',
+    benefPhonePlaceholder:"Beneficiary's phone",
+    benefAddrPlaceholder:"Beneficiary's address",
     confirmClear:'Clear all fields? This action cannot be undone.',
     toastCleared:'Form cleared ✓',
     toastPDF:'Use "Save as PDF" in the print dialog ↑',
@@ -419,16 +582,26 @@ function toggleLang(){
   document.getElementById('langBtn').textContent = _lang==='es' ? 'EN' : 'ES';
   // Static text
   var ids=['hdrTitle','hdrSub','btnLimpiar','btnCompartir','btnPDF',
-    'secPersonal','secSalud','secAdicional','secBancaria','secBenef',
+    'secPersonal','secSalud','secAdicional','secBancaria','secBenef','secBenefCont','secPoliza','secNotas',
     'lblNombre','lblFechaNac','lblSSN','lblDireccion','lblEstadoCivil','lblEstadoLegal',
-    'lblEmail','lblTelefono','lblEmpleador','lblPosicion','lblIngreso',
+    'lblEmail','lblTelefono','lblEmpleador','lblPosicion','lblIngreso','lblIngresoConyuge',
     'lblPeso','lblEstatura','lblFuma','lblCondicion','lblMedicina','lblDoctor','lblUltimaVisita',
+    'lblTipoVisita','lblRazonVisita','lblPrimaMensual','lblPrimaAnual',
     'lblEdadMama','lblEdadPapa','lblDiscapacidad','lblBanco','lblRuta','lblCuenta',
-    'thNombre','thFecha','thPorcentaje','thParentesco','thSSN','footerConfidencial'];
+    'thNombre','thFecha','thPorcentaje','thParentesco','thSSN','footerConfidencial',
+    'docTitle','docItem1','docItem2','docItem3'];
   ids.forEach(function(id){ var el=document.getElementById(id); if(el) el.textContent=t[id]; });
+  // Contingent table headers reuse the same th translations
+  [['thNombre2','thNombre'],['thFecha2','thFecha'],['thPorcentaje2','thPorcentaje'],
+   ['thParentesco2','thParentesco'],['thSSN2','thSSN']].forEach(function(pair){
+    var el=document.getElementById(pair[0]); if(el) el.textContent=t[pair[1]];
+  });
   // Placeholders
   var phMap={nombre:'phNombre',direccion:'phDireccion',peso:'phPeso',estatura:'phEstatura',
     condicion:'phCondicion',medicina:'phMedicina',doctor:'phDoctor',
+    razonVisita:'phRazonVisita',primaMensual:'phPrimaMensual',primaAnual:'phPrimaAnual',
+    ingresoConyuge:'phIngresoConyuge',notas:'phNotas',
+    fechaNac:'phDate',ultimaVisita:'phDate',
     edadMama:'phEdadMama',edadPapa:'phEdadPapa',discapacidad:'phDiscapacidad',
     banco:'phBanco',ruta:'phRuta',cuenta:'phCuenta'};
   Object.keys(phMap).forEach(function(id){ var el=document.getElementById(id); if(el) el.placeholder=t[phMap[id]]; });
@@ -438,16 +611,31 @@ function toggleLang(){
   // Select options — Estado Legal
   var sl=document.getElementById('estadoLegal');
   if(sl){ Array.from(sl.options).forEach(function(o,i){ o.text=t.legalOpts[i]||o.text; }); }
+  // Select options — Tipo de Visita
+  var tv=document.getElementById('tipoVisita');
+  if(tv){ Array.from(tv.options).forEach(function(o,i){ o.text=t.visitaOpts[i]||o.text; }); }
   // Radio labels for fuma
   var radios=document.querySelectorAll('input[name=fuma]');
   radios.forEach(function(r,i){ if(r.nextSibling) r.parentNode.lastChild.textContent=' '+t.fumaOpts[i]; });
-  // Beneficiary placeholders
-  var rows=document.querySelectorAll('#benefBody tr');
-  rows.forEach(function(tr,i){
-    var cells=tr.querySelectorAll('td');
-    if(cells[0]) cells[0].querySelector('input').placeholder=t.benefPlaceholders[i]||('Beneficiary #'+(i+1));
-    if(cells[3]) cells[3].querySelector('input').placeholder=t.benefRelPlaceholder;
-  });
+  // Beneficiary placeholders (primary + contingent, paired rows)
+  function translateBenefRows(tbodyId, namePhs){
+    var rows=document.querySelectorAll('#'+tbodyId+' tr');
+    var benIdx=0;
+    rows.forEach(function(tr){
+      var cells=tr.querySelectorAll('td');
+      if(tr.classList.contains('ben-row1')){
+        if(cells[0]) cells[0].querySelector('input').placeholder=namePhs[benIdx]||'';
+        if(cells[1]) cells[1].querySelector('input').placeholder=t.phDate;
+        if(cells[3]) cells[3].querySelector('input').placeholder=t.benefRelPlaceholder;
+        benIdx++;
+      } else if(tr.classList.contains('ben-row2')){
+        if(cells[0]) cells[0].querySelector('input').placeholder=t.benefPhonePlaceholder;
+        if(cells[1]) cells[1].querySelector('input').placeholder=t.benefAddrPlaceholder;
+      }
+    });
+  }
+  translateBenefRows('benefBody', t.benefPlaceholders);
+  translateBenefRows('contBody', t.contPlaceholders);
 }
 
 // ── Toast ─────────────────────────────────────────────────────────────────────
@@ -462,10 +650,11 @@ function toast(msg){
 // ── Clear form ────────────────────────────────────────────────────────────────
 function clearForm(){
   if(!confirm(_T[_lang].confirmClear)) return;
-  document.querySelectorAll('input[type=text],input[type=email],input[type=tel],input[type=date],select').forEach(function(el){
+  document.querySelectorAll('input[type=text],input[type=email],input[type=tel],input[type=date],select,textarea').forEach(function(el){
     el.value='';
+    if(el.tagName==='TEXTAREA') el.style.height='';
   });
-  document.querySelectorAll('input[type=radio]').forEach(function(r){ r.checked=false; });
+  document.querySelectorAll('input[type=radio],input[type=checkbox]').forEach(function(r){ r.checked=false; });
   toast(_T[_lang].toastCleared);
 }
 
