@@ -1,8 +1,12 @@
 const express   = require('express');
 const cors      = require('cors');
 const jwt       = require('jsonwebtoken');
+const crypto    = require('crypto');
+const { promisify } = require('util');
 const { Redis } = require('@upstash/redis');
 const { Resend } = require('resend');
+
+const scrypt = promisify(crypto.scrypt);
 
 const app = express();
 app.use(cors());
@@ -34,24 +38,163 @@ function requireAdmin(req, res, next) {
   next();
 }
 
+// requireAgent re-checks the agent's current `licensed` flag against Redis on every
+// request (rather than trusting the JWT claim) so revoking a license takes effect
+// immediately, not just after the agent's existing token expires.
+async function requireAgent(req, res, next) {
+  const d = verifyToken((req.headers.authorization || '').replace('Bearer ', ''));
+  if (!d) return res.status(403).json({ error: 'Forbidden' });
+  if (d.isAdmin) { req.user = d; return next(); }
+  if (!d.agentId) return res.status(403).json({ error: 'Forbidden' });
+  try {
+    const agents = (await kv.get(K('agents'))) || [];
+    const agent = agents.find(a => a.id === d.agentId);
+    if (!agent || !agent.licensed) return res.status(403).json({ error: 'Forbidden' });
+    req.user = d;
+    next();
+  } catch { res.status(500).json({ error: 'Server error.' }); }
+}
+
+async function hashPassword(password) {
+  const salt = crypto.randomBytes(16).toString('hex');
+  const hash = (await scrypt(password, salt, 64)).toString('hex');
+  return { salt, hash };
+}
+async function verifyPassword(password, salt, hash) {
+  if (!salt || !hash) return false;
+  const check = (await scrypt(password, salt, 64)).toString('hex');
+  try { return crypto.timingSafeEqual(Buffer.from(check, 'hex'), Buffer.from(hash, 'hex')); }
+  catch { return false; }
+}
+
 // ── AUTH ────────────────────────────────────────────────────────────────────
 
-app.post('/api/login', (req, res) => {
+app.post('/api/login', async (req, res) => {
   const { email = '', password = '' } = req.body || {};
-  if (email.toLowerCase() === ADMIN_EMAIL && password === ADMIN_PW && password)
-    return res.json({ token: makeToken({ email: ADMIN_EMAIL, isAdmin: true }), isAdmin: true });
-  res.status(401).json({ error: 'Invalid credentials.' });
+  const emailLower = email.toLowerCase();
+  if (emailLower === ADMIN_EMAIL && password === ADMIN_PW && password)
+    return res.json({ token: makeToken({ email: ADMIN_EMAIL, isAdmin: true }), isAdmin: true, name: 'Admin' });
+  try {
+    const agents = (await kv.get(K('agents'))) || [];
+    const agent = agents.find(a => a.email === emailLower);
+    if (!agent || !agent.passwordHash) return res.status(401).json({ error: 'Invalid credentials.' });
+    const ok = await verifyPassword(password, agent.passwordSalt, agent.passwordHash);
+    if (!ok) return res.status(401).json({ error: 'Invalid credentials.' });
+    const token = makeToken({ agentId: agent.id, email: agent.email, licensed: !!agent.licensed });
+    res.json({ token, name: agent.name, licensed: !!agent.licensed });
+  } catch (e) { res.status(500).json({ error: 'Server error.' }); }
 });
 
-app.get('/api/me', (req, res) => {
+app.get('/api/me', async (req, res) => {
   const d = verifyToken((req.headers.authorization || '').replace('Bearer ', ''));
   if (!d) return res.status(403).json({ error: 'Unauthorized' });
+  if (d.isAdmin) return res.json({ email: d.email, isAdmin: true, name: 'Admin' });
+  if (d.agentId) {
+    try {
+      const agents = (await kv.get(K('agents'))) || [];
+      const agent = agents.find(a => a.id === d.agentId);
+      if (!agent) return res.status(403).json({ error: 'Unauthorized' });
+      return res.json({ email: agent.email, isAdmin: false, licensed: !!agent.licensed, name: agent.name });
+    } catch { return res.status(500).json({ error: 'Server error.' }); }
+  }
   res.json({ email: d.email, isAdmin: !!d.isAdmin });
+});
+
+// ── AGENTS ──────────────────────────────────────────────────────────────────
+// Agent accounts gate access to the Agent Portal. Only accounts with
+// licensed:true can sign in there; admin toggles this per agent.
+
+app.get('/api/admin/agents', requireAdmin, async (req, res) => {
+  try {
+    const agents = (await kv.get(K('agents'))) || [];
+    res.json(agents.map(a => ({ id: a.id, name: a.name, email: a.email, licensed: !!a.licensed, hasPassword: !!a.passwordHash, createdAt: a.createdAt })));
+  } catch { res.status(500).json({ error: 'Server error.' }); }
+});
+
+function buildSetupUrl(agentId) {
+  const setupToken = jwt.sign({ agentId, purpose: 'agent-setup' }, JWT_SECRET, { expiresIn: '7d' });
+  return 'https://www.bethelfinancialgroup.com/portal?setup=' + setupToken;
+}
+
+async function emailAgentSetup(agent, setupUrl) {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) return;
+  const resend = new Resend(key);
+  await resend.emails.send({
+    from: process.env.RESEND_FROM_EMAIL || 'noreply@bethelfinancialgroup.com',
+    to: agent.email,
+    subject: 'Set up your Bethel Financial Group Agent Portal access',
+    html: `<p>Hi ${agent.name},</p><p>You've been added as a licensed agent. Set your password to access the Agent Portal:</p><p><a href="${setupUrl}">${setupUrl}</a></p><p>This link expires in 7 days.</p>`,
+  }).catch(() => {});
+}
+
+app.post('/api/admin/agents', requireAdmin, async (req, res) => {
+  try {
+    const { name, email, licensed } = req.body || {};
+    if (!name || !email) return res.status(400).json({ error: 'Name and email are required.' });
+    const emailLower = String(email).toLowerCase().trim();
+    const agents = (await kv.get(K('agents'))) || [];
+    if (agents.some(a => a.email === emailLower)) return res.status(400).json({ error: 'An agent with this email already exists.' });
+    const agent = { id: Date.now(), name: name.trim(), email: emailLower, passwordHash: null, passwordSalt: null, licensed: !!licensed, createdAt: nowISO() };
+    agents.push(agent);
+    await kv.set(K('agents'), agents);
+    const setupUrl = buildSetupUrl(agent.id);
+    emailAgentSetup(agent, setupUrl);
+    res.json({ ok: true, agent: { id: agent.id, name: agent.name, email: agent.email, licensed: agent.licensed }, setupUrl });
+  } catch (e) { res.status(500).json({ error: 'Server error.' }); }
+});
+
+app.put('/api/admin/agents/:id', requireAdmin, async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    const { name, licensed, resendSetup } = req.body || {};
+    const agents = (await kv.get(K('agents'))) || [];
+    const idx = agents.findIndex(a => a.id === id);
+    if (idx === -1) return res.status(404).json({ error: 'Not found.' });
+    if (name !== undefined)      agents[idx].name     = name.trim();
+    if (licensed !== undefined)  agents[idx].licensed = !!licensed;
+    let setupUrl = null;
+    if (resendSetup) {
+      setupUrl = buildSetupUrl(agents[idx].id);
+      emailAgentSetup(agents[idx], setupUrl);
+    }
+    await kv.set(K('agents'), agents);
+    res.json({ ok: true, agent: { id: agents[idx].id, name: agents[idx].name, email: agents[idx].email, licensed: agents[idx].licensed }, setupUrl });
+  } catch (e) { res.status(500).json({ error: 'Server error.' }); }
+});
+
+app.delete('/api/admin/agents/:id', requireAdmin, async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    const agents = (await kv.get(K('agents'))) || [];
+    await kv.set(K('agents'), agents.filter(a => a.id !== id));
+    res.json({ ok: true });
+  } catch { res.status(500).json({ error: 'Server error.' }); }
+});
+
+// POST /api/agent/set-password — public, but requires a valid one-time setup token
+app.post('/api/agent/set-password', async (req, res) => {
+  try {
+    const { token: setupToken, password } = req.body || {};
+    if (!setupToken || !password) return res.status(400).json({ error: 'Missing token or password.' });
+    if (password.length < 8) return res.status(400).json({ error: 'Password must be at least 8 characters.' });
+    const d = verifyToken(setupToken);
+    if (!d || d.purpose !== 'agent-setup') return res.status(400).json({ error: 'This link is invalid or has expired.' });
+    const agents = (await kv.get(K('agents'))) || [];
+    const idx = agents.findIndex(a => a.id === d.agentId);
+    if (idx === -1) return res.status(404).json({ error: 'Agent not found.' });
+    const { salt, hash } = await hashPassword(password);
+    agents[idx].passwordSalt = salt;
+    agents[idx].passwordHash = hash;
+    await kv.set(K('agents'), agents);
+    const loginToken = makeToken({ agentId: agents[idx].id, email: agents[idx].email, licensed: !!agents[idx].licensed });
+    res.json({ ok: true, token: loginToken, name: agents[idx].name, licensed: !!agents[idx].licensed });
+  } catch (e) { res.status(500).json({ error: 'Server error.' }); }
 });
 
 // ── RESOURCES ───────────────────────────────────────────────────────────────
 
-app.get('/api/portal/resources', async (req, res) => {
+app.get('/api/portal/resources', requireAgent, async (req, res) => {
   try { res.json((await kv.get(K('portal:resources'))) || []); }
   catch { res.status(500).json({ error: 'Server error.' }); }
 });
@@ -107,7 +250,7 @@ app.delete('/api/portal/resources/:id', requireAdmin, async (req, res) => {
 
 // ── ANNOUNCEMENTS ───────────────────────────────────────────────────────────
 
-app.get('/api/portal/announcements', async (req, res) => {
+app.get('/api/portal/announcements', requireAgent, async (req, res) => {
   try { res.json((await kv.get(K('portal:announcements'))) || []); }
   catch { res.status(500).json({ error: 'Server error.' }); }
 });

@@ -143,7 +143,7 @@ img{max-width:100%;display:block}
 
 <!-- AUTH -->
 <div class="auth-wrap" id="authWrap">
-  <div class="auth-box">
+  <div class="auth-box" id="loginBox">
     <div class="auth-logo">
       <img src="assets/Logo.JPG" alt="Bethel Financial Group" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
       <div class="auth-logo-text" style="display:none">Bethel Financial Group</div>
@@ -154,6 +154,18 @@ img{max-width:100%;display:block}
     <div class="auth-field"><label>Email</label><input type="email" id="loginEmail" autocomplete="email" placeholder="your@email.com"></div>
     <div class="auth-field"><label>Password</label><input type="password" id="loginPw" autocomplete="current-password" placeholder="Password"></div>
     <button class="auth-btn" id="loginBtn" onclick="doLogin()">Sign In</button>
+  </div>
+  <div class="auth-box" id="setupBox" style="display:none">
+    <div class="auth-logo">
+      <img src="assets/Logo.JPG" alt="Bethel Financial Group" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <div class="auth-logo-text" style="display:none">Bethel Financial Group</div>
+    </div>
+    <div class="auth-title">Set Your Password</div>
+    <div class="auth-sub">Create a password to access the Agent Portal</div>
+    <div class="auth-err" id="setupErr"></div>
+    <div class="auth-field"><label>New Password</label><input type="password" id="setupPw" autocomplete="new-password" placeholder="At least 8 characters"></div>
+    <div class="auth-field"><label>Confirm Password</label><input type="password" id="setupPw2" autocomplete="new-password" placeholder="Re-enter password"></div>
+    <button class="auth-btn" id="setupBtn" onclick="doSetPassword()">Set Password &amp; Sign In</button>
   </div>
 </div>
 
@@ -374,13 +386,46 @@ async function doLogin() {
 }
 
 document.addEventListener('keydown', function(e) {
-  if (e.key === 'Enter' && document.getElementById('authWrap').style.display !== 'none') doLogin();
+  if (e.key === 'Enter' && document.getElementById('authWrap').style.display !== 'none') {
+    if (document.getElementById('setupBox').style.display !== 'none') doSetPassword();
+    else doLogin();
+  }
 });
+
+var _setupToken = null;
+function showSetupForm(t) {
+  _setupToken = t;
+  document.getElementById('loginBox').style.display = 'none';
+  document.getElementById('setupBox').style.display = 'block';
+  document.getElementById('authWrap').style.display = 'flex';
+}
+
+async function doSetPassword() {
+  var pw  = document.getElementById('setupPw').value;
+  var pw2 = document.getElementById('setupPw2').value;
+  var err = document.getElementById('setupErr');
+  err.style.display = 'none';
+  if (!pw || pw.length < 8) { err.textContent = 'Password must be at least 8 characters.'; err.style.display = 'block'; return; }
+  if (pw !== pw2) { err.textContent = 'Passwords do not match.'; err.style.display = 'block'; return; }
+  var btn = document.getElementById('setupBtn');
+  btn.disabled = true; btn.textContent = 'Saving...';
+  try {
+    var data = await apiCall('POST', '/api/agent/set-password', { token: _setupToken, password: pw });
+    token = data.token;
+    localStorage.setItem('bethel_portal_token', token);
+    history.replaceState(null, '', location.pathname);
+    enterPortal(data);
+  } catch(e) {
+    err.textContent = e.message; err.style.display = 'block';
+  } finally { btn.disabled = false; btn.textContent = 'Set Password & Sign In'; }
+}
 
 function doLogout() {
   token = ''; localStorage.removeItem('bethel_portal_token');
   currentUser = null;
   document.getElementById('appShell').classList.remove('visible');
+  document.getElementById('loginBox').style.display = 'block';
+  document.getElementById('setupBox').style.display = 'none';
   document.getElementById('authWrap').style.display = 'flex';
 }
 
@@ -500,10 +545,18 @@ function renderAnnouncements(announcements) {
 
 
 // ── INIT ──────────────────────────────────────────────────────────────────
-(function() {
-  document.getElementById('authWrap').style.display = 'none';
-  document.getElementById('appShell').classList.add('visible');
-  loadAll();
+(async function() {
+  var params = new URLSearchParams(location.search);
+  var setupToken = params.get('setup');
+  if (setupToken) { showSetupForm(setupToken); return; }
+  if (token) {
+    try {
+      var data = await apiCall('GET', '/api/me');
+      if (data.isAdmin || !data.licensed) { token = ''; localStorage.removeItem('bethel_portal_token'); }
+      else { enterPortal(data); return; }
+    } catch(e) { token = ''; localStorage.removeItem('bethel_portal_token'); }
+  }
+  document.getElementById('authWrap').style.display = 'flex';
 })();
 </script>
 </body>

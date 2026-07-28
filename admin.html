@@ -151,6 +151,12 @@ a{text-decoration:none;color:inherit}
           <div class="choose-desc">View agent applications and contact messages submitted from the landing page.</div>
           <button class="choose-btn" style="background:linear-gradient(135deg,#10b981,#059669)">View Submissions →</button>
         </div>
+        <div class="choose-card" onclick="showAgentsAdmin()" style="border-color:#2563EB">
+          <div class="choose-icon">🔑</div>
+          <div class="choose-title">Agent Accounts</div>
+          <div class="choose-desc">Add licensed agents and control who can sign in to the Agent Portal.</div>
+          <button class="choose-btn" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">Manage Agents →</button>
+        </div>
       </div>
     </div>
 
@@ -201,6 +207,22 @@ a{text-decoration:none;color:inherit}
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- AGENTS PANEL -->
+<div class="portal-panel" id="agentsPanel">
+  <button class="back-btn" onclick="showChoose()">← Back to Admin Home</button>
+  <div class="page-title">🔑 Agent Accounts</div>
+  <div class="page-sub">Only agents marked "Licensed" can sign in to the Agent Portal.</div>
+  <div class="card">
+    <div class="card-title">➕ Add Agent</div>
+    <div class="field"><input id="agentName" placeholder="Full name"></div>
+    <div class="field"><input id="agentEmail" type="email" placeholder="Email"></div>
+    <div class="field"><label style="display:flex;align-items:center;gap:6px;font-size:.82rem;color:#6B7280;cursor:pointer"><input type="checkbox" id="agentLicensed"> Licensed (grant portal access)</label></div>
+    <button class="btn-sm" style="width:100%;justify-content:center" id="addAgentBtn" onclick="addAgent()">Add Agent</button>
+    <div style="font-size:.72rem;font-weight:700;color:#9CA3AF;text-transform:uppercase;letter-spacing:.05em;margin:1rem 0 .5rem">Agents</div>
+    <div id="agentList"><div class="empty">No agents yet</div></div>
   </div>
 </div>
 
@@ -311,6 +333,7 @@ function showChoose() {
   document.getElementById('chooseSection').style.display = 'block';
   document.getElementById('portalPanel').classList.remove('visible');
   document.getElementById('submissionsPanel').classList.remove('visible');
+  document.getElementById('agentsPanel').classList.remove('visible');
 }
 function showPortalAdmin() {
   document.getElementById('chooseSection').style.display = 'none';
@@ -538,6 +561,80 @@ async function saveEditRes() {
     loadPortalData();
   } catch(e) { toast('Error: ' + e.message, false); }
   finally { btn.disabled = false; btn.textContent = 'Save Changes'; }
+}
+
+// ── AGENTS ──
+var _agentMap = {};
+function showAgentsAdmin() {
+  document.getElementById('chooseSection').style.display = 'none';
+  document.getElementById('agentsPanel').classList.add('visible');
+  loadAgents();
+}
+async function loadAgents() {
+  try { renderAgentList(await apiCall('GET', '/api/admin/agents')); }
+  catch(e) { console.error(e.message); }
+}
+function renderAgentList(list) {
+  var el = document.getElementById('agentList');
+  if (!list || !list.length) { el.innerHTML = '<div class="empty">No agents yet</div>'; return; }
+  _agentMap = {};
+  list.forEach(function(a) { _agentMap[a.id] = a; });
+  el.innerHTML = list.map(function(a) {
+    var status = a.hasPassword ? '' : ' · ⏳ Setup pending';
+    var lic = a.licensed ? '<span style="color:#059669;font-weight:700">Licensed</span>' : '<span style="color:#9CA3AF">Not licensed</span>';
+    return '<div class="list-item">'
+      + '<div class="list-item-info"><div class="list-item-name">' + escHtml(a.name) + '</div>'
+      + '<div class="list-item-sub">' + escHtml(a.email) + status + '</div>'
+      + '<div class="list-item-sub" style="margin-top:2px">' + lic + '</div></div>'
+      + '<div style="display:flex;gap:4px;flex-shrink:0;align-items:center">'
+      + '<button onclick="toggleAgentLicensed(' + a.id + ')" class="btn-sm" style="padding:4px 10px;font-size:.72rem">' + (a.licensed ? 'Revoke' : 'License') + '</button>'
+      + '<button onclick="resendAgentSetup(' + a.id + ')" title="Send/copy setup link" style="background:none;border:1px solid #E5E7EB;border-radius:5px;color:#374151;cursor:pointer;font-size:.75rem;padding:2px 7px">✉</button>'
+      + '<button class="del-btn" onclick="deleteAgent(' + a.id + ')">✕</button>'
+      + '</div>'
+      + '</div>';
+  }).join('');
+}
+async function addAgent() {
+  var name = document.getElementById('agentName').value.trim();
+  var email = document.getElementById('agentEmail').value.trim().toLowerCase();
+  var licensed = document.getElementById('agentLicensed').checked;
+  if (!name || !email) { toast('Name and email are required.', false); return; }
+  var btn = document.getElementById('addAgentBtn');
+  btn.disabled = true; btn.textContent = 'Adding...';
+  try {
+    var data = await apiCall('POST', '/api/admin/agents', { name: name, email: email, licensed: licensed });
+    document.getElementById('agentName').value = '';
+    document.getElementById('agentEmail').value = '';
+    document.getElementById('agentLicensed').checked = false;
+    if (data.setupUrl) {
+      try { await navigator.clipboard.writeText(data.setupUrl); toast('Agent added — setup link copied to clipboard!', true); }
+      catch(e) { prompt('Agent added. Setup link (copy and send to the agent):', data.setupUrl); }
+    } else { toast('Agent added.', true); }
+    loadAgents();
+  } catch(e) { toast('Error: ' + e.message, false); }
+  finally { btn.disabled = false; btn.textContent = 'Add Agent'; }
+}
+async function toggleAgentLicensed(id) {
+  var a = _agentMap[id]; if (!a) return;
+  try {
+    await apiCall('PUT', '/api/admin/agents/' + id, { licensed: !a.licensed });
+    toast(a.licensed ? 'Access revoked.' : 'Agent licensed — portal access granted.', true);
+    loadAgents();
+  } catch(e) { toast('Error: ' + e.message, false); }
+}
+async function resendAgentSetup(id) {
+  try {
+    var data = await apiCall('PUT', '/api/admin/agents/' + id, { resendSetup: true });
+    if (data.setupUrl) {
+      try { await navigator.clipboard.writeText(data.setupUrl); toast('Setup link copied to clipboard!', true); }
+      catch(e) { prompt('Setup link (copy and send to the agent):', data.setupUrl); }
+    }
+  } catch(e) { toast('Error: ' + e.message, false); }
+}
+async function deleteAgent(id) {
+  if (!confirm('Remove this agent? They will lose portal access immediately.')) return;
+  try { await apiCall('DELETE', '/api/admin/agents/' + id); toast('Agent removed.', true); loadAgents(); }
+  catch(e) { toast('Error: ' + e.message, false); }
 }
 
 // ── SUBMISSIONS ──
