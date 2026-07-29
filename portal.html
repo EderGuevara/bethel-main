@@ -548,7 +548,19 @@ function renderAnnouncements(announcements) {
 (async function() {
   var params = new URLSearchParams(location.search);
   var setupToken = params.get('setup');
-  if (setupToken) { showSetupForm(setupToken); return; }
+  if (setupToken) {
+    try {
+      var magicData = await apiCall('POST', '/api/agent/magic-login', { token: setupToken });
+      token = magicData.token;
+      localStorage.setItem('bethel_portal_token', token);
+      history.replaceState(null, '', location.pathname);
+      enterPortal(magicData);
+      return;
+    } catch(e) {
+      showSetupForm(setupToken);
+      return;
+    }
+  }
   if (token) {
     try {
       var data = await apiCall('GET', '/api/me');
