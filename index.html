@@ -197,6 +197,20 @@ footer{background:var(--navy);padding:60px 0 30px}
 .founders-line{font-size:.82rem;color:rgba(255,255,255,.4);margin-top:.6rem}
 @media(max-width:900px){.about-grid,.training-grid,.join-inner,.contact-grid{grid-template-columns:1fr;gap:3rem}.services-grid{grid-template-columns:1fr 1fr}.about-img-badge{right:0;bottom:-10px}.footer-top{grid-template-columns:1fr 1fr}.join-form{margin-top:0}.path-grid{grid-template-columns:1fr;gap:1.5rem}.path-connector{display:none}.test-grid{grid-template-columns:1fr}}
 @media(max-width:700px){.nav-links,.nav-right{display:none}.nav-toggle{display:block}.stats-bar .container{grid-template-columns:1fr 1fr}.stat-item{border-right:none;border-bottom:1px solid var(--border);padding:1.75rem 1rem}.stat-item:nth-child(odd){border-right:1px solid var(--border)}.services-grid{grid-template-columns:1fr}.benefits-grid{grid-template-columns:1fr}.form-row,.cf-row{grid-template-columns:1fr}.footer-top{grid-template-columns:1fr}.section{padding:70px 0}.about-values{grid-template-columns:1fr}.hero-btns{flex-direction:column;align-items:center}.cta-band-btns{flex-direction:column;align-items:center}}
+
+/* EDIT MODE (admin only) */
+#editModeBtn{position:fixed;bottom:2rem;left:2rem;z-index:9998;background:var(--navy);color:var(--gold);border:1.5px solid var(--gold);border-radius:50px;padding:10px 18px;font-size:.82rem;font-weight:700;cursor:pointer;display:none;box-shadow:0 8px 24px rgba(0,0,0,.35);font-family:inherit}
+#editModeBtn.visible{display:block}
+#editModeBtn.active{background:var(--gold);color:var(--navy)}
+#editSaveBar{position:fixed;bottom:0;left:0;right:0;z-index:9997;background:var(--navy);border-top:2px solid var(--gold);padding:.85rem 1.5rem;display:none;align-items:center;justify-content:center;gap:1rem;box-shadow:0 -8px 24px rgba(0,0,0,.3)}
+#editSaveBar.visible{display:flex}
+#editSaveBar span{color:#fff;font-size:.85rem}
+#editSaveBar button{border:none;border-radius:8px;padding:9px 20px;font-size:.85rem;font-weight:700;cursor:pointer;font-family:inherit}
+#editSaveBtn{background:linear-gradient(135deg,var(--gold),#8B6914);color:#fff}
+#editCancelBtn{background:transparent;border:1.5px solid #475569;color:#94A3B8}
+body.edit-mode [data-t]:not(#editModeBtn),body.edit-mode [data-t-ph],body.edit-mode .edit-html{outline:1.5px dashed var(--gold);outline-offset:3px;cursor:text;border-radius:3px;transition:background .15s}
+body.edit-mode [data-t]:not(#editModeBtn):hover,body.edit-mode .edit-html:hover{background:rgba(201,162,39,.12)}
+body.edit-mode{padding-bottom:70px}
 </style>
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" href="/icon-192.png">
@@ -533,6 +547,13 @@ footer{background:var(--navy);padding:60px 0 30px}
 </footer>
 
 <div class="toast" id="toast"></div>
+
+<button id="editModeBtn" onclick="toggleEditMode()">✏ Edit Mode</button>
+<div id="editSaveBar">
+  <span>Editing live page content (<span id="editLangLbl">EN</span>)</span>
+  <button id="editSaveBtn" onclick="saveEdits()">💾 Save Changes</button>
+  <button id="editCancelBtn" onclick="toggleEditMode()">Cancel</button>
+</div>
 
 <script>
 // ── NAV ────────────────────────────────────────────────────────────────
@@ -873,6 +894,137 @@ function togglePageLang() {
 
 // Apply on load
 setLang(pageLang);
+
+// ── EDIT MODE (admin only) ───────────────────────────────────────────────
+// Lets a logged-in admin click text on the live page and edit it directly.
+// Reuses the same admin session (localStorage token) as /admin.
+var _editing = false;
+var _editSnapshot = null;
+
+function checkAdminEditAccess() {
+  var tok = localStorage.getItem('bethel_admin_token');
+  if (!tok) return;
+  fetch('https://www.bethelfinancialgroup.com/api/me', { headers: { 'Authorization': 'Bearer ' + tok } })
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(data) { if (data && data.isAdmin) document.getElementById('editModeBtn').classList.add('visible'); })
+    .catch(function(){});
+}
+
+function editPlaceholderPrompt(e) {
+  if (!_editing) return;
+  var el = e.currentTarget;
+  var next = prompt('Edit placeholder text:', el.placeholder);
+  if (next !== null) el.placeholder = next;
+}
+
+function enterEditMode() {
+  _editing = true;
+  _editSnapshot = {};
+  document.body.classList.add('edit-mode');
+  document.getElementById('editModeBtn').classList.add('active');
+  document.getElementById('editSaveBar').classList.add('visible');
+  document.getElementById('editLangLbl').textContent = pageLang.toUpperCase();
+  document.querySelectorAll('[data-t]').forEach(function(el) {
+    var key = el.getAttribute('data-t');
+    el.setAttribute('contenteditable', 'true');
+    _editSnapshot[key] = el.textContent;
+  });
+  document.querySelectorAll('[data-t-ph]').forEach(function(el) {
+    el.addEventListener('click', editPlaceholderPrompt);
+  });
+  htmlIds.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var key = id.charAt(0).toLowerCase() + id.slice(1);
+    el.classList.add('edit-html');
+    el.setAttribute('contenteditable', 'true');
+    _editSnapshot[key] = el.innerHTML;
+  });
+}
+
+function exitEditMode(revert) {
+  if (revert && _editSnapshot) {
+    document.querySelectorAll('[data-t]').forEach(function(el) {
+      var key = el.getAttribute('data-t');
+      if (_editSnapshot[key] !== undefined) el.textContent = _editSnapshot[key];
+    });
+    htmlIds.forEach(function(id) {
+      var el = document.getElementById(id);
+      var key = id.charAt(0).toLowerCase() + id.slice(1);
+      if (el && _editSnapshot[key] !== undefined) el.innerHTML = _editSnapshot[key];
+    });
+  }
+  document.querySelectorAll('[contenteditable]').forEach(function(el) { el.removeAttribute('contenteditable'); });
+  document.querySelectorAll('[data-t-ph]').forEach(function(el) { el.removeEventListener('click', editPlaceholderPrompt); });
+  htmlIds.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.classList.remove('edit-html');
+  });
+  document.body.classList.remove('edit-mode');
+  document.getElementById('editModeBtn').classList.remove('active');
+  document.getElementById('editSaveBar').classList.remove('visible');
+  _editing = false;
+  _editSnapshot = null;
+}
+
+function toggleEditMode() {
+  if (_editing) exitEditMode(true);
+  else enterEditMode();
+}
+
+async function saveEdits() {
+  if (!_editSnapshot) return;
+  var overrides = {};
+  document.querySelectorAll('[data-t]').forEach(function(el) {
+    var key = el.getAttribute('data-t');
+    var val = el.textContent;
+    if (val !== _editSnapshot[key]) overrides[key] = val;
+  });
+  document.querySelectorAll('[data-t-ph]').forEach(function(el) {
+    var key = el.getAttribute('data-t-ph');
+    var val = el.placeholder;
+    if (PT[pageLang][key] !== undefined && val !== PT[pageLang][key]) overrides[key] = val;
+  });
+  htmlIds.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var key = id.charAt(0).toLowerCase() + id.slice(1);
+    var val = el.innerHTML;
+    if (val !== _editSnapshot[key]) overrides[key] = val;
+  });
+  if (!Object.keys(overrides).length) { exitEditMode(false); showToast('No changes made.', true); return; }
+  var btn = document.getElementById('editSaveBtn');
+  btn.disabled = true; btn.textContent = 'Saving...';
+  try {
+    var tok = localStorage.getItem('bethel_admin_token');
+    var r = await fetch('https://www.bethelfinancialgroup.com/api/admin/landing-overrides', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + tok },
+      body: JSON.stringify({ lang: pageLang, overrides: overrides })
+    });
+    var data = await r.json();
+    if (!r.ok) throw new Error(data.error || 'Save failed');
+    Object.keys(overrides).forEach(function(k) { PT[pageLang][k] = overrides[k]; });
+    exitEditMode(false);
+    showToast('Changes saved — live for everyone now.', true);
+  } catch(e) {
+    showToast('Error: ' + e.message, false);
+  } finally { btn.disabled = false; btn.textContent = '💾 Save Changes'; }
+}
+
+async function loadLandingOverrides() {
+  try {
+    var r = await fetch('https://www.bethelfinancialgroup.com/api/landing/overrides');
+    var data = await r.json();
+    if (data && data[pageLang]) {
+      Object.assign(PT[pageLang], data[pageLang]);
+      setLang(pageLang);
+    }
+  } catch(e) {}
+}
+
+checkAdminEditAccess();
+loadLandingOverrides();
 </script>
 </body>
 </html>

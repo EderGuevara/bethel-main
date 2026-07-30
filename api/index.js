@@ -174,6 +174,28 @@ app.post('/api/admin/exam-agents/:email/revoke', requireAdmin, async (req, res) 
   } catch { res.status(500).json({ error: 'Server error.' }); }
 });
 
+// ── LANDING PAGE CONTENT OVERRIDES ───────────────────────────────────────────
+// Lets an admin edit live landing-page text directly from the public page
+// (Edit Mode) with no code deploy. Overrides are merged over the hardcoded
+// PT translation objects in index.html at load time, keyed by data-t id.
+
+app.get('/api/landing/overrides', async (req, res) => {
+  try { res.json((await kv.get(K('landing:overrides'))) || {}); }
+  catch { res.status(500).json({ error: 'Server error.' }); }
+});
+
+app.post('/api/admin/landing-overrides', requireAdmin, async (req, res) => {
+  try {
+    const { lang, overrides } = req.body || {};
+    if (lang !== 'en' && lang !== 'es') return res.status(400).json({ error: 'Invalid language.' });
+    if (!overrides || typeof overrides !== 'object') return res.status(400).json({ error: 'Invalid overrides.' });
+    const current = (await kv.get(K('landing:overrides'))) || {};
+    current[lang] = Object.assign({}, current[lang] || {}, overrides);
+    await kv.set(K('landing:overrides'), current);
+    res.json({ ok: true, overrides: current });
+  } catch (e) { res.status(500).json({ error: 'Server error.' }); }
+});
+
 function buildSetupUrl(agentId) {
   const setupToken = jwt.sign({ agentId, purpose: 'agent-setup' }, JWT_SECRET, { expiresIn: '7d' });
   return 'https://www.bethelfinancialgroup.com/portal?setup=' + setupToken;
