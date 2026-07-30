@@ -213,6 +213,12 @@ body.edit-mode [data-t]:not(#editModeBtn):hover,body.edit-mode .edit-html:hover{
 body.edit-mode [data-img]{outline:1.5px dashed var(--gold);outline-offset:3px;cursor:pointer;transition:opacity .15s;position:relative}
 body.edit-mode [data-img]:hover{opacity:.7}
 body.edit-mode{padding-bottom:70px}
+body.edit-mode [data-block]{position:relative}
+body.edit-mode [data-block].block-hidden{opacity:.35!important}
+body:not(.edit-mode) [data-block].block-hidden{display:none!important}
+.block-del-btn{position:absolute;top:6px;right:6px;width:24px;height:24px;border-radius:50%;border:none;cursor:pointer;font-size:12px;font-weight:700;z-index:10;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.35);display:flex;font-family:inherit}
+.block-del-btn.remove{background:#DC2626;color:#fff}
+.block-del-btn.restore{background:#059669;color:#fff}
 </style>
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" href="/icon-192.png">
@@ -278,10 +284,10 @@ body.edit-mode{padding-bottom:70px}
 
 <div class="stats-bar">
   <div class="container">
-    <div class="stat-item reveal"><div class="stat-n" data-count="200" data-suffix="+">200+</div><div class="stat-l" data-t="stat1_l">Families Protected</div></div>
-    <div class="stat-item reveal"><div class="stat-n" data-count="20" data-suffix="+">20+</div><div class="stat-l" data-t="stat2_l">Licensed Agents</div></div>
-    <div class="stat-item reveal"><div class="stat-n" data-count="5" data-suffix="">5</div><div class="stat-l" data-t="stat3_l">States with Agents</div></div>
-    <div class="stat-item reveal"><div class="stat-n" data-count="98" data-suffix="%">98%</div><div class="stat-l" data-t="stat4_l">Client Satisfaction</div></div>
+    <div class="stat-item reveal" data-block="stat1"><div class="stat-n" data-count="200" data-suffix="+">200+</div><div class="stat-l" data-t="stat1_l">Families Protected</div></div>
+    <div class="stat-item reveal" data-block="stat2"><div class="stat-n" data-count="20" data-suffix="+">20+</div><div class="stat-l" data-t="stat2_l">Licensed Agents</div></div>
+    <div class="stat-item reveal" data-block="stat3"><div class="stat-n" data-count="5" data-suffix="">5</div><div class="stat-l" data-t="stat3_l">States with Agents</div></div>
+    <div class="stat-item reveal" data-block="stat4"><div class="stat-n" data-count="98" data-suffix="%">98%</div><div class="stat-l" data-t="stat4_l">Client Satisfaction</div></div>
   </div>
 </div>
 
@@ -303,10 +309,10 @@ body.edit-mode{padding-bottom:70px}
         <p style="font-size:.92rem;color:var(--muted);margin-top:1rem;line-height:1.8" data-t="about_p2">Based across MA, NY, FL, NJ, and MD, our team of licensed agents delivers personalized financial protection solutions while building meaningful careers in the insurance industry.</p>
         <p style="font-size:.88rem;color:var(--gold-dark);font-weight:600;margin-top:1.25rem" data-t="about_founders">Founded by Eder Guevara &amp; Evelyn Aguirre</p>
         <div class="about-values">
-          <div class="value-item"><div class="value-dot"></div><div class="value-text"><strong data-t="val1_t">Integrity First</strong><span data-t="val1_d">We do right by our clients and agents, always.</span></div></div>
-          <div class="value-item"><div class="value-dot"></div><div class="value-text"><strong data-t="val2_t">Agent Development</strong><span data-t="val2_d">We invest in your growth and licensing journey.</span></div></div>
-          <div class="value-item"><div class="value-dot"></div><div class="value-text"><strong data-t="val3_t">Family Protection</strong><span data-t="val3_d">Every policy we write protects a real family.</span></div></div>
-          <div class="value-item"><div class="value-dot"></div><div class="value-text"><strong data-t="val4_t">Team Culture</strong><span data-t="val4_d">We grow together — no agent left behind.</span></div></div>
+          <div class="value-item" data-block="val1"><div class="value-dot"></div><div class="value-text"><strong data-t="val1_t">Integrity First</strong><span data-t="val1_d">We do right by our clients and agents, always.</span></div></div>
+          <div class="value-item" data-block="val2"><div class="value-dot"></div><div class="value-text"><strong data-t="val2_t">Agent Development</strong><span data-t="val2_d">We invest in your growth and licensing journey.</span></div></div>
+          <div class="value-item" data-block="val3"><div class="value-dot"></div><div class="value-text"><strong data-t="val3_t">Family Protection</strong><span data-t="val3_d">Every policy we write protects a real family.</span></div></div>
+          <div class="value-item" data-block="val4"><div class="value-dot"></div><div class="value-text"><strong data-t="val4_t">Team Culture</strong><span data-t="val4_d">We grow together — no agent left behind.</span></div></div>
         </div>
       </div>
     </div>
@@ -322,12 +328,12 @@ body.edit-mode{padding-bottom:70px}
       <p class="section-sub" data-t="svc_sub">From protecting your family to building your career, Bethel Financial Group provides the products and support you need at every stage.</p>
     </div>
     <div class="services-grid">
-      <div class="service-card reveal"><div class="service-icon">&#127968;</div><div class="service-title" data-t="svc1_t">Life Insurance</div><p class="service-desc" data-t="svc1_d">Term, whole life, universal life, and more. We help families find the right coverage to protect what matters most — at every stage of life.</p></div>
-      <div class="service-card reveal"><div class="service-icon">&#128200;</div><div class="service-title" data-t="svc2_t">Financial Planning</div><p class="service-desc" data-t="svc2_d">Retirement planning, annuities, and wealth protection strategies tailored to your goals. Build a financial future that lasts generations.</p></div>
-      <div class="service-card reveal"><div class="service-icon">&#127891;</div><div class="service-title" data-t="svc3_t">Agent Training</div><p class="service-desc" data-t="svc3_d">Full support from pre-licensing through your first sale. Our training program gives new agents the tools, knowledge, and confidence to succeed.</p></div>
-      <div class="service-card reveal"><div class="service-icon">&#128101;</div><div class="service-title" data-t="svc4_t">Team Building</div><p class="service-desc" data-t="svc4_d">Build and lead your own team of agents. Our team lead program gives you the structure, tools, and support to grow your own book of business.</p></div>
-      <div class="service-card reveal"><div class="service-icon">&#128204;</div><div class="service-title" data-t="svc5_t">Business Insurance</div><p class="service-desc" data-t="svc5_d">Key person insurance, buy-sell agreements, and business continuation planning. Protect your business with the same care you protect your family.</p></div>
-      <div class="service-card reveal"><div class="service-icon">&#129309;</div><div class="service-title" data-t="svc6_t">Client Support</div><p class="service-desc" data-t="svc6_d">We don't disappear after the sale. Ongoing policy reviews, beneficiary updates, and dedicated agent support ensure your coverage always fits your life.</p></div>
+      <div class="service-card reveal" data-block="svc1"><div class="service-icon">&#127968;</div><div class="service-title" data-t="svc1_t">Life Insurance</div><p class="service-desc" data-t="svc1_d">Term, whole life, universal life, and more. We help families find the right coverage to protect what matters most — at every stage of life.</p></div>
+      <div class="service-card reveal" data-block="svc2"><div class="service-icon">&#128200;</div><div class="service-title" data-t="svc2_t">Financial Planning</div><p class="service-desc" data-t="svc2_d">Retirement planning, annuities, and wealth protection strategies tailored to your goals. Build a financial future that lasts generations.</p></div>
+      <div class="service-card reveal" data-block="svc3"><div class="service-icon">&#127891;</div><div class="service-title" data-t="svc3_t">Agent Training</div><p class="service-desc" data-t="svc3_d">Full support from pre-licensing through your first sale. Our training program gives new agents the tools, knowledge, and confidence to succeed.</p></div>
+      <div class="service-card reveal" data-block="svc4"><div class="service-icon">&#128101;</div><div class="service-title" data-t="svc4_t">Team Building</div><p class="service-desc" data-t="svc4_d">Build and lead your own team of agents. Our team lead program gives you the structure, tools, and support to grow your own book of business.</p></div>
+      <div class="service-card reveal" data-block="svc5"><div class="service-icon">&#128204;</div><div class="service-title" data-t="svc5_t">Business Insurance</div><p class="service-desc" data-t="svc5_d">Key person insurance, buy-sell agreements, and business continuation planning. Protect your business with the same care you protect your family.</p></div>
+      <div class="service-card reveal" data-block="svc6"><div class="service-icon">&#129309;</div><div class="service-title" data-t="svc6_t">Client Support</div><p class="service-desc" data-t="svc6_d">We don't disappear after the sale. Ongoing policy reviews, beneficiary updates, and dedicated agent support ensure your coverage always fits your life.</p></div>
     </div>
   </div>
 </section>
@@ -341,21 +347,21 @@ body.edit-mode{padding-bottom:70px}
       <p class="section-sub" style="margin:0 auto" data-t="path_sub">Three steps stand between you and a career that changes your life. We'll be with you for every single one.</p>
     </div>
     <div class="path-grid">
-      <div class="path-step reveal">
+      <div class="path-step reveal" data-block="path1">
         <div class="path-num">01</div>
         <div class="path-icon">📋</div>
         <h3 class="path-title" data-t="path1_t">Apply</h3>
         <p class="path-desc" data-t="path1_d">Fill out the quick form below and a team leader — Eder or Evelyn — will personally reach out within 24 hours to walk you through next steps.</p>
       </div>
       <div class="path-connector"></div>
-      <div class="path-step reveal">
+      <div class="path-step reveal" data-block="path2">
         <div class="path-num">02</div>
         <div class="path-icon">📚</div>
         <h3 class="path-title" data-t="path2_t">Get Licensed</h3>
         <p class="path-desc" data-t="path2_d">Study with our exclusive bilingual exam prep platform — 13 chapters, AI-powered practice questions, and 2 full practice finals. Pass on your first try.</p>
       </div>
       <div class="path-connector"></div>
-      <div class="path-step reveal">
+      <div class="path-step reveal" data-block="path3">
         <div class="path-num">03</div>
         <div class="path-icon">💰</div>
         <h3 class="path-title" data-t="path3_t">Start Earning</h3>
@@ -424,10 +430,10 @@ body.edit-mode{padding-bottom:70px}
         <div class="gold-line"></div>
         <p class="section-sub light" data-t="join_sub">We're always looking for motivated individuals who want to make a difference — in their clients' lives and their own. No experience required. Just drive.</p>
         <div class="benefits-grid">
-          <div class="benefit-item"><div class="benefit-icon">&#128181;</div><div class="benefit-title" data-t="ben1_t">Uncapped Earnings</div><div class="benefit-desc" data-t="ben1_d">Your income is limited only by your ambition. Top agents earn six figures.</div></div>
-          <div class="benefit-item"><div class="benefit-icon">&#127891;</div><div class="benefit-title" data-t="ben2_t">Full Training</div><div class="benefit-desc" data-t="ben2_d">We guide you from zero to licensed with our exclusive prep platform.</div></div>
-          <div class="benefit-item"><div class="benefit-icon">&#128101;</div><div class="benefit-title" data-t="ben3_t">Team Support</div><div class="benefit-desc" data-t="ben3_d">Join a collaborative team that wants to see you win every single day.</div></div>
-          <div class="benefit-item"><div class="benefit-icon">&#127759;</div><div class="benefit-title" data-t="ben4_t">Remote Flexibility</div><div class="benefit-desc" data-t="ben4_d">Work from anywhere. We operate across multiple states with full flexibility.</div></div>
+          <div class="benefit-item" data-block="ben1"><div class="benefit-icon">&#128181;</div><div class="benefit-title" data-t="ben1_t">Uncapped Earnings</div><div class="benefit-desc" data-t="ben1_d">Your income is limited only by your ambition. Top agents earn six figures.</div></div>
+          <div class="benefit-item" data-block="ben2"><div class="benefit-icon">&#127891;</div><div class="benefit-title" data-t="ben2_t">Full Training</div><div class="benefit-desc" data-t="ben2_d">We guide you from zero to licensed with our exclusive prep platform.</div></div>
+          <div class="benefit-item" data-block="ben3"><div class="benefit-icon">&#128101;</div><div class="benefit-title" data-t="ben3_t">Team Support</div><div class="benefit-desc" data-t="ben3_d">Join a collaborative team that wants to see you win every single day.</div></div>
+          <div class="benefit-item" data-block="ben4"><div class="benefit-icon">&#127759;</div><div class="benefit-title" data-t="ben4_t">Remote Flexibility</div><div class="benefit-desc" data-t="ben4_d">Work from anywhere. We operate across multiple states with full flexibility.</div></div>
         </div>
       </div>
       <div class="join-form reveal">
@@ -945,6 +951,25 @@ function enterEditMode() {
   document.querySelectorAll('[data-img]').forEach(function(el) {
     el.addEventListener('click', onImageClick);
   });
+  document.querySelectorAll('[data-block]').forEach(function(el) {
+    var key = el.getAttribute('data-block');
+    _editSnapshot['block:' + key] = el.classList.contains('block-hidden');
+    var btn = document.createElement('button');
+    btn.className = 'block-del-btn ' + (el.classList.contains('block-hidden') ? 'restore' : 'remove');
+    btn.textContent = el.classList.contains('block-hidden') ? '↺' : '✕';
+    btn.title = el.classList.contains('block-hidden') ? 'Restore this' : 'Remove this';
+    btn.onclick = function(e) { e.stopPropagation(); toggleBlock(el, btn); };
+    el.appendChild(btn);
+  });
+}
+
+function toggleBlock(el, btn) {
+  var hiding = !el.classList.contains('block-hidden');
+  if (hiding && !confirm('Hide this from the live page? You can restore it anytime before or after saving.')) return;
+  el.classList.toggle('block-hidden');
+  btn.className = 'block-del-btn ' + (hiding ? 'restore' : 'remove');
+  btn.textContent = hiding ? '↺' : '✕';
+  btn.title = hiding ? 'Restore this' : 'Remove this';
 }
 
 function exitEditMode(revert) {
@@ -958,10 +983,16 @@ function exitEditMode(revert) {
       var key = id.charAt(0).toLowerCase() + id.slice(1);
       if (el && _editSnapshot[key] !== undefined) el.innerHTML = _editSnapshot[key];
     });
+    document.querySelectorAll('[data-block]').forEach(function(el) {
+      var key = 'block:' + el.getAttribute('data-block');
+      var wasHidden = _editSnapshot[key];
+      el.classList.toggle('block-hidden', !!wasHidden);
+    });
   }
   document.querySelectorAll('[contenteditable]').forEach(function(el) { el.removeAttribute('contenteditable'); });
   document.querySelectorAll('[data-t-ph]').forEach(function(el) { el.removeEventListener('click', editPlaceholderPrompt); });
   document.querySelectorAll('[data-img]').forEach(function(el) { el.removeEventListener('click', onImageClick); });
+  document.querySelectorAll('.block-del-btn').forEach(function(el) { el.remove(); });
   htmlIds.forEach(function(id) {
     var el = document.getElementById(id);
     if (el) el.classList.remove('edit-html');
@@ -998,7 +1029,15 @@ async function saveEdits() {
     var val = el.innerHTML;
     if (val !== _editSnapshot[key]) overrides[key] = val;
   });
-  if (!Object.keys(overrides).length) { exitEditMode(false); showToast('No changes made.', true); return; }
+  var hiddenBlocks = [];
+  var hiddenChanged = false;
+  document.querySelectorAll('[data-block]').forEach(function(el) {
+    var key = el.getAttribute('data-block');
+    var isHidden = el.classList.contains('block-hidden');
+    if (isHidden) hiddenBlocks.push(key);
+    if (isHidden !== !!_editSnapshot['block:' + key]) hiddenChanged = true;
+  });
+  if (!Object.keys(overrides).length && !hiddenChanged) { exitEditMode(false); showToast('No changes made.', true); return; }
   var btn = document.getElementById('editSaveBtn');
   btn.disabled = true; btn.textContent = 'Saving...';
   try {
@@ -1006,7 +1045,7 @@ async function saveEdits() {
     var r = await fetch('https://www.bethelfinancialgroup.com/api/admin/landing-overrides', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + tok },
-      body: JSON.stringify({ lang: pageLang, overrides: overrides })
+      body: JSON.stringify({ lang: pageLang, overrides: overrides, hiddenBlocks: hiddenBlocks })
     });
     var data = await r.json();
     if (!r.ok) throw new Error(data.error || 'Save failed');
@@ -1025,6 +1064,11 @@ async function loadLandingOverrides() {
     if (data && data[pageLang]) {
       Object.assign(PT[pageLang], data[pageLang]);
       setLang(pageLang);
+    }
+    if (data && Array.isArray(data.hiddenBlocks)) {
+      data.hiddenBlocks.forEach(function(key) {
+        document.querySelectorAll('[data-block="' + key + '"]').forEach(function(el) { el.classList.add('block-hidden'); });
+      });
     }
   } catch(e) {}
 }

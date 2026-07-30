@@ -186,11 +186,12 @@ app.get('/api/landing/overrides', async (req, res) => {
 
 app.post('/api/admin/landing-overrides', requireAdmin, async (req, res) => {
   try {
-    const { lang, overrides } = req.body || {};
+    const { lang, overrides, hiddenBlocks } = req.body || {};
     if (lang !== 'en' && lang !== 'es') return res.status(400).json({ error: 'Invalid language.' });
     if (!overrides || typeof overrides !== 'object') return res.status(400).json({ error: 'Invalid overrides.' });
     const current = (await kv.get(K('landing:overrides'))) || {};
     current[lang] = Object.assign({}, current[lang] || {}, overrides);
+    if (Array.isArray(hiddenBlocks)) current.hiddenBlocks = hiddenBlocks;
     await kv.set(K('landing:overrides'), current);
     res.json({ ok: true, overrides: current });
   } catch (e) { res.status(500).json({ error: 'Server error.' }); }
