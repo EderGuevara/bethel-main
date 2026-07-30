@@ -2,6 +2,7 @@ const express   = require('express');
 const cors      = require('cors');
 const jwt       = require('jsonwebtoken');
 const crypto    = require('crypto');
+const bcrypt    = require('bcryptjs');
 const { promisify } = require('util');
 const { Redis } = require('@upstash/redis');
 const { Resend } = require('resend');
@@ -40,18 +41,27 @@ function requireAdmin(req, res, next) {
 
 // requireAgent re-checks the agent's current `licensed` flag against Redis on every
 // request (rather than trusting the JWT claim) so revoking a license takes effect
-// immediately, not just after the agent's existing token expires.
+// immediately, not just after the agent's existing token expires. Handles both native
+// bethel-main agent accounts (d.agentId) and life-course accounts (d.examEmail).
 async function requireAgent(req, res, next) {
   const d = verifyToken((req.headers.authorization || '').replace('Bearer ', ''));
   if (!d) return res.status(403).json({ error: 'Forbidden' });
   if (d.isAdmin) { req.user = d; return next(); }
-  if (!d.agentId) return res.status(403).json({ error: 'Forbidden' });
   try {
-    const agents = (await kv.get(K('agents'))) || [];
-    const agent = agents.find(a => a.id === d.agentId);
-    if (!agent || !agent.licensed) return res.status(403).json({ error: 'Forbidden' });
-    req.user = d;
-    next();
+    if (d.agentId) {
+      const agents = (await kv.get(K('agents'))) || [];
+      const agent = agents.find(a => a.id === d.agentId);
+      if (!agent || !agent.licensed) return res.status(403).json({ error: 'Forbidden' });
+      req.user = d;
+      return next();
+    }
+    if (d.examEmail) {
+      const examUser = await kv.get('user:' + d.examEmail);
+      if (!examUser || !examUser.licensed) return res.status(403).json({ error: 'Forbidden' });
+      req.user = d;
+      return next();
+    }
+    res.status(403).json({ error: 'Forbidden' });
   } catch { res.status(500).json({ error: 'Server error.' }); }
 }
 
@@ -75,13 +85,30 @@ app.post('/api/login', async (req, res) => {
   if (emailLower === ADMIN_EMAIL && password === ADMIN_PW && password)
     return res.json({ token: makeToken({ email: ADMIN_EMAIL, isAdmin: true }), isAdmin: true, name: 'Admin' });
   try {
+    // 1) Native bethel-main agent account (added directly via admin, own password)
     const agents = (await kv.get(K('agents'))) || [];
     const agent = agents.find(a => a.email === emailLower);
-    if (!agent || !agent.passwordHash) return res.status(401).json({ error: 'Invalid credentials.' });
-    const ok = await verifyPassword(password, agent.passwordSalt, agent.passwordHash);
-    if (!ok) return res.status(401).json({ error: 'Invalid credentials.' });
-    const token = makeToken({ agentId: agent.id, email: agent.email, licensed: !!agent.licensed });
-    res.json({ token, name: agent.name, licensed: !!agent.licensed });
+    if (agent && agent.passwordHash) {
+      const ok = await verifyPassword(password, agent.passwordSalt, agent.passwordHash);
+      if (ok) {
+        const token = makeToken({ agentId: agent.id, email: agent.email, licensed: !!agent.licensed });
+        return res.json({ token, name: agent.name, licensed: !!agent.licensed });
+      }
+    }
+
+    // 2) Fall back to the life-course account — same email/password used there.
+    // Portal access follows that app's "licensed" toggle, checked live (see requireAgent).
+    const examUser = await kv.get('user:' + emailLower);
+    if (examUser && examUser.hash) {
+      const ok = await bcrypt.compare(password, examUser.hash);
+      if (ok) {
+        if (!examUser.licensed) return res.status(403).json({ error: 'Portal access is restricted to licensed agents. Contact your admin.' });
+        const token = makeToken({ examEmail: emailLower, licensed: true });
+        return res.json({ token, name: examUser.name, licensed: true });
+      }
+    }
+
+    res.status(401).json({ error: 'Invalid credentials.' });
   } catch (e) { res.status(500).json({ error: 'Server error.' }); }
 });
 
@@ -89,15 +116,20 @@ app.get('/api/me', async (req, res) => {
   const d = verifyToken((req.headers.authorization || '').replace('Bearer ', ''));
   if (!d) return res.status(403).json({ error: 'Unauthorized' });
   if (d.isAdmin) return res.json({ email: d.email, isAdmin: true, name: 'Admin' });
-  if (d.agentId) {
-    try {
+  try {
+    if (d.agentId) {
       const agents = (await kv.get(K('agents'))) || [];
       const agent = agents.find(a => a.id === d.agentId);
       if (!agent) return res.status(403).json({ error: 'Unauthorized' });
       return res.json({ email: agent.email, isAdmin: false, licensed: !!agent.licensed, name: agent.name });
-    } catch { return res.status(500).json({ error: 'Server error.' }); }
-  }
-  res.json({ email: d.email, isAdmin: !!d.isAdmin });
+    }
+    if (d.examEmail) {
+      const examUser = await kv.get('user:' + d.examEmail);
+      if (!examUser) return res.status(403).json({ error: 'Unauthorized' });
+      return res.json({ email: d.examEmail, isAdmin: false, licensed: !!examUser.licensed, name: examUser.name });
+    }
+    res.json({ email: d.email, isAdmin: !!d.isAdmin });
+  } catch { res.status(500).json({ error: 'Server error.' }); }
 });
 
 // ── AGENTS ──────────────────────────────────────────────────────────────────
