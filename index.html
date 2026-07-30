@@ -210,6 +210,8 @@ footer{background:var(--navy);padding:60px 0 30px}
 #editCancelBtn{background:transparent;border:1.5px solid #475569;color:#94A3B8}
 body.edit-mode [data-t]:not(#editModeBtn),body.edit-mode [data-t-ph],body.edit-mode .edit-html{outline:1.5px dashed var(--gold);outline-offset:3px;cursor:text;border-radius:3px;transition:background .15s}
 body.edit-mode [data-t]:not(#editModeBtn):hover,body.edit-mode .edit-html:hover{background:rgba(201,162,39,.12)}
+body.edit-mode [data-img]{outline:1.5px dashed var(--gold);outline-offset:3px;cursor:pointer;transition:opacity .15s;position:relative}
+body.edit-mode [data-img]:hover{opacity:.7}
 body.edit-mode{padding-bottom:70px}
 </style>
 <link rel="manifest" href="/manifest.json">
@@ -227,7 +229,7 @@ body.edit-mode{padding-bottom:70px}
 <nav class="nav" id="nav">
   <div class="nav-inner">
     <a href="#home" class="nav-logo">
-      <img src="assets/Logo.JPG" alt="Bethel Financial Group" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <img src="assets/Logo.JPG" alt="Bethel Financial Group" data-img="logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
       <div class="nav-logo-placeholder" style="display:none">Bethel Financial Group</div>
     </a>
     <div class="nav-links">
@@ -260,7 +262,7 @@ body.edit-mode{padding-bottom:70px}
   <div class="hero-bg"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <img src="assets/Logo.JPG" alt="Bethel Financial Group" class="hero-logo">
+    <img src="assets/Logo.JPG" alt="Bethel Financial Group" class="hero-logo" data-img="logo">
     <h1 class="hero-title" id="heroTitle">Building Futures<br><em>Through Insurance</em></h1>
     <p class="hero-sub" data-t="hero_sub">Empowering agents and protecting families across the nation. Join a team built on integrity, growth, and excellence.</p>
     <div class="hero-btns">
@@ -288,7 +290,7 @@ body.edit-mode{padding-bottom:70px}
     <div class="about-grid">
       <div class="about-img reveal">
         <div class="about-img-inner">
-          <img src="assets/founders.jpg" alt="Eder Guevara and Evelyn Aguirre — Founders" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+          <img src="assets/founders.jpg" alt="Eder Guevara and Evelyn Aguirre — Founders" data-img="founders" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
           <div class="img-placeholder" style="display:none"><div style="font-size:3rem;margin-bottom:1rem">&#127963;</div><div>Founders Photo</div></div>
         </div>
         <div class="about-img-badge"><div class="badge-num">5+</div><div class="badge-lbl" id="badgeLbl">Years<br>of Trust</div></div>
@@ -519,7 +521,7 @@ body.edit-mode{padding-bottom:70px}
   <div class="container">
     <div class="footer-top">
       <div class="footer-brand">
-        <img src="assets/Logo.JPG" alt="Bethel Financial Group" class="footer-logo" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <img src="assets/Logo.JPG" alt="Bethel Financial Group" class="footer-logo" data-img="logo" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
         <div class="footer-logo-placeholder" style="display:none">Bethel Financial Group</div>
         <p class="footer-tagline" data-t="ft_tagline">Building futures through insurance. Empowering agents and protecting families across the nation.</p>
         <p class="founders-line" data-t="ft_founders">Founded by Eder Guevara &amp; Evelyn Aguirre</p>
@@ -940,6 +942,9 @@ function enterEditMode() {
     el.setAttribute('contenteditable', 'true');
     _editSnapshot[key] = el.innerHTML;
   });
+  document.querySelectorAll('[data-img]').forEach(function(el) {
+    el.addEventListener('click', onImageClick);
+  });
 }
 
 function exitEditMode(revert) {
@@ -956,6 +961,7 @@ function exitEditMode(revert) {
   }
   document.querySelectorAll('[contenteditable]').forEach(function(el) { el.removeAttribute('contenteditable'); });
   document.querySelectorAll('[data-t-ph]').forEach(function(el) { el.removeEventListener('click', editPlaceholderPrompt); });
+  document.querySelectorAll('[data-img]').forEach(function(el) { el.removeEventListener('click', onImageClick); });
   htmlIds.forEach(function(id) {
     var el = document.getElementById(id);
     if (el) el.classList.remove('edit-html');
@@ -1012,6 +1018,13 @@ async function saveEdits() {
   } finally { btn.disabled = false; btn.textContent = '💾 Save Changes'; }
 }
 
+function applyImageOverrides(images) {
+  if (!images) return;
+  Object.keys(images).forEach(function(key) {
+    document.querySelectorAll('[data-img="' + key + '"]').forEach(function(el) { el.src = images[key]; });
+  });
+}
+
 async function loadLandingOverrides() {
   try {
     var r = await fetch('https://www.bethelfinancialgroup.com/api/landing/overrides');
@@ -1020,7 +1033,62 @@ async function loadLandingOverrides() {
       Object.assign(PT[pageLang], data[pageLang]);
       setLang(pageLang);
     }
+    if (data) applyImageOverrides(data.images);
   } catch(e) {}
+}
+
+function onImageClick(e) {
+  if (!_editing) return;
+  e.preventDefault();
+  var key = e.currentTarget.getAttribute('data-img');
+  var input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.onchange = function() {
+    var file = input.files[0];
+    if (file) uploadLandingImage(key, file);
+  };
+  input.click();
+}
+
+function resizeImageToBase64(file, maxWidth, quality) {
+  return new Promise(function(resolve, reject) {
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      var img = new Image();
+      img.onload = function() {
+        var w = img.width, h = img.height;
+        if (w > maxWidth) { h = Math.round(h * maxWidth / w); w = maxWidth; }
+        var canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = reject;
+      img.src = ev.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function uploadLandingImage(key, file) {
+  showToast('Uploading image...', true);
+  try {
+    var dataUrl = await resizeImageToBase64(file, 1200, 0.85);
+    var tok = localStorage.getItem('bethel_admin_token');
+    var r = await fetch('https://www.bethelfinancialgroup.com/api/admin/landing-image', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + tok },
+      body: JSON.stringify({ key: key, fileData: dataUrl, filename: file.name, mimetype: 'image/jpeg' })
+    });
+    var data = await r.json();
+    if (!r.ok) throw new Error(data.error || 'Upload failed');
+    applyImageOverrides(Object.fromEntries([[key, data.url]]));
+    showToast('Image updated — live for everyone now.', true);
+  } catch(e) {
+    showToast('Error: ' + e.message, false);
+  }
 }
 
 checkAdminEditAccess();

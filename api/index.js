@@ -196,6 +196,23 @@ app.post('/api/admin/landing-overrides', requireAdmin, async (req, res) => {
   } catch (e) { res.status(500).json({ error: 'Server error.' }); }
 });
 
+// POST /api/admin/landing-image — swap a landing-page image (logo, founders photo, etc.)
+// via Edit Mode. Not language-scoped — images are shared across EN/ES.
+app.post('/api/admin/landing-image', requireAdmin, async (req, res) => {
+  try {
+    const { key, fileData, filename, mimetype } = req.body || {};
+    if (!key || !fileData) return res.status(400).json({ error: 'Missing key or image data.' });
+    if (!blobPut) return res.status(503).json({ error: 'File storage not configured.' });
+    const buf  = Buffer.from(fileData.replace(/^data:[^;]+;base64,/, ''), 'base64');
+    const safe = (filename || key).replace(/[^a-zA-Z0-9._-]/g, '_');
+    const url  = (await blobPut(`landing/${key}_${Date.now()}_${safe}`, buf, { access: 'public', contentType: mimetype || 'image/jpeg' })).url;
+    const current = (await kv.get(K('landing:overrides'))) || {};
+    current.images = Object.assign({}, current.images || {}, { [key]: url });
+    await kv.set(K('landing:overrides'), current);
+    res.json({ ok: true, url });
+  } catch (e) { res.status(500).json({ error: 'Upload failed: ' + e.message }); }
+});
+
 function buildSetupUrl(agentId) {
   const setupToken = jwt.sign({ agentId, purpose: 'agent-setup' }, JWT_SECRET, { expiresIn: '7d' });
   return 'https://www.bethelfinancialgroup.com/portal?setup=' + setupToken;
