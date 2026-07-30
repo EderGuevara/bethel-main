@@ -196,21 +196,38 @@ app.post('/api/admin/landing-overrides', requireAdmin, async (req, res) => {
   } catch (e) { res.status(500).json({ error: 'Server error.' }); }
 });
 
-// POST /api/admin/landing-image — swap a landing-page image (logo, founders photo, etc.)
-// via Edit Mode. Not language-scoped — images are shared across EN/ES.
+// Landing-page images: stored directly in Redis as base64 (same pattern as
+// announcement images) and served via GET /api/landing/image/:key. Avoids
+// Vercel Blob entirely — this project's Blob store only allows private
+// access, which doesn't work for a plain public <img src>.
+const LANDING_IMAGE_DEFAULTS = { logo: '/assets/Logo.JPG', founders: '/assets/founders.jpg' };
+
 app.post('/api/admin/landing-image', requireAdmin, async (req, res) => {
   try {
-    const { key, fileData, filename, mimetype } = req.body || {};
+    const { key, fileData } = req.body || {};
     if (!key || !fileData) return res.status(400).json({ error: 'Missing key or image data.' });
-    if (!blobPut) return res.status(503).json({ error: 'File storage not configured.' });
-    const buf  = Buffer.from(fileData.replace(/^data:[^;]+;base64,/, ''), 'base64');
-    const safe = (filename || key).replace(/[^a-zA-Z0-9._-]/g, '_');
-    const url  = (await blobPut(`landing/${key}_${Date.now()}_${safe}`, buf, { access: 'public', contentType: mimetype || 'image/jpeg' })).url;
-    const current = (await kv.get(K('landing:overrides'))) || {};
-    current.images = Object.assign({}, current.images || {}, { [key]: url });
-    await kv.set(K('landing:overrides'), current);
-    res.json({ ok: true, url });
+    await kv.set(K('landing:img:' + key), fileData);
+    res.json({ ok: true, url: '/api/landing/image/' + key + '?v=' + Date.now() });
   } catch (e) { res.status(500).json({ error: 'Upload failed: ' + e.message }); }
+});
+
+app.get('/api/landing/image/:key', async (req, res) => {
+  try {
+    const key = req.params.key;
+    const b64 = await kv.get(K('landing:img:' + key));
+    if (!b64) {
+      const fallback = LANDING_IMAGE_DEFAULTS[key];
+      if (fallback) return res.redirect(302, fallback);
+      return res.status(404).send('Not found');
+    }
+    const match = String(b64).match(/^data:([^;]+);base64,(.+)$/);
+    let contentType = 'image/jpeg';
+    let data = b64;
+    if (match) { contentType = match[1]; data = match[2]; }
+    res.setHeader('Content-Type', contentType);
+    res.setHeader('Cache-Control', 'public, max-age=300');
+    res.send(Buffer.from(String(data), 'base64'));
+  } catch (e) { res.status(500).send('Server error'); }
 });
 
 function buildSetupUrl(agentId) {
