@@ -139,7 +139,38 @@ app.get('/api/me', async (req, res) => {
 app.get('/api/admin/agents', requireAdmin, async (req, res) => {
   try {
     const agents = (await kv.get(K('agents'))) || [];
-    res.json(agents.map(a => ({ id: a.id, name: a.name, email: a.email, licensed: !!a.licensed, hasPassword: !!a.passwordHash, createdAt: a.createdAt })));
+    const native = agents.map(a => ({ source: 'native', id: a.id, name: a.name, email: a.email, licensed: !!a.licensed, hasPassword: !!a.passwordHash, createdAt: a.createdAt }));
+    const nativeEmails = new Set(native.map(a => a.email));
+
+    // Merge in life-course accounts currently marked licensed there — same shared
+    // KV store, keyed by users:index (list of emails) + user:<email> records.
+    let examAgents = [];
+    try {
+      const index = (await kv.get('users:index')) || [];
+      if (index.length) {
+        const users = await kv.mget(...index.map(e => 'user:' + e));
+        examAgents = users
+          .filter(u => u && u.licensed && !nativeEmails.has(u.email))
+          .map(u => ({ source: 'exam-prep', email: u.email, name: u.name, licensed: true, hasPassword: true, createdAt: u.createdAt || null }));
+      }
+    } catch {}
+
+    res.json([...native, ...examAgents]);
+  } catch { res.status(500).json({ error: 'Server error.' }); }
+});
+
+// POST /api/admin/exam-agents/:email/revoke — remove portal access for a licensed
+// life-course account. Only flips their `licensed` flag; their course account and
+// progress are untouched.
+app.post('/api/admin/exam-agents/:email/revoke', requireAdmin, async (req, res) => {
+  try {
+    const email = decodeURIComponent(req.params.email).toLowerCase();
+    const key = 'user:' + email;
+    const examUser = await kv.get(key);
+    if (!examUser) return res.status(404).json({ error: 'Not found.' });
+    examUser.licensed = false;
+    await kv.set(key, examUser);
+    res.json({ ok: true });
   } catch { res.status(500).json({ error: 'Server error.' }); }
 });
 

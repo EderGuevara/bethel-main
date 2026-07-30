@@ -574,23 +574,32 @@ async function loadAgents() {
   try { renderAgentList(await apiCall('GET', '/api/admin/agents')); }
   catch(e) { console.error(e.message); }
 }
+function jsStr(s) { return "'" + String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'") + "'"; }
+function agentKey(a) { return a.source + ':' + (a.source === 'native' ? a.id : a.email); }
+
 function renderAgentList(list) {
   var el = document.getElementById('agentList');
   if (!list || !list.length) { el.innerHTML = '<div class="empty">No agents yet</div>'; return; }
   _agentMap = {};
-  list.forEach(function(a) { _agentMap[a.id] = a; });
+  list.forEach(function(a) { _agentMap[agentKey(a)] = a; });
   el.innerHTML = list.map(function(a) {
+    var key = jsStr(agentKey(a));
     var status = a.hasPassword ? '' : ' · ⏳ Setup pending';
-    var lic = a.licensed ? '<span style="color:#059669;font-weight:700">Licensed</span>' : '<span style="color:#9CA3AF">Not licensed</span>';
+    var lic, actions;
+    if (a.source === 'exam-prep') {
+      lic = '<span style="color:#059669;font-weight:700">Licensed</span> <span style="color:#2563EB;font-weight:700;font-size:.68rem">· From Life Course</span>';
+      actions = '<button class="del-btn" onclick="deleteAgent(' + key + ')" title="Revoke Agent Portal access — their life-course account and progress are not affected">✕ Remove</button>';
+    } else {
+      lic = a.licensed ? '<span style="color:#059669;font-weight:700">Licensed</span>' : '<span style="color:#9CA3AF">Not licensed</span>';
+      actions = '<button onclick="toggleAgentLicensed(' + key + ')" class="btn-sm" style="padding:4px 10px;font-size:.72rem">' + (a.licensed ? 'Revoke' : 'License') + '</button>'
+        + '<button onclick="resendAgentSetup(' + key + ')" title="Send/copy setup link" style="background:none;border:1px solid #E5E7EB;border-radius:5px;color:#374151;cursor:pointer;font-size:.75rem;padding:2px 7px">✉</button>'
+        + '<button class="del-btn" onclick="deleteAgent(' + key + ')">✕</button>';
+    }
     return '<div class="list-item">'
       + '<div class="list-item-info"><div class="list-item-name">' + escHtml(a.name) + '</div>'
       + '<div class="list-item-sub">' + escHtml(a.email) + status + '</div>'
       + '<div class="list-item-sub" style="margin-top:2px">' + lic + '</div></div>'
-      + '<div style="display:flex;gap:4px;flex-shrink:0;align-items:center">'
-      + '<button onclick="toggleAgentLicensed(' + a.id + ')" class="btn-sm" style="padding:4px 10px;font-size:.72rem">' + (a.licensed ? 'Revoke' : 'License') + '</button>'
-      + '<button onclick="resendAgentSetup(' + a.id + ')" title="Send/copy setup link" style="background:none;border:1px solid #E5E7EB;border-radius:5px;color:#374151;cursor:pointer;font-size:.75rem;padding:2px 7px">✉</button>'
-      + '<button class="del-btn" onclick="deleteAgent(' + a.id + ')">✕</button>'
-      + '</div>'
+      + '<div style="display:flex;gap:4px;flex-shrink:0;align-items:center">' + actions + '</div>'
       + '</div>';
   }).join('');
 }
@@ -614,26 +623,37 @@ async function addAgent() {
   } catch(e) { toast('Error: ' + e.message, false); }
   finally { btn.disabled = false; btn.textContent = 'Add Agent'; }
 }
-async function toggleAgentLicensed(id) {
-  var a = _agentMap[id]; if (!a) return;
+async function toggleAgentLicensed(key) {
+  var a = _agentMap[key]; if (!a) return;
   try {
-    await apiCall('PUT', '/api/admin/agents/' + id, { licensed: !a.licensed });
+    await apiCall('PUT', '/api/admin/agents/' + a.id, { licensed: !a.licensed });
     toast(a.licensed ? 'Access revoked.' : 'Agent licensed — portal access granted.', true);
     loadAgents();
   } catch(e) { toast('Error: ' + e.message, false); }
 }
-async function resendAgentSetup(id) {
+async function resendAgentSetup(key) {
+  var a = _agentMap[key]; if (!a) return;
   try {
-    var data = await apiCall('PUT', '/api/admin/agents/' + id, { resendSetup: true });
+    var data = await apiCall('PUT', '/api/admin/agents/' + a.id, { resendSetup: true });
     if (data.setupUrl) {
       try { await navigator.clipboard.writeText(data.setupUrl); toast('Setup link copied to clipboard!', true); }
       catch(e) { prompt('Setup link (copy and send to the agent):', data.setupUrl); }
     }
   } catch(e) { toast('Error: ' + e.message, false); }
 }
-async function deleteAgent(id) {
+async function deleteAgent(key) {
+  var a = _agentMap[key]; if (!a) return;
+  if (a.source === 'exam-prep') {
+    if (!confirm('Remove Agent Portal access for ' + a.name + '? Their life-course account and progress will not be affected.')) return;
+    try {
+      await apiCall('POST', '/api/admin/exam-agents/' + encodeURIComponent(a.email) + '/revoke');
+      toast('Portal access removed.', true);
+      loadAgents();
+    } catch(e) { toast('Error: ' + e.message, false); }
+    return;
+  }
   if (!confirm('Remove this agent? They will lose portal access immediately.')) return;
-  try { await apiCall('DELETE', '/api/admin/agents/' + id); toast('Agent removed.', true); loadAgents(); }
+  try { await apiCall('DELETE', '/api/admin/agents/' + a.id); toast('Agent removed.', true); loadAgents(); }
   catch(e) { toast('Error: ' + e.message, false); }
 }
 
