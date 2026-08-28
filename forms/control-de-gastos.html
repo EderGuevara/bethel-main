@@ -232,6 +232,26 @@ function clearTracker(){
 function showToast(msg){const el=document.getElementById('toast');el.textContent=msg;el.style.display='block';clearTimeout(el._t);el._t=setTimeout(()=>{el.style.display='none';},2500);}
 function shareSummary(){const text=buildSummaryText();if(navigator.share){navigator.share({title:'Bethel Financial Group — '+T[lang].subtitle,text});}else{navigator.clipboard.writeText(text).then(()=>showToast(T[lang].copied)).catch(()=>{});}}
 function generatePDF(){const{jsPDF}=window.jspdf;const doc=new jsPDF();const c=getClientFields();const income=parseFloat(document.getElementById('income').value)||0;const tf=fixedData.reduce((a,b)=>a+b.val,0);const tv=varData.reduce((a,b)=>a+b.val,0);const avail=income-tf-tv;doc.setFillColor(15,23,42);doc.rect(0,0,210,32,'F');doc.setTextColor(221,184,74);doc.setFontSize(22);doc.setFont('helvetica','bold');doc.text('BETHEL FINANCIAL GROUP',105,14,{align:'center'});doc.setFontSize(11);doc.setFont('helvetica','normal');doc.text(T[lang].subtitle,105,24,{align:'center'});doc.setFillColor(30,41,59);doc.rect(0,32,210,24,'F');if(c.name){doc.setFontSize(10);doc.setFont('helvetica','bold');doc.setTextColor(241,245,249);doc.text(c.name,14,42);}const meta=[fmtDate(c.date),c.phone,c.email].filter(Boolean).join('   |   ');if(meta){doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(148,163,184);doc.text(meta,14,49);}if(c.advisor){doc.setTextColor(221,184,74);doc.text((lang==='es'?'Asesor: ':'Advisor: ')+c.advisor,196,42,{align:'right'});}doc.setFillColor(221,184,74);doc.rect(0,56,210,.6,'F');let y=66;doc.setFontSize(13);doc.setFont('helvetica','bold');doc.setTextColor(15,23,42);doc.text(T[lang].incomeLabel,14,y);doc.text(fmt(income),196,y,{align:'right'});y+=8;doc.setFillColor(221,184,74);doc.rect(14,y,182,.6,'F');y+=7;doc.setFontSize(12);doc.text(T[lang].fixedTitle,14,y);y+=6;doc.setFont('helvetica','normal');doc.setFontSize(10);fixedData.filter(d=>d.val>0).forEach(d=>{if(y>270){doc.addPage();y=20;}doc.text(d.name,20,y);doc.text(fmt(d.val),196,y,{align:'right'});y+=5.5;});doc.setFont('helvetica','bold');doc.setFontSize(11);doc.text(T[lang].lbl1+':',14,y);doc.text(fmt(tf),196,y,{align:'right'});y+=10;doc.setFillColor(221,184,74);doc.rect(14,y,182,.6,'F');y+=7;doc.setFontSize(12);doc.text(T[lang].varTitle,14,y);y+=6;doc.setFont('helvetica','normal');doc.setFontSize(10);varData.filter(d=>d.val>0).forEach(d=>{if(y>270){doc.addPage();y=20;}doc.text(d.name,20,y);doc.text(fmt(d.val),196,y,{align:'right'});y+=5.5;});doc.setFont('helvetica','bold');doc.setFontSize(11);doc.text(T[lang].lbl2+':',14,y);doc.text(fmt(tv),196,y,{align:'right'});y+=12;doc.setFillColor(15,23,42);doc.rect(14,y,182,11,'F');doc.setTextColor(255,255,255);doc.setFontSize(12);doc.text(T[lang].lbl3+':',18,y+8);doc.text(fmt(tf+tv),192,y+8,{align:'right'});y+=15;if(avail>=0){doc.setFillColor(29,158,117);}else{doc.setFillColor(226,75,74);}doc.rect(14,y,182,13,'F');doc.setFontSize(13);doc.text(T[lang].lbl4+':',18,y+9.5);doc.text(fmt(avail),192,y+9.5,{align:'right'});doc.setTextColor(148,163,184);doc.setFontSize(8);doc.setFont('helvetica','normal');doc.text('Bethel Financial Group — bethelfinancialgroup.com',105,290,{align:'center'});doc.save('Bethel_Control_Gastos.pdf');}
+
+// ── Print fix (Safari) ────────────────────────────────────────────────────────
+// This form exports via jsPDF, but a user may still hit Cmd+P on the page.
+// Safari prints fields from their HTML attributes, so mirror live values first.
+function syncFieldsForPrint(){
+  document.querySelectorAll('input').forEach(function(el){
+    var t=(el.type||'').toLowerCase();
+    if(t==='checkbox'||t==='radio'){
+      if(el.checked) el.setAttribute('checked','checked'); else el.removeAttribute('checked');
+    } else { el.setAttribute('value', el.value); }
+  });
+  document.querySelectorAll('textarea').forEach(function(el){ el.textContent = el.value; });
+  document.querySelectorAll('select').forEach(function(el){
+    Array.prototype.forEach.call(el.options, function(o){
+      if(o.selected) o.setAttribute('selected','selected'); else o.removeAttribute('selected');
+    });
+  });
+}
+if(window.addEventListener) window.addEventListener('beforeprint', syncFieldsForPrint);
+
 function downloadPDF(){if(window.jspdf){generatePDF();return;}const btn=document.getElementById('pdfBtnEl');const lbl=document.getElementById('pdfBtn');const orig=lbl.textContent;lbl.textContent=T[lang].pdfLoading;btn.disabled=true;const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';s.onload=()=>{lbl.textContent=orig;btn.disabled=false;generatePDF();};s.onerror=()=>{lbl.textContent=orig;btn.disabled=false;alert(T[lang].pdfError);};document.head.appendChild(s);}
 initData();
 renderList(fixedData,'fixedList','fixed');

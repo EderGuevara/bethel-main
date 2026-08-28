@@ -105,6 +105,13 @@
 
   @media print{
     body{background:#fff;padding:0}
+    /* Safari/Chrome: print background colors (gold headers, selected buttons) */
+    *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+    /* Keep sections and table rows from splitting mid-page */
+    .section,.checklist,.sol-card,.tax-col{page-break-inside:avoid;break-inside:avoid}
+    tr{page-break-inside:avoid;break-inside:avoid}
+    /* Show full typed text instead of clipping to the on-screen box */
+    textarea{height:auto!important;min-height:0!important;overflow:visible!important}
     .page{box-shadow:none;border-radius:0}
     .action-bar{display:none}
     .form-footer{display:none}
@@ -269,8 +276,32 @@ function shareForm(){
   else{navigator.clipboard.writeText(url).then(function(){showToast(_lang==='es'?'Enlace copiado ✓':'Link copied ✓');}).catch(function(){prompt('',url);});}
 }
 
+
+// ── Print fix (Safari) ────────────────────────────────────────────────────────
+// Safari renders the PRINTED page from each field's HTML attributes rather than
+// what the user typed, so filled-in forms came out blank in the PDF. Mirror the
+// live values into those attributes right before printing.
+function syncFieldsForPrint(){
+  document.querySelectorAll('input').forEach(function(el){
+    var t=(el.type||'').toLowerCase();
+    if(t==='checkbox'||t==='radio'){
+      if(el.checked) el.setAttribute('checked','checked'); else el.removeAttribute('checked');
+    } else {
+      el.setAttribute('value', el.value);
+    }
+  });
+  document.querySelectorAll('textarea').forEach(function(el){ el.textContent = el.value; });
+  document.querySelectorAll('select').forEach(function(el){
+    Array.prototype.forEach.call(el.options, function(o){
+      if(o.selected) o.setAttribute('selected','selected'); else o.removeAttribute('selected');
+    });
+  });
+}
+if(window.addEventListener) window.addEventListener('beforeprint', syncFieldsForPrint);
+
 // ── Download PDF ──────────────────────────────────────────────────────────────
 function downloadPDF(){
+  syncFieldsForPrint();
   var old=document.title;
   document.title='Cuestionario_Negocio_Bethel';
   window.print();
