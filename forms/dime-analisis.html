@@ -92,6 +92,11 @@
 
   @media print{
     body{background:#fff;padding:0}
+    /* Safari cannot paginate inside overflow:hidden or 100vh containers —
+       without this the printed PDF comes out blank/truncated. */
+    html,body{height:auto!important;min-height:0!important;overflow:visible!important}
+    .page{overflow:visible!important;height:auto!important;min-height:0!important;max-width:100%!important;margin:0!important}
+    #toast{display:none!important}
     /* Safari/Chrome: print background colors (gold headers, selected buttons) */
     *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
     /* Keep sections and table rows from splitting mid-page */

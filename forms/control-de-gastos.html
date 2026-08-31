@@ -91,10 +91,17 @@
   /* Print */
   @media print{
     body{background:#fff;padding:0}
+    /* Safari cannot paginate inside overflow:hidden or 100vh containers —
+       without this the printed PDF comes out blank/truncated. */
+    html,body{height:auto!important;min-height:0!important;overflow:visible!important}
+    .page{overflow:visible!important;height:auto!important;min-height:0!important;max-width:100%!important;margin:0!important}
+    #toast{display:none!important}
     .page{box-shadow:none;border-radius:0}
     .action-bar{display:none}
     .form-footer{display:none}
     .add-row{display:none}
+    *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+    tr,.sum-row{page-break-inside:avoid;break-inside:avoid}
     input{border-color:#CBD5E1 !important;background:#fff !important}
   }
   @media(max-width:600px){
