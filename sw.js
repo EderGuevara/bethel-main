@@ -20,7 +20,14 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
-  if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/admin') || url.origin !== self.location.origin) return;
+  // Never intercept these: agents fill out and print the forms, and the portal
+  // and admin are login-gated — serving any of them from cache risks showing a
+  // stale version. Let the browser fetch them normally so an update always lands.
+  if (url.pathname.startsWith('/api/') ||
+      url.pathname.startsWith('/admin') ||
+      url.pathname.startsWith('/portal') ||
+      url.pathname.startsWith('/forms/') ||
+      url.origin !== self.location.origin) return;
 
   if (e.request.mode === 'navigate') {
     e.respondWith(
