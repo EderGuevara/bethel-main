@@ -305,13 +305,78 @@ function syncFieldsForPrint(){
 if(window.addEventListener) window.addEventListener('beforeprint', syncFieldsForPrint);
 
 // ── Download PDF ──────────────────────────────────────────────────────────────
+
+// ── PDF export ────────────────────────────────────────────────────────────────
+// Builds the PDF from a canvas snapshot of the page instead of going through the
+// browser's print dialog. Safari's print pipeline produced blank PDFs for some
+// users; this path renders identically in every browser. window.print() (Cmd+P)
+// still works via syncFieldsForPrint above.
+function _loadScript(src){
+  return new Promise(function(res,rej){
+    var s=document.createElement('script');
+    s.src=src; s.onload=res;
+    s.onerror=function(){ rej(new Error('no se pudo cargar la libreria PDF')); };
+    document.head.appendChild(s);
+  });
+}
+function _ensurePdfLibs(){
+  var p = Promise.resolve();
+  if(!window.html2canvas) p = p.then(function(){ return _loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'); });
+  if(!window.jspdf)       p = p.then(function(){ return _loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'); });
+  return p;
+}
+function _buildPDF(filename, msgs, notify){
+  var btn = document.getElementById('btnPDF');
+  var origLabel = btn ? btn.textContent : '';
+  var bar = document.querySelector('.action-bar');
+  if(btn){ btn.disabled = true; btn.textContent = msgs.working; }
+  return _ensurePdfLibs().then(function(){
+    syncFieldsForPrint();
+    if(bar) bar.style.display = 'none';
+    var page = document.querySelector('.page');
+    return html2canvas(page, {
+      scale: 2, backgroundColor: '#FFFFFF', useCORS: true, logging: false,
+      // Fixed width so the PDF always uses the full desktop layout, even if the
+      // agent's browser window is narrow (otherwise it captures the mobile view).
+      windowWidth: 1100, scrollX: 0, scrollY: -window.scrollY
+    });
+  }).then(function(canvas){
+    if(bar) bar.style.display = '';
+    var img = canvas.toDataURL('image/jpeg', 0.92);
+    var JsPDF = window.jspdf.jsPDF;
+    var pdf = new JsPDF({ unit:'pt', format:'letter', orientation:'portrait' });
+    var pw = pdf.internal.pageSize.getWidth();
+    var ph = pdf.internal.pageSize.getHeight();
+    var m = 18;
+    var iw = pw - m*2;
+    var ih = canvas.height * iw / canvas.width;
+    var usable = ph - m*2;
+    var pos = m, left = ih;
+    pdf.addImage(img, 'JPEG', m, pos, iw, ih);
+    left -= usable;
+    while(left > 0){
+      pos = m - (ih - left);
+      pdf.addPage();
+      pdf.addImage(img, 'JPEG', m, pos, iw, ih);
+      left -= usable;
+    }
+    pdf.save(filename);
+    notify(msgs.done);
+  }).catch(function(e){
+    if(bar) bar.style.display = '';
+    notify(msgs.err + (e && e.message ? e.message : ''));
+  }).then(function(){
+    if(btn){ btn.disabled = false; btn.textContent = origLabel; }
+  });
+}
+
 function downloadPDF(){
-  syncFieldsForPrint();
-  var old=document.title;
-  document.title='Cuestionario_Negocio_Bethel';
-  window.print();
-  document.title=old;
-  showToast(_lang==='es'?'Usa "Guardar como PDF" en el diálogo de impresión ↑':'Use "Save as PDF" in the print dialog ↑');
+  var es = _lang==='es';
+  _buildPDF('Cuestionario_Negocio_Bethel.pdf', {
+    working: es ? 'Generando…' : 'Generating…',
+    done:    es ? 'PDF descargado ✓' : 'PDF downloaded ✓',
+    err:     es ? 'Error al generar el PDF: ' : 'Error generating PDF: '
+  }, function(m){ showToast(m); });
 }
 
 // ── Language Toggle ───────────────────────────────────────────────────────────
