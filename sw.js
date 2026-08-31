@@ -1,5 +1,7 @@
-const CACHE_STATIC = 'bfg-main-static-v2';
-const CACHE_PAGES  = 'bfg-main-pages-v2';
+// Bumped to v3: the old caches held stale copies of pages/forms served by the
+// previous cache-first strategy below. Renaming purges them on activate.
+const CACHE_STATIC = 'bfg-main-static-v3';
+const CACHE_PAGES  = 'bfg-main-pages-v3';
 const ALL_CACHES   = [CACHE_STATIC, CACHE_PAGES];
 
 const APP_SHELL = ['/', '/index.html', '/manifest.json', '/icon-192.png', '/assets/Logo.JPG'];
@@ -29,14 +31,18 @@ self.addEventListener('fetch', e => {
     return;
   }
 
+  // Network-first, falling back to cache only when offline. The previous
+  // cache-first version returned the stored copy and merely refreshed the cache
+  // for next time, so an updated form could stay stale indefinitely.
   e.respondWith(
-    caches.match(e.request).then(cached => {
-      const network = fetch(e.request).then(res => {
-        if (res.ok && e.request.method === 'GET')
-          caches.open(CACHE_STATIC).then(c => c.put(e.request, res.clone()));
+    fetch(e.request)
+      .then(res => {
+        if (res.ok && e.request.method === 'GET') {
+          const copy = res.clone();
+          caches.open(CACHE_STATIC).then(c => c.put(e.request, copy));
+        }
         return res;
-      });
-      return cached || network;
-    })
+      })
+      .catch(() => caches.match(e.request))
   );
 });
