@@ -292,10 +292,10 @@ app.delete('/api/admin/agents/:id', requireAdmin, async (req, res) => {
   } catch { res.status(500).json({ error: 'Server error.' }); }
 });
 
-// POST /api/agent/magic-login — exchanges a valid setup link for a session directly,
-// no password required. Still enforces the current licensed flag, same as any other
-// portal access — this only removes the password step, not the access control.
-app.post('/api/agent/magic-login', async (req, res) => {
+// POST /api/agent/setup-info — tells the password screen which account a setup
+// link belongs to, so the agent can see the email they're creating credentials
+// for. Deliberately returns no session: the link alone must not grant access.
+app.post('/api/agent/setup-info', async (req, res) => {
   try {
     const { token: setupToken } = req.body || {};
     if (!setupToken) return res.status(400).json({ error: 'Missing token.' });
@@ -304,9 +304,8 @@ app.post('/api/agent/magic-login', async (req, res) => {
     const agents = (await kv.get(K('agents'))) || [];
     const agent = agents.find(a => a.id === d.agentId);
     if (!agent) return res.status(404).json({ error: 'Agent not found.' });
-    if (!agent.licensed) return res.status(403).json({ error: 'Portal access is restricted to licensed agents.' });
-    const loginToken = makeToken({ agentId: agent.id, email: agent.email, licensed: true });
-    res.json({ ok: true, token: loginToken, name: agent.name, licensed: true });
+    if (!agent.licensed) return res.status(403).json({ error: 'Portal access is restricted to licensed agents. Contact your admin.' });
+    res.json({ ok: true, name: agent.name, email: agent.email, hasPassword: !!agent.passwordHash });
   } catch (e) { res.status(500).json({ error: 'Server error.' }); }
 });
 

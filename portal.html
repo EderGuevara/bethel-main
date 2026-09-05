@@ -160,8 +160,11 @@ img{max-width:100%;display:block}
       <img src="assets/Logo.JPG" alt="Bethel Financial Group" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
       <div class="auth-logo-text" style="display:none">Bethel Financial Group</div>
     </div>
-    <div class="auth-title">Set Your Password</div>
-    <div class="auth-sub">Create a password to access the Agent Portal</div>
+    <div class="auth-title">Create Your Password</div>
+    <div class="auth-sub" id="setupSub">Choose a password you'll use to sign in from now on</div>
+    <div id="setupWho" style="display:none;background:#F8FAFC;border:1px solid #E5E7EB;border-radius:10px;padding:.6rem .9rem;margin-bottom:1rem;font-size:.85rem;color:#374151;text-align:center">
+      <span style="color:#9CA3AF">Account:</span> <strong id="setupEmail"></strong>
+    </div>
     <div class="auth-err" id="setupErr"></div>
     <div class="auth-field"><label>New Password</label><input type="password" id="setupPw" autocomplete="new-password" placeholder="At least 8 characters"></div>
     <div class="auth-field"><label>Confirm Password</label><input type="password" id="setupPw2" autocomplete="new-password" placeholder="Re-enter password"></div>
@@ -550,17 +553,22 @@ function renderAnnouncements(announcements) {
   var params = new URLSearchParams(location.search);
   var setupToken = params.get('setup');
   if (setupToken) {
+    // A setup link always lands on the password screen — creating credentials is
+    // required, so the agent leaves with an email + password they can reuse.
+    showSetupForm(setupToken);
     try {
-      var magicData = await apiCall('POST', '/api/agent/magic-login', { token: setupToken });
-      token = magicData.token;
-      localStorage.setItem('bethel_portal_token', token);
-      history.replaceState(null, '', location.pathname);
-      enterPortal(magicData);
-      return;
+      var info = await apiCall('POST', '/api/agent/setup-info', { token: setupToken });
+      document.getElementById('setupEmail').textContent = info.email;
+      document.getElementById('setupWho').style.display = 'block';
+      if (info.hasPassword) {
+        document.getElementById('setupSub').textContent = 'This will replace your current password';
+      }
     } catch(e) {
-      showSetupForm(setupToken);
-      return;
+      var se = document.getElementById('setupErr');
+      se.textContent = e.message; se.style.display = 'block';
+      document.getElementById('setupBtn').disabled = true;
     }
+    return;
   }
   if (token) {
     try {
