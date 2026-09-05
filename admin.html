@@ -616,8 +616,12 @@ async function addAgent() {
     document.getElementById('agentEmail').value = '';
     document.getElementById('agentLicensed').checked = false;
     if (data.setupUrl) {
-      try { await navigator.clipboard.writeText(data.setupUrl); toast('Agent added — setup link copied to clipboard!', true); }
-      catch(e) { prompt('Agent added. Setup link (copy and send to the agent):', data.setupUrl); }
+      try { await navigator.clipboard.writeText(data.setupUrl); } catch(e) {}
+      if (data.emailed) toast('Agent added — invitation emailed to ' + email + ' (link also copied).', true);
+      else {
+        toast('Agent added, but the email could NOT be sent — send the link manually.', false);
+        prompt('Email delivery unavailable. Copy this link and send it to the agent:', data.setupUrl);
+      }
     } else { toast('Agent added.', true); }
     loadAgents();
   } catch(e) { toast('Error: ' + e.message, false); }
@@ -633,11 +637,22 @@ async function toggleAgentLicensed(key) {
 }
 async function resendAgentSetup(key) {
   var a = _agentMap[key]; if (!a) return;
+  var isReset = !!a.hasPassword;
+  var what = isReset
+    ? 'Email a password reset link to ' + a.email + '?\n\nTheir current password keeps working until they set a new one.'
+    : 'Email the setup invitation to ' + a.email + '?';
+  if (!confirm(what)) return;
   try {
     var data = await apiCall('PUT', '/api/admin/agents/' + a.id, { resendSetup: true });
+    var label = data.wasReset ? 'Reset link' : 'Setup link';
     if (data.setupUrl) {
-      try { await navigator.clipboard.writeText(data.setupUrl); toast('Setup link copied to clipboard!', true); }
-      catch(e) { prompt('Setup link (copy and send to the agent):', data.setupUrl); }
+      try { await navigator.clipboard.writeText(data.setupUrl); } catch(e) {}
+    }
+    // Say plainly whether the email actually went out — it can fail silently.
+    if (data.emailed) toast(label + ' emailed to ' + a.email + ' (also copied to clipboard).', true);
+    else {
+      toast(label + ' created, but the email could NOT be sent — send it manually.', false);
+      prompt('Email delivery unavailable. Copy this link and send it to the agent:', data.setupUrl || '');
     }
   } catch(e) { toast('Error: ' + e.message, false); }
 }

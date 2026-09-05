@@ -236,16 +236,50 @@ function buildSetupUrl(agentId) {
   return 'https://www.bethelfinancialgroup.com/portal?setup=' + setupToken;
 }
 
+const escHtml = (v) => String(v == null ? '' : v)
+  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+// Wording adapts to the situation: an invitation for an agent who has never set
+// a password, a reset notice for one who already has. Returns whether the send
+// actually happened so the admin UI can say so honestly.
 async function emailAgentSetup(agent, setupUrl) {
   const key = process.env.RESEND_API_KEY;
-  if (!key) return;
-  const resend = new Resend(key);
-  await resend.emails.send({
-    from: process.env.RESEND_FROM_EMAIL || 'noreply@bethelfinancialgroup.com',
-    to: agent.email,
-    subject: 'Set up your Bethel Financial Group Agent Portal access',
-    html: `<p>Hi ${agent.name},</p><p>You've been added as a licensed agent. Set your password to access the Agent Portal:</p><p><a href="${setupUrl}">${setupUrl}</a></p><p>This link expires in 7 days.</p>`,
-  }).catch(() => {});
+  if (!key) return false;
+  const isReset = !!agent.passwordHash;
+  const name = escHtml((agent.name || '').split(' ')[0] || agent.name);
+  const url  = escHtml(setupUrl);
+
+  const subject = isReset
+    ? 'Reset your Bethel Financial Group Agent Portal password'
+    : 'Set up your Bethel Financial Group Agent Portal access';
+
+  const intro = isReset
+    ? `<p>A password reset was requested for your Agent Portal account. Choose a new password here:</p>`
+    : `<p>You've been added as a licensed agent. Create your password to access the Agent Portal:</p>`;
+
+  const footer = isReset
+    ? `<p style="color:#6B7280;font-size:.9rem">Your current password keeps working until you set a new one. This link expires in 7 days. If you didn't request this, you can ignore this email.</p>`
+    : `<p style="color:#6B7280;font-size:.9rem">After creating your password you'll sign in with your email and that password. This link expires in 7 days.</p>`;
+
+  try {
+    const resend = new Resend(key);
+    await resend.emails.send({
+      from: process.env.RESEND_FROM_EMAIL || 'noreply@bethelfinancialgroup.com',
+      to: agent.email,
+      subject,
+      html: `<div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:28px;color:#111827">
+<p>Hi ${name},</p>
+${intro}
+<p style="text-align:center;margin:26px 0">
+  <a href="${url}" style="background:linear-gradient(135deg,#DDB84A,#8B6914);color:#fff;text-decoration:none;padding:12px 28px;border-radius:8px;font-weight:700;display:inline-block">${isReset ? 'Reset Password' : 'Create Password'}</a>
+</p>
+<p style="font-size:.82rem;color:#6B7280;word-break:break-all">Or paste this into your browser:<br>${url}</p>
+${footer}
+<p style="color:#9CA3AF;font-size:.8rem;margin-top:24px">Bethel Financial Group</p>
+</div>`,
+    });
+    return true;
+  } catch { return false; }
 }
 
 app.post('/api/admin/agents', requireAdmin, async (req, res) => {
@@ -259,8 +293,8 @@ app.post('/api/admin/agents', requireAdmin, async (req, res) => {
     agents.push(agent);
     await kv.set(K('agents'), agents);
     const setupUrl = buildSetupUrl(agent.id);
-    emailAgentSetup(agent, setupUrl);
-    res.json({ ok: true, agent: { id: agent.id, name: agent.name, email: agent.email, licensed: agent.licensed }, setupUrl });
+    const emailed = await emailAgentSetup(agent, setupUrl);
+    res.json({ ok: true, agent: { id: agent.id, name: agent.name, email: agent.email, licensed: agent.licensed }, setupUrl, emailed });
   } catch (e) { res.status(500).json({ error: 'Server error.' }); }
 });
 
@@ -273,13 +307,14 @@ app.put('/api/admin/agents/:id', requireAdmin, async (req, res) => {
     if (idx === -1) return res.status(404).json({ error: 'Not found.' });
     if (name !== undefined)      agents[idx].name     = name.trim();
     if (licensed !== undefined)  agents[idx].licensed = !!licensed;
-    let setupUrl = null;
+    let setupUrl = null, emailed = false, wasReset = false;
     if (resendSetup) {
       setupUrl = buildSetupUrl(agents[idx].id);
-      emailAgentSetup(agents[idx], setupUrl);
+      wasReset = !!agents[idx].passwordHash;
+      emailed = await emailAgentSetup(agents[idx], setupUrl);
     }
     await kv.set(K('agents'), agents);
-    res.json({ ok: true, agent: { id: agents[idx].id, name: agents[idx].name, email: agents[idx].email, licensed: agents[idx].licensed }, setupUrl });
+    res.json({ ok: true, agent: { id: agents[idx].id, name: agents[idx].name, email: agents[idx].email, licensed: agents[idx].licensed }, setupUrl, emailed, wasReset });
   } catch (e) { res.status(500).json({ error: 'Server error.' }); }
 });
 
