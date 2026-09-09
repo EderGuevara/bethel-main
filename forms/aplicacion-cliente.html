@@ -114,7 +114,11 @@
     .fields.three{grid-template-columns:1fr 1fr}
     .hdr{flex-direction:column;text-align:center}
     .hdr-title{font-size:1.3rem}
-    .ben-table th:nth-child(4),.ben-table td:nth-child(4){display:none}
+    /* Every beneficiary column has to stay reachable on a phone. Hiding the
+       relationship column meant an agent working from mobile could never fill
+       it in, and it then printed blank. Scroll the table sideways instead. */
+    .ben-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .ben-scroll .ben-table{min-width:560px}
   }
 </style>
 </head>
@@ -332,6 +336,7 @@
     <!-- Beneficiarios Primarios -->
     <div class="section">
       <div class="section-title" id="secBenef">👨‍👩‍👧 Beneficiarios Primarios</div>
+      <div class="ben-scroll">
       <table class="ben-table">
         <thead>
           <tr>
@@ -346,6 +351,7 @@
           <!-- rows inserted by JS -->
         </tbody>
       </table>
+      </div>
     </div>
 
     <div class="divider"></div>
@@ -353,6 +359,7 @@
     <!-- Beneficiarios Contingentes -->
     <div class="section">
       <div class="section-title" id="secBenefCont">🛟 Beneficiarios Contingentes</div>
+      <div class="ben-scroll">
       <table class="ben-table">
         <thead>
           <tr>
@@ -367,6 +374,7 @@
           <!-- rows inserted by JS -->
         </tbody>
       </table>
+      </div>
     </div>
 
     <div class="divider"></div>
@@ -710,6 +718,76 @@ function _ensurePdfLibs(){
 }
 // Builds the PDF from a canvas snapshot rather than the browser print dialog —
 // Safari's print pipeline produced blank PDFs for some users. Cmd+P still works.
+
+// Replaces every form control with plain text before the snapshot. html2canvas
+// draws only the visible slice of an <input>, so anything the agent typed past
+// the edge of the box was silently missing from the PDF. Plain text wraps and
+// prints in full. Returns a function that puts the real controls back.
+function flattenFieldsForCapture(root){
+  var swapped = [];
+  function boxFrom(el, text, opts){
+    var cs = getComputedStyle(el);
+    var d = document.createElement('div');
+    d.textContent = (text === '' || text == null) ? ' ' : text;
+    var s = d.style;
+    s.font = cs.font;
+    s.fontFamily = cs.fontFamily; s.fontSize = cs.fontSize;
+    s.fontWeight = cs.fontWeight; s.letterSpacing = cs.letterSpacing;
+    s.color = cs.color;
+    s.background = cs.backgroundColor;
+    s.border = cs.borderTopWidth + ' ' + cs.borderTopStyle + ' ' + cs.borderTopColor;
+    s.borderRadius = cs.borderRadius;
+    s.padding = cs.paddingTop + ' ' + cs.paddingRight + ' ' + cs.paddingBottom + ' ' + cs.paddingLeft;
+    s.textAlign = cs.textAlign;
+    s.boxSizing = 'border-box';
+    // Width must be relative: the snapshot re-lays out the page at desktop width,
+    // so a pixel width measured in the current window would come out wrong.
+    s.width = '100%';
+    s.minHeight = el.offsetHeight ? el.offsetHeight + 'px' : 'auto';
+    s.whiteSpace = 'pre-wrap';
+    s.wordBreak = 'break-word';
+    s.lineHeight = (opts && opts.multiline) ? cs.lineHeight : (el.offsetHeight ? (el.offsetHeight - parseFloat(cs.paddingTop||0) - parseFloat(cs.paddingBottom||0) - 2*parseFloat(cs.borderTopWidth||0)) + 'px' : cs.lineHeight);
+    if (opts && opts.multiline) { s.lineHeight = cs.lineHeight; s.minHeight = 'auto'; }
+    s.display = 'block';
+    s.verticalAlign = 'middle';
+    return d;
+  }
+  function swap(el, node){
+    el.parentNode.insertBefore(node, el);
+    var prevDisplay = el.style.display;
+    el.style.display = 'none';
+    swapped.push({ el: el, node: node, prevDisplay: prevDisplay });
+  }
+  (root || document).querySelectorAll('input, textarea, select').forEach(function(el){
+    var type = (el.type || '').toLowerCase();
+    if (type === 'checkbox' || type === 'radio'){
+      var mark = document.createElement('span');
+      mark.textContent = el.checked ? '☑' : '☐';
+      mark.style.font = getComputedStyle(el).font;
+      mark.style.fontSize = '15px';
+      swap(el, mark);
+      return;
+    }
+    if (type === 'file' || type === 'hidden' || type === 'button' || type === 'submit') return;
+    if (el.tagName === 'SELECT'){
+      var opt = el.options[el.selectedIndex];
+      var label = opt ? opt.text : '';
+      if (label && label.indexOf('— Seleccionar') === 0) label = '';
+      if (label && label.indexOf('— Select') === 0) label = '';
+      swap(el, boxFrom(el, label));
+      return;
+    }
+    swap(el, boxFrom(el, el.value, { multiline: el.tagName === 'TEXTAREA' }));
+  });
+  return function restore(){
+    swapped.forEach(function(s){
+      if (s.node.parentNode) s.node.parentNode.removeChild(s.node);
+      s.el.style.display = s.prevDisplay;
+    });
+  };
+}
+
+var _restoreFields = null;
 function _buildPDF(filename, msgs, notify){
   var btn = document.getElementById('btnPDF');
   var origLabel = btn ? btn.textContent : '';
@@ -719,6 +797,7 @@ function _buildPDF(filename, msgs, notify){
     syncFieldsForPrint();
     if(bar) bar.style.display = 'none';
     var page = document.querySelector('.page');
+    _restoreFields = flattenFieldsForCapture(page);
     return html2canvas(page, {
       scale: 2, backgroundColor: '#FFFFFF', useCORS: true, logging: false,
       // Fixed width so the PDF always uses the full desktop layout, even if the
@@ -726,6 +805,7 @@ function _buildPDF(filename, msgs, notify){
       windowWidth: 1100, scrollX: 0, scrollY: -window.scrollY
     });
   }).then(function(canvas){
+    if(_restoreFields){ _restoreFields(); _restoreFields = null; }
     if(bar) bar.style.display = '';
     var img = canvas.toDataURL('image/jpeg', 0.92);
     var JsPDF = window.jspdf.jsPDF;
@@ -748,6 +828,7 @@ function _buildPDF(filename, msgs, notify){
     pdf.save(filename);
     notify(msgs.done);
   }).catch(function(e){
+    if(_restoreFields){ _restoreFields(); _restoreFields = null; }
     if(bar) bar.style.display = '';
     notify(msgs.err + (e && e.message ? e.message : ''));
   }).then(function(){
