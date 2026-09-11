@@ -3,7 +3,6 @@
   "builds": [
     { "src": "api/index.js", "use": "@vercel/node" },
     { "src": "*.html", "use": "@vercel/static" },
-    { "src": "gastos/index.html", "use": "@vercel/static" },
     { "src": "forms/*.html", "use": "@vercel/static" },
     { "src": "assets/**", "use": "@vercel/static" },
     { "src": "*.png", "use": "@vercel/static" },
@@ -16,7 +15,7 @@
     { "src": "/manifest.json", "dest": "/manifest.json" },
     { "src": "/forms/(.*)", "dest": "/forms/$1", "headers": { "Cache-Control": "no-cache, must-revalidate" } },
     { "src": "/assets/(.*)", "dest": "/assets/$1" },
-    { "src": "/gastos", "dest": "/gastos/index.html", "headers": { "Cache-Control": "no-cache, must-revalidate" } },
+    { "src": "/gastos", "dest": "/forms/control-de-gastos.html", "headers": { "Cache-Control": "no-cache, must-revalidate" } },
     { "src": "/interes-compuesto", "dest": "/interes-compuesto.html", "headers": { "Cache-Control": "no-cache, must-revalidate" } },
     { "src": "/admin", "dest": "/admin.html", "headers": { "Cache-Control": "no-cache, must-revalidate" } },
     { "src": "/portal", "dest": "/portal.html", "headers": { "Cache-Control": "no-cache, must-revalidate" } },

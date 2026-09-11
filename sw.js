@@ -27,6 +27,7 @@ self.addEventListener('fetch', e => {
       url.pathname.startsWith('/admin') ||
       url.pathname.startsWith('/portal') ||
       url.pathname.startsWith('/forms/') ||
+      url.pathname.startsWith('/gastos') ||
       url.origin !== self.location.origin) return;
 
   if (e.request.mode === 'navigate') {
