@@ -303,6 +303,28 @@ function syncFieldsForPrint(){
   });
 }
 if(window.addEventListener) window.addEventListener('beforeprint', syncFieldsForPrint);
+// beforeprint is not fired everywhere — iPhone and iPad Safari in particular go
+// straight to the print sheet from Share ▸ Print, so a form printed that way came
+// out with every field blank. Mirror each field as it is edited instead, so the
+// attributes Safari prints from are already correct however the print was started.
+// Sync the whole form, not just the field that changed: the calculated totals are
+// filled in by script and fire no event of their own, so mirroring only the edited
+// field left every total blank on the printed page. Bubble phase and a short delay
+// so the date, Social Security and phone fields have finished reformatting first.
+var _syncTimer = null;
+function _scheduleFieldSync(){
+  if(_syncTimer) clearTimeout(_syncTimer);
+  _syncTimer = setTimeout(function(){ _syncTimer = null; syncFieldsForPrint(); }, 150);
+}
+document.addEventListener('input',  _scheduleFieldSync, false);
+document.addEventListener('change', _scheduleFieldSync, false);
+// Safari reports the print sheet through matchMedia rather than beforeprint.
+if(window.matchMedia){
+  var _printMq = window.matchMedia('print');
+  var _onPrintMq = function(m){ if(m.matches) syncFieldsForPrint(); };
+  if(_printMq.addEventListener) _printMq.addEventListener('change', _onPrintMq);
+  else if(_printMq.addListener) _printMq.addListener(_onPrintMq);
+}
 
 // ── Download PDF ──────────────────────────────────────────────────────────────
 
