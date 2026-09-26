@@ -229,12 +229,20 @@
           <label id="lblEstatura">Estatura</label>
           <input type="text" id="estatura" placeholder="pies/pulg o cm">
         </div>
-        <div class="field full">
+        <div class="field">
           <label id="lblFuma">¿Fuma?</label>
           <div class="radio-group">
             <label><input type="radio" name="fuma" value="No"> No</label>
             <label><input type="radio" name="fuma" value="Si"> Sí</label>
             <label><input type="radio" name="fuma" value="Exfumador"> Exfumador/a</label>
+          </div>
+        </div>
+        <div class="field">
+          <label id="lblBebe">¿Toma Alcohol?</label>
+          <div class="radio-group">
+            <label><input type="radio" name="bebe" value="No"> No</label>
+            <label><input type="radio" name="bebe" value="Si"> Sí</label>
+            <label><input type="radio" name="bebe" value="Ocasionalmente"> Ocasionalmente</label>
           </div>
         </div>
         <div class="field full">
@@ -496,7 +504,7 @@ var _T = {
     lblEmail:'Email', lblTelefono:'Teléfono', lblEmpleador:'Empleador',
     lblPosicion:'Posición / Cargo', lblIngreso:'Ingreso Mensual',
     lblIngresoConyuge:'Ingreso Mensual del Cónyuge',
-    lblPeso:'Peso', lblEstatura:'Estatura', lblFuma:'¿Fuma?',
+    lblPeso:'Peso', lblEstatura:'Estatura', lblFuma:'¿Fuma?', lblBebe:'¿Toma Alcohol?',
     lblCondicion:'Condición Médica', lblMedicina:'Medicamentos',
     lblDoctor:'Doctor / Clínica', lblUltimaVisita:'Fecha de Última Visita Médica',
     lblTipoVisita:'Tipo de Visita', lblRazonVisita:'Razón de la Visita',
@@ -526,6 +534,7 @@ var _T = {
     legalOpts:['— Seleccionar —','Ciudadano Americano','Residente Permanente','Visa de Trabajo','DACA','Otro'],
     visitaOpts:['— Seleccionar —','Chequeo de rutina','Seguimiento','Enfermedad','Lesión','Receta / Medicamento','Otro'],
     fumaOpts:['No','Sí','Exfumador/a'],
+    bebeOpts:['No','Sí','Ocasionalmente'],
     benefPlaceholders:['Beneficiario #1','Beneficiario #2','Beneficiario #3','Beneficiario #4'],
     contPlaceholders:['Beneficiario Contingente #1','Beneficiario Contingente #2'],
     benefRelPlaceholder:'Ej: Cónyuge',
@@ -552,7 +561,7 @@ var _T = {
     lblEmail:'Email', lblTelefono:'Phone', lblEmpleador:'Employer',
     lblPosicion:'Position / Title', lblIngreso:'Monthly Income',
     lblIngresoConyuge:"Spouse's Monthly Income",
-    lblPeso:'Weight', lblEstatura:'Height', lblFuma:'Do you smoke?',
+    lblPeso:'Weight', lblEstatura:'Height', lblFuma:'Do you smoke?', lblBebe:'Do you drink alcohol?',
     lblCondicion:'Medical Condition', lblMedicina:'Medications',
     lblDoctor:'Doctor / Clinic', lblUltimaVisita:'Date of Last Medical Visit',
     lblTipoVisita:'Type of Visit', lblRazonVisita:'Reason for Visit',
@@ -582,6 +591,7 @@ var _T = {
     legalOpts:['— Select —','U.S. Citizen','Permanent Resident','Work Visa','DACA','Other'],
     visitaOpts:['— Select —','Routine checkup','Follow-up','Illness','Injury','Prescription / Medication','Other'],
     fumaOpts:['No','Yes','Ex-smoker'],
+    bebeOpts:['No','Yes','Occasionally'],
     benefPlaceholders:['Beneficiary #1','Beneficiary #2','Beneficiary #3','Beneficiary #4'],
     contPlaceholders:['Contingent Beneficiary #1','Contingent Beneficiary #2'],
     benefRelPlaceholder:'e.g.: Spouse',
@@ -605,7 +615,7 @@ function toggleLang(){
     'secPersonal','secSalud','secAdicional','secBancaria','secBenef','secBenefCont','secPoliza','secNotas',
     'lblNombre','lblFechaNac','lblSSN','lblDireccion','lblEstadoCivil','lblEstadoLegal',
     'lblEmail','lblTelefono','lblEmpleador','lblPosicion','lblIngreso','lblIngresoConyuge',
-    'lblPeso','lblEstatura','lblFuma','lblCondicion','lblMedicina','lblDoctor','lblUltimaVisita',
+    'lblPeso','lblEstatura','lblFuma','lblBebe','lblCondicion','lblMedicina','lblDoctor','lblUltimaVisita',
     'lblTipoVisita','lblRazonVisita','lblPrimaMensual','lblPrimaAnual',
     'lblEdadMama','lblEdadPapa','lblDiscapacidad','lblBanco','lblRuta','lblCuenta',
     'thNombre','thFecha','thPorcentaje','thParentesco','thSSN','footerConfidencial',
@@ -634,9 +644,12 @@ function toggleLang(){
   // Select options — Tipo de Visita
   var tv=document.getElementById('tipoVisita');
   if(tv){ Array.from(tv.options).forEach(function(o,i){ o.text=t.visitaOpts[i]||o.text; }); }
-  // Radio labels for fuma
-  var radios=document.querySelectorAll('input[name=fuma]');
-  radios.forEach(function(r,i){ if(r.nextSibling) r.parentNode.lastChild.textContent=' '+t.fumaOpts[i]; });
+  // Radio labels for the smoking and drinking questions
+  [['fuma','fumaOpts'],['bebe','bebeOpts']].forEach(function(pair){
+    document.querySelectorAll('input[name='+pair[0]+']').forEach(function(r,i){
+      if(r.nextSibling) r.parentNode.lastChild.textContent=' '+t[pair[1]][i];
+    });
+  });
   // Beneficiary placeholders (primary + contingent, paired rows)
   function translateBenefRows(tbodyId, namePhs){
     var rows=document.querySelectorAll('#'+tbodyId+' tr');
