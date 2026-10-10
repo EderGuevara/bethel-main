@@ -136,27 +136,39 @@ app.get('/api/me', async (req, res) => {
 // Agent accounts gate access to the Agent Portal. Only accounts with
 // licensed:true can sign in there; admin toggles this per agent.
 
-app.get('/api/admin/agents', requireAdmin, async (req, res) => {
+// The roster an admin sees, and the list that read receipts and message threads are
+// keyed against: native bethel-main accounts plus life-course accounts currently
+// marked licensed there. E-mail is the identity that spans both, so it is what
+// receipts and threads are stored under.
+async function agentRoster() {
+  const agents = (await kv.get(K('agents'))) || [];
+  const native = agents.map(a => ({ source: 'native', id: a.id, name: a.name, email: a.email, licensed: !!a.licensed, hasPassword: !!a.passwordHash, createdAt: a.createdAt }));
+  const nativeEmails = new Set(native.map(a => a.email));
+
+  // Life-course accounts live in the same shared KV store, keyed by users:index
+  // (list of emails) + user:<email> records.
+  let examAgents = [];
   try {
-    const agents = (await kv.get(K('agents'))) || [];
-    const native = agents.map(a => ({ source: 'native', id: a.id, name: a.name, email: a.email, licensed: !!a.licensed, hasPassword: !!a.passwordHash, createdAt: a.createdAt }));
-    const nativeEmails = new Set(native.map(a => a.email));
+    const index = (await kv.get('users:index')) || [];
+    if (index.length) {
+      const users = await kv.mget(...index.map(e => 'user:' + e));
+      examAgents = users
+        .filter(u => u && u.licensed && !nativeEmails.has(u.email))
+        .map(u => ({ source: 'exam-prep', email: u.email, name: u.name, licensed: true, hasPassword: true, createdAt: u.createdAt || null }));
+    }
+  } catch {}
 
-    // Merge in life-course accounts currently marked licensed there — same shared
-    // KV store, keyed by users:index (list of emails) + user:<email> records.
-    let examAgents = [];
-    try {
-      const index = (await kv.get('users:index')) || [];
-      if (index.length) {
-        const users = await kv.mget(...index.map(e => 'user:' + e));
-        examAgents = users
-          .filter(u => u && u.licensed && !nativeEmails.has(u.email))
-          .map(u => ({ source: 'exam-prep', email: u.email, name: u.name, licensed: true, hasPassword: true, createdAt: u.createdAt || null }));
-      }
-    } catch {}
+  return [...native, ...examAgents];
+}
 
-    res.json([...native, ...examAgents]);
-  } catch { res.status(500).json({ error: 'Server error.' }); }
+// Whichever kind of account signed in, the thread and the receipts hang off e-mail.
+function agentKeyOf(user) {
+  return String((user && (user.email || user.examEmail)) || '').toLowerCase();
+}
+
+app.get('/api/admin/agents', requireAdmin, async (req, res) => {
+  try { res.json(await agentRoster()); }
+  catch { res.status(500).json({ error: 'Server error.' }); }
 });
 
 // POST /api/admin/exam-agents/:email/revoke — remove portal access for a licensed
@@ -364,6 +376,54 @@ app.post('/api/agent/set-password', async (req, res) => {
   } catch (e) { res.status(500).json({ error: 'Server error.' }); }
 });
 
+// ── DOCUMENT STORAGE ────────────────────────────────────────────────────────
+// Uploads used to go to Vercel Blob with public access, which this account's
+// private-only store rejects, so attaching a file silently failed and only
+// pasted links worked. Files are kept in Redis instead, split into chunks so a
+// single value never gets near the size a request can carry.
+
+const DOC_CHUNK = 180000; // characters of base64 per Redis value
+
+async function storeDocument(id, dataUrl, meta) {
+  const base64 = String(dataUrl).replace(/^data:[^;]+;base64,/, '');
+  const chunks = [];
+  for (let i = 0; i < base64.length; i += DOC_CHUNK) chunks.push(base64.slice(i, i + DOC_CHUNK));
+  for (let i = 0; i < chunks.length; i++) await kv.set(K('doc:' + id + ':' + i), chunks[i]);
+  await kv.set(K('doc:' + id + ':meta'), { chunks: chunks.length, mimetype: meta.mimetype || 'application/octet-stream', filename: meta.filename || 'document', size: meta.size || null });
+  return chunks.length;
+}
+
+async function readDocument(id) {
+  const meta = await kv.get(K('doc:' + id + ':meta'));
+  if (!meta) return null;
+  const keys = [];
+  for (let i = 0; i < meta.chunks; i++) keys.push(K('doc:' + id + ':' + i));
+  const parts = keys.length ? await kv.mget(...keys) : [];
+  if (parts.some(p => p == null)) return null;
+  return { meta, buffer: Buffer.from(parts.join(''), 'base64') };
+}
+
+async function deleteDocument(id) {
+  const meta = await kv.get(K('doc:' + id + ':meta'));
+  if (!meta) return;
+  for (let i = 0; i < meta.chunks; i++) await kv.del(K('doc:' + id + ':' + i));
+  await kv.del(K('doc:' + id + ':meta'));
+}
+
+// Agent-only material, so the download is authenticated. The portal fetches it
+// with the bearer token and hands the blob to the browser, rather than using a
+// plain link that could not carry the header.
+app.get('/api/portal/document/:id', requireAgent, async (req, res) => {
+  try {
+    const doc = await readDocument(req.params.id);
+    if (!doc) return res.status(404).json({ error: 'Not found.' });
+    res.setHeader('Content-Type', doc.meta.mimetype);
+    res.setHeader('Content-Disposition', 'inline; filename="' + doc.meta.filename.replace(/"/g, '') + '"');
+    res.setHeader('Cache-Control', 'private, max-age=86400');
+    res.send(doc.buffer);
+  } catch (e) { res.status(500).json({ error: 'Server error.' }); }
+});
+
 // ── RESOURCES ───────────────────────────────────────────────────────────────
 
 app.get('/api/portal/resources', requireAgent, async (req, res) => {
@@ -375,16 +435,17 @@ app.post('/api/portal/resources/upload', requireAdmin, async (req, res) => {
   try {
     const { name, description, category, fileData, filename, mimetype, size, url, logoUrl } = req.body;
     if (!name) return res.status(400).json({ error: 'Name required.' });
+    const id = Date.now();
     let resourceUrl = url || null;
+    let stored = false;
     if (fileData && filename) {
-      if (!blobPut) return res.status(503).json({ error: 'File storage not configured. Use a URL instead.' });
-      const buf  = Buffer.from(fileData.replace(/^data:[^;]+;base64,/, ''), 'base64');
-      const safe = filename.replace(/[^a-zA-Z0-9._-]/g, '_');
-      resourceUrl = (await blobPut(`portal/${Date.now()}_${safe}`, buf, { access: 'public', contentType: mimetype || 'application/octet-stream' })).url;
+      await storeDocument(id, fileData, { mimetype, filename, size });
+      resourceUrl = '/api/portal/document/' + id;
+      stored = true;
     }
     if (!resourceUrl) return res.status(400).json({ error: 'File or URL required.' });
     const list = (await kv.get(K('portal:resources'))) || [];
-    const item = { id: Date.now(), name, description: description || '', category: category || 'Documents', url: resourceUrl, filename: filename || name, size: size || null, mimetype: mimetype || null, logoUrl: logoUrl || null, uploadedAt: nowISO() };
+    const item = { id, name, description: description || '', category: category || 'Documents', url: resourceUrl, stored, filename: filename || name, size: size || null, mimetype: mimetype || null, logoUrl: logoUrl || null, uploadedAt: nowISO() };
     list.unshift(item);
     await kv.set(K('portal:resources'), list);
     res.json({ ok: true, resource: item });
@@ -415,8 +476,150 @@ app.delete('/api/portal/resources/:id', requireAdmin, async (req, res) => {
     const item = list.find(r => r.id === id);
     if (!item) return res.status(404).json({ error: 'Not found.' });
     try { if (blobDel && item.url && item.url.includes('vercel-storage')) await blobDel(item.url); } catch {}
+    try { await deleteDocument(id); } catch {}
+    try { await kv.del(K('read:' + id)); } catch {}
     await kv.set(K('portal:resources'), list.filter(r => r.id !== id));
     res.json({ ok: true });
+  } catch { res.status(500).json({ error: 'Server error.' }); }
+});
+
+// ── READ RECEIPTS ───────────────────────────────────────────────────────────
+// Written twice on purpose: once per document so the admin can ask "who has read
+// this", once per agent so the portal can mark their own unread items, each as a
+// hash field so two agents confirming at the same moment cannot overwrite each
+// other the way a whole-array rewrite would.
+
+app.post('/api/portal/resources/:id/read', requireAgent, async (req, res) => {
+  try {
+    const who = agentKeyOf(req.user);
+    if (!who) return res.status(400).json({ error: 'No account e-mail.' });
+    const id = String(req.params.id);
+    const at = nowISO();
+    await kv.hset(K('read:' + id), { [who]: at });
+    await kv.hset(K('readby:' + who), { [id]: at });
+    res.json({ ok: true, at });
+  } catch { res.status(500).json({ error: 'Server error.' }); }
+});
+
+app.get('/api/portal/resources/reads', requireAgent, async (req, res) => {
+  try {
+    const who = agentKeyOf(req.user);
+    if (!who) return res.json({});
+    res.json((await kv.hgetall(K('readby:' + who))) || {});
+  } catch { res.status(500).json({ error: 'Server error.' }); }
+});
+
+// Who has opened a given document, and who still has not.
+app.get('/api/admin/resources/:id/reads', requireAdmin, async (req, res) => {
+  try {
+    const reads = (await kv.hgetall(K('read:' + req.params.id))) || {};
+    const roster = await agentRoster();
+    const read = [], unread = [];
+    roster.filter(a => a.licensed).forEach(a => {
+      const at = reads[a.email];
+      (at ? read : unread).push({ name: a.name, email: a.email, at: at || null });
+    });
+    read.sort((a, b) => String(b.at).localeCompare(String(a.at)));
+    unread.sort((a, b) => String(a.name).localeCompare(String(b.name)));
+    res.json({ read, unread });
+  } catch { res.status(500).json({ error: 'Server error.' }); }
+});
+
+// ── PRIVATE MESSAGES ────────────────────────────────────────────────────────
+// One thread per agent, between that agent and the office. Appended with RPUSH
+// so a reply written while the other side is also writing cannot be lost. Agents
+// send text only; the office can attach a document already in the library.
+
+const DM = email => K('dm:' + email);
+const DMMETA = email => K('dm:meta:' + email);
+
+async function readThread(email) {
+  const raw = (await kv.lrange(DM(email), 0, -1)) || [];
+  return raw.map(m => (typeof m === 'string' ? JSON.parse(m) : m));
+}
+
+async function appendMessage(email, msg) {
+  await kv.rpush(DM(email), JSON.stringify(msg));
+  const index = (await kv.get(K('dm:index'))) || [];
+  if (!index.includes(email)) { index.push(email); await kv.set(K('dm:index'), index); }
+}
+
+app.get('/api/portal/messages', requireAgent, async (req, res) => {
+  try {
+    const who = agentKeyOf(req.user);
+    if (!who) return res.json({ messages: [] });
+    const messages = await readThread(who);
+    const meta = (await kv.get(DMMETA(who))) || {};
+    meta.agentLastRead = nowISO();
+    await kv.set(DMMETA(who), meta);
+    res.json({ messages });
+  } catch { res.status(500).json({ error: 'Server error.' }); }
+});
+
+app.post('/api/portal/messages', requireAgent, async (req, res) => {
+  try {
+    const who = agentKeyOf(req.user);
+    if (!who) return res.status(400).json({ error: 'No account e-mail.' });
+    const text = String((req.body || {}).text || '').trim();
+    if (!text) return res.status(400).json({ error: 'Message required.' });
+    if (text.length > 5000) return res.status(400).json({ error: 'Message too long.' });
+    const msg = { id: Date.now(), from: 'agent', text, at: nowISO() };
+    await appendMessage(who, msg);
+    res.json({ ok: true, message: msg });
+  } catch { res.status(500).json({ error: 'Server error.' }); }
+});
+
+// Every licensed agent gets a row, whether or not anything has been said yet, so
+// the office can start a conversation rather than only answer one.
+app.get('/api/admin/messages', requireAdmin, async (req, res) => {
+  try {
+    const roster = (await agentRoster()).filter(a => a.licensed);
+    const threads = [];
+    for (const a of roster) {
+      const messages = await readThread(a.email);
+      const meta = (await kv.get(DMMETA(a.email))) || {};
+      const lastRead = meta.adminLastRead || '';
+      threads.push({
+        email: a.email,
+        name: a.name,
+        count: messages.length,
+        last: messages.length ? messages[messages.length - 1] : null,
+        unread: messages.filter(m => m.from === 'agent' && m.at > lastRead).length
+      });
+    }
+    threads.sort((x, y) => String((y.last && y.last.at) || '').localeCompare(String((x.last && x.last.at) || '')));
+    res.json(threads);
+  } catch { res.status(500).json({ error: 'Server error.' }); }
+});
+
+app.get('/api/admin/messages/:email', requireAdmin, async (req, res) => {
+  try {
+    const email = decodeURIComponent(req.params.email).toLowerCase();
+    const messages = await readThread(email);
+    const meta = (await kv.get(DMMETA(email))) || {};
+    meta.adminLastRead = nowISO();
+    await kv.set(DMMETA(email), meta);
+    res.json({ messages });
+  } catch { res.status(500).json({ error: 'Server error.' }); }
+});
+
+app.post('/api/admin/messages/:email', requireAdmin, async (req, res) => {
+  try {
+    const email = decodeURIComponent(req.params.email).toLowerCase();
+    const { text = '', resourceId = null } = req.body || {};
+    const body = String(text).trim();
+    if (!body && !resourceId) return res.status(400).json({ error: 'Message or attachment required.' });
+    if (body.length > 5000) return res.status(400).json({ error: 'Message too long.' });
+    let attachment = null;
+    if (resourceId) {
+      const list = (await kv.get(K('portal:resources'))) || [];
+      const r = list.find(x => String(x.id) === String(resourceId));
+      if (!r) return res.status(404).json({ error: 'Document not found.' });
+      attachment = { id: r.id, name: r.name, url: r.url, mimetype: r.mimetype || null };
+    }
+    const msg = { id: Date.now(), from: 'admin', text: body, attachment, at: nowISO() };
+    await appendMessage(email, msg);
+    res.json({ ok: true, message: msg });
   } catch { res.status(500).json({ error: 'Server error.' }); }
 });
 
