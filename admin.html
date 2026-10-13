@@ -157,6 +157,38 @@ a{text-decoration:none;color:inherit}
           <div class="choose-desc">Add licensed agents and control who can sign in to the Agent Portal.</div>
           <button class="choose-btn" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">Manage Agents →</button>
         </div>
+        <div class="choose-card" onclick="showMessagesAdmin()" style="border-color:#7C3AED">
+          <div class="choose-icon">✉️</div>
+          <div class="choose-title">Messages</div>
+          <div class="choose-desc">Private conversations with each agent. Send a note, attach a document, see their replies.</div>
+          <button class="choose-btn" style="background:linear-gradient(135deg,#A78BFA,#7C3AED)">Open Messages <span id="msgTotalBadge"></span> →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MESSAGES PANEL -->
+    <div class="portal-panel" id="messagesPanel">
+      <button class="back-btn" onclick="showChoose()">← Back to Admin Home</button>
+      <div class="page-title">✉️ Messages</div>
+      <div class="page-sub">A private thread with each licensed agent. Only you and that agent can see it.</div>
+      <div style="display:grid;grid-template-columns:minmax(220px,300px) 1fr;gap:1rem;align-items:start">
+        <div class="card" style="padding:0;overflow:hidden">
+          <div id="threadList" style="max-height:60vh;overflow-y:auto"><div class="empty">Loading…</div></div>
+        </div>
+        <div class="card" id="threadPane">
+          <div class="empty">Pick an agent to see the conversation</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHO READ THIS -->
+    <div id="readsModal" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:90;align-items:center;justify-content:center;padding:1rem">
+      <div style="background:#fff;border-radius:14px;max-width:460px;width:100%;max-height:80vh;overflow-y:auto;padding:1.25rem">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.25rem">
+          <div style="font-weight:800;font-size:1rem" id="readsTitle">Who has read this</div>
+          <button onclick="document.getElementById('readsModal').style.display='none'" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:#9CA3AF">✕</button>
+        </div>
+        <div id="readsBody" style="margin-top:.75rem"><div class="empty">Loading…</div></div>
       </div>
     </div>
 
@@ -334,6 +366,7 @@ function showChoose() {
   document.getElementById('portalPanel').classList.remove('visible');
   document.getElementById('submissionsPanel').classList.remove('visible');
   document.getElementById('agentsPanel').classList.remove('visible');
+  document.getElementById('messagesPanel').classList.remove('visible');
 }
 function showPortalAdmin() {
   document.getElementById('chooseSection').style.display = 'none';
@@ -342,6 +375,137 @@ function showPortalAdmin() {
 }
 function openCourseAdmin() {
   window.open('https://exam.bethelfinancialgroup.com/admin', '_blank');
+}
+
+// ── WHO HAS READ A DOCUMENT ──
+async function showReads(id) {
+  var modal = document.getElementById('readsModal');
+  var body  = document.getElementById('readsBody');
+  var r = _resMap[id];
+  document.getElementById('readsTitle').textContent = r ? r.name : 'Who has read this';
+  body.innerHTML = '<div class="empty">Loading…</div>';
+  modal.style.display = 'flex';
+  try {
+    var data = await apiCall('GET', '/api/admin/resources/' + id + '/reads');
+    var row = function(x, read) {
+      return '<div class="list-item"><div class="list-item-info">'
+        + '<div class="list-item-name">' + (read ? '✅ ' : '⬜️ ') + escHtml(x.name || x.email) + '</div>'
+        + '<div class="list-item-sub">' + escHtml(x.email) + (read ? ' · ' + fmtWhen(x.at) : '') + '</div>'
+        + '</div></div>';
+    };
+    var total = data.read.length + data.unread.length;
+    body.innerHTML =
+      '<div style="font-size:.82rem;color:#6B7280;margin-bottom:.6rem">' + data.read.length + ' of ' + total + ' licensed agents have opened it.</div>'
+      + (data.unread.length
+          ? '<div style="font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#B45309;margin:.6rem 0 .25rem">Not yet</div>'
+            + data.unread.map(function(x) { return row(x, false); }).join('')
+          : '')
+      + (data.read.length
+          ? '<div style="font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#047857;margin:.9rem 0 .25rem">Read</div>'
+            + data.read.map(function(x) { return row(x, true); }).join('')
+          : '');
+  } catch (e) { body.innerHTML = '<div class="empty">' + escHtml(e.message || 'Could not load that.') + '</div>'; }
+}
+
+function fmtWhen(iso) {
+  if (!iso) return '';
+  var d = new Date(iso);
+  return d.toLocaleDateString('en-US', { month:'short', day:'numeric' }) + ' ' + d.toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit' });
+}
+
+// ── MESSAGES ──
+var _threads = [], _openThread = null;
+
+function showMessagesAdmin() {
+  document.getElementById('chooseSection').style.display = 'none';
+  document.getElementById('messagesPanel').classList.add('visible');
+  // The attachment picker lists the document library, which otherwise only gets
+  // loaded when the Portal Admin panel is opened.
+  apiCall('GET', '/api/portal/resources')
+    .then(function(list) { _resMap = {}; (list || []).forEach(function(r) { _resMap[r.id] = r; }); })
+    .catch(function() {});
+  loadThreads();
+}
+
+async function loadThreads() {
+  try { _threads = await apiCall('GET', '/api/admin/messages'); }
+  catch (e) { document.getElementById('threadList').innerHTML = '<div class="empty">' + escHtml(e.message) + '</div>'; return; }
+  renderThreadList();
+}
+
+function renderThreadList() {
+  var el = document.getElementById('threadList');
+  if (!_threads.length) { el.innerHTML = '<div class="empty">No licensed agents yet</div>'; return; }
+  el.innerHTML = _threads.map(function(t) {
+    var preview = t.last ? (t.last.from === 'admin' ? 'You: ' : '') + t.last.text.slice(0, 44) : 'No messages yet';
+    var active = _openThread === t.email;
+    return '<div onclick="openThread(\'' + encodeURIComponent(t.email) + '\')" style="padding:.7rem .85rem;border-bottom:1px solid #F3F4F6;cursor:pointer;' + (active ? 'background:#F5F3FF' : '') + '">'
+      + '<div style="display:flex;align-items:center;gap:.4rem">'
+      + '<div style="font-weight:700;font-size:.86rem;color:#111827;flex:1">' + escHtml(t.name || t.email) + '</div>'
+      + (t.unread ? '<span style="background:#7C3AED;color:#fff;border-radius:999px;font-size:.65rem;font-weight:800;padding:1px 7px">' + t.unread + '</span>' : '')
+      + '</div>'
+      + '<div style="font-size:.75rem;color:#9CA3AF;margin-top:.15rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + escHtml(preview) + '</div>'
+      + '</div>';
+  }).join('');
+  var totalUnread = _threads.reduce(function(n, t) { return n + t.unread; }, 0);
+  var badge = document.getElementById('msgTotalBadge');
+  if (badge) badge.textContent = totalUnread ? '(' + totalUnread + ')' : '';
+}
+
+async function openThread(encEmail) {
+  var email = decodeURIComponent(encEmail);
+  _openThread = email;
+  var pane = document.getElementById('threadPane');
+  pane.innerHTML = '<div class="empty">Loading…</div>';
+  var messages = [];
+  try { messages = (await apiCall('GET', '/api/admin/messages/' + encodeURIComponent(email))).messages || []; }
+  catch (e) { pane.innerHTML = '<div class="empty">' + escHtml(e.message) + '</div>'; return; }
+  var t = _threads.filter(function(x) { return x.email === email; })[0] || { name: email };
+
+  var docOptions = Object.keys(_resMap).map(function(id) {
+    return '<option value="' + id + '">' + escHtml(_resMap[id].name) + '</option>';
+  }).join('');
+
+  pane.innerHTML =
+    '<div class="card-title">' + escHtml(t.name || email) + '<div style="font-weight:400;font-size:.75rem;color:#9CA3AF">' + escHtml(email) + '</div></div>'
+    + '<div id="adminMsgList" style="max-height:44vh;overflow-y:auto;display:flex;flex-direction:column;gap:.6rem;padding:.5rem 0 .9rem"></div>'
+    + '<div class="field"><textarea id="adminMsgText" placeholder="Write to ' + escHtml((t.name || email).split(' ')[0]) + '…" style="min-height:70px"></textarea></div>'
+    + '<div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap">'
+    + '<select id="adminMsgDoc" style="flex:1;min-width:160px;padding:.5rem;border:1px solid #E5E7EB;border-radius:8px;font-family:inherit;font-size:.82rem">'
+    + '<option value="">Attach a document (optional)</option>' + docOptions + '</select>'
+    + '<button class="btn-sm" onclick="sendAdminMessage(\'' + encEmail + '\')">Send</button>'
+    + '</div>';
+
+  renderAdminMessages(messages);
+  renderThreadList();
+  loadThreads();
+}
+
+function renderAdminMessages(messages) {
+  var el = document.getElementById('adminMsgList');
+  if (!el) return;
+  if (!messages.length) { el.innerHTML = '<div class="empty">Nothing yet. Say hello.</div>'; return; }
+  el.innerHTML = messages.map(function(m) {
+    var mine = m.from === 'admin';
+    return '<div style="max-width:80%;align-self:' + (mine ? 'flex-end' : 'flex-start') + ';background:' + (mine ? '#1F2A44;color:#fff' : '#F1F5F9;color:#0F172A') + ';padding:.55rem .8rem;border-radius:12px;font-size:.85rem;line-height:1.45;white-space:pre-wrap;word-break:break-word">'
+      + escHtml(m.text)
+      + (m.attachment ? '<div style="margin-top:.4rem;font-size:.75rem;opacity:.9">📎 ' + escHtml(m.attachment.name) + '</div>' : '')
+      + '<div style="font-size:.65rem;opacity:.65;margin-top:.25rem">' + (mine ? 'You' : 'Agent') + ' · ' + fmtWhen(m.at) + '</div>'
+      + '</div>';
+  }).join('');
+  el.scrollTop = el.scrollHeight;
+}
+
+async function sendAdminMessage(encEmail) {
+  var text = document.getElementById('adminMsgText').value.trim();
+  var doc  = document.getElementById('adminMsgDoc').value;
+  if (!text && !doc) { alert('Write a message or pick a document.'); return; }
+  try {
+    await apiCall('POST', '/api/admin/messages/' + encEmail, { text: text, resourceId: doc || null });
+    document.getElementById('adminMsgText').value = '';
+    document.getElementById('adminMsgDoc').value = '';
+    openThread(encEmail);
+  } catch (e) { alert(e.message || 'Could not send that.'); }
 }
 
 // ── PORTAL DATA ──
@@ -379,6 +543,7 @@ function renderResList(list) {
       + '<div class="list-item-info"><div class="list-item-name">' + escHtml(r.name) + '</div>'
       + '<div class="list-item-sub">' + escHtml(r.category) + '</div></div>'
       + '<div style="display:flex;gap:4px;flex-shrink:0">'
+      + '<button onclick="showReads(' + r.id + ')" title="Who has read this" style="background:none;border:1px solid #E5E7EB;border-radius:5px;color:#374151;cursor:pointer;font-size:.75rem;padding:2px 7px">👁</button>'
       + '<button onclick="openEditRes(' + r.id + ')" style="background:none;border:1px solid #E5E7EB;border-radius:5px;color:#374151;cursor:pointer;font-size:.75rem;padding:2px 7px">✏</button>'
       + '<button class="del-btn" onclick="deleteRes(' + r.id + ')">✕</button>'
       + '</div>'
