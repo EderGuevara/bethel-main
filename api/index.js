@@ -477,51 +477,8 @@ app.delete('/api/portal/resources/:id', requireAdmin, async (req, res) => {
     if (!item) return res.status(404).json({ error: 'Not found.' });
     try { if (blobDel && item.url && item.url.includes('vercel-storage')) await blobDel(item.url); } catch {}
     try { await deleteDocument(id); } catch {}
-    try { await kv.del(K('read:' + id)); } catch {}
     await kv.set(K('portal:resources'), list.filter(r => r.id !== id));
     res.json({ ok: true });
-  } catch { res.status(500).json({ error: 'Server error.' }); }
-});
-
-// ── READ RECEIPTS ───────────────────────────────────────────────────────────
-// Written twice on purpose: once per document so the admin can ask "who has read
-// this", once per agent so the portal can mark their own unread items, each as a
-// hash field so two agents confirming at the same moment cannot overwrite each
-// other the way a whole-array rewrite would.
-
-app.post('/api/portal/resources/:id/read', requireAgent, async (req, res) => {
-  try {
-    const who = agentKeyOf(req.user);
-    if (!who) return res.status(400).json({ error: 'No account e-mail.' });
-    const id = String(req.params.id);
-    const at = nowISO();
-    await kv.hset(K('read:' + id), { [who]: at });
-    await kv.hset(K('readby:' + who), { [id]: at });
-    res.json({ ok: true, at });
-  } catch { res.status(500).json({ error: 'Server error.' }); }
-});
-
-app.get('/api/portal/resources/reads', requireAgent, async (req, res) => {
-  try {
-    const who = agentKeyOf(req.user);
-    if (!who) return res.json({});
-    res.json((await kv.hgetall(K('readby:' + who))) || {});
-  } catch { res.status(500).json({ error: 'Server error.' }); }
-});
-
-// Who has opened a given document, and who still has not.
-app.get('/api/admin/resources/:id/reads', requireAdmin, async (req, res) => {
-  try {
-    const reads = (await kv.hgetall(K('read:' + req.params.id))) || {};
-    const roster = await agentRoster();
-    const read = [], unread = [];
-    roster.filter(a => a.licensed).forEach(a => {
-      const at = reads[a.email];
-      (at ? read : unread).push({ name: a.name, email: a.email, at: at || null });
-    });
-    read.sort((a, b) => String(b.at).localeCompare(String(a.at)));
-    unread.sort((a, b) => String(a.name).localeCompare(String(b.name)));
-    res.json({ read, unread });
   } catch { res.status(500).json({ error: 'Server error.' }); }
 });
 

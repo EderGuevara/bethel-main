@@ -181,16 +181,6 @@ a{text-decoration:none;color:inherit}
       </div>
     </div>
 
-    <!-- WHO READ THIS -->
-    <div id="readsModal" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:90;align-items:center;justify-content:center;padding:1rem">
-      <div style="background:#fff;border-radius:14px;max-width:460px;width:100%;max-height:80vh;overflow-y:auto;padding:1.25rem">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.25rem">
-          <div style="font-weight:800;font-size:1rem" id="readsTitle">Who has read this</div>
-          <button onclick="document.getElementById('readsModal').style.display='none'" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:#9CA3AF">✕</button>
-        </div>
-        <div id="readsBody" style="margin-top:.75rem"><div class="empty">Loading…</div></div>
-      </div>
-    </div>
 
     <!-- PORTAL ADMIN PANEL -->
     <div class="portal-panel" id="portalPanel">
@@ -377,36 +367,6 @@ function openCourseAdmin() {
   window.open('https://exam.bethelfinancialgroup.com/admin', '_blank');
 }
 
-// ── WHO HAS READ A DOCUMENT ──
-async function showReads(id) {
-  var modal = document.getElementById('readsModal');
-  var body  = document.getElementById('readsBody');
-  var r = _resMap[id];
-  document.getElementById('readsTitle').textContent = r ? r.name : 'Who has read this';
-  body.innerHTML = '<div class="empty">Loading…</div>';
-  modal.style.display = 'flex';
-  try {
-    var data = await apiCall('GET', '/api/admin/resources/' + id + '/reads');
-    var row = function(x, read) {
-      return '<div class="list-item"><div class="list-item-info">'
-        + '<div class="list-item-name">' + (read ? '✅ ' : '⬜️ ') + escHtml(x.name || x.email) + '</div>'
-        + '<div class="list-item-sub">' + escHtml(x.email) + (read ? ' · ' + fmtWhen(x.at) : '') + '</div>'
-        + '</div></div>';
-    };
-    var total = data.read.length + data.unread.length;
-    body.innerHTML =
-      '<div style="font-size:.82rem;color:#6B7280;margin-bottom:.6rem">' + data.read.length + ' of ' + total + ' licensed agents have opened it.</div>'
-      + (data.unread.length
-          ? '<div style="font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#B45309;margin:.6rem 0 .25rem">Not yet</div>'
-            + data.unread.map(function(x) { return row(x, false); }).join('')
-          : '')
-      + (data.read.length
-          ? '<div style="font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#047857;margin:.9rem 0 .25rem">Read</div>'
-            + data.read.map(function(x) { return row(x, true); }).join('')
-          : '');
-  } catch (e) { body.innerHTML = '<div class="empty">' + escHtml(e.message || 'Could not load that.') + '</div>'; }
-}
-
 function fmtWhen(iso) {
   if (!iso) return '';
   var d = new Date(iso);
@@ -543,7 +503,6 @@ function renderResList(list) {
       + '<div class="list-item-info"><div class="list-item-name">' + escHtml(r.name) + '</div>'
       + '<div class="list-item-sub">' + escHtml(r.category) + '</div></div>'
       + '<div style="display:flex;gap:4px;flex-shrink:0">'
-      + '<button onclick="showReads(' + r.id + ')" title="Who has read this" style="background:none;border:1px solid #E5E7EB;border-radius:5px;color:#374151;cursor:pointer;font-size:.75rem;padding:2px 7px">👁</button>'
       + '<button onclick="openEditRes(' + r.id + ')" style="background:none;border:1px solid #E5E7EB;border-radius:5px;color:#374151;cursor:pointer;font-size:.75rem;padding:2px 7px">✏</button>'
       + '<button class="del-btn" onclick="deleteRes(' + r.id + ')">✕</button>'
       + '</div>'
